@@ -8,6 +8,7 @@ EMPTY_PATTERN = {
         "type": "knitting pattern"
     }
 
+
 @fixture
 def temp_empty_pattern_path(tmpdir):
     p = tmpdir.mkdir("sub").join("empty_pattern.knit")
@@ -54,5 +55,6 @@ def test_knitting_pattern_type_is_correct():
 
 
 def test_load_from_url(temp_empty_pattern_path):
-    pattern = knittingpattern.load_from_url("file:///" + temp_empty_pattern_path)
+    url = "file:///" + temp_empty_pattern_path
+    pattern = knittingpattern.load_from_url(url)
     assert_is_pattern(pattern)
