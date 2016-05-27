@@ -12,3 +12,21 @@ Concerns:
 - We can not use a grid as a basis. This does not reflect if you split the work and make i.e. two big legs
 - Knitting can be done on the right and on the wrong side. The same result can be achived when knitting in both directions. 
 
+Assumptions
+-----------
+
+- we start from bottom right
+- default instruction ([see](https://github.com/AllYarnsAreBeautiful/ayab-desktop/wiki/2016-05-25---Knitting-pattern))
+
+    {
+      "type" : "knit"
+    }
+    
+- default connection
+
+    {
+      "start" : 0,
+      "stop" : "end", 
+    }
+    
+
