@@ -1,12 +1,14 @@
 #!/usr/bin/python3
-PACKAGE_NAME = "knittingpattern"
-__doc__ = '''The setup and build script for the {} library.'''.format(PACKAGE_NAME)
-
 import os
 import sys
 from setuptools.command.test import test as TestCommandBase
-__version__ = __import__(PACKAGE_NAME).__version__
 
+PACKAGE_NAME = "knittingpattern"
+
+__doc__ = '''
+The setup and build script for the {} library.
+'''.format(PACKAGE_NAME)
+__version__ = __import__(PACKAGE_NAME).__version__
 __author__ = 'Nicco Kunzmann'
 
 
