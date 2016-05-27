@@ -18,15 +18,20 @@ Assumptions
 - we start from bottom right
 - default instruction ([see](https://github.com/AllYarnsAreBeautiful/ayab-desktop/wiki/2016-05-25---Knitting-pattern))
 
-    {
-      "type" : "knit"
-    }
+        {
+          "type" : "knit"
+        }
+        {
+          "type" : "ktog tbl", # identifier
+          "count" : 2
+        }
     
 - default connection
 
-    {
-      "start" : 0,
-      "stop" : "end", 
-    }
-    
+        {
+          "start" : 0,
+          "stop" : "end", 
+        }
+        
+- `"id"` can point to an object.
 
