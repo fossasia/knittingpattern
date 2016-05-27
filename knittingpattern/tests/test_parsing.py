@@ -1,5 +1,5 @@
 import knittingpattern
-from pytest import fixture
+from pytest import fixture, raises
 import json
 import io
 
@@ -38,3 +38,13 @@ def test_can_import_empty_pattern_from_path(tmpdir):
         json.dump(EMPTY_PATTERN, f)
     pattern = knittingpattern.load_from_path(p.strpath)
     assert_is_pattern(pattern)
+
+
+def test_knitting_pattern_type_is_present():
+    with raises(ValueError):
+        knittingpattern.load_from_object({})
+
+
+def test_knitting_pattern_type_is_correct():
+    with raises(ValueError):
+        knittingpattern.load_from_object({"type": "knitting pattern2"})

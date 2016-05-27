@@ -4,18 +4,30 @@ import json
 __version__ = '0.0.1'
 
 
+TYPE = "type"
+VERSION = "version"
+KNITTING_PATTERN_TYPE = "knitting pattern"
+
+
 class KnittingPattern(object):
 
     def __init__(self, pattern):
         self.pattern = pattern
+        if TYPE not in self.pattern:
+            raise ValueError("No pattern type given but should be "
+                             "\"{}\"".format(KNITTING_PATTERN_TYPE))
+        if self.type != KNITTING_PATTERN_TYPE:
+            raise ValueError("Wrong pattern type. Type is \"{}\" "
+                             "but should be \"{}\""
+                             "".format(self.type, KNITTING_PATTERN_TYPE))
 
     @property
     def version(self):
-        return self.pattern["version"]
+        return self.pattern[VERSION]
 
     @property
     def type(self):
-        return self.pattern["type"]
+        return self.pattern[TYPE]
 
     @classmethod
     def load_from_object(cls, obj):
