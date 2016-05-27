@@ -5,8 +5,7 @@
     "content" : "This knitting pattern was taken from [Garnstudio](http://www.garnstudio.com/pattern.php?id=7342&cid=9).",
     "type" : "markdown", 
     "picture" : {
-      "type" : "url",
-      "http://www.garnstudio.com/drops/mag/168/15/15-lp.jpg"
+      "url" : "http://www.garnstudio.com/drops/mag/168/15/15-lp.jpg"
     }
   },
   "pattern" : [
@@ -32,7 +31,7 @@
           "id" : ["A.1", "lace", "1"],
           "instructions" : [
             {
-              "type" : "skp",
+              "type" : "skp"
             },
             {
               "type" : "yo"
@@ -42,10 +41,10 @@
               "type" : "yo"
             },
             {
-              "type" : "ktog tbl",
+              "type" : "ktog tbl"
             }
           ]
-        },
+        }
       ], 
       "connections" : [
         {
@@ -87,7 +86,7 @@
             {},
             {},
             {}
-          ], 
+          ] 
         },
         {
           "id" : ["A.2", "empty", "2"],
@@ -105,7 +104,7 @@
             {},
             {},
             {}
-          ], 
+          ]
         },
         {
           "id" : ["A.2", "lace", "1"],
@@ -141,8 +140,8 @@
               "type" : "ktog tbl",
               "count" : 4
             }
-          ], 
-        },
+          ] 
+        }
       ],
       "connections" : [
         {

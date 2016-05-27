@@ -8,6 +8,13 @@ EMPTY_PATTERN = {
         "type": "knitting pattern"
     }
 
+@fixture
+def temp_empty_pattern_path(tmpdir):
+    p = tmpdir.mkdir("sub").join("empty_pattern.knit")
+    with open(p.strpath, "w") as f:
+        json.dump(EMPTY_PATTERN, f)
+    return p.strpath
+
 
 def assert_is_pattern(pattern):
     assert pattern.type == "knitting pattern"
@@ -25,18 +32,14 @@ def test_can_import_empty_pattern_from_string():
     assert_is_pattern(pattern)
 
 
-def test_can_import_empty_pattern_from_file_object():
-    json_string = json.dumps(EMPTY_PATTERN)
-    file = io.StringIO(json_string)
-    pattern = knittingpattern.load_from_file(file)
+def test_can_import_empty_pattern_from_file_object(temp_empty_pattern_path):
+    with open(temp_empty_pattern_path) as file:
+        pattern = knittingpattern.load_from_file(file)
     assert_is_pattern(pattern)
 
 
-def test_can_import_empty_pattern_from_path(tmpdir):
-    p = tmpdir.mkdir("sub").join("empty_pattern.knit")
-    with open(p.strpath, "w") as f:
-        json.dump(EMPTY_PATTERN, f)
-    pattern = knittingpattern.load_from_path(p.strpath)
+def test_can_import_empty_pattern_from_path(temp_empty_pattern_path):
+    pattern = knittingpattern.load_from_path(temp_empty_pattern_path)
     assert_is_pattern(pattern)
 
 
@@ -48,3 +51,8 @@ def test_knitting_pattern_type_is_present():
 def test_knitting_pattern_type_is_correct():
     with raises(ValueError):
         knittingpattern.load_from_object({"type": "knitting pattern2"})
+
+
+def test_load_from_url(temp_empty_pattern_path):
+    pattern = knittingpattern.load_from_url("file:///" + temp_empty_pattern_path)
+    assert_is_pattern(pattern)
