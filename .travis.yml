@@ -1,0 +1,13 @@
+language: python
+python:
+  - "3.3"
+  - "3.4"
+  - "3.5"
+install: 
+  - pip install -r requirements.txt
+  - pip install -r requirements-test.txt
+script:
+  - py.test --cov=ayab --pep8
+after_script:
+  # https://github.com/codeclimate/python-test-reporter
+  - codeclimate-test-reporter
