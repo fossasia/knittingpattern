@@ -1,0 +1,598 @@
+{
+  "version" : "0.1",
+  "type" : "knitting pattern", 
+  "comment" : {
+    "markdown" : "This pattern is taken from [garnstudio](http://www.garnstudio.com/pattern.php?id=7350&cid=19).",
+    "picture" : {
+      "type" : "url",
+      "url" : "http://www.garnstudio.com/drops/mag/167/17/17-lp.jpg"
+    }
+  },
+  "pattern" : [
+    {
+      "name" : "A.2", 
+      "id" : "A.2", 
+      "rows" : [
+        {
+          "id" : "A.2.1",
+          "color" : "light brown",
+          "instructions" : [
+            {},
+            {
+              "type" : "yo"
+            },
+            {}, 
+            {},
+            {}, 
+            {},
+            {
+              "type" : "cdd"
+            }, 
+            {},
+            {},
+            {},
+            {},
+            {
+              "type" : "yo"
+            }
+          ]
+        }, 
+        {
+          "id" : "A.2.2", 
+          "color" : "light brown", 
+          "instructions" : [
+            {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+          ]
+        }, 
+        {
+          "id" : "A.2.3",
+          "color" : "dark brown",
+          "instructions" : [
+            {},
+            {}, 
+            {
+              "type" : "yo"
+            },
+            {},
+            {}, 
+            {},
+            {
+              "type" : "cdd"
+            }, 
+            {},
+            {},
+            {},
+            {
+              "type" : "yo"
+            },
+            {}
+          ]
+        },
+        {
+          "id" : "A.2.4", 
+          "color" : "dark brown",
+          "same as" : "A.2.2"
+        }, 
+        {
+          "id" : "A.2.5",
+          "color" : "dark brown",
+          "instructions" : [
+            {},
+            {}, 
+            {},
+            {
+              "type" : "yo"
+            },
+            {}, 
+            {},
+            {
+              "type" : "cdd"
+            }, 
+            {},
+            {},
+            {
+              "type" : "yo"
+            },
+            {},
+            {}
+          ]
+        },
+        {
+          "id" : "A.2.6", 
+          "color" : "dark brown",
+          "same as" : "A.2.2"
+        }, 
+        {
+          "id" : "A.2.7",
+          "color" : "brown",
+          "instructions" : [
+            {},
+            {}, 
+            {},
+            {}, 
+            {
+              "type" : "yo"
+            },
+            {},
+            {
+              "type" : "cdd"
+            }, 
+            {},
+            {
+              "type" : "yo"
+            },
+            {},
+            {},
+            {}
+          ]
+        },
+        {
+          "id" : "A.2.8", 
+          "color" : "brown",
+          "same as" : "A.2.2"
+        }, 
+        {
+          "id" : "A.2.9",
+          "color" : "brown",
+          "instructions" : [
+            {},
+            {}, 
+            {},
+            {}, 
+            {},
+            {
+              "type" : "yo"
+            },
+            {
+              "type" : "cdd"
+            }, 
+            {
+              "type" : "yo"
+            },
+            {},
+            {},
+            {},
+            {}
+          ]
+        },
+        {
+          "id" : "A.2.10", 
+          "color" : "brown",
+          "same as" : "A.2.2"
+        }, 
+        {
+          "id" : "A.2.11", 
+          "same as" : "A.2.10"
+        }, 
+        {
+          "id" : "A.2.12", 
+          "color" : "brown",
+          "instructions" : [
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            }
+          ]
+        }, 
+        {
+          "id" : "A.2.13", 
+          "color" : "dark brown",
+          "same as" : "A.2.2"
+        },
+        {
+          "id" : "A.2.14", 
+          "color" : "dark brown",
+          "same as" : "A.2.12"
+        },
+        {
+          "id" : "A.2.15", 
+          "color" : "dark brown",
+          "same as" : "A.2.1"
+        },
+        {
+          "id" : "A.2.16", 
+          "color" : "dark brown",
+          "same as" : "A.2.2"
+        },       
+        {
+          "id" : "A.2.17", 
+          "color" : "white",
+          "same as" : "A.2.3"
+        },
+        {
+          "id" : "A.2.18", 
+          "color" : "white",
+          "same as" : "A.2.2"
+        },       
+        {
+          "id" : "A.2.19", 
+          "color" : "white",
+          "same as" : "A.2.5"
+        },
+        {
+          "id" : "A.2.20", 
+          "color" : "white",
+          "same as" : "A.2.2"
+        },       
+        {
+          "id" : "A.2.21", 
+          "color" : "dark brown",
+          "same as" : "A.2.7"
+        },
+        {
+          "id" : "A.2.22", 
+          "color" : "dark brown",
+          "same as" : "A.2.2"
+        },       
+        {
+          "id" : "A.2.23", 
+          "color" : "dark brown",
+          "same as" : "A.2.9"
+        },
+        {
+          "id" : "A.2.24", 
+          "color" : "dark brown",
+          "same as" : "A.2.2"
+        },       
+        {
+          "id" : "A.2.25", 
+          "color" : "light brown",
+          "instructions" : [
+            {
+              "type" : "yo"
+            }, {}, {
+              "type" : "yo"
+            }, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+          ]
+        },
+        {
+          "id" : "A.2.26", 
+          "color" : "light brown",
+          "instructions" : [
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            }
+          ]
+        }, 
+        {
+          "id" : "A.2.27", 
+          "color" : "light brown",
+          "instructions" : [
+            {}, {}, {}, {
+              "type" : "yo"
+            }, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {
+              "type" : "yo"
+            }
+          ]
+        },
+        {
+          "id" : "A.2.26", 
+          "color" : "light brown",
+          "instructions" : [
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            }
+          ]
+        }
+      ],
+      "connections" : [
+        {
+          "from" : {
+            "id" : "A.2.1"
+          }, 
+          "to" : {
+            "id" : "A.2.2"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.2"
+          }, 
+          "to" : {
+            "id" : "A.2.3"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.3"
+          }, 
+          "to" : {
+            "id" : "A.2.4"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.4"
+          }, 
+          "to" : {
+            "id" : "A.2.5"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.5"
+          }, 
+          "to" : {
+            "id" : "A.2.6"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.6"
+          }, 
+          "to" : {
+            "id" : "A.2.7"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.7"
+          }, 
+          "to" : {
+            "id" : "A.2.8"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.8"
+          }, 
+          "to" : {
+            "id" : "A.2.9"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.9"
+          }, 
+          "to" : {
+            "id" : "A.2.10"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.10"
+          }, 
+          "to" : {
+            "id" : "A.2.11"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.11"
+          }, 
+          "to" : {
+            "id" : "A.2.12"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.12"
+          }, 
+          "to" : {
+            "id" : "A.2.13"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.13"
+          }, 
+          "to" : {
+            "id" : "A.2.14"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.14"
+          }, 
+          "to" : {
+            "id" : "A.2.15"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.15"
+          }, 
+          "to" : {
+            "id" : "A.2.16"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.16"
+          }, 
+          "to" : {
+            "id" : "A.2.17"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.17"
+          }, 
+          "to" : {
+            "id" : "A.2.18"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.18"
+          }, 
+          "to" : {
+            "id" : "A.2.19"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.19"
+          }, 
+          "to" : {
+            "id" : "A.2.20"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.20"
+          }, 
+          "to" : {
+            "id" : "A.2.21"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.21"
+          }, 
+          "to" : {
+            "id" : "A.2.22"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.22"
+          }, 
+          "to" : {
+            "id" : "A.2.23"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.23"
+          }, 
+          "to" : {
+            "id" : "A.2.24"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.24"
+          }, 
+          "to" : {
+            "id" : "A.2.25"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.25"
+          }, 
+          "to" : {
+            "id" : "A.2.26"
+          }
+        }
+      ]
+    }
+  ]
+}
