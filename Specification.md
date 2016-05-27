@@ -19,7 +19,7 @@ Assumptions
 - default instruction ([see](https://github.com/AllYarnsAreBeautiful/ayab-desktop/wiki/2016-05-25---Knitting-pattern))
 
         {
-          "type" : "knit"
+          "type" : "knit", 
         }
         {
           "type" : "ktog tbl", # identifier
@@ -30,7 +30,6 @@ Assumptions
 
         {
           "start" : 0,
-          "stop" : "end", 
         }
         
 - `"id"` can point to an object.
