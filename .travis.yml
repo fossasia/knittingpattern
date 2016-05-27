@@ -10,4 +10,5 @@ script:
   - py.test --cov=ayab --pep8
 after_script:
   # https://github.com/codeclimate/python-test-reporter
+  # set the environment variable CODECLIMATE_REPO_TOKEN in travis-ci settings
   - codeclimate-test-reporter

@@ -1,2 +1,0 @@
-# knittingpattern
-knitting pattern specification
