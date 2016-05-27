@@ -1,0 +1,169 @@
+{
+  "type" : "knitting pattern",
+  "version" : "0.1",
+  "comment" : {
+    "content" : "This knitting pattern was taken from [Garnstudio](http://www.garnstudio.com/pattern.php?id=7342&cid=9)."
+    "type" : "markdown"
+  },
+  "pattern" : [
+    {
+      "id" : "A.1"
+      "name" : "A.1"
+      "rows" : [
+        {
+          "id" : ["A.1", "empty", "1"],
+          "instructions" : [
+            {},
+            {},
+            {},
+            {},
+            {}
+          ]
+        },
+        {
+          "id" : ["A.1", "empty", "2"],
+          "instructions" : [
+            {},
+            {},
+            {},
+            {},
+            {}
+          ]
+        },
+        {
+          "id" : ["A.1", "lace", "1"],
+          "instructions" : [
+            {
+              "type" : "skp",
+            },
+            {
+              "type" : "yo"
+            },
+            {},
+            {
+              "type" : "yo"
+            },
+            {
+              "type" : "ktog tbl",
+            }
+          ]
+        },
+      ], 
+      "connections" : [
+        {
+          "from" : {
+            "id" : ["A.1", "empty", "1"]
+          }, 
+          "to" : {
+            "id" : ["A.1", "empty", "2"]
+          }
+        }, 
+        {
+          "from" : {
+            "id" : ["A.1", "empty", "2"]
+          }, 
+          "to" : {
+            "id" : ["A.1", "lace", "1"]
+          }
+        }
+      ]
+    }, 
+    {
+      "id" : "A.2", 
+      "name" : "A.2", 
+      "rows" : [
+
+        {
+          "id" : ["A.2", "empty", "1"],
+          "instructions" : [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}
+          ], 
+        },
+        {
+          "id" : ["A.2", "empty", "2"],
+          "instructions" : [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}
+          ], 
+        },
+        {
+          "id" : ["A.2", "lace", "1"],
+          "instructions" : [
+            {
+              "type" : "skp",
+              "count" : 4
+            },
+            {
+              "type" : "yo"
+            },
+            {},
+            {
+              "type" : "yo"
+            },
+            {},
+            {
+              "type" : "yo"
+            },
+            {},
+            {
+              "type" : "yo"
+            },
+            {},
+            {
+              "type" : "yo"
+            },
+            {},
+            {
+              "type" : "yo"
+            },
+            {
+              "type" : "ktog tbl",
+              "count" : 4
+            }
+          ], 
+        },
+      ],
+      "connections" : [
+        {
+          "from" : {
+            "id" : ["A.2", "empty", "1"]
+          }, 
+          "to" : {
+            "id" : ["A.2", "empty", "2"]
+          }
+        }, 
+        {
+          "from" : {
+            "id" : ["A.2", "empty", "2"]
+          }, 
+          "to" : {
+            "id" : ["A.2", "lace", "1"]
+          }
+        }
+      ]
+    }
+  ]
+}
