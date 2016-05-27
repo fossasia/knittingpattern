@@ -7,7 +7,7 @@ install:
   - pip install -r requirements.txt
   - pip install -r requirements-test.txt
 script:
-  - py.test --cov=ayab --pep8
+  - py.test --cov=knittingpattern --pep8
 after_script:
   # https://github.com/codeclimate/python-test-reporter
   # set the environment variable CODECLIMATE_REPO_TOKEN in travis-ci settings
