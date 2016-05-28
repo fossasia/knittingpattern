@@ -1,16 +1,15 @@
-
-ID = "id"
-NAME = "name"
-
+from .common import *
 
 class KnittingPattern(object):
 
-    def __init__(self, values):
+    def __init__(self, values, rows):
         self.values = values
+        self._id = to_id(values[ID])
+        self.rows = rows
 
     @property
     def id(self):
-        return self.values[ID]
+        return self._id
 
     @property
     def name(self):

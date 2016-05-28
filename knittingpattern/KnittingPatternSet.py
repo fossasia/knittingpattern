@@ -1,9 +1,6 @@
 import json
 from .PatternParser import PatternParser
-
-TYPE = "type"
-VERSION = "version"
-KNITTING_PATTERN_TYPE = "knitting pattern"
+from .common import *
 
 class KnittingPatternSet(object):
 

@@ -1,5 +1,6 @@
 from .IdCollection import IdCollection
 from .KnittingPattern import KnittingPattern
+from .Row import Row
 
 class PatternParser(object):
 
@@ -24,5 +25,13 @@ class PatternParser(object):
     def new_id_collection(self):
         return IdCollection()
 
-    def new_pattern(self, pattern_base):
-        return KnittingPattern(pattern_base)
+    def new_row(self, values):
+        return Row(values)
+
+    def new_pattern(self, base):
+        rows = self.new_id_collection()
+        for row in base.get("rows", []):
+            rows.append(self.new_row(row))
+        return KnittingPattern(base, rows)
+
+__all__ = ["PatternParser"]
