@@ -34,7 +34,7 @@ def pattern_0(charlotte):
 def pattern_1(charlotte):
     return charlotte.patterns.at(1)
 
-    
+
 def test_names(pattern_0, pattern_1):
     assert pattern_0.name == "A.1"
     assert pattern_1.name == "A.2"

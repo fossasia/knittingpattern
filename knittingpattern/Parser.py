@@ -35,7 +35,7 @@ class Parser(object):
 
     def new_pattern_collection(self):
         return self.knitting_context.PatternCollection()
-        
+
     def new_row_collection(self):
         return self.knitting_context.RowCollection()
 

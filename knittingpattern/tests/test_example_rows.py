@@ -1,6 +1,7 @@
 from .test_examples import charlotte, cafe
 from pytest import fixture, raises
 
+
 @fixture
 def a1(charlotte):
     return charlotte.patterns["A.1"]
@@ -28,4 +29,3 @@ def test_access_by_row_ids(a1):
 
 def test_iterate_on_rows(a1):
     assert list(iter(a1.rows)) == [a1.rows.at(0), a1.rows.at(1), a1.rows.at(2)]
-
