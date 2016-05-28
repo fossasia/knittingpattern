@@ -1,4 +1,3 @@
-from .common import *
 
 class Row(object):
 
@@ -8,7 +7,6 @@ class Row(object):
     @property
     def id(self):
         return self._id
-
 
 
 __all__ = ["Row"]

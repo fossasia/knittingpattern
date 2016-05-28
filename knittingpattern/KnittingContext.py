@@ -12,11 +12,10 @@ class KnittingContext(object):
     @property
     def load(self):
         return self.Loader(self._process_loaded_object)
-        
+
     def _new_parser(self):
         return self.Parser(self)
-        
+
     def _process_loaded_object(self, obj):
         parser = self._new_parser()
         return parser.parse(obj)
-        

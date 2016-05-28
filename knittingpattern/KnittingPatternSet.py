@@ -1,11 +1,10 @@
 
 class KnittingPatternSet(object):
 
-    def __init__(self, version, type, pattern):
+    def __init__(self, type, version, pattern):
         self._version = version
         self._type = type
         self._pattern = pattern
-
 
     @property
     def version(self):
@@ -19,10 +18,9 @@ class KnittingPatternSet(object):
     def pattern(self):
         return self._pattern
 
-
     def _parse(self):
         parser = PatternParser(self, self.pattern_set)
         return parser.parse()
 
-            
+
 __all__ = ["KnittingPatternSet"]

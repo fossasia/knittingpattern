@@ -42,5 +42,3 @@ def test_access_with_id(charlotte):
 def test_iterate_on_pattern(charlotte):
     pattern = charlotte.pattern
     assert list(iter(pattern)) == [pattern.at(0), pattern.at(1)]
-
-

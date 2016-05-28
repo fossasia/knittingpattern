@@ -1,6 +1,7 @@
 import json
 import urllib
 
+
 class Loader(object):
 
     def __init__(self, process):

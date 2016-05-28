@@ -1,6 +1,7 @@
 from .test_examples import *
 from pytest import fixture, skip
 
+
 @fixture
 def a1(charlotte):
     return charlotte.pattern["A.1"]
@@ -33,6 +34,7 @@ def test_iterate_on_rows(a1):
 @skip("to be discussed")
 def test_next_rows(a1):
     assert a1.rows.at(0).next_rows == [a1.rows.at(1)]
+
 
 @skip("to be discussed")
 def test_default_mesh(a1):

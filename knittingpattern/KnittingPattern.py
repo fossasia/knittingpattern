@@ -1,5 +1,3 @@
-from .common import *
-
 class KnittingPattern(object):
 
     def __init__(self, id, name, rows):
@@ -18,8 +16,6 @@ class KnittingPattern(object):
     @property
     def rows(self):
         return self._rows
-
-
 
 
 __all__ = ["KnittingPattern"]

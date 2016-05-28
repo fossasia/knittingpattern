@@ -10,12 +10,10 @@ VERSION = "version"
 
 KNITTING_PATTERN_TYPE = "knitting pattern"
 
-# functions
-
-
 
 class ParsingError(ValueError):
     pass
+
 
 class Parser(object):
 
@@ -28,7 +26,6 @@ class Parser(object):
 
     def error(self, text):
         raise self.knitting_context.ParsingError(text)
-        
 
     def parse(self, values):
         self.values = values
@@ -57,7 +54,7 @@ class Parser(object):
         id = self.to_id(base[ID])
         name = base[NAME]
         return self.knitting_context.Pattern(id, name, rows)
-        
+
     def get_type(self):
         if TYPE not in self.values:
             self.error("No pattern type given but should be "
@@ -66,16 +63,18 @@ class Parser(object):
         if type != KNITTING_PATTERN_TYPE:
             self.error("Wrong pattern type. Type is \"{}\" "
                        "but should be \"{}\""
-                       "".format(self.type, KNITTING_PATTERN_TYPE))
+                       "".format(type, KNITTING_PATTERN_TYPE))
         return type
-        
+
     def get_version(self):
         return self.values[VERSION]
-        
+
     def create_pattern_set(self):
         type = self.get_type()
         version = self.get_version()
         pattern = self.pattern_collection
-        self.pattern_set = self.knitting_context.PatternSet(type, version, pattern)
+        self.pattern_set = self.knitting_context.PatternSet(
+                                    type, version, pattern)
+
 
 __all__ = ["PatternParser"]
