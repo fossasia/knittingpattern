@@ -4,7 +4,7 @@ from knittingpattern.KnittingContext import KnittingContext
 
 DESCRIPTION = "here you can see how to knit: URL"
 
-test_instructions = [
+library_instructions = [
         {
             "type": "knit",
             "description": DESCRIPTION
@@ -22,8 +22,8 @@ test_instructions = [
 
 
 @fixture
-def library(knitting_context):
-    return InstructionLibrary(knitting_context).object(test_instructions)
+def library():
+    return InstructionLibrary().load.object(library_instructions)
 
 
 @fixture
@@ -59,6 +59,7 @@ def test_purl_has_color(purl):
 
 def not_everyting_is_known_by_purl(purl)
     assert "asd" not in purl
+    assert "inverse" in purl
     assert purl["inverse"] == "knit"
 
 
