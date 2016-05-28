@@ -37,14 +37,14 @@ def test_purl_is_not_knit(purl):
 
 @fixture
 def colored_instruction():
-    return Instruction({"type": "purl", 
-                        "color": "blue", 
-                        "custom name": "custom value", 
-                        "not inherited value": 1}, 
-                       [{"color": "green", 
-                         "inherited value": 0, 
-                         "not inherited value": 2}, 
-                        {"other inherited value": 4}, 
+    return Instruction({"type": "purl",
+                        "color": "blue",
+                        "custom name": "custom value",
+                        "not inherited value": 1},
+                       [{"color": "green",
+                         "inherited value": 0,
+                         "not inherited value": 2},
+                        {"other inherited value": 4},
                         {"other inherited value": 0}])
 
 

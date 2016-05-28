@@ -8,7 +8,7 @@ library_instructions = [
         {
             "type": "knit",
             "description": DESCRIPTION
-        }, 
+        },
         {
             "type": "purl",
             "inverse": "knit"
@@ -19,8 +19,8 @@ library_instructions = [
             "specialattribute": True
         }
     ]
-    
-#TODO: What happens if an instruction type is defined multiple times? Error?
+
+# TODO: What happens if an instruction type is defined multiple times? Error?
 
 
 @fixture
@@ -66,4 +66,4 @@ def not_everyting_is_known_by_purl(purl):
 
 
 def test_custom_type(custom_knit):
-    assert custom_knit["specialattribute"] == True
+    assert custom_knit["specialattribute"]

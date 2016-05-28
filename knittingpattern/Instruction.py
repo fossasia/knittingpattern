@@ -9,24 +9,24 @@ PRODUCED_MESHES = "number_of_produced_meshes"
 
 class Instruction(object):
 
-    def __init__(self, specification):
-        self.specification = specification
+    def __init__(self, specification, inherited_values=[]):
+        self.specification = [specification] + inherited_values
 
     @property
     def type(self):
-        return self.specification.get(TYPE, DEFAULT_TYPE)
+        return self.get(TYPE, DEFAULT_TYPE)
 
     @property
     def color(self):
-        return self.specification.get(COLOR, None)
+        return self.get(COLOR, None)
 
     @property
     def number_of_consumed_meshes(self):
-        return self.specification.get(CONSUMED_MESHES, 1)
+        return self.get(CONSUMED_MESHES, 1)
 
     @property
     def number_of_produced_meshes(self):
-        return self.specification.get(PRODUCED_MESHES, 1)
+        return self.get(PRODUCED_MESHES, 1)
 
     def has_color(self):
         return self.color is not None
@@ -36,13 +36,24 @@ class Instruction(object):
 
     def does_purl(self):
         return self.type == PURL_TYPE
-        
+
+    def get(self, key, default):
+        for d in self.specification:
+            if key in d:
+                return d[key]
+        return default
+
     def __getitem__(self, key):
-        return self.specification[key]
-        
-    def __iter__(self):
-        for key in self.specification:
-            yield key
+        default = []
+        value = self.get(key, default)
+        if value is default:
+            raise KeyError(key)
+        return value
+
+    def __contains__(self, key):
+        default = []
+        value = self.get(key, default)
+        return value is not default
 
 
 __all__ = ["Instruction"]
