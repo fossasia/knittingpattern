@@ -1,0 +1,30 @@
+from pytest import fixture
+from knittingpattern.Instruction import Instruction
+
+@fixture
+def default_instruction():
+    return Instruction({})
+
+@fixture
+def purl():
+    return Instruction({"type": "purl"})
+
+def test_default_type(default_instruction):
+    assert default_instruction.type == "knit"
+    assert default_instruction.does_knit()
+    assert not default_instruction.does_purl()
+    
+def test_default_color(default_instruction):
+    assert not default_instruction.has_color()
+    assert default_instruction.color is None
+    
+def test_width(default_instruction, purl):
+    assert default_instruction.number_of_consumed_meshes == 1
+    assert default_instruction.number_of_produced_meshes == 1
+    assert purl.number_of_consumed_meshes == 1
+    assert purl.number_of_produced_meshes == 1
+
+def test_purl_is_not_knit(purl):
+    assert not purl.does_knit()
+    assert purl.does_purl()
+

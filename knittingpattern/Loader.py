@@ -28,3 +28,6 @@ class Loader(object):
             json = file.read()
         json = json.decode(encoding)
         return self.string(json)
+
+
+__all__ = ["Loader"]

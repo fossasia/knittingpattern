@@ -1,10 +1,10 @@
 
 class KnittingPatternSet(object):
 
-    def __init__(self, type, version, pattern):
+    def __init__(self, type, version, patterns):
         self._version = version
         self._type = type
-        self._pattern = pattern
+        self._patterns = patterns
 
     @property
     def version(self):
@@ -15,8 +15,8 @@ class KnittingPatternSet(object):
         return self._type
 
     @property
-    def pattern(self):
-        return self._pattern
+    def patterns(self):
+        return self._patterns
 
 
 __all__ = ["KnittingPatternSet"]
