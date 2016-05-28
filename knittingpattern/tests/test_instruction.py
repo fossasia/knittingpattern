@@ -28,3 +28,27 @@ def test_purl_is_not_knit(purl):
     assert not purl.does_knit()
     assert purl.does_purl()
 
+
+@fixture
+def colored_instruction():
+    return Instruction({"type": "purl", 
+                        "color": "blue", 
+                        "custom name": "custom value", 
+                        "not inherited value": 1}, 
+                       [{"color": "green", 
+                         "inherited value": 0, 
+                         "not inherited value": 2}, 
+                        {"other inherited value": 4}, 
+                        {"other inherited value": 0}])
+
+
+def test_color(colored_instruction):
+    assert colored_instruction.color == "blue"
+    assert "custom name" in colored_instruction
+    assert colored_instruction["custom name"] == "custom value"
+
+
+def test_inheritance(colored_instruction):
+    assert colored_instruction["not inherited value"] == 1
+    assert colored_instruction["inherited value"] == 0
+    assert colored_instruction["other inherited value"] == 4
