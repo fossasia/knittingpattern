@@ -2,10 +2,10 @@ from .common import *
 
 class KnittingPattern(object):
 
-    def __init__(self, values, rows):
-        self.values = values
-        self._id = to_id(values[ID])
-        self.rows = rows
+    def __init__(self, id, name, rows):
+        self._id = id
+        self._name = name
+        self._rows = rows
 
     @property
     def id(self):
@@ -13,7 +13,11 @@ class KnittingPattern(object):
 
     @property
     def name(self):
-        return self.values[NAME]
+        return self._name
+
+    @property
+    def rows(self):
+        return self._rows
 
 
 
