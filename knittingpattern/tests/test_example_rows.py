@@ -1,4 +1,5 @@
 from .test_examples import *
+from pytest import fixture, skip
 
 
 @fixture
@@ -30,10 +31,12 @@ def test_iterate_on_rows(a1):
     assert list(iter(a1.rows)) == [a1.rows.at(0), a1.rows.at(1), a1.rows.at(2)]
 
 
+@skip("to be discussed")
 def test_next_rows(a1):
     assert a1.rows.at(0).next_rows == [a1.rows.at(1)]
 
 
+@skip("to be discussed")
 def test_default_mesh(a1):
     # see Specification.md
     # https://github.com/AllYarnsAreBeautiful/knittingpattern/blob/master/Specification.md

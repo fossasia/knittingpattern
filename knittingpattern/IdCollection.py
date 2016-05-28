@@ -1,10 +1,11 @@
 from collections import OrderedDict
 
+
 class IdCollection(object):
 
     def __init__(self):
         self._items = OrderedDict()
-    
+
     def append(self, item):
         self._items[item.id] = item
 
