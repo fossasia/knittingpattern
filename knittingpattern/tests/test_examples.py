@@ -25,9 +25,19 @@ def test_number_of_pattern(charlotte):
         charlotte.pattern.at(3)
 
 
-def test_names(charlotte):
-    assert charlotte.pattern.at(0).name == "A.1"
-    assert charlotte.pattern.at(1).name == "A.2"
+@fixture
+def pattern_0(charlotte):
+    return charlotte.pattern.at(0)
+
+
+@fixture
+def pattern_1(charlotte):
+    return charlotte.pattern.at(1)
+
+    
+def test_names(pattern_0, pattern_1):
+    assert pattern_0.name == "A.1"
+    assert pattern_1.name == "A.2"
 
 
 def test_ids(charlotte):

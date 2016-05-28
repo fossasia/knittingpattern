@@ -18,9 +18,5 @@ class KnittingPatternSet(object):
     def pattern(self):
         return self._pattern
 
-    def _parse(self):
-        parser = PatternParser(self, self.pattern_set)
-        return parser.parse()
-
 
 __all__ = ["KnittingPatternSet"]
