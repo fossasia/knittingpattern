@@ -36,6 +36,13 @@ class Instruction(object):
 
     def does_purl(self):
         return self.type == PURL_TYPE
+        
+    def __getitem__(self, key):
+        return self.specification[key]
+        
+    def __iter__(self):
+        for key in self.specification:
+            yield key
 
 
 __all__ = ["Instruction"]
