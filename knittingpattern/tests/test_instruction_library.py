@@ -57,7 +57,7 @@ def test_purl_has_color(purl):
     assert "color" in purl
 
 
-def not_everyting_is_known_by_purl(purl)
+def not_everyting_is_known_by_purl(purl):
     assert "asd" not in purl
     assert "inverse" in purl
     assert purl["inverse"] == "knit"
