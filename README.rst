@@ -21,9 +21,7 @@ ayab
 Installation
 ============ 
 
-* ..code:: shell
-  pip  install -r requirements.txt
-* ..code:: shell 
-  pip  install -r requirements-test.txt
+* pip  install -r requirements.txt
+* pip  install -r requirements-test.txt
 
 
