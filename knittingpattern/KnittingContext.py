@@ -8,6 +8,8 @@ class KnittingContext(object):
     from .IdCollection import IdCollection as RowCollection
     from .KnittingPattern import KnittingPattern as Pattern
     from .Row import Row
+    from .InstructionLibrary import DefaultInstructions
+    from .Instruction import Instruction
 
     @property
     def load(self):

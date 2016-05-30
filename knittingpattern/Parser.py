@@ -5,6 +5,8 @@ ID = "id"
 NAME = "name"
 TYPE = "type"
 VERSION = "version"
+INSTRUCTIONS = "instructions"
+SAME_AS = "same as"
 
 # constants
 
@@ -19,6 +21,8 @@ class Parser(object):
 
     def __init__(self, knitting_context):
         self.knitting_context = knitting_context
+        self.instruction_library = self.knitting_context.DefaultInstructions()
+        self._id_cache = {}
 
     @staticmethod
     def to_id(id):
@@ -47,7 +51,20 @@ class Parser(object):
 
     def row(self, values):
         id = self.to_id(values[ID])
-        return self.knitting_context.Row(id)
+        inheritance = []
+        if SAME_AS in values:
+            _id = self.to_id(values[SAME_AS])
+            object = self._id_cache[_id]
+            inheritance.append(object)
+        row = self.knitting_context.Row(id, values, inheritance)
+        for instruction_spec in row.get(INSTRUCTIONS, []):
+            instruction = self.instruction(instruction_spec)
+            row.instructions.append(instruction)
+        self._id_cache[id] = row
+        return row
+        
+    def instruction(self, instruction_spec):
+        return self.instruction_library.as_instruction(instruction_spec)
 
     def pattern(self, base):
         rows = self.new_row_collection()

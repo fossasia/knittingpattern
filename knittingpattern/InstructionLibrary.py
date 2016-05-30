@@ -30,7 +30,7 @@ class InstructionLibrary(object):
         return instruction
 
 
-class DefaultInstructions(object):
+class DefaultInstructions(InstructionLibrary):
 
     #INSTRUCTIONS_FOLDER = os.path.join(os.path.dirname(__file__), instructions)
 
