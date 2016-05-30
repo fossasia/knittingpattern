@@ -1,3 +1,5 @@
+from .Prototype import *
+
 TYPE = "type"
 KNIT_TYPE = "knit"
 PURL_TYPE = "purl"
@@ -7,10 +9,7 @@ CONSUMED_MESHES = "number_of_consumed_meshes"
 PRODUCED_MESHES = "number_of_produced_meshes"
 
 
-class Instruction(object):
-
-    def __init__(self, specification, inherited_values=[]):
-        self.specification = [specification] + inherited_values
+class Instruction(Prototype):
 
     @property
     def type(self):
@@ -36,24 +35,6 @@ class Instruction(object):
 
     def does_purl(self):
         return self.type == PURL_TYPE
-
-    def get(self, key, default):
-        for d in self.specification:
-            if key in d:
-                return d[key]
-        return default
-
-    def __getitem__(self, key):
-        default = []
-        value = self.get(key, default)
-        if value is default:
-            raise KeyError(key)
-        return value
-
-    def __contains__(self, key):
-        default = []
-        value = self.get(key, default)
-        return value is not default
 
 
 __all__ = ["Instruction"]
