@@ -1,4 +1,5 @@
 from .Prototype import *
+from itertools import chain
 
 ID = "id"
 
@@ -63,5 +64,9 @@ class Row(Prototype):
             return self._mapping_to_row.get(mesh_index)
         self._mapping_to_row[mesh_index] = (row, mesh_index_in_row)
 
+    @property
+    def produced_meshes(self):
+        return list(chain(*(instruction.produced_meshes
+                          for instruction in self.instructions)))
     
 __all__ = ["Row"]

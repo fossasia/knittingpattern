@@ -61,7 +61,7 @@ class InstructionInRow(Instruction):
             if instruction_in_row is self:
                 return index
         message = "Instruction {} was not found in row {}.".format(
-                      self.type, self.row.id)
+                      self, self.row.id)
         raise InstructionNotFoundInRow(message)
 
     @property

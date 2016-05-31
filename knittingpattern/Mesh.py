@@ -2,8 +2,8 @@
 
 class Mesh(object):
     
-    def __init__(self, produced_by_instruction, mesh_index_in_instruction):
-        self._produced_by_instruction = produced_by_instruction
+    def __init__(self, instruction_produced_by, mesh_index_in_instruction):
+        self._instruction_produced_by = instruction_produced_by
         self._mesh_index_in_instruction = mesh_index_in_instruction
         
         
@@ -12,12 +12,12 @@ class Mesh(object):
         return self._mesh_index_in_instruction
         
     @property
-    def produced_by_instruction(self):
-        return self._produced_by_instruction
+    def instruction_produced_by(self):
+        return self._instruction_produced_by
         
     @property
     def produced_in_row(self):
-        return self.produced_by_instruction.row
+        return self.instruction_produced_by.row
         
     def is_produced(self):
         return True
@@ -29,8 +29,11 @@ class Mesh(object):
     def mesh_index_in_producing_row(self):
         index = 0
         for instruction in self.produced_in_row.instructions:
-            if instruction == self.produced_by_instruction:
+            if instruction == self.instruction_produced_by:
                 break
             index += instruction.number_of_produced_meshes
         index += self.mesh_index_in_instruction
         return index
+        
+    def is_knit(self):
+        return self.instruction_produced_by.does_knit()
