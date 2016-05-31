@@ -16,7 +16,7 @@ def row1(a1):
 def row2(a1):
     return a1.rows.at(2)
 
-    
+
 @fixture
 def mesh0(row0):
     mesh = row0.produced_meshes[0]
@@ -81,9 +81,11 @@ def test_mesh0_is_produced(mesh0):
     assert mesh0.is_produced()
     assert mesh0.is_consumed()
 
+
 def test_instruction0_builds_on_unproduced_meshes(instruction0):
     assert not instruction0.consumed_meshes[0].is_produced()
-    
+
+
 @fixture
 def skp(row2):
     return row2.instructions[0]

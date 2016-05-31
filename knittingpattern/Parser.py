@@ -70,7 +70,7 @@ class Parser(object):
             row.instructions.append(instruction)
         self._id_cache[id] = row
         return row
-        
+
     def instruction(self, row, instruction_specification):
         whole_instruction_specification = \
             self.instruction_library.as_instruction(instruction_specification)
@@ -89,7 +89,7 @@ class Parser(object):
         for row in spec:
             rows.append(self.row(row))
         return rows
-        
+
     def connect_rows(self, connections):
         for connection in connections:
             from_row_id = self.to_id(connection[FROM][ID])
@@ -98,16 +98,16 @@ class Parser(object):
             to_row_id = self.to_id(connection[TO][ID])
             to_row = self._id_cache[to_row_id]
             to_row_mesh_index = connection[TO].get(START, DEFAULT_START)
-            meshes = min(from_row.number_of_produced_meshes, 
+            meshes = min(from_row.number_of_produced_meshes,
                          to_row.number_of_produced_meshes)
             number_of_meshes = connection.get(MESHES, meshes)
             from_row.produce_number_of_meshes_for_row(
                     from_row_mesh_index,
-                    from_row_mesh_index + number_of_meshes, 
+                    from_row_mesh_index + number_of_meshes,
                     to_row,
                     to_row_mesh_index
                 )
-        
+
     def get_type(self, values):
         if TYPE not in values:
             self.error("No pattern type given but should be "
@@ -127,6 +127,5 @@ class Parser(object):
         version = self.get_version(values)
         self.pattern_set = self.knitting_context.PatternSet(
                                     type, version, pattern)
-
 
 __all__ = ["PatternParser"]

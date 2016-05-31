@@ -14,7 +14,9 @@ DEFAULT_NUMBER_OF_PRODUCED_MESHES = 1
 
 # error messages
 
-INSTRUCTION_NOT_FOUND_MESSAGE = "Instruction {instruction} was not found in row {row}."
+INSTRUCTION_NOT_FOUND_MESSAGE = \
+    "Instruction {instruction} was not found in row {row}."
+
 
 class Instruction(Prototype):
 
@@ -28,11 +30,13 @@ class Instruction(Prototype):
 
     @property
     def number_of_consumed_meshes(self):
-        return self.get(NUMBER_OF_CONSUMED_MESHES, DEFAULT_NUMBER_OF_CONSUMED_MESHES)
+        return self.get(NUMBER_OF_CONSUMED_MESHES,
+                        DEFAULT_NUMBER_OF_CONSUMED_MESHES)
 
     @property
     def number_of_produced_meshes(self):
-        return self.get(NUMBER_OF_PRODUCED_MESHES, DEFAULT_NUMBER_OF_PRODUCED_MESHES)
+        return self.get(NUMBER_OF_PRODUCED_MESHES,
+                        DEFAULT_NUMBER_OF_PRODUCED_MESHES)
 
     def has_color(self):
         return self.color is not None
@@ -55,7 +59,7 @@ class InstructionInRow(Instruction):
                 self.ProducedMesh(self, index)
                 for index in range(self.number_of_produced_meshes)
             ]
-        
+
     @property
     def row(self):
         return self._row
@@ -66,16 +70,16 @@ class InstructionInRow(Instruction):
             if instruction_in_row is self:
                 return index
         self._raise_not_found_error()
-    
+
     @property
     def _instruction_not_found_message(self):
         return INSTRUCTION_NOT_FOUND_MESSAGE.format(
-                   instruction = self, row = self.row
+                   instruction=self, row=self.row
                )
-    
+
     def _raise_not_found_error(self):
         raise InstructionNotFoundInRow(self._instruction_not_found_message)
-    
+
     @property
     def index_of_first_produced_mesh_in_rows_produced_meshes(self):
         index = 0
@@ -86,7 +90,7 @@ class InstructionInRow(Instruction):
         else:
             self._raise_not_found_error()
         return index
-    
+
     @property
     def index_of_first_consumed_mesh_in_rows_consumed_meshes(self):
         index = 0
@@ -104,26 +108,32 @@ class InstructionInRow(Instruction):
 
     @property
     def consumed_meshes(self):
-        return [self._consumed_mesh(index)
-                for index in range(self.number_of_consumed_meshes)]
+        return [
+                self._consumed_mesh(index)
+                for index in range(self.number_of_consumed_meshes)
+            ]
 
     def _consumed_mesh(self, mesh_index_in_instruction):
-        consuming_row= self.row
-        index_in_consuming_row = self.index_of_first_consumed_mesh_in_rows_consumed_meshes + \
-                                 mesh_index_in_instruction
-        origin = consuming_row.get_producing_row_and_index(index_in_consuming_row)
+        consuming_row = self.row
+        index_in_consuming_row = \
+            self.index_of_first_consumed_mesh_in_rows_consumed_meshes + \
+            mesh_index_in_instruction
+        origin = consuming_row.get_producing_row_and_index(
+                index_in_consuming_row
+            )
         if origin is None:
             return self.ConsumedMesh(self, mesh_index_in_instruction)
         producing_row, mesh_index_in_producing_row = origin
         return producing_row.produced_meshes[mesh_index_in_producing_row]
-        
+
     def __repr__(self):
         return "<{} \"{}\" in {} at {}>".format(
                 self.__class__.__name__,
                 self.type,
-                self.row, 
+                self.row,
                 self.index_in_row_instructions
             )
+
 
 class InstructionNotFoundInRow(ValueError):
     pass
