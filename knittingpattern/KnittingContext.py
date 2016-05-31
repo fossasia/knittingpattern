@@ -21,3 +21,6 @@ class KnittingContext(object):
 
     def _process_loaded_object(self, obj):
         return self.parse.knitting_pattern_set(obj)
+
+
+__all__ = ["KnittingContext"]

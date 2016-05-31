@@ -7,6 +7,14 @@ TYPE = "type"
 VERSION = "version"
 INSTRUCTIONS = "instructions"
 SAME_AS = "same as"
+PATTERNS = "patterns"
+ROWS = "rows"
+CONNECTIONS = "connections"
+FROM = "from"
+TO = "to"
+START = "start"
+DEFAULT_START = 0
+MESHES = "meshes"
 
 # constants
 
@@ -44,7 +52,7 @@ class Parser(object):
         return self.knitting_context.RowCollection()
 
     def fill_pattern_collection(self, pattern_collection, values):
-        pattern = values.get("pattern", [])
+        pattern = values.get(PATTERNS, [])
         for pattern_to_parse in pattern:
             parsed_pattern = self.pattern(pattern_to_parse)
             pattern_collection.append(parsed_pattern)
@@ -70,13 +78,36 @@ class Parser(object):
                         row, whole_instruction_specification)
 
     def pattern(self, base):
-        rows = self.new_row_collection()
-        for row in base.get("rows", []):
-            rows.append(self.row(row))
+        rows = self.rows(base.get(ROWS, []))
+        self.connect_rows(base.get(CONNECTIONS, []))
         id = self.to_id(base[ID])
         name = base[NAME]
         return self.knitting_context.Pattern(id, name, rows)
 
+    def rows(self, spec):
+        rows = self.new_row_collection()
+        for row in spec:
+            rows.append(self.row(row))
+        return rows
+        
+    def connect_rows(self, connections):
+        for connection in connections:
+            from_row_id = connection[FROM][ID]
+            from_row = self._id_cache[from_row_id]
+            from_row_mesh_index = connection[FROM].get(START, DEFAULT_START)
+            to_row_id = connection[TO][ID]
+            to_row = self._id_cache[to_row_id]
+            to_row_mesh_index = connection[TO].get(START, DEFAULT_START)
+            meshes = min(from_row.number_of_produced_meshes, 
+                         to_row.number_of_produced_meshes)
+            number_of_meshes = connection.get(MESHES, meshes)
+            from_row.map_number_of_meshes_to_row(
+                    from_row_mesh_index,
+                    from_row_mesh_index + number_of_meshes, 
+                    to_row,
+                    to_row_mesh_index
+                )
+        
     def get_type(self, values):
         if TYPE not in values:
             self.error("No pattern type given but should be "

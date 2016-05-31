@@ -9,3 +9,4 @@ load_from_string = knitting_context.load.string
 load_from_file = knitting_context.load.file
 load_from_path = knitting_context.load.path
 load_from_url = knitting_context.load.url
+load_from_relative_file = knitting_context.load.relative_file
