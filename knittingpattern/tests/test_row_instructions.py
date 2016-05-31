@@ -20,8 +20,6 @@ def row2(a1):
 @fixture
 def mesh0(row0):
     mesh = row0.produced_meshes[0]
-    print("1:", mesh)
-    print("2:", row0.instructions[0].produced_meshes)
     return mesh
 
 
@@ -37,7 +35,7 @@ def instruction1(row1):
 
 def test_row0_consumes_empty_meshes(row0):
     assert len(row0.consumed_meshes) == 5
-    assert all(mesh.is_empty() for mesh in row0.consumed_meshes)
+    assert not any(mesh.is_produced() for mesh in row0.consumed_meshes)
 
 
 def test_row0_produces_5_meshes(row0):
@@ -46,12 +44,12 @@ def test_row0_produces_5_meshes(row0):
 
 
 def test_row0_meshes_point_also_to_row1(mesh0, row0, row1):
-    assert mesh0.produced_in_row == row0
-    assert mesh0.consumed_in_row == row1
+    assert mesh0.producing_row == row0
+    assert mesh0.consuming_row == row1
 
 
 def test_row0_instruction_produces_mesh_0(mesh0, instruction0):
-    assert instruction0 == mesh0.instruction_produced_by
+    assert instruction0 == mesh0.producing_instruction
     assert instruction0.produced_meshes == [mesh0]
     assert instruction0.number_of_produced_meshes == 1
 
@@ -67,7 +65,7 @@ def test_instruction_position_in_row(row0, instruction0):
 
 
 def test_mesh0_is_consumed_by_instruction1(mesh0, instruction1):
-    assert mesh0.instruction_consumed_by == instruction1
+    assert mesh0.consuming_instruction == instruction1
     assert instruction1.consumed_meshes == [mesh0]
 
 
@@ -117,17 +115,17 @@ def test_skp_consumed_meshes_from_row1(skp, row1, row2):
     assert len(skp.produced_meshes) == 1
     assert len(skp.consumed_meshes) == 2
     m1, m2 = skp.consumed_meshes
-    assert m1.consumed_by_instruction == skp
-    assert m1.consumed_by_row == row2
-    assert m1.produced_in_row == row1
-    assert m1.mesh_index_in_producing_row == 1
+    assert m1.consuming_instruction == skp
+    assert m1.consuming_row == row2
+    assert m1.producing_row == row1
+    assert m1.mesh_index_in_producing_row == 0
     assert m1.is_produced()
     assert m1.is_consumed()
-    assert m2.consumed_by_instruction == skp
-    assert m2.consumed_by_row == row2
-    assert m2.produced_in_row == row1
-    assert m2.mesh_index_in_producing_row == 2
-    assert m2.mesh_index_in_consuming_row == 2
+    assert m2.consuming_instruction == skp
+    assert m2.consuming_row == row2
+    assert m2.producing_row == row1
+    assert m2.mesh_index_in_producing_row == 1
+    assert m2.mesh_index_in_consuming_row == 1
 
 
 def test_skp_produces_one_mesh(skp):
@@ -136,11 +134,11 @@ def test_skp_produces_one_mesh(skp):
 
 def test_skp_produced_meshes(skp, row2):
     m = skp.produced_meshes[0]
-    assert m.instruction_produced_by == skp
+    assert m.producing_instruction == skp
     assert m.is_produced()
     assert not m.is_consumed()
-    assert m.mesh_index_in_producing_row == 1
-    assert m.produced_by_row == row2
+    assert m.mesh_index_in_producing_row == 0
+    assert m.producing_row == row2
 
 
 def test_yarn_over_consumes_no_meshes(yo):
@@ -150,6 +148,6 @@ def test_yarn_over_consumes_no_meshes(yo):
 def test_yarn_over_produces_a_mesh(yo):
     assert len(yo.produced_meshes) == 1
     m = yo.produced_meshes[0]
-    assert m.instruction_produced_by == yo
-    assert m.produced_in_row == yo.row
+    assert m.producing_instruction == yo
+    assert m.producing_row == yo.row
     assert m.mesh_index_in_producing_row == 1
