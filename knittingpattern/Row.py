@@ -6,9 +6,10 @@ ID = "id"
 class Row(Prototype):
 
     def __init__(self, id, values, inheriting_from = []):
+        super().__init__(values, inheriting_from)
         self._id = id
         self._values = values
-        super().__init__(values, inheriting_from)
+        self._instructions = []
 
     @property
     def id(self):
@@ -16,7 +17,7 @@ class Row(Prototype):
 
     @property
     def instructions(self):
-        return []
+        return self._instructions
 
     @property
     def produced_meshes(self):
@@ -25,5 +26,6 @@ class Row(Prototype):
     @property
     def consumed_meshes(self):
         return []
-        
+
+
 __all__ = ["Row"]

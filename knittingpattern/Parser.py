@@ -57,14 +57,17 @@ class Parser(object):
             object = self._id_cache[_id]
             inheritance.append(object)
         row = self.knitting_context.Row(id, values, inheritance)
-        for instruction_spec in row.get(INSTRUCTIONS, []):
-            instruction = self.instruction(instruction_spec)
+        for instruction_specification in row.get(INSTRUCTIONS, []):
+            instruction = self.instruction(row, instruction_specification)
             row.instructions.append(instruction)
         self._id_cache[id] = row
         return row
         
-    def instruction(self, instruction_spec):
-        return self.instruction_library.as_instruction(instruction_spec)
+    def instruction(self, row, instruction_specification):
+        whole_instruction_specification = \
+            self.instruction_library.as_instruction(instruction_specification)
+        return self.knitting_context.InstructionInRow(
+                        row, whole_instruction_specification)
 
     def pattern(self, base):
         rows = self.new_row_collection()

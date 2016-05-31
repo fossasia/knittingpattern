@@ -1,9 +1,6 @@
 import knittingpattern
 from pytest import fixture, raises
 import os
-import sys
-
-sys.setrecursionlimit(100)
 
 EXAMPLES_PATH = os.path.join(os.path.dirname(__file__), "../examples")
 CAFE_PATH = os.path.join(EXAMPLES_PATH, "Cafe.json")

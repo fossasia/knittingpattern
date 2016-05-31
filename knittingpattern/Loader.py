@@ -1,5 +1,5 @@
 import json
-import urllib
+import os
 
 
 class Loader(object):
@@ -28,6 +28,28 @@ class Loader(object):
             json = file.read()
         json = json.decode(encoding)
         return self.string(json)
+    
+    def folder(self, folder):
+        result = []
+        for root, directories, files in os.walk(folder):
+            for file in files:
+                path = os.path.join(root, file)
+                result.append(self.path(path))
+        return result
+
+    def _relative_to_absolute(self, module, folder):
+        if os.path.isfile(module):
+            module = os.path.dirname(module)
+        absolute_path = os.path.join(module, folder)
+        return absolute_path
+
+    def relative_folder(self, module, folder):
+        folder = self._relative_to_absolute(module, folder)
+        return self.folder(folder)
+        
+    def relative_file(self, module, file):
+        path = self._relative_to_absolute(module, file)
+        return self.path(path)
 
 
 __all__ = ["Loader"]

@@ -25,17 +25,19 @@ class InstructionLibrary(object):
         
     def as_instruction(self, specification):
         instruction = self.Instruction(specification)
-        if instruction.type in self._type_to_instruction:
-            instruction.inherit_from(self._type_to_instruction[instruction.type])
+        type = instruction.type
+        if type in self._type_to_instruction:
+            instruction.inherit_from(self._type_to_instruction[type])
         return instruction
 
 
 class DefaultInstructions(InstructionLibrary):
 
-    #INSTRUCTIONS_FOLDER = os.path.join(os.path.dirname(__file__), instructions)
+    INSTRUCTIONS_FOLDER = "instructions"
 
     def __init__(self):
         super().__init__()
+        self.load.relative_folder(__file__, self.INSTRUCTIONS_FOLDER)
 
 
 __all__ = ["InstructionLibrary", "DefaultInstructions"]

@@ -9,7 +9,7 @@ class KnittingContext(object):
     from .KnittingPattern import KnittingPattern as Pattern
     from .Row import Row
     from .InstructionLibrary import DefaultInstructions
-    from .Instruction import Instruction
+    from .Instruction import InstructionInRow
 
     @property
     def load(self):
