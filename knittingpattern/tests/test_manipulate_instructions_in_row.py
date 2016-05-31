@@ -1,3 +1,3 @@
 
 def test_todo():
-    assert "TODO"
+    assert not "TODO"
