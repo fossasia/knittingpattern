@@ -16,5 +16,12 @@ ayab
 .. image:: https://codeclimate.com/github/AllYarnsAreBeautiful/knittingpattern/badges/issue_count.svg
    :target: https://codeclimate.com/github/AllYarnsAreBeautiful/knittingpattern
    :alt: Issue Count
+   
+   
+Installation
+============ 
+
+* pip  install -r requirements.txt
+* pip  install -r requirements-test.txt
 
 

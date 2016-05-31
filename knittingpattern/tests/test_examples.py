@@ -19,22 +19,22 @@ def cafe():
     return knittingpattern.load_from_string(CAFE_STRING)
 
 
-def test_number_of_pattern(charlotte):
-    assert len(charlotte.pattern) == 2
+def test_number_of_patterns(charlotte):
+    assert len(charlotte.patterns) == 2
     with raises(IndexError):
-        charlotte.pattern.at(3)
+        charlotte.patterns.at(3)
 
 
 @fixture
 def pattern_0(charlotte):
-    return charlotte.pattern.at(0)
+    return charlotte.patterns.at(0)
 
 
  @fixture
 def pattern_1(charlotte):
-    return charlotte.pattern.at(1)
+    return charlotte.patterns.at(1)
 
-    
+
 def test_names(pattern_0, pattern_1):
     assert pattern_0.name == "A.1"
     assert pattern_1.name == "A.2"
@@ -46,9 +46,9 @@ def test_ids(pattern_0, pattern_1):
 
 
 def test_access_with_id(charlotte):
-    assert charlotte.pattern["A.1"] == charlotte.pattern.at(0)
+    assert charlotte.patterns["A.1"] == charlotte.patterns.at(0)
 
 
 def test_iterate_on_pattern(charlotte):
-    pattern = charlotte.pattern
-    assert list(iter(pattern)) == [pattern.at(0), pattern.at(1)]
+    patterns = charlotte.patterns
+    assert list(iter(patterns)) == [patterns.at(0), patterns.at(1)]
