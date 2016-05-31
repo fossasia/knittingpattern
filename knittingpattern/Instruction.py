@@ -41,9 +41,15 @@ class Instruction(Prototype):
 
 class InstructionInRow(Instruction):
 
+    from .Mesh import Mesh
+
     def __init__(self, row, spec):
         super().__init__(spec)
         self._row = row
+        self._produced_meshes = [
+                self.Mesh(self, index) 
+                for index in range(self.number_of_produced_meshes)
+            ]
         
     @property
     def row(self):
@@ -60,7 +66,7 @@ class InstructionInRow(Instruction):
 
     @property
     def produced_meshes(self):
-        return []
+        return self._produced_meshes
 
     @property
     def consumed_meshes(self):
