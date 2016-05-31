@@ -3,9 +3,13 @@ import os
 import sys
 
 
+def do_not_process(object):
+    return object
+
+
 class Loader(object):
 
-    def __init__(self, process):
+    def __init__(self, process = do_not_process):
         self.process = process
 
     def object(self, obj):

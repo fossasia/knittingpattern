@@ -1,9 +1,12 @@
-from knittingpattern import load_from_relative_file
+from knittingpattern import load_from_object
+from knittingpattern.Loader import Loader
 from pytest import fixture, raises
+
+row_mapping_pattern1 = Loader().relative_file(__name__, "pattern/row_mapping_pattern.json")
 
 @fixture
 def p1():
-    return load_from_relative_file(__name__, "pattern/row_mapping_pattern.json")
+    return load_from_object(row_mapping_pattern1)
 
 
 @fixture
