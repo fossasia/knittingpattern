@@ -5,6 +5,10 @@ KNIT_TYPE = "knit"
 PURL_TYPE = "purl"
 DEFAULT_TYPE = KNIT_TYPE
 COLOR = "color"
+NUMBER_OF_CONSUMED_MESHES = "number of consumed meshes"
+DEFAULT_NUMBER_OF_CONSUMED_MESHES = 1
+NUMBER_OF_PRODUCED_MESHES = "number of produced meshes"
+DEFAULT_NUMBER_OF_PRODUCED_MESHES = 1
 
 
 class Instruction(Prototype):
@@ -19,11 +23,11 @@ class Instruction(Prototype):
 
     @property
     def number_of_consumed_meshes(self):
-        return 1
+        return self.get(NUMBER_OF_CONSUMED_MESHES, DEFAULT_NUMBER_OF_CONSUMED_MESHES)
 
     @property
     def number_of_produced_meshes(self):
-        return 1
+        return self.get(NUMBER_OF_PRODUCED_MESHES, DEFAULT_NUMBER_OF_PRODUCED_MESHES)
 
     def has_color(self):
         return self.color is not None
@@ -53,6 +57,14 @@ class InstructionInRow(Instruction):
         message = "Instruction {} was not found in row {}.".format(
                       self.type, self.row.id)
         raise InstructionNotFoundInRow(message)
+
+    @property
+    def produced_meshes(self):
+        return []
+
+    @property
+    def consumed_meshes(self):
+        return []
 
 
 class InstructionNotFoundInRow(ValueError):

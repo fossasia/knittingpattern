@@ -39,7 +39,7 @@ def test_row0_consumes_empty_meshes(row0):
 
 def test_row0_produces_5_meshes(row0):
     assert len(row0.produced_meshes) == 5
-    assert all(mesh.is_knit() for mesh in row0.produced_meshes)
+    assert all(mesh.does_knit() for mesh in row0.produced_meshes)
 
 
 def test_row0_meshes_point_also_to_row1(mesh0, row0, row1):
@@ -54,7 +54,7 @@ def test_row0_instruction_produces_mesh_0(mesh0, instruction0):
 
 
 def test_instruction0_is_knit(instruction0):
-    assert instruction0.is_knit()
+    assert instruction0.does_knit()
 
 
 def test_instruction_position_in_row(row0, instruction0):
