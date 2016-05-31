@@ -30,7 +30,7 @@ def pattern_0(charlotte):
     return charlotte.patterns.at(0)
 
 
- @fixture
+@fixture
 def pattern_1(charlotte):
     return charlotte.patterns.at(1)
 
