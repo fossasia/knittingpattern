@@ -92,10 +92,10 @@ class Parser(object):
         
     def connect_rows(self, connections):
         for connection in connections:
-            from_row_id = connection[FROM][ID]
+            from_row_id = self.to_id(connection[FROM][ID])
             from_row = self._id_cache[from_row_id]
             from_row_mesh_index = connection[FROM].get(START, DEFAULT_START)
-            to_row_id = connection[TO][ID]
+            to_row_id = self.to_id(connection[TO][ID])
             to_row = self._id_cache[to_row_id]
             to_row_mesh_index = connection[TO].get(START, DEFAULT_START)
             meshes = min(from_row.number_of_produced_meshes, 
