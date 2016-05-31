@@ -5,3 +5,7 @@ from pytest import fixture
 @fixture
 def default():
     return DefaultInstructions()
+
+
+def test():
+    assert "TODO"
