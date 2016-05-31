@@ -40,9 +40,9 @@ def test_names(pattern_0, pattern_1):
     assert pattern_1.name == "A.2"
 
 
-def test_ids(charlotte):
-    assert charlotte.patterns.at(0).id == "A.1"
-    assert charlotte.patterns.at(1).id == "A.2"
+def test_ids(pattern_0, pattern_1):
+    assert pattern_0.id == "A.1"
+    assert pattern_1.id == "A.2"
 
 
 def test_access_with_id(charlotte):
