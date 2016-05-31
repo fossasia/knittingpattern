@@ -2,10 +2,8 @@ import json
 import os
 import sys
 
-
 def do_not_process(object):
     return object
-
 
 class Loader(object):
 
@@ -33,7 +31,7 @@ class Loader(object):
             json = file.read()
         json = json.decode(encoding)
         return self.string(json)
-    
+
     def folder(self, folder):
         result = []
         for root, directories, files in os.walk(folder):
@@ -57,10 +55,9 @@ class Loader(object):
     def relative_folder(self, module, folder):
         folder = self._relative_to_absolute(module, folder)
         return self.folder(folder)
-        
+
     def relative_file(self, module, file):
         path = self._relative_to_absolute(module, file)
         return self.path(path)
-
 
 __all__ = ["Loader"]
