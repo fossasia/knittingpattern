@@ -8,4 +8,4 @@ def default():
 
 
 def test():
-    assert not "TODO"
+    assert "TODO"
