@@ -30,6 +30,10 @@ def purl():
     return purl
 
 
+@fixture
+def renderer():
+    return MagicMock()
+
 def test_load_image_from_file(instruction):
     instruction.load_image.relative_file(__name__, "test_images/knit.svg")
     with open(KNIT_FILE) as knit_file:
