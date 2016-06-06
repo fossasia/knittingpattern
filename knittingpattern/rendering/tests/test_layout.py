@@ -15,10 +15,15 @@ def instructions(layout):
     return layout.walk_instructions(lambda point: point.instruction)
 
 
-def row_ids(leyout):
+def row_ids(layout):
     return layout.walk_rows(lambda row: row.id)
 
-    
+
+def connections(layout):
+    return layout.walk_connections(lambda c: (c.start_point.bottom_right,
+                                              c.end_point.bottom_right))
+
+
 class BaseTest:
 
     FILE = "block4x4.json"
@@ -26,6 +31,7 @@ class BaseTest:
     COORDINATES = [(x, y) for y in range(4) for x in range(4)]
     SIZES = [(1, 1)] * 16
     ROW_IDS = [0, 1, 2, 3]
+    LARGER_CONNECTIONS = []
 
     @fixture
     def pattern(self):
@@ -51,6 +57,9 @@ class BaseTest:
 
     def test_row_ids(self, grid):
         assert row_ids(grid) == self.ROW_IDS
+ 
+    def test_connections(self, grid):
+        assert connections(grid) == self.LARGER_CONNECTIONS
 
 
 class TestBlock4x4(BaseTest):
@@ -89,7 +98,7 @@ class TestSplitUpMeshes(BaseTest):
             (0, 3), (1, 3), (2, 3), (4, 3)
         ]
     ROW_IDS = ["1.1", "2.1", "2.2", "3.2", "4.1"]
-
+    LARGER_CONNECTIONS = [((0, 1), (0, 3)), ((1, 1), (1, 3)), ((2, 0), (2, 3))]
 
 
 
