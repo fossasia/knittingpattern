@@ -1,5 +1,10 @@
+<<<<<<< HEAD:knittingpattern/tests/test_default_instructions.py
 from knittingpattern.InstructionLibrary import DefaultInstructions, default_instructions
 from pytest import fixture
+=======
+from test import *
+from knittingpattern.InstructionLibrary import DefaultInstructions
+>>>>>>> refs/remotes/origin/master:knittingpattern/test/test_default_instructions.py
 
 
 @fixture

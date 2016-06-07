@@ -1,4 +1,5 @@
-from .test_examples import charlotte, cafe
+from test import *
+from test_examples import charlotte, cafe
 from pytest import fixture, raises
 
 

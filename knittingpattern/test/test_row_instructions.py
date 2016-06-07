@@ -1,5 +1,5 @@
-from pytest import fixture
-from .test_example_rows import a1, charlotte
+from test import *
+from test_example_rows import a1, charlotte
 
 
 @fixture
