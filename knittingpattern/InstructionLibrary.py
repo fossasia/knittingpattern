@@ -41,7 +41,7 @@ class DefaultInstructions(InstructionLibrary):
         self.load.relative_folder(__file__, self.INSTRUCTIONS_FOLDER)
 
     def __getitem__(self, item):
-        return self.as_instruction(self._type_to_instruction[item])
+        return self.as_instruction({"type": item})
 
 
 _default_instructions = None
