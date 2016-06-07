@@ -1,5 +1,4 @@
-import pytest
-from pytest import fixture
+from test import *
 from knittingpattern.InstructionLibrary import InstructionLibrary
 from knittingpattern.KnittingContext import KnittingContext
 

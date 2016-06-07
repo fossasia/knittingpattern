@@ -1,3 +1,4 @@
+from test import *
 
 def test_import():
     import knittingpattern

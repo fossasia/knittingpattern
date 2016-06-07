@@ -1,4 +1,4 @@
-from pytest import fixture
+from test import *
 from knittingpattern.Instruction import Instruction
 
 

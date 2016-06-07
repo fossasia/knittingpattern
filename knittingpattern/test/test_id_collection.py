@@ -1,6 +1,7 @@
+from test import *
 from knittingpattern.IdCollection import IdCollection
 from collections import namedtuple
-from pytest import fixture, raises
+
 
 I = namedtuple("Item", ["id"])
 

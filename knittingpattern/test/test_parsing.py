@@ -1,5 +1,5 @@
+from test import *
 import knittingpattern
-from pytest import fixture, raises
 import json
 import io
 
