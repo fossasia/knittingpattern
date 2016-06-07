@@ -1,27 +1,34 @@
 import json
 import os
 import sys
+from itertools import filterfalse
 
 
 def do_not_process(object):
     return object
+    
+def choose_everything(object):
+    return True
 
-
-class JSONLoader(object):
-
-    def __init__(self, process=do_not_process):
+class ContentLoader(object):
+    
+    def __init__(self, process=do_not_process, chooses_path=choose_everything):
         self.process = process
-
+        self.chooses_path = chooses_path
+        
     def object(self, obj):
         return self.process(obj)
 
-    def string(self, json_string):
-        obj = json.loads(json_string)
+    def string(self, string):
+        obj = self.convert_to_processable_object(string)
         return self.object(obj)
 
     def file(self, file):
-        obj = json.load(file)
-        return self.object(obj)
+        string = file.read()
+        return self.string(string)
+        
+    def convert_to_processable_object(self, string):
+        return string
 
     def path(self, path):
         with open(path) as file:
@@ -30,16 +37,17 @@ class JSONLoader(object):
     def url(self, url, encoding="UTF-8"):
         import urllib.request
         with urllib.request.urlopen(url) as file:
-            json = file.read()
-        json = json.decode(encoding)
-        return self.string(json)
+            webpage_content = file.read()
+        webpage_content = webpage_content.decode(encoding)
+        return self.string(webpage_content)
 
     def folder(self, folder):
         result = []
         for root, directories, files in os.walk(folder):
             for file in files:
                 path = os.path.join(root, file)
-                result.append(self.path(path))
+                if self.chooses_path(path):
+                    result.append(self.path(path))
         return result
 
     def _relative_to_absolute(self, module_location, folder):
@@ -61,5 +69,19 @@ class JSONLoader(object):
     def relative_file(self, module, file):
         path = self._relative_to_absolute(module, file)
         return self.path(path)
+    
+    def choose_paths(self, paths):
+        return [path for path in paths if self.chooses_path(path)]
+        
 
-__all__ = ["JSONLoader"]
+class JSONLoader(ContentLoader):
+
+    def convert_to_processable_object(self, string):
+        return json.loads(string)
+
+
+        
+        
+
+
+__all__ = ["JSONLoader", "ContentLoader"]
