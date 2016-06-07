@@ -4,32 +4,40 @@ import io
 import untangle # http://docs.python-guide.org/en/latest/scenarios/xml/
 
 
+def parse_file(file):
+    parser = untangle.make_parser()
+    sax_handler = untangle.Handler()
+    parser.setContentHandler(sax_handler)
+    parser.parse(file)
+    return sax_handler.root
+
+
 @fixture
 def file():
     return io.StringIO()
 
 
 @fixture
-def renderer():
+def converter(file):
     return SVGConverter(file)
 
 
 @fixture
-def svg(renderer):
+def svg(converter, file):
     def svg():
-        return untangle.parse(file).svg
+        return parse_file(file).svg
     return svg
     
 
 @fixture
-def svg1(renderer, svg):
-    with renderer:
-        renderer.render_at(0, 0, "<instruction id=\"inst1-id\"></instruction>", "row1")
-        renderer.render_at(1, 0, "<instruction id=\"inst2-id\"></instruction>", "row1")
-        renderer.render_at(2, 0, "<instruction id=\"inst3-id\"></instruction>", "row1")
-        renderer.render_at(0, 1, "<instruction id=\"inst4-id\"></instruction>", "row2")
-        renderer.render_at(1, 1, "<instruction id=\"inst5-id\"></instruction>", "row2")
-        renderer.render_at(2.0, 1.0, "<instruction id=\"inst6-id\"></instruction>", "row2")
+def svg1(converter, svg):
+    with converter:
+        converter.render_at(0, 0, "<instruction id=\"inst1-id\"></instruction>", "row1")
+        converter.render_at(1, 0, "<instruction id=\"inst2-id\"></instruction>", "row1")
+        converter.render_at(2, 0, "<instruction id=\"inst3-id\"></instruction>", "row1")
+        converter.render_at(0, 1, "<instruction id=\"inst4-id\"></instruction>", "row2")
+        converter.render_at(1, 1, "<instruction id=\"inst5-id\"></instruction>", "row2")
+        converter.render_at(2.0, 1.0, "<instruction id=\"inst6-id\"></instruction>", "row2")
     return svg()
 
 
@@ -73,18 +81,18 @@ def instruction23(row2):
     return row2.g[2]
 
 
-def test_rendering_nothing_is_a_valid_xml(renderer, file):
-    with renderer:
+def test_rendering_nothing_is_a_valid_xml(converter, file):
+    with converter:
         pass
     first_line = file.readline()
     assert first_line.endswith("?>")
     assert first_line.startswith("<?xml")
 
 
-def test_rendering_nothing_is_an_svg(renderer, file):
-    with renderer:
+def test_rendering_nothing_is_an_svg(converter, file):
+    with converter:
         pass
-    grafics = untangle.parse(file)
+    grafics = parse_file(file)
     assert grafics.elements[0].name == "svg"
 
 
