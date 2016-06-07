@@ -1,6 +1,6 @@
+from test import *
 from knittingpattern import load_from_object
 from knittingpattern.Loader import Loader
-from pytest import fixture, raises
 
 relative_path = "pattern/row_mapping_pattern.json"
 row_mapping_pattern1 = Loader().relative_file(__name__, relative_path)

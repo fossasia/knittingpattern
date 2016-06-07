@@ -1,5 +1,5 @@
-from knittingpattern.InstructionLibrary import DefaultInstructions, default_instructions
-from pytest import fixture
+from test import *
+from knittingpattern.InstructionLibrary import DefaultInstructions
 
 
 @fixture
