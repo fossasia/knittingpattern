@@ -1,3 +1,8 @@
+#
+# see https://pytest.org/latest/goodpractices.html
+# for why this module exists
+#
+
 from pytest import fixture, raises
 from unittest.mock import MagicMock
 import os
