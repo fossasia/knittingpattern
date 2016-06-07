@@ -85,7 +85,7 @@ def test_rendering_nothing_is_a_valid_xml(converter, file):
     with converter:
         pass
     first_line = file.readline()
-    assert first_line.endswith("?>")
+    assert first_line.endswith("?>\n")
     assert first_line.startswith("<?xml")
 
 
@@ -93,7 +93,8 @@ def test_rendering_nothing_is_an_svg(converter, file):
     with converter:
         pass
     grafics = parse_file(file)
-    assert grafics.elements[0].name == "svg"
+    assert grafics.svg["width"] == "0"
+    assert grafics.svg["height"] == "0"
 
 
 def test_translate_to_right_position(instruction1):
@@ -138,7 +139,10 @@ def test_instruction23_is_translated(instruction23):
     assert instruction23["transform"] == "translate(2.0,1.0)"
 
 
-
+def test_exit_handler_raises_exception(converter):
+    with raises(ValueError):
+        with converter:
+            raise ValueError("test!")
 
 
 
