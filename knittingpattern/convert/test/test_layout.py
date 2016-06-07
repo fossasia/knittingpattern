@@ -1,6 +1,6 @@
 from test import *
 from knittingpattern.convert.Layout import GridLayout
-from knittingpattern.KnittingContext import load_relative_file
+from knittingpattern import load_from_relative_file
 
 
 def coordinates(layout):
@@ -35,7 +35,7 @@ class BaseTest:
 
     @fixture
     def pattern(self):
-        pattern_set = load_relative_file(__name__, "test_patterns/" + FILE)
+        pattern_set = load_from_relative_file(__name__, "test_patterns/" + self.FILE)
         return pattern_set.patterns[self.PATTERN]
 
     @fixture

@@ -31,10 +31,10 @@ def purl():
 def renderer():
     return MagicMock()
 
-def test_load_image_from_file(instruction):
-    instruction.load_image.relative_file(__name__, "test_images/knit.svg")
+def test_load_image_from_file(instruction1):
+    instruction1.load_image.relative_file(__name__, "test_images/knit.svg")
     with open(KNIT_FILE) as knit_file:
-        assert instruction.image == knit_file.read()
+        assert instruction1.raw_image == knit_file.read()
 
 
 def test_choose_image_from_folder(knit):
@@ -42,7 +42,7 @@ def test_choose_image_from_folder(knit):
 
 
 def test_purl_chose_right_image(purl):
-    assert purl.raw_image == open(KNIT_FILE).read()
+    assert purl.raw_image == open(PURL_FILE).read()
 
 
 

@@ -24,7 +24,7 @@ def mock_close():
 
 
 @fixture
-def patched_renderer(renderer, mock_close, mock_open):
+def patched_renderer(renderer, mock_close, mock_open, monkeypatch):
     monkeypatch.setattr(renderer, "open", mock_open)
     monkeypatch.setattr(renderer, "close", mock_close)
     return renderer
@@ -32,6 +32,7 @@ def patched_renderer(renderer, mock_close, mock_open):
 
 def test_open_renderer(renderer, file):
     renderer.open()
+    file.seek(0)
     assert file.read() == renderer.beginning_of_file
 
 
