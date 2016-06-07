@@ -3,9 +3,8 @@
   "version" : "0.1",
   "comment" : {
     "content" : "4x4 meshes block",
-    "type" : "markdown", 
-    }
-  },
+    "type" : "markdown" 
+    },
   "patterns" : [
     {
       "id" : "knit",
@@ -46,33 +45,33 @@
             {"id": "4.2"},
             {"id": "4.3"}
           ]
-        },
+        }
       ],
       "connections" : [
         {
           "from" : {
-            "id" : 1,
+            "id" : 1
           }, 
           "to" : {
-            "id" : 2,
+            "id" : 2
           }
         },
         {
           "from" : {
-            "id" : 2,
+            "id" : 2
           }, 
           "to" : {
-            "id" : 3,
+            "id" : 3
           }
         },
         {
           "from" : {
-            "id" : 3,
+            "id" : 3
           }, 
           "to" : {
-            "id" : 4,
+            "id" : 4
           }
-        },
+        }
       ]
     }
   ]
