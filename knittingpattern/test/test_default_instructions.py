@@ -21,3 +21,7 @@ def test_purl_instruction(default):
 
 def test_yarn_over(default):
     assert default["yo"]["number of consumed meshes"] == 0
+
+
+def test_defalt_instructions_are_an_instance_of_the_class():
+    assert isinstance(default_instructions(), DefaultInstructions)
