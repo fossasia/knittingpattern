@@ -1,4 +1,5 @@
 from test import *
+import os
 from knittingpattern.convert.Layout import GridLayout
 from knittingpattern import load_from_relative_file
 
@@ -20,8 +21,8 @@ def row_ids(layout):
 
 
 def connections(layout):
-    return layout.walk_connections(lambda c: (c.start_point.bottom_right,
-                                              c.end_point.bottom_right))
+    return layout.walk_connections(lambda c: (c.start_point.xy,
+                                              c.end_point.xy))
 
 
 class BaseTest:
@@ -30,12 +31,12 @@ class BaseTest:
     PATTERN = "knit"
     COORDINATES = [(x, y) for y in range(4) for x in range(4)]
     SIZES = [(1, 1)] * 16
-    ROW_IDS = [0, 1, 2, 3]
+    ROW_IDS = [1, 2, 3, 4]
     LARGER_CONNECTIONS = []
 
     @fixture
     def pattern(self):
-        pattern_set = load_from_relative_file(__name__, "test_patterns/" + self.FILE)
+        pattern_set = load_from_relative_file(__name__, os.path.join("test_patterns", self.FILE))
         return pattern_set.patterns[self.PATTERN]
 
     @fixture
@@ -50,10 +51,11 @@ class BaseTest:
         assert sizes(grid) == self.SIZES
 
     def test_instructions(self, grid, pattern):
-        assert instructions(grid) == [
-                pattern.rows[row_id].instructions[i]
-                for row_id in range(1, 5) for i in range(4)
-            ]
+        instructions_ = []
+        for row_id in self.ROW_IDS:
+            for instruction in pattern.rows[row_id].instructions:
+                instructions_.append(instruction)
+        assert instructions(grid) == instructions_
 
     def test_row_ids(self, grid):
         assert row_ids(grid) == self.ROW_IDS
@@ -86,7 +88,7 @@ class TestAddAndRemoveMeshes(BaseTest):
         ]
     
 
-class TestSplitUpMeshes(BaseTest):
+class _TestSplitUpMeshes(BaseTest):
     FILE = "split_up_and_add_rows.json"
     SIZES = [(1, 1)] * 17
     SIZES[-2] = (2, 1)

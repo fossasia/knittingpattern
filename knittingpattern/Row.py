@@ -124,5 +124,8 @@ class Row(Prototype):
 
     def __repr__(self):
         return "<{} {}>".format(self.__class__.__qualname__, self.id)
+        
+    def __lt__(self, other):
+        return self.id < other.id
 
 __all__ = ["Row"]
