@@ -5,7 +5,7 @@ TYPE = "type"
 
 class InstructionLibrary(object):
 
-    from .Loader import Loader
+    from .Loader import JSONLoader as Loader
     from .Instruction import Instruction
 
     def __init__(self):

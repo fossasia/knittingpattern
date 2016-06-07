@@ -7,7 +7,7 @@ def do_not_process(object):
     return object
 
 
-class Loader(object):
+class JSONLoader(object):
 
     def __init__(self, process=do_not_process):
         self.process = process
@@ -62,4 +62,4 @@ class Loader(object):
         path = self._relative_to_absolute(module, file)
         return self.path(path)
 
-__all__ = ["Loader"]
+__all__ = ["JSONLoader"]
