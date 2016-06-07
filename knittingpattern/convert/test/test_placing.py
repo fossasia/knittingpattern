@@ -1,5 +1,5 @@
 from test import *
-from knittingpattern.convert import SVGRenderer
+from knittingpattern.convert.SVGConverter import SVGConverter
 import io
 import untangle # http://docs.python-guide.org/en/latest/scenarios/xml/
 
@@ -11,7 +11,7 @@ def file():
 
 @fixture
 def renderer():
-    return SVGRenderer(file)
+    return SVGConverter(file)
 
 
 @fixture

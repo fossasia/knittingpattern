@@ -1,5 +1,5 @@
 from test import *
-from knittingpattern.convert import SVGRenderer
+from knittingpattern.convert.SVGConverter import SVGConverter
 import io
 
 
@@ -10,7 +10,7 @@ def file():
 
 @fixture
 def renderer(file):
-    return SVGRenderer(file)
+    return SVGConverter(file)
 
 
 @fixture
