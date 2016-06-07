@@ -1,13 +1,6 @@
 {
   "type" : "knitting pattern",
   "version" : "0.1",
-  "comment" : {
-    "content" : "This knitting pattern was taken from [Garnstudio](http://www.garnstudio.com/pattern.php?id=7342&cid=9).",
-    "type" : "markdown", 
-    "picture" : {
-      "url" : "http://www.garnstudio.com/drops/mag/168/15/15-lp.jpg"
-    }
-  },
   "patterns" : [
     {
       "id" : "A.1",
