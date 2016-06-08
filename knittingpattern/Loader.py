@@ -6,16 +6,18 @@ from itertools import filterfalse
 
 def do_not_process(object):
     return object
-    
+
+
 def choose_everything(object):
     return True
 
+
 class ContentLoader(object):
-    
+
     def __init__(self, process=do_not_process, chooses_path=choose_everything):
         self.process = process
         self.chooses_path = chooses_path
-        
+
     def object(self, obj):
         return self.process(obj)
 
@@ -26,7 +28,7 @@ class ContentLoader(object):
     def file(self, file):
         string = file.read()
         return self.string(string)
-        
+
     def convert_to_processable_object(self, string):
         return string
 
@@ -69,19 +71,15 @@ class ContentLoader(object):
     def relative_file(self, module, file):
         path = self._relative_to_absolute(module, file)
         return self.path(path)
-    
+
     def choose_paths(self, paths):
         return [path for path in paths if self.chooses_path(path)]
-        
+
 
 class JSONLoader(ContentLoader):
 
     def convert_to_processable_object(self, string):
         return json.loads(string)
-
-
-        
-        
 
 
 __all__ = ["JSONLoader", "ContentLoader"]

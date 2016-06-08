@@ -161,8 +161,8 @@ def test_previous_instruction(row0, instruction0):
 
 def test_next_instruction(row0, instruction0):
     assert instruction0.next_instruction_in_row == row0.instructions[1]
- 
- 
+
+
 def test_previous_instruction_is_None_at_border(instruction0):
     assert instruction0.previous_instruction_in_row is None
 

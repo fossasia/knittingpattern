@@ -9,11 +9,14 @@ def result():
 
 @fixture
 def loader(result):
+
     def process(obj):
         result.append(obj)
         return len(result)
+
     def chooses_path(path):
         return "_2" in os.path.basename(path)
+
     return ContentLoader(process, chooses_path)
 
 
@@ -48,7 +51,7 @@ def test_loader_does_not_like_certain_paths(loader):
 
 def test_loader_can_select_paths_it_likes(loader):
     assert loader.choose_paths(["_1", "_2", "_3"]) == ["_2"]
-    assert loader.choose_paths(["_123", "3_2", "4_2.asd"]) == ["3_2", "4_2.asd"]
+    assert loader.choose_paths(["_123", "3_2", "4_2.as"]) == ["3_2", "4_2.as"]
 
 
 def test_loading_from_directory_selects_paths(loader):

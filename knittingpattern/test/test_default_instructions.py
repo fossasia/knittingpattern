@@ -1,5 +1,6 @@
 from test import *
-from knittingpattern.InstructionLibrary import DefaultInstructions, default_instructions
+from knittingpattern.InstructionLibrary import DefaultInstructions, \
+                                               default_instructions
 
 
 @fixture
@@ -17,7 +18,7 @@ def test_knitting_instruction(default):
 
 def test_purl_instruction(default):
     assert default["skp"]["number of consumed meshes"] == 2
-    
+
 
 def test_yarn_over(default):
     assert default["yo"]["number of consumed meshes"] == 0

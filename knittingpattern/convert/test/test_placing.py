@@ -1,7 +1,7 @@
 from test import *
 from knittingpattern.convert.SVGConverter import SVGConverter
 import io
-import untangle # http://docs.python-guide.org/en/latest/scenarios/xml/
+import untangle  # http://docs.python-guide.org/en/latest/scenarios/xml/
 
 
 def parse_file(file):
@@ -27,17 +27,18 @@ def svg(converter, file):
     def svg():
         return parse_file(file).svg
     return svg
-    
+
 
 @fixture
 def svg1(converter, svg):
+    instruction = "<instruction id=\"inst{}-id\"></instruction>"
     with converter:
-        converter.render_at(0, 0, "<instruction id=\"inst1-id\"></instruction>", "row1")
-        converter.render_at(1, 0, "<instruction id=\"inst2-id\"></instruction>", "row1")
-        converter.render_at(2, 0, "<instruction id=\"inst3-id\"></instruction>", "row1")
-        converter.render_at(0, 1, "<instruction id=\"inst4-id\"></instruction>", "row2")
-        converter.render_at(1, 1, "<instruction id=\"inst5-id\"></instruction>", "row2")
-        converter.render_at(2.0, 1.0, "<instruction id=\"inst6-id\"></instruction>", "row2")
+        converter.render_at(0, 0, instruction.format(1), "row1")
+        converter.render_at(1, 0, instruction.format(2), "row1")
+        converter.render_at(2, 0, instruction.format(3), "row1")
+        converter.render_at(0, 1, instruction.format(4), "row2")
+        converter.render_at(1, 1, instruction.format(5), "row2")
+        converter.render_at(2.0, 1.0, instruction.format(6), "row2")
     return svg()
 
 
@@ -103,11 +104,11 @@ def test_translate_to_right_position(instruction1):
 
 def test_row_has_id(row1):
     assert row1["id"] == "row1"
-    
+
 
 def test_row_is_displayed_correctly_by_inkscape(row1):
-     assert row1["inkscape:label"] == "row1"
-     assert row1["inkscape:groupmode"] == "layer"
+    assert row1["inkscape:label"] == "row1"
+    assert row1["inkscape:groupmode"] == "layer"
 
 
 def test_content_is_in_group(instruction1):
@@ -143,32 +144,3 @@ def test_exit_handler_raises_exception(converter):
     with raises(ValueError):
         with converter:
             raise ValueError("test!")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

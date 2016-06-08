@@ -44,15 +44,12 @@ class DefaultInstructions(InstructionLibrary):
         return self.as_instruction({"type": item})
 
 
-_default_instructions = None
-
-
 def default_instructions():
     global _default_instructions
     if _default_instructions is None:
         _default_instructions = DefaultInstructions()
     return _default_instructions
-        
 
 
+_default_instructions = None
 __all__ = ["InstructionLibrary", "DefaultInstructions"]

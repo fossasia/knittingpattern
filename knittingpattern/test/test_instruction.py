@@ -77,21 +77,22 @@ def test_purl_produces_meshes(purl):
 def test_purl_consumes_meshes(purl):
     assert purl.consumes_meshes()
 
+
 def test_yarn_over_consumes_no_meshes(yo):
     assert yo.number_of_consumed_meshes == 0
     assert not yo.consumes_meshes()
-  
+
+
 def test_yarn_over_produces_meshes(yo):
     assert yo.number_of_produced_meshes == 1
     assert yo.produces_meshes()
-  
+
 
 def test_bindoff_consumes_meshes(bindoff):
     assert bindoff.number_of_consumed_meshes == 1
     assert bindoff.consumes_meshes()
-    
+
 
 def test_bindoff_produces_no_meshes(bindoff):
     assert bindoff.number_of_produced_meshes == 0
     assert not bindoff.produces_meshes()
-  

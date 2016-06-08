@@ -45,14 +45,14 @@ class Row(Prototype):
     def get_consuming_row_and_index_for_produced_mesh_at(self, mesh_index):
         """The mesh at mesh_index is produced in this row.
            Return the row that consumes this mesh and
-           this meshes index in to array of 
+           this meshes index in to array of
            consumed meshes of the returned row."""
         self._check_is_produced_mesh_index(mesh_index)
         return self._mapping_to_row.get(mesh_index)
 
     get_consuming_row_and_index = \
         get_consuming_row_and_index_for_produced_mesh_at
-        
+
     def _check_is_produced_mesh_index(self, mesh_index):
         if not self.is_produced_mesh_index(mesh_index):
             message = "{} only has {} produced meshes "\
@@ -62,7 +62,7 @@ class Row(Prototype):
                               mesh_index
                           )
             raise IndexError(message)
-            
+
     def _check_is_consumed_mesh_index(self, mesh_index):
         if not self.is_consumed_mesh_index(mesh_index):
             message = "{} only has {} consumed meshes "\
@@ -136,7 +136,8 @@ class Row(Prototype):
     def get_instruction_and_index_at_consumed_mesh_index(self, mesh_index):
         self._check_is_consumed_mesh_index(mesh_index)
         for inst in self.instructions:
-            if not inst.consumes_meshes(): continue
+            if not inst.consumes_meshes():
+                continue
             mini = inst.index_of_first_consumed_mesh_in_rows_consumed_meshes
             maxi = inst.index_of_last_consumed_mesh_in_rows_consumed_meshes
             if mini <= mesh_index <= maxi:
@@ -145,7 +146,7 @@ class Row(Prototype):
 
     def __repr__(self):
         return "<{} {}>".format(self.__class__.__qualname__, self.id)
-        
+
     def __lt__(self, other):
         return self.id < other.id
 

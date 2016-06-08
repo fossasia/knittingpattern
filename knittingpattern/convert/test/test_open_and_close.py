@@ -57,4 +57,3 @@ def test_close_context(patched_renderer):
 
 def test_file_is_part_of_the_renderer(renderer, file):
     assert renderer.file == file
-
