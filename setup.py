@@ -94,15 +94,37 @@ required_packages = \
 required_test_packages = \
     read_filled_lines_from_file_named("requirements-test.txt")
 
+DEVELOPMENT_STATES = {
+        "p": "Development Status :: 1 - Planning",
+        "pa": "Development Status :: 2 - Pre-Alpha",
+        "a": "Development Status :: 3 - Alpha",
+        "b": "Development Status :: 4 - Beta",
+        "": "Development Status :: 5 - Production/Stable",
+        "m": "Development Status :: 6 - Mature",
+        "i": "Development Status :: 7 - Inactive"
+    }
+development_state = DEVELOPMENT_STATES[""]
+for ending in DEVELOPMENT_STATES:
+    if ending and __version__.endswith(ending):
+        development_state = DEVELOPMENT_STATES[ending]
+
 SETUPTOOLS_METADATA = dict(
     install_requires=required_packages,
     tests_require=required_test_packages,
     include_package_data=True,
-    classifiers=[
-        'Development Status :: 4 - Beta',
+    classifiers=[  # https://pypi.python.org/pypi?%3Aaction=list_classifiers
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: GNU Lesser General Public License'
+        ' v3 (LGPLv3)',
         'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Artistic Software',
+        'Topic :: Home Automation',
+        'Topic :: Utilities',
+        'Intended Audience :: Manufacturing',
+        'Natural Language :: English',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3 :: Only',
+        development_state
         ],
     package_data=dict(
         # If any package contains of these files, include them:

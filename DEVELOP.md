@@ -24,3 +24,9 @@ Test the installed version. You might have forgotten some includes:
 
     cd C:\Python35-32\Lib\site-packages
     py -3.5 -m pytest knittingpattern
+
+Classifiers
+-----------
+
+You can find all Pypi classifiers 
+[here](http://pypi.python.org/pypi?%3Aaction=list_classifiers).
