@@ -12,3 +12,15 @@ From [docs.python.org](https://docs.python.org/3.1/distutils/uploading.html):
 For first upload use
 
     setup.py register
+
+Install
+-------
+
+Install it with a specific python verison under windows:
+
+    py -3.5 -m pip --no-cache-dir install --upgrade knittingpattern
+
+Test the installed version. You might have forgotten some includes:
+
+    cd C:\Python35-32\Lib\site-packages
+    py -3.5 -m pytest knittingpattern
