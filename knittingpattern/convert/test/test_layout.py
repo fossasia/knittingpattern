@@ -21,8 +21,8 @@ def row_ids(layout):
 
 
 def connections(layout):
-    return list(layout.walk_connections(lambda c: (c.start_point.xy,
-                                              c.end_point.xy)))
+    return list(layout.walk_connections(lambda c: (c.start.xy,
+                                              c.stop.xy)))
 
 
 class BaseTest:
@@ -249,7 +249,7 @@ class TestParallelRows(BaseTest):
             (0, 3), (1, 3), (2, 3), (4, 3)
         ]
     ROW_IDS = ["1.1", "2.1", "2.2", "3.2", "4.1"]
-    LARGER_CONNECTIONS = [((0, 1), (0, 3)), ((1, 1), (1, 3)), ((2, 0), (2, 3))]
+    LARGER_CONNECTIONS = [((0, 1), (0, 3)), ((1, 1), (1, 3))]
 
     @fixture
     def r4(self, pattern):

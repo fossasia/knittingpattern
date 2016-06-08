@@ -2,6 +2,7 @@ from .Prototype import *
 
 # pattern specification
 
+ID = "id"
 TYPE = "type"
 KNIT_TYPE = "knit"
 PURL_TYPE = "purl"
@@ -19,6 +20,10 @@ INSTRUCTION_NOT_FOUND_MESSAGE = \
 
 
 class Instruction(Prototype):
+
+    @property
+    def id(self):
+        return self.get(ID)
 
     @property
     def type(self):
@@ -176,8 +181,9 @@ class InstructionInRow(Instruction):
         return self.produced_meshes[mesh_index]
         
     def __repr__(self):
-        return "<{} \"{}\" in {} at {}>".format(
+        return "<{} {}\"{}\" in {} at {}>".format(
                 self.__class__.__name__,
+                ("{} ".format(self.id) if self.id is not None else ""),
                 self.type,
                 self.row,
                 self.index_in_row_instructions
