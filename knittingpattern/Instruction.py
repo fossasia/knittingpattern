@@ -46,6 +46,12 @@ class Instruction(Prototype):
 
     def does_purl(self):
         return self.type == PURL_TYPE
+        
+    def produces_meshes(self):
+        return self.number_of_produced_meshes != 0
+
+    def consumes_meshes(self):
+        return self.number_of_consumed_meshes != 0
 
 
 class InstructionInRow(Instruction):
@@ -84,14 +90,14 @@ class InstructionInRow(Instruction):
         return self.row.instructions
         
     @property
-    def next_instruction(self):
+    def next_instruction_in_row(self):
         index = self.index_in_row_instructions + 1
         if index < 0: return None
         if index >= len(self.row_instructions): return None
         return self.row_instructions[index]
         
     @property    
-    def previous_instruction(self):
+    def previous_instruction_in_row(self):
         index = self.index_in_row_instructions - 1
         if index < 0: return None
         if index >= len(self.row_instructions): return None
@@ -108,6 +114,7 @@ class InstructionInRow(Instruction):
 
     @property
     def index_of_first_produced_mesh_in_rows_produced_meshes(self):
+        assert self.produces_meshes()
         index = 0
         for instruction in self.row_instructions:
             if instruction is self:
@@ -116,9 +123,16 @@ class InstructionInRow(Instruction):
         else:
             self._raise_not_found_error()
         return index
+        
+    @property
+    def index_of_last_produced_mesh_in_rows_produced_meshes(self):
+        assert self.produces_meshes()
+        return self.index_of_first_produced_mesh_in_rows_produced_meshes + \
+               self.number_of_produced_meshes - 1
 
     @property
     def index_of_first_consumed_mesh_in_rows_consumed_meshes(self):
+        assert self.consumes_meshes()
         index = 0
         for instruction in self.row_instructions:
             if instruction is self:
@@ -127,6 +141,12 @@ class InstructionInRow(Instruction):
         else:
             self._raise_not_found_error()
         return index
+
+    @property
+    def index_of_last_consumed_mesh_in_rows_consumed_meshes(self):
+        assert self.consumes_meshes()
+        return self.index_of_first_consumed_mesh_in_rows_consumed_meshes + \
+               self.number_of_consumed_meshes - 1
 
     @property
     def produced_meshes(self):
@@ -160,6 +180,15 @@ class InstructionInRow(Instruction):
                 self.index_in_row_instructions
             )
 
+    @property
+    def producing_instructions(self):
+        return [( mesh.producing_instruction if mesh.is_produced() else None)
+                for mesh in self.consumed_meshes]
+
+    @property
+    def consuming_instructions(self):
+        return [( mesh.consuming_instruction if mesh.is_consumed() else None)
+                for mesh in self.produced_meshes]
 
 class InstructionNotFoundInRow(ValueError):
     pass

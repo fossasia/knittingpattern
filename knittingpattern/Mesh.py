@@ -47,7 +47,9 @@ class ProducedMesh(object):
 
     @property
     def consuming_instruction(self):
-        row, index = self.consuming_row_and_index
+        row_and_index = self.consuming_row_and_index
+        assert row_and_index is not None, "Use is_consumed() before."
+        row, index = row_and_index
         return row.get_instruction_at_cosuming_mesh_index(index)
 
     @property

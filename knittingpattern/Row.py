@@ -23,9 +23,6 @@ class Row(Prototype):
     def instructions(self):
         return self._instructions
 
-    def map_mesh_index_to_row(self, mesh_index):
-        pass
-
     @property
     def number_of_produced_meshes(self):
         return sum(instruction.number_of_produced_meshes
@@ -117,9 +114,12 @@ class Row(Prototype):
 
     def get_instruction_at_cosuming_mesh_index(self, mesh_index):
         self._check_consuming_mesh_index(mesh_index)
-        for instruction in self.instructions:
-            if mesh_index < instruction.number_of_consumed_meshes:
-                return instruction
+        for inst in self.instructions:
+            if not inst.consumes_meshes(): continue
+            mini = inst.index_of_first_consumed_mesh_in_rows_consumed_meshes
+            maxi = inst.index_of_last_consumed_mesh_in_rows_consumed_meshes
+            if mini <= mesh_index <= maxi:
+                return inst
         assert False, "Passing all instructions should never happen."
 
     def __repr__(self):

@@ -156,16 +156,16 @@ def test_yarn_over_produces_a_mesh(yo):
 
 
 def test_previous_instruction(row0, instruction0):
-    assert row0.instructions[1].previous_instruction == instruction0
+    assert row0.instructions[1].previous_instruction_in_row == instruction0
 
 
 def test_next_instruction(row0, instruction0):
-    assert instruction0.next_instruction == row0.instructions[1]
+    assert instruction0.next_instruction_in_row == row0.instructions[1]
  
  
 def test_previous_instruction_is_None_at_border(instruction0):
-    assert instruction0.previous_instruction is None
+    assert instruction0.previous_instruction_in_row is None
 
 
 def test_previous_instruction_is_None_at_border(row0):
-    assert row0.instructions[-1].next_instruction is None
+    assert row0.instructions[-1].next_instruction_in_row is None

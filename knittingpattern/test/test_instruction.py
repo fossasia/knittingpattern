@@ -12,6 +12,16 @@ def purl():
     return Instruction({"type": "purl"})
 
 
+@fixture
+def yo():
+    return Instruction({"type": "yo", "number of consumed meshes": 0})
+
+
+@fixture
+def bindoff():
+    return Instruction({"type": "bindoff", "number of produced meshes": 0})
+
+
 def test_default_type(default_instruction):
     assert default_instruction.type == "knit"
     assert default_instruction.does_knit()
@@ -58,3 +68,30 @@ def test_inheritance(colored_instruction):
     assert colored_instruction["not inherited value"] == 1
     assert colored_instruction["inherited value"] == 0
     assert colored_instruction["other inherited value"] == 4
+
+
+def test_purl_produces_meshes(purl):
+    assert purl.produces_meshes()
+
+
+def test_purl_consumes_meshes(purl):
+    assert purl.consumes_meshes()
+
+def test_yarn_over_consumes_no_meshes(yo):
+    assert yo.number_of_consumed_meshes == 0
+    assert not yo.consumes_meshes()
+  
+def test_yarn_over_produces_meshes(yo):
+    assert yo.number_of_produced_meshes == 1
+    assert yo.produces_meshes()
+  
+
+def test_bindoff_consumes_meshes(bindoff):
+    assert bindoff.number_of_consumed_meshes == 1
+    assert bindoff.consumes_meshes()
+    
+
+def test_bindoff_produces_no_meshes(bindoff):
+    assert bindoff.number_of_produced_meshes == 0
+    assert not bindoff.produces_meshes()
+  
