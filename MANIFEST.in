@@ -1,1 +1,3 @@
 recursive-include knittingpattern *.py *.json *.svg
+include requirements*
+include LICENSE
