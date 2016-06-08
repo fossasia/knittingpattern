@@ -1,0 +1,1 @@
+recursive-include knittingpattern *.py *.json *.svg
