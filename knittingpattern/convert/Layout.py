@@ -25,10 +25,12 @@ class RecursiveWalk(object):
         
     def _walk(self, instruction, cx, cy, px, py, subtract_width=False, row = 0):
         if instruction is None: return
-        if instruction in self.instructions_in_grid: return 
         if subtract_width:
             cx -= instruction.number_of_consumed_meshes
             px -= instruction.number_of_produced_meshes
+        if instruction in self.instructions_in_grid: 
+            i2 = self.instructions_in_grid[instruction]
+            if i2.y >= cy: return
         print("{}{} at ({},{})({},{}) {}".format("  " * row, instruction, cx, cy, px, py, subtract_width))
         in_grid = InstructionInGrid(instruction, cx, cy)
         self.instructions_in_grid[instruction] = in_grid
@@ -39,9 +41,11 @@ class RecursiveWalk(object):
                     row= row)
         for i, mesh in enumerate(instruction.produced_meshes):
             if not mesh.is_consumed(): continue
+            x = px + i - mesh.mesh_index_in_consuming_instruction
+            y = py + in_grid.height
             self.expand(mesh.consuming_instruction, 
-                        px + i, py + in_grid.height, 
-                        px + i, py + in_grid.height, 
+                        x, y, 
+                        x, y, 
                         row= row + 1)
                        
     def walk(self):

@@ -133,14 +133,14 @@ class Row(Prototype):
         return list(chain(*(instruction.consumed_meshes
                           for instruction in self.instructions)))
 
-    def get_instruction_at_consumed_mesh_index(self, mesh_index):
+    def get_instruction_and_index_at_consumed_mesh_index(self, mesh_index):
         self._check_is_consumed_mesh_index(mesh_index)
         for inst in self.instructions:
             if not inst.consumes_meshes(): continue
             mini = inst.index_of_first_consumed_mesh_in_rows_consumed_meshes
             maxi = inst.index_of_last_consumed_mesh_in_rows_consumed_meshes
             if mini <= mesh_index <= maxi:
-                return inst
+                return inst, mesh_index - mini
         assert False, "Passing all instructions should never happen."
 
     def __repr__(self):

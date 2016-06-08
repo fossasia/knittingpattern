@@ -47,10 +47,22 @@ class ProducedMesh(object):
 
     @property
     def consuming_instruction(self):
+        return self.consuming_instruction_and_index[0]
+        
+    @property
+    def mesh_index_in_consuming_instruction(self):
+        return self.consuming_instruction_and_index[1]
+        
+    @property
+    def consuming_instruction_and_index(self):
+        """Returns the instruction that consumes this mesh and 
+           the index of this mesh in this instruction."""
         row_and_index = self.consuming_row_and_index
         assert row_and_index is not None, "Use is_consumed() before."
         consuming_row, index = row_and_index
-        return consuming_row.get_instruction_at_consumed_mesh_index(index)
+        return consuming_row.get_instruction_and_index_at_consumed_mesh_index(
+                   index
+               )
 
     @property
     def consuming_row(self):

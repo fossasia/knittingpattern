@@ -155,23 +155,26 @@ class InstructionInRow(Instruction):
     @property
     def consumed_meshes(self):
         return [
-                self._consumed_mesh(index)
+                self.consumed_meshes_at(index)
                 for index in range(self.number_of_consumed_meshes)
             ]
 
-    def _consumed_mesh(self, mesh_index_in_instruction):
+    def consumed_meshes_at(self, mesh_index):
         consuming_row = self.row
         index_in_consuming_row = \
             self.index_of_first_consumed_mesh_in_rows_consumed_meshes + \
-            mesh_index_in_instruction
+            mesh_index
         origin = consuming_row.get_producing_row_and_index(
                 index_in_consuming_row
             )
         if origin is None:
-            return self.ConsumedMesh(self, mesh_index_in_instruction)
+            return self.ConsumedMesh(self, mesh_index)
         producing_row, mesh_index_in_producing_row = origin
         return producing_row.produced_meshes[mesh_index_in_producing_row]
 
+    def produced_meshes_at(self, mesh_index):
+        return self.produced_meshes[mesh_index]
+        
     def __repr__(self):
         return "<{} \"{}\" in {} at {}>".format(
                 self.__class__.__name__,
