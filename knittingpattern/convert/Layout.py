@@ -1,14 +1,12 @@
 from itertools import chain
 
 class InstructionInGrid(object):
-    def __init__(self, instruction, x, y, subtract_width=False):
+    def __init__(self, instruction, x, y):
         self.instruction = instruction
         self.x = x
         self.y = y
         self.width = instruction.number_of_consumed_meshes
         self.height = 1
-        if subtract_width:
-            self.x -= self.width
 
 def identity(object):
     return object
@@ -19,23 +17,32 @@ class RecursiveWalk(object):
         self.first_instruction = first_instruction
         self.instructions_in_grid = {}
         self.todo = []
-        self.expand(first_instruction, 0, 0)
+        self.expand(first_instruction, 0, 0, 0, 0)
         self.walk()
         
     def expand(self, *args, **kw):
         self.todo.append((args, kw))
         
-    def _walk(self, instruction, x, y, subtract_width=False, row = 0):
+    def _walk(self, instruction, cx, cy, px, py, subtract_width=False, row = 0):
         if instruction is None: return
-        if instruction in self.instructions_in_grid: return
-        print("{}{} at {},{} {}".format("  " * row, instruction, x, y, subtract_width))
-        in_grid = InstructionInGrid(instruction, x, y, subtract_width=subtract_width)
+        if instruction in self.instructions_in_grid: return 
+        if subtract_width:
+            cx -= instruction.number_of_consumed_meshes
+            px -= instruction.number_of_produced_meshes
+        print("{}{} at *{},{})({},{}) {}".format("  " * row, instruction, cx, cy, px, py, subtract_width))
+        in_grid = InstructionInGrid(instruction, cx, cy)
         self.instructions_in_grid[instruction] = in_grid
-        self.expand(instruction.previous_instruction_in_row, x, y, subtract_width= True, row= row)
-        self.expand(instruction.next_instruction_in_row, x + in_grid.width, y, row= row)
-        for mesh in instruction.produced_meshes:
+        self.expand(instruction.previous_instruction_in_row, cx, cy, px, py, subtract_width= True, row= row)
+        self.expand(instruction.next_instruction_in_row, 
+                    cx + instruction.number_of_consumed_meshes, cy, 
+                    px + instruction.number_of_produced_meshes, py, 
+                    row= row)
+        for i, mesh in enumerate(instruction.produced_meshes):
             if not mesh.is_consumed(): continue
-            self.expand(mesh.consuming_instruction, x, y + in_grid.height, row= row + 1)
+            self.expand(mesh.consuming_instruction, 
+                        px + i, py + in_grid.height, 
+                        px + i, py + in_grid.height, 
+                        row= row + 1)
                        
     def walk(self):
         while self.todo:

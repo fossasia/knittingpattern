@@ -45,6 +45,8 @@ class BaseTest:
 
     def test_coordinates(self, grid):
         coords = coordinates(grid)
+        print("generated:", coords)
+        print("expected: ", self.COORDINATES)
         assert coords == self.COORDINATES
 
     def test_size(self, grid):
