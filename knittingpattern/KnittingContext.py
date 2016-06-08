@@ -1,7 +1,7 @@
 
 class KnittingContext(object):
 
-    from .Loader import Loader
+    from .Loader import JSONLoader as Loader
     from .Parser import Parser, ParsingError
     from .KnittingPatternSet import KnittingPatternSet as PatternSet
     from .IdCollection import IdCollection as PatternCollection

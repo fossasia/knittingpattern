@@ -5,7 +5,7 @@ TYPE = "type"
 
 class InstructionLibrary(object):
 
-    from .Loader import Loader
+    from .Loader import JSONLoader as Loader
     from .Instruction import Instruction
 
     def __init__(self):
@@ -40,5 +40,16 @@ class DefaultInstructions(InstructionLibrary):
         super().__init__()
         self.load.relative_folder(__file__, self.INSTRUCTIONS_FOLDER)
 
+    def __getitem__(self, item):
+        return self.as_instruction({"type": item})
 
+
+def default_instructions():
+    global _default_instructions
+    if _default_instructions is None:
+        _default_instructions = DefaultInstructions()
+    return _default_instructions
+
+
+_default_instructions = None
 __all__ = ["InstructionLibrary", "DefaultInstructions"]

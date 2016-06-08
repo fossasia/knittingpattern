@@ -1,5 +1,5 @@
 from test import *
-from knittingpattern.convert import SVGRenderer
+from knittingpattern.convert.SVGConverter import SVGConverter
 import io
 
 
@@ -10,7 +10,7 @@ def file():
 
 @fixture
 def renderer(file):
-    return SVGRenderer(file)
+    return SVGConverter(file)
 
 
 @fixture
@@ -24,7 +24,7 @@ def mock_close():
 
 
 @fixture
-def patched_renderer(renderer, mock_close, mock_open):
+def patched_renderer(renderer, mock_close, mock_open, monkeypatch):
     monkeypatch.setattr(renderer, "open", mock_open)
     monkeypatch.setattr(renderer, "close", mock_close)
     return renderer
@@ -32,6 +32,7 @@ def patched_renderer(renderer, mock_close, mock_open):
 
 def test_open_renderer(renderer, file):
     renderer.open()
+    file.seek(0)
     assert file.read() == renderer.beginning_of_file
 
 
@@ -56,4 +57,3 @@ def test_close_context(patched_renderer):
 
 def test_file_is_part_of_the_renderer(renderer, file):
     assert renderer.file == file
-

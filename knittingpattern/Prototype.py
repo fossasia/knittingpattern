@@ -4,7 +4,7 @@ class Prototype(object):
     def __init__(self, specification, inherited_values=[]):
         self.__specification = [specification] + inherited_values
 
-    def get(self, key, default):
+    def get(self, key, default=None):
         for d in self.__specification:
             if key in d:
                 return d[key]

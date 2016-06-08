@@ -3,7 +3,7 @@
 # for why this module exists
 #
 
-from pytest import fixture, raises
+from pytest import fixture, raises, fail
 from unittest.mock import MagicMock
 import os
 import sys
