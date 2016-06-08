@@ -59,6 +59,7 @@ class InstructionInRow(Instruction):
                 self.ProducedMesh(self, index)
                 for index in range(self.number_of_produced_meshes)
             ]
+        self._cached_index_in_row_instructions = None
 
     @property
     def row(self):
@@ -66,10 +67,35 @@ class InstructionInRow(Instruction):
 
     @property
     def index_in_row_instructions(self):
-        for index, instruction_in_row in enumerate(self.row.instructions):
+        expected_index = self._cached_index_in_row_instructions
+        instructions = self.row_instructions
+        if expected_index is not None and \
+                0 <= expected_index < len(instructions) and \
+                instructions[expected_index] is self:
+            return expected_index
+        for index, instruction_in_row in enumerate(instructions):
             if instruction_in_row is self:
+                self._cached_index_in_row_instructions = index
                 return index
         self._raise_not_found_error()
+        
+    @property
+    def row_instructions(self):
+        return self.row.instructions
+        
+    @property
+    def next_instruction(self):
+        index = self.index_in_row_instructions + 1
+        if index < 0: return None
+        if index >= len(self.row_instructions): return None
+        return self.row_instructions[index]
+        
+    @property    
+    def previous_instruction(self):
+        index = self.index_in_row_instructions - 1
+        if index < 0: return None
+        if index >= len(self.row_instructions): return None
+        return self.row_instructions[index]
 
     @property
     def _instruction_not_found_message(self):
@@ -83,7 +109,7 @@ class InstructionInRow(Instruction):
     @property
     def index_of_first_produced_mesh_in_rows_produced_meshes(self):
         index = 0
-        for instruction in self.row.instructions:
+        for instruction in self.row_instructions:
             if instruction is self:
                 break
             index += instruction.number_of_produced_meshes
@@ -94,7 +120,7 @@ class InstructionInRow(Instruction):
     @property
     def index_of_first_consumed_mesh_in_rows_consumed_meshes(self):
         index = 0
-        for instruction in self.row.instructions:
+        for instruction in self.row_instructions:
             if instruction is self:
                 break
             index += instruction.number_of_consumed_meshes
