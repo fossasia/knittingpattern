@@ -29,7 +29,7 @@ class RecursiveWalk(object):
         if subtract_width:
             cx -= instruction.number_of_consumed_meshes
             px -= instruction.number_of_produced_meshes
-        print("{}{} at *{},{})({},{}) {}".format("  " * row, instruction, cx, cy, px, py, subtract_width))
+        print("{}{} at ({},{})({},{}) {}".format("  " * row, instruction, cx, cy, px, py, subtract_width))
         in_grid = InstructionInGrid(instruction, cx, cy)
         self.instructions_in_grid[instruction] = in_grid
         self.expand(instruction.previous_instruction_in_row, cx, cy, px, py, subtract_width= True, row= row)

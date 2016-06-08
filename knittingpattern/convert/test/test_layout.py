@@ -237,9 +237,9 @@ class TestAddAndRemoveMeshes(BaseTest):
     def test_i4_4_not_consumed(self, i4):
         assert i4[4].consuming_instructions == [None]
         
-class _TestSplitUpMeshes(BaseTest):
+class TestParallelRows(BaseTest):
     FILE = "split_up_and_add_rows.json"
-    SIZES = [(1, 1)] * 17
+    SIZES = [(1, 1)] * 15
     SIZES[-2] = (2, 1)
     COORDINATES = [
             (0, 0), (1, 0), (2, 0), (3, 0), (4, 0),
@@ -251,6 +251,21 @@ class _TestSplitUpMeshes(BaseTest):
     ROW_IDS = ["1.1", "2.1", "2.2", "3.2", "4.1"]
     LARGER_CONNECTIONS = [((0, 1), (0, 3)), ((1, 1), (1, 3)), ((2, 0), (2, 3))]
 
+    @fixture
+    def r4(self, pattern):
+        return pattern.rows["4.1"]
+        
+    @fixture
+    def skp(self, r4):
+        return r4.instructions[2]
+        
+    def test_skp_has_2_consumed_meshes(self, skp):
+        assert skp.type == "skp"
+        assert skp.number_of_consumed_meshes == 2
+        
+    def test_row_4_1_consumes_5_meshes(self, r4):
+        assert r4.number_of_consumed_meshes == 5
+        assert len(r4.consumed_meshes) == 5
 
 def test_use_row_with_lowest_number_of_incoming_connections_as_first_row():
     fail()

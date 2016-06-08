@@ -42,21 +42,42 @@ class Row(Prototype):
                                              mesh_index_in_row)
             mesh_index_in_row += 1
 
-    def get_consuming_row_and_index(self, mesh_index):
-        self._check_consuming_mesh_index(mesh_index)
+    def get_consuming_row_and_index_for_produced_mesh_at(self, mesh_index):
+        """The mesh at mesh_index is produced in this row.
+           Return the row that consumes this mesh and
+           this meshes index in to array of 
+           consumed meshes of the returned row."""
+        self._check_is_produced_mesh_index(mesh_index)
         return self._mapping_to_row.get(mesh_index)
 
-    def _check_consuming_mesh_index(self, mesh_index):
-        if not self.is_consuming_mesh_index(mesh_index):
-            message = "I only have {} produced meshes "\
-                      "but you try to access mesh {}.".format(
+    get_consuming_row_and_index = \
+        get_consuming_row_and_index_for_produced_mesh_at
+        
+    def _check_is_produced_mesh_index(self, mesh_index):
+        if not self.is_produced_mesh_index(mesh_index):
+            message = "{} only has {} produced meshes "\
+                      "but you try to access mesh at index {}.".format(
+                              self,
                               self.number_of_produced_meshes,
                               mesh_index
                           )
             raise IndexError(message)
+            
+    def _check_is_consumed_mesh_index(self, mesh_index):
+        if not self.is_consumed_mesh_index(mesh_index):
+            message = "{} only has {} consumed meshes "\
+                      "but you try to access mesh at index {}.".format(
+                              self,
+                              self.number_of_consumed_meshes,
+                              mesh_index
+                          )
+            raise IndexError(message)
 
-    def is_consuming_mesh_index(self, mesh_index):
+    def is_produced_mesh_index(self, mesh_index):
         return mesh_index >= 0 and mesh_index < self.number_of_produced_meshes
+
+    def is_consumed_mesh_index(self, mesh_index):
+        return mesh_index >= 0 and mesh_index < self.number_of_consumed_meshes
 
     def set_consuming_row_and_index(self, mesh_index, row,
                                     mesh_index_in_row):
@@ -112,8 +133,8 @@ class Row(Prototype):
         return list(chain(*(instruction.consumed_meshes
                           for instruction in self.instructions)))
 
-    def get_instruction_at_cosuming_mesh_index(self, mesh_index):
-        self._check_consuming_mesh_index(mesh_index)
+    def get_instruction_at_consumed_mesh_index(self, mesh_index):
+        self._check_is_consumed_mesh_index(mesh_index)
         for inst in self.instructions:
             if not inst.consumes_meshes(): continue
             mini = inst.index_of_first_consumed_mesh_in_rows_consumed_meshes
