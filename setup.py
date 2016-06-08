@@ -48,7 +48,7 @@ METADATA = dict(
 
 class TestCommand(TestCommandBase):
 
-    TEST_ARGS = []
+    TEST_ARGS = [PACKAGE_NAME]
 
     def finalize_options(self):
         TestCommandBase.finalize_options(self)
@@ -62,19 +62,19 @@ class TestCommand(TestCommandBase):
 
 
 class CoverageTestCommand(TestCommand):
-    TEST_ARGS = ["--cov=" + PACKAGE_NAME]
+    TEST_ARGS = [PACKAGE_NAME, "--cov=" + PACKAGE_NAME]
 
 
 class PEP8TestCommand(TestCommand):
-    TEST_ARGS = ["--pep8"]
+    TEST_ARGS = [PACKAGE_NAME, "--pep8"]
 
 
 class FlakesTestCommand(TestCommand):
-    TEST_ARGS = ["--flakes"]
+    TEST_ARGS = [PACKAGE_NAME, "--flakes"]
 
 
 class CoveragePEP8TestCommand(TestCommand):
-    TEST_ARGS = ["--cov=" + PACKAGE_NAME, "--pep8"]
+    TEST_ARGS = [PACKAGE_NAME, "--cov=" + PACKAGE_NAME, "--pep8"]
 
 
 class LintCommand(TestCommandBase):
