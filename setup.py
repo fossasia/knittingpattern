@@ -38,7 +38,7 @@ METADATA = dict(
     author=__author__,
     author_email='niccokunzmann@rambler.ru',
     description='Python library for knitting machines.',
-    license='MIT',
+    license='LGPL',
     url='https://github.com/AllYarnsAreBeautiful/' + PACKAGE_NAME,
     keywords='knitting ayab fashion',
 )
