@@ -4,6 +4,10 @@ import sys
 from setuptools.command.test import test as TestCommandBase
 
 PACKAGE_NAME = "knittingpattern"
+PACKAGE_NAMES = [
+        "knittingpattern",
+        "knittingpattern.convert", "knittingpattern.convert.test"
+    ]
 
 __doc__ = '''
 The setup and build script for the {} library.
@@ -11,10 +15,11 @@ The setup and build script for the {} library.
 __version__ = __import__(PACKAGE_NAME).__version__
 __author__ = 'Nicco Kunzmann'
 
+HERE = os.path.dirname(__file__)
+
 
 def read_file_named(file_name):
-    here = os.path.dirname(__file__)
-    file_path = os.path.join(here, file_name)
+    file_path = os.path.join(HERE, file_name)
     with open(file_path) as f:
         return f.read()
 
@@ -24,11 +29,12 @@ def read_filled_lines_from_file_named(file_name):
     lines = content.splitlines()
     return [line for line in lines if line]
 
+
 # The base package metadata to be used by both distutils and setuptools
 METADATA = dict(
     name=PACKAGE_NAME,
     version=__version__,
-    packages=[PACKAGE_NAME],
+    packages=PACKAGE_NAMES,
     author=__author__,
     author_email='niccokunzmann@rambler.ru',
     description='Python library for knitting machines.',
@@ -42,7 +48,7 @@ METADATA = dict(
 
 class TestCommand(TestCommandBase):
 
-    TEST_ARGS = []
+    TEST_ARGS = [PACKAGE_NAME]
 
     def finalize_options(self):
         TestCommandBase.finalize_options(self)
@@ -56,19 +62,19 @@ class TestCommand(TestCommandBase):
 
 
 class CoverageTestCommand(TestCommand):
-    TEST_ARGS = ["--cov=" + PACKAGE_NAME]
+    TEST_ARGS = [PACKAGE_NAME, "--cov=" + PACKAGE_NAME]
 
 
 class PEP8TestCommand(TestCommand):
-    TEST_ARGS = ["--pep8"]
+    TEST_ARGS = [PACKAGE_NAME, "--pep8"]
 
 
 class FlakesTestCommand(TestCommand):
-    TEST_ARGS = ["--flakes"]
+    TEST_ARGS = [PACKAGE_NAME, "--flakes"]
 
 
 class CoveragePEP8TestCommand(TestCommand):
-    TEST_ARGS = ["--cov=" + PACKAGE_NAME, "--pep8"]
+    TEST_ARGS = [PACKAGE_NAME, "--cov=" + PACKAGE_NAME, "--pep8"]
 
 
 class LintCommand(TestCommandBase):
@@ -100,7 +106,7 @@ SETUPTOOLS_METADATA = dict(
         ],
     package_data=dict(
         # If any package contains of these files, include them:
-        tests=['test_*.py'],
+        knitting=['*.json'],
     ),
     zip_safe=False,
     cmdclass={
