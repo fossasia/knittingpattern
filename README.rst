@@ -58,5 +58,5 @@ To also make it importable for other libraries, you can link it into the site-pa
 
 .. code:: shell
 
-  python3 setup.py link
+  sudo python3 setup.py link
 
