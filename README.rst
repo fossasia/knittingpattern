@@ -25,7 +25,38 @@ ayab
 Installation
 ============ 
 
-* pip  install -r requirements.txt
-* pip  install -r requirements-test.txt
+To install the version from the python package index, you can use your command line and execute this under Linux:
 
+.. code:: shell
+  
+  python3 -m pip install knittingpattern
+
+Under Windows you can use
+
+
+.. code:: shell
+  
+  py -3 -m pip install knittingpattern
+
+Installation from Repository (Linux)
+------------------------------------
+
+If you wish to get latest source version running, you can check out the repository and install it manually.
+
+Note: Under Windows you can replace `python3` with `py -3` and remove `sudo`
+
+.. code:: shell
+
+  git clone https://github.com/AllYarnsAreBeautiful/knittingpattern.git
+  cd knittingpattern
+  sudo python3 -m pip install --upgrade pip
+  sudo python3 -m pip install -r requirements.txt
+  sudo python3 -m pip install -r requirements-test.txt
+  py.test
+
+To also make it importable for other libraries, you can link it into the site-packages folder this way:
+
+.. code:: shell
+
+  python3 setup.py link
 
