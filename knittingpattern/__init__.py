@@ -12,8 +12,7 @@ load_from_url = knitting_context.load.url
 load_from_relative_file = knitting_context.load.relative_file
 
 __all__ = [
-        "KnittingContext", "knitting_context", "load_from_object", 
-        "load_from_string", "load_from_file", "load_from_path", 
+        "KnittingContext", "knitting_context", "load_from_object",
+        "load_from_string", "load_from_file", "load_from_path",
         "load_from_url", "load_from_relative_file"
     ]
-

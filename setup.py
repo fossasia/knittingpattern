@@ -90,7 +90,9 @@ class LintCommand(TestCommandBase):
         from pylint.lint import Run
         Run(self.test_args)
 
+
 # command for linking
+
 
 class LinkIntoSitePackages(Command):
 
@@ -115,10 +117,14 @@ class LinkIntoSitePackages(Command):
             self.run_linux_link()
         else:
             self.run_other_link()
-        print("linked: {} -> {}".format(self.site_packages[0], self.library_path))
+        print("linked: {} -> {}".format(
+                  self.site_packages[0],
+                  self.library_path
+              ))
 
     def run_linux_link(self):
-        subprocess.call(["sudo", "ln", "-f", "-s", "-t", self.site_packages[0], self.library_path])
+        subprocess.call(["sudo", "ln", "-f", "-s", "-t",
+                         self.site_packages[0], self.library_path])
 
 # Extra package metadata to be used only if setuptools is installed
 
