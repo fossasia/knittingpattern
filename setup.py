@@ -122,8 +122,12 @@ class LinkIntoSitePackages(Command):
                   self.library_path
               ))
 
+    def can_use_sudo(self):
+        return subprocess.call(["sudo", "echo"]) != 0
+
     def run_linux_link(self):
-        subprocess.call(["sudo", "ln", "-f", "-s", "-t",
+        sudo = (["sudo"] if self.can_use_sudo() else [])
+        subprocess.call(sudo + ["ln", "-f", "-s", "-t",
                          self.site_packages[0], self.library_path])
 
 # Extra package metadata to be used only if setuptools is installed
