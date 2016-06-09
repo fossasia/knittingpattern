@@ -1,5 +1,14 @@
 [
     {
-        "type" : "knit"
+        "type" : "knit",
+        "title" : {
+            "en-en" : "Knit",
+            "de-de" : "Rechte Masche"
+        },
+        "description" : {
+            "text" : {
+                "en-en" : "Knit from the right side, purl from the wrong side."
+            }
+        }
     }
 ]

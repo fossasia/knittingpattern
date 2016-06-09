@@ -1,0 +1,15 @@
+[
+    {
+        "type" : "purl",
+        "title" : {
+            "en-en" : "Purl",
+            "de-de" : "Linke Masche"
+        },
+        "description" : {
+            "text" : {
+                "en-en" : "Purl from the right side, knit from the wrong side."
+            }
+        }
+
+    }
+]

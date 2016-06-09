@@ -2,6 +2,17 @@
 [
     {
         "type" : "skp",
-        "number of consumed meshes" : 2
+        "number of consumed meshes" : 2,
+        "title" : {
+            "en-en" : "Slip Knit Pass"
+        },
+        "description" : {
+            "wikipedia" : {
+                "en-en" : "https://en.wikipedia.org/wiki/Knitting_abbreviations#Types_of_knitting_abbreviations"
+            },
+            "text" : {
+                "en-en" : "Slip, knit, pass slipped stitch over the knit stitch (the same as sl1, k1, psso)."
+            }
+        }
     }
 ]

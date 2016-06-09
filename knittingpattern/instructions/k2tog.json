@@ -1,0 +1,33 @@
+
+[
+    {
+        "type" : "k2tog psso",
+        "title" : {
+            "en-en" : "Knit 2 Together, Pass Slipped Stitch Over"
+        },
+        "number of consumed meshes" : 2,
+        "description" : {
+            "wikipedia" : {
+                "en-en" : "https://en.wikipedia.org/wiki/Knitting_abbreviations#Types_of_knitting_abbreviations"
+            },
+            "text" : {
+                "en-en" : "Knit two stitches together and pass the slipped stitch over."
+            }
+        }
+    },
+    {
+        "type" : "k2tog pnso",
+        "title" : {
+            "en-en" : "Knit 2 Together, Pass Next Stitch Over"
+        },
+        "number of consumed meshes" : 2,
+        "description" : {
+            "wikipedia" : {
+                "en-en" : "https://en.wikipedia.org/wiki/Knitting_abbreviations#Types_of_knitting_abbreviations"
+            },
+            "text" : {
+                "en-en" : "Knit two stitches together and pass the next stitch over."
+            }
+        }
+    }
+]
