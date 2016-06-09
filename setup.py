@@ -2,6 +2,8 @@
 import os
 import sys
 from setuptools.command.test import test as TestCommandBase
+from distutils.core import Command
+import subprocess
 
 PACKAGE_NAME = "knittingpattern"
 PACKAGE_NAMES = [
@@ -15,7 +17,7 @@ The setup and build script for the {} library.
 __version__ = __import__(PACKAGE_NAME).__version__
 __author__ = 'Nicco Kunzmann'
 
-HERE = os.path.dirname(__file__)
+HERE = os.path.abspath(os.path.dirname(__file__))
 
 
 def read_file_named(file_name):
@@ -38,7 +40,7 @@ METADATA = dict(
     author=__author__,
     author_email='niccokunzmann@rambler.ru',
     description='Python library for knitting machines.',
-    license='MIT',
+    license='LGPL',
     url='https://github.com/AllYarnsAreBeautiful/' + PACKAGE_NAME,
     keywords='knitting ayab fashion',
 )
@@ -88,21 +90,97 @@ class LintCommand(TestCommandBase):
         from pylint.lint import Run
         Run(self.test_args)
 
+
+# command for linking
+
+
+class LinkIntoSitePackages(Command):
+
+    description = "link this module into the site-packages so the latest "\
+        "version can always be used without installation."
+    user_options = []
+    library_path = os.path.join(HERE, PACKAGE_NAME)
+    site_packages = [p for p in sys.path if "site-packages" in p]
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        assert self.site_packages, "We need a folder to install to."
+        print("link: {} -> {}".format(
+                  os.path.join(self.site_packages[0], PACKAGE_NAME),
+                  self.library_path
+              ))
+        try:
+            if "win" in sys.platform:
+                self.run_windows_link()
+            elif "linux" == sys.platform:
+                self.run_linux_link()
+            else:
+                self.run_other_link()
+        except:
+            print("failed:")
+            raise
+        else:
+            print("linked")
+
+    def run_linux_link(self):
+        subprocess.check_call(["sudo", "ln", "-f", "-s", "-t",
+                               self.site_packages[0], self.library_path])
+
+    run_other_link = run_linux_link
+
+    def run_windows_link(self):
+        path = os.path.join(self.site_packages[0], PACKAGE_NAME)
+        if os.path.exists(path):
+            os.remove(path)
+        command = ["mklink", "/J", path, self.library_path]
+        subprocess.check_call(command, shell=True)
+
 # Extra package metadata to be used only if setuptools is installed
+
 required_packages = \
     read_filled_lines_from_file_named("requirements.txt")
 required_test_packages = \
     read_filled_lines_from_file_named("requirements-test.txt")
 
+DEVELOPMENT_STATES = {
+        "p": "Development Status :: 1 - Planning",
+        "pa": "Development Status :: 2 - Pre-Alpha",
+        "a": "Development Status :: 3 - Alpha",
+        "b": "Development Status :: 4 - Beta",
+        "": "Development Status :: 5 - Production/Stable",
+        "m": "Development Status :: 6 - Mature",
+        "i": "Development Status :: 7 - Inactive"
+    }
+development_state = DEVELOPMENT_STATES[""]
+for ending in DEVELOPMENT_STATES:
+    if ending and __version__.endswith(ending):
+        development_state = DEVELOPMENT_STATES[ending]
+
+if not __version__[-1:].isdigit():
+    METADATA["version"] += "0"
+
 SETUPTOOLS_METADATA = dict(
     install_requires=required_packages,
     tests_require=required_test_packages,
     include_package_data=True,
-    classifiers=[
-        'Development Status :: 4 - Beta',
+    classifiers=[  # https://pypi.python.org/pypi?%3Aaction=list_classifiers
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: GNU Lesser General Public License'
+        ' v3 (LGPLv3)',
         'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Artistic Software',
+        'Topic :: Home Automation',
+        'Topic :: Utilities',
+        'Intended Audience :: Manufacturing',
+        'Natural Language :: English',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3 :: Only',
+        development_state
         ],
     package_data=dict(
         # If any package contains of these files, include them:
@@ -119,6 +197,7 @@ SETUPTOOLS_METADATA = dict(
         "fakes_test": FlakesTestCommand,
         "coverage_pep8_test": CoveragePEP8TestCommand,
         "lint": LintCommand,
+        "link": LinkIntoSitePackages
         },
 )
 
