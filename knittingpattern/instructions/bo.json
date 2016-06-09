@@ -1,0 +1,18 @@
+[
+    {
+        "type" : "bo",
+        "number of consumed meshes" : 1,
+        "number of produced meshes" : 0,
+        "title" : {
+            "en-en" : "Simple Bind Off"
+        },
+        "description" : {
+            "wikipedia" : {
+                "en-en" : "https://en.wikipedia.org/wiki/Binding_off"
+            },
+            "text" : {
+                "en-en" : "Pass each loop over an adjacent stitch. (The yarn is passed through the final loop to secure the whole chain.) This technique produces a tight edge with little elasticity."
+            }
+        }
+    }
+]
