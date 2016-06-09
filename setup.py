@@ -99,7 +99,6 @@ class LinkIntoSitePackages(Command):
     description = "link this module into the site-packages so the latest "\
         "version can always be used without installation."
     user_options = []
-    print("HERE:", HERE)
     library_path = os.path.join(HERE, PACKAGE_NAME)
     site_packages = [p for p in sys.path if "site-packages" in p]
 
@@ -111,20 +110,35 @@ class LinkIntoSitePackages(Command):
 
     def run(self):
         assert self.site_packages, "We need a folder to install to."
-        if "win" in sys.platform:
-            self.run_windows_link()
-        elif "linux" == sys.platform:
-            self.run_linux_link()
-        else:
-            self.run_other_link()
-        print("linked: {} -> {}".format(
-                  self.site_packages[0],
+        print("link: {} -> {}".format(
+                  os.path.join(self.site_packages[0], PACKAGE_NAME),
                   self.library_path
               ))
+        try:
+            if "win" in sys.platform:
+                self.run_windows_link()
+            elif "linux" == sys.platform:
+                self.run_linux_link()
+            else:
+                self.run_other_link()
+        except:
+            print("failed:")
+            raise
+        else:
+            print("linked")
 
     def run_linux_link(self):
-        subprocess.call(["sudo", "ln", "-f", "-s", "-t",
-                         self.site_packages[0], self.library_path])
+        subprocess.check_call(["sudo", "ln", "-f", "-s", "-t",
+                               self.site_packages[0], self.library_path])
+
+    run_other_link = run_linux_link
+
+    def run_windows_link(self):
+        path = os.path.join(self.site_packages[0], PACKAGE_NAME)
+        if os.path.exists(path):
+            os.remove(path)
+        command = ["mklink", "/J", path, self.library_path]
+        subprocess.check_call(command, shell=True)
 
 # Extra package metadata to be used only if setuptools is installed
 
@@ -146,6 +160,9 @@ development_state = DEVELOPMENT_STATES[""]
 for ending in DEVELOPMENT_STATES:
     if ending and __version__.endswith(ending):
         development_state = DEVELOPMENT_STATES[ending]
+
+if not __version__[-1:].isdigit():
+    METADATA["version"] += "0"
 
 SETUPTOOLS_METADATA = dict(
     install_requires=required_packages,
