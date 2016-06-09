@@ -8,7 +8,7 @@ install:
   - pip install -r requirements-test.txt
 script:
   - py.test --cov=knittingpattern --pep8
-  - bash -c '( setup.py link && cd / && python -c "import knittingpattern" )'
+  - bash -c '( python3 setup.py link && cd / && python3 -c "import knittingpattern;print(\"imported\")" )'
 after_script:
   # https://github.com/codeclimate/python-test-reporter
   # set the environment variable CODECLIMATE_REPO_TOKEN in travis-ci settings
