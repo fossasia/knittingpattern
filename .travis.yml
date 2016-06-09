@@ -5,8 +5,8 @@ python:
   - "3.4"
   - "3.5"
 install: 
-  - sudo pip install -r requirements.txt
-  - sudo pip install -r requirements-test.txt
+  - pip install -r requirements.txt
+  - pip install -r requirements-test.txt
 script:
   - py.test --cov=knittingpattern --pep8
   - bash -c '( python3 setup.py link && cd / && python3 -c "import knittingpattern;print(\"imported\")" )'
