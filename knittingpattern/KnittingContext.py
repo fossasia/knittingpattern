@@ -1,6 +1,10 @@
 
 class KnittingContext(object):
 
+    # TODO: create a new class that restructures this.
+    #       the imports should no be avalable and if you look how this class 
+    #       is used: it is really only a method for parsing.
+
     from .Loader import JSONLoader as Loader
     from .Parser import Parser, ParsingError
     from .KnittingPatternSet import KnittingPatternSet as PatternSet
