@@ -33,7 +33,7 @@ def assert_string_is_file_content(file):
 
 def assert_string_is_path_content(path):
     with open(path) as file:
-        assert file.read() == STRING   
+        assert file.read() == STRING
 
 
 def test_string_is_long():
@@ -46,14 +46,13 @@ def test_dump_to_string(save_to):
 
 def test_dump_to_file(save_to, stringio):
     save_to.file(stringio)
-    stringio.seek(0)
     assert_string_is_file_content(stringio)
 
 
 def test_dump_is_behind_content_in_file(save_to, stringio):
     save_to.file(stringio)
     assert stringio.read() == ""
-    
+
 
 def test_dump_to_path(save_to, tmpdir):
     path = tmpdir.mkdir("sub").join("temp.txt").strpath
@@ -83,3 +82,13 @@ def test_temporary_file_has_option_for_deletion(save_to):
     file = save_to.temporary_file(delete_when_closed=False)
     file.close()
     assert_string_is_path_content(file.name)
+
+
+def test_file_returns_new_file(save_to):
+    file = save_to.file()
+    assert_string_is_file_content(file)
+
+
+def test_dump_is_behind_content_in_new_file(save_to, stringio):
+    file = save_to.file()
+    assert file.read() == ""
