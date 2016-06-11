@@ -1,5 +1,5 @@
 from test import *
-from knittingpattern.convert.SVGConverter import SVGConverter
+from knittingpattern.convert.SVGBuilder import SVGBuilder
 import io
 
 
@@ -9,8 +9,8 @@ def file():
 
 
 @fixture
-def renderer(file):
-    return SVGConverter(file)
+def builder(file):
+    return SVGBuilder(file)
 
 
 @fixture
@@ -24,36 +24,36 @@ def mock_close():
 
 
 @fixture
-def patched_renderer(renderer, mock_close, mock_open, monkeypatch):
-    monkeypatch.setattr(renderer, "open", mock_open)
-    monkeypatch.setattr(renderer, "close", mock_close)
-    return renderer
+def patched_builder(builder, mock_close, mock_open, monkeypatch):
+    monkeypatch.setattr(builder, "open", mock_open)
+    monkeypatch.setattr(builder, "close", mock_close)
+    return builder
 
 
-def test_open_renderer(renderer, file):
-    renderer.open()
+def test_open_builder(builder, file):
+    builder.open()
     file.seek(0)
-    assert file.read() == renderer.beginning_of_file
+    assert file.read() == builder.beginning_of_file
 
 
-def test_close_renderer(renderer, file):
-    renderer.open()
-    renderer.close()
-    assert file.read() == renderer.beginning_of_file + renderer.end_of_file
+def test_close_builder(builder, file):
+    builder.open()
+    builder.close()
+    assert file.read() == builder.beginning_of_file + builder.end_of_file
 
 
-def test_open_context(patched_renderer):
-    assert not patched_renderer.open.called
-    with patched_renderer:
-        assert patched_renderer.open.called
+def test_open_context(patched_builder):
+    assert not patched_builder.open.called
+    with patched_builder:
+        assert patched_builder.open.called
 
 
-def test_close_context(patched_renderer):
-    assert not patched_renderer.close.called
-    with patched_renderer:
-        assert not patched_renderer.close.called
-    assert patched_renderer.close.called
+def test_close_context(patched_builder):
+    assert not patched_builder.close.called
+    with patched_builder:
+        assert not patched_builder.close.called
+    assert patched_builder.close.called
 
 
-def test_file_is_part_of_the_renderer(renderer, file):
-    assert renderer.file == file
+def test_file_is_part_of_the_builder(builder, file):
+    assert builder.file == file

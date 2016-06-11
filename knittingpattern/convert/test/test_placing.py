@@ -1,15 +1,6 @@
 from test import *
-from knittingpattern.convert.SVGConverter import SVGConverter
+from knittingpattern.convert.SVGBuilder import SVGBuilder
 import io
-import untangle  # http://docs.python-guide.org/en/latest/scenarios/xml/
-
-
-def parse_file(file):
-    parser = untangle.make_parser()
-    sax_handler = untangle.Handler()
-    parser.setContentHandler(sax_handler)
-    parser.parse(file)
-    return sax_handler.root
 
 
 @fixture
@@ -18,27 +9,27 @@ def file():
 
 
 @fixture
-def converter(file):
-    return SVGConverter(file)
+def builder(file):
+    return SVGBuilder(file)
 
 
 @fixture
-def svg(converter, file):
+def svg(builder, file):
     def svg():
         return parse_file(file).svg
     return svg
 
 
 @fixture
-def svg1(converter, svg):
+def svg1(builder, svg):
     instruction = "<instruction id=\"inst{}-id\"></instruction>"
-    with converter:
-        converter.render_at(0, 0, instruction.format(1), "row1")
-        converter.render_at(1, 0, instruction.format(2), "row1")
-        converter.render_at(2, 0, instruction.format(3), "row1")
-        converter.render_at(0, 1, instruction.format(4), "row2")
-        converter.render_at(1, 1, instruction.format(5), "row2")
-        converter.render_at(2.0, 1.0, instruction.format(6), "row2")
+    with builder:
+        builder.place(0, 0, instruction.format(1), "row1")
+        builder.place(1, 0, instruction.format(2), "row1")
+        builder.place(2, 0, instruction.format(3), "row1")
+        builder.place(0, 1, instruction.format(4), "row2")
+        builder.place(1, 1, instruction.format(5), "row2")
+        builder.place(2.0, 1.0, instruction.format(6), "row2")
     return svg()
 
 
@@ -82,16 +73,16 @@ def instruction23(row2):
     return row2.g[2]
 
 
-def test_rendering_nothing_is_a_valid_xml(converter, file):
-    with converter:
+def test_rendering_nothing_is_a_valid_xml(builder, file):
+    with builder:
         pass
     first_line = file.readline()
     assert first_line.endswith("?>\n")
     assert first_line.startswith("<?xml")
 
 
-def test_rendering_nothing_is_an_svg(converter, file):
-    with converter:
+def test_rendering_nothing_is_an_svg(builder, file):
+    with builder:
         pass
     grafics = parse_file(file)
     assert grafics.svg["width"] == "0"
@@ -140,7 +131,7 @@ def test_instruction23_is_translated(instruction23):
     assert instruction23["transform"] == "translate(2.0,1.0)"
 
 
-def test_exit_handler_raises_exception(converter):
+def test_exit_handler_raises_exception(builder):
     with raises(ValueError):
-        with converter:
+        with builder:
             raise ValueError("test!")
