@@ -27,13 +27,13 @@ def jsonloader(result):
 
 def test_loading_object_does_nothing(loader, result):
     obj = []
-    loader.object(obj)
+    loader.string(obj)
     assert result[0] is obj
 
 
 def test_processing_result_is_returned(loader):
-    assert loader.object(None) == 1
-    assert loader.object(None) == 2
+    assert loader.string(None) == 1
+    assert loader.string(None) == 2
 
 
 def test_json_loader_loads_json(jsonloader, result):
