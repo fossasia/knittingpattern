@@ -24,5 +24,13 @@ def test_yarn_over(default):
     assert default["yo"]["number of consumed meshes"] == 0
 
 
+def test_bind_off(default):
+    assert default["bo"]["number of produced meshes"] == 0
+
+
+def test_cast_on(default):
+    assert default["co"]["number of consumed meshes"] == 0
+
+
 def test_default_instructions_are_an_instance_of_the_class():
     assert isinstance(default_instructions(), DefaultInstructions)

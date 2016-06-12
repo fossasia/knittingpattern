@@ -1,0 +1,18 @@
+[
+    {
+        "type" : "co",
+        "number of consumed meshes" : 0,
+        "number of produced meshes" : 1,
+        "title" : {
+            "en-en" : "Single Cast On"
+        },
+        "description" : {
+            "wikipedia" : {
+                "en-en" : "https://en.wikipedia.org/wiki/Casting_on_%28knitting%29"
+            },
+            "text" : {
+                "en-en" : "An even simpler method, also called the simple cast-on or 'backward loop cast-on,' which involves adding a series of half hitches to the needle. This creates a very stretchy, flexible edge. It is a common approach for adding several stitches to the edge in the middle of a knitted fabric."
+            }
+        }
+    }
+]
