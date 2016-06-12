@@ -88,7 +88,7 @@ class TestDefaultInstrucionToSVG(object):
     """This tests the `InstructionToSVG.default_instruction_to_svg` method."""
 
     @staticmethod
-    def test_instruction_type_is_replaced_in_default(default, knit)
+    def test_instruction_type_is_replaced_in_default(default, knit):
         assert "knit" in default.instruction_to_svg(knit)
        
     @staticmethod
@@ -101,14 +101,17 @@ class TestDefaultInstrucionToSVG(object):
 class TestInstructionToSVG(object):
     
     @staticmethod
-    def test_file_content_is_included(loaded_knit_to_svg knit_content):
+    def test_file_content_is_included(loaded_knit_to_svg, knit_content):
         assert knit_content in loaded_knit_to_svg
     
     @staticmethod
     def test_first_element_is_scaled_group(loaded_knit_to_svg, knit_content):
         parsed = parse_string(loaded_knit_to_svg)
         transform = parsed.g["transform"]
-        # test that 
+        x, y, width, height = map(float, parsed.g.svg["viewbox"])
+        assert x == 0
+        assert y == 0
+        # TODO: test that 
         # 1. this is scaled down to a 1x1 and 
         # 2. placed in the middle 
 
