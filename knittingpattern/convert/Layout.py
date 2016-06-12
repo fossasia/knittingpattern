@@ -26,7 +26,7 @@ class InstructionInGrid(object):
 
     @property
     def xy(self):
-        return self.x, self.y
+        return self._x, self._y
 
     @property
     def width(self):
@@ -65,9 +65,11 @@ class RecursiveWalk(object):
         self._todo.append((args, kw))
 
     def _step(self, instruction, cx, cy, px, py,
-              subtract_width=False, row=0):
+              subtract_width=False, passed=[]):
         """Walk through the knitting pattern by expading an instruction."""
         if instruction is None:
+            return
+        if instruction in passed:
             return
         if subtract_width:
             cx -= instruction.number_of_consumed_meshes
@@ -76,24 +78,26 @@ class RecursiveWalk(object):
             i2 = self._instructions_in_grid[instruction]
             if i2.y >= cy:
                 return
-#        print("{}{} at ({},{})({},{}) {}".format(
-#                  "  " * row, instruction,
-#                  cx, cy, px, py, subtract_width
-#              ))
+        print("{}{} at ({},{})({},{}) {}".format(
+                  "  " * len(passed), instruction,
+                  cx, cy, px, py, subtract_width
+              ))
+        new_passed = [instruction] + passed
         in_grid = InstructionInGrid(instruction, cx, cy)
         self._instructions_in_grid[instruction] = in_grid
         self._expand(instruction.previous_instruction_in_row,
-                    cx, cy, px, py, subtract_width=True, row=row)
+                     cx, cy, px, py, subtract_width=True, passed=new_passed)
         self._expand(instruction.next_instruction_in_row,
-                    cx + instruction.number_of_consumed_meshes, cy,
-                    px + instruction.number_of_produced_meshes, py,
-                    row=row)
+                     cx + instruction.number_of_consumed_meshes, cy,
+                     px + instruction.number_of_produced_meshes, py,
+                     passed=new_passed)
         for i, mesh in enumerate(instruction.produced_meshes):
             if not mesh.is_consumed():
                 continue
             x = px + i - mesh.mesh_index_in_consuming_instruction
             y = py + in_grid.height
-            self._expand(mesh.consuming_instruction, x, y, x, y, row=row + 1)
+            self._expand(mesh.consuming_instruction, x, y, x, y, 
+                         passed=new_passed)
 
     def _walk(self):
         """Loop through all the instructions that are `_todo`."""
@@ -125,7 +129,7 @@ class Connection(object):
         """stop of the connection
         
         This is a `InstructionInGrid` object."""
-        return self._start
+        return self._stop
 
     def is_visible(self):
         if self._start.y + 1 < self._stop.y:
