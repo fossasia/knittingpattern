@@ -17,6 +17,9 @@ class KnittingPatternSet(object):
     @property
     def patterns(self):
         return self._patterns
+        
+    def to_svg(self):
+        pass
 
 
 __all__ = ["KnittingPatternSet"]

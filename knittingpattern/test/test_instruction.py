@@ -20,6 +20,19 @@ def yo():
 @fixture
 def bindoff():
     return Instruction({"type": "bindoff", "number of produced meshes": 0})
+    
+
+@fixture
+def colored_instruction():
+    return Instruction({"type": "purl",
+                        "color": "blue",
+                        "custom name": "custom value",
+                        "not inherited value": 1},
+                       [{"color": "green",
+                         "inherited value": 0,
+                         "not inherited value": 2},
+                        {"other inherited value": 4},
+                        {"other inherited value": 0}])
 
 
 def test_default_type(default_instruction):
@@ -43,19 +56,6 @@ def test_width(default_instruction, purl):
 def test_purl_is_not_knit(purl):
     assert not purl.does_knit()
     assert purl.does_purl()
-
-
-@fixture
-def colored_instruction():
-    return Instruction({"type": "purl",
-                        "color": "blue",
-                        "custom name": "custom value",
-                        "not inherited value": 1},
-                       [{"color": "green",
-                         "inherited value": 0,
-                         "not inherited value": 2},
-                        {"other inherited value": 4},
-                        {"other inherited value": 0}])
 
 
 def test_color(colored_instruction):

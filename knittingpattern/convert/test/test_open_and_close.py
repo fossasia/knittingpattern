@@ -33,13 +33,13 @@ def patched_builder(builder, mock_close, mock_open, monkeypatch):
 def test_open_builder(builder, file):
     builder.open()
     file.seek(0)
-    assert file.read() == builder.beginning_of_file
+    assert file.read() == builder._beginning_of_file
 
 
 def test_close_builder(builder, file):
     builder.open()
     builder.close()
-    assert file.read() == builder.beginning_of_file + builder.end_of_file
+    assert file.read() == builder._beginning_of_file + builder._end_of_file
 
 
 def test_open_context(patched_builder):
@@ -56,4 +56,4 @@ def test_close_context(patched_builder):
 
 
 def test_file_is_part_of_the_builder(builder, file):
-    assert builder.file == file
+    assert builder._file == file
