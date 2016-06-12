@@ -12,10 +12,10 @@ class InstructionToSVG(object):
 
     @property
     def load(self):
-        """Returns a loader object that allows loading instructions from 
+        """Returns a loader object that allows loading SVG files from 
         various sources such as files and folders.
         
-        `load.path(path)` loads an svg from a file named path
+        `load.path(path)` loads an SVG from a file named path
         `load.folder(path)` loads all SVG files for instructions in the folder
         recursively.
         If multiple files have the same name, the last occurrence is used."""
