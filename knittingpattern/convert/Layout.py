@@ -13,7 +13,7 @@ class InstructionInGrid(object):
         self._y = y
         self._width = instruction.number_of_consumed_meshes
         self._height = 1
-        
+
     @property
     def x(self):
         """x coordinate in the grid"""
@@ -32,16 +32,17 @@ class InstructionInGrid(object):
     def width(self):
         """width of the instruction on the grid"""
         return self._width
-        
+
     @property
     def height(self):
         """height of the instruction on the grid"""
         return self._height
-        
+
     @property
     def instruction(self):
         """instruction that is placed on the grid"""
         return self._instruction
+
 
 def identity(object):
     """returns the argument"""
@@ -53,7 +54,8 @@ class RecursiveWalk(object):
     positions in the grid that is created."""
 
     def __init__(self, first_instruction):
-        """Start walking the knitting pattern starting from first_instruction."""
+        """Start walking the knitting pattern starting from first_instruction.
+        """
         self._first_instruction = first_instruction
         self._instructions_in_grid = {}
         self._todo = []
@@ -78,7 +80,7 @@ class RecursiveWalk(object):
             i2 = self._instructions_in_grid[instruction]
             if i2.y >= cy:
                 return
-        #print("{}{} at ({},{})({},{}) {}".format(
+        # print("{}{} at ({},{})({},{}) {}".format(
         #          "  " * rows, instruction,
         #          cx, cy, px, py, subtract_width
         #      ))
@@ -97,7 +99,7 @@ class RecursiveWalk(object):
                 continue
             x = px + i - mesh.mesh_index_in_consuming_instruction
             y = py + in_grid.height
-            self._expand(mesh.consuming_instruction, x, y, x, y, 
+            self._expand(mesh.consuming_instruction, x, y, x, y,
                          passed=new_passed, rows=rows + 1)
 
     def _walk(self):
@@ -117,18 +119,18 @@ class Connection(object):
     def __init__(self, start, stop):
         self._start = start
         self._stop = stop
-        
+
     @property
     def start(self):
         """start of the connection
-        
+
         This is a `InstructionInGrid` object."""
         return self._start
 
     @property
     def stop(self):
         """stop of the connection
-        
+
         This is a `InstructionInGrid` object."""
         return self._stop
 

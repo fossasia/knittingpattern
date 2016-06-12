@@ -2,6 +2,7 @@ from .convert import knittingpattern_to_svg as convert_knittingpattern_to_svg
 from .Dumper import ContentDumper
 from functools import partial
 
+
 class KnittingPattern(object):
 
     def __init__(self, id, name, rows):
@@ -27,7 +28,7 @@ class KnittingPattern(object):
     @property
     def to_svg(self):
         """Save this object as an SVG.
-        
+
         This returns a `ContentDumper` so you can do
         `to_svg.string()` or `to_svg.file()`."""
         to_svg = partial(convert_knittingpattern_to_svg, self)

@@ -20,7 +20,7 @@ def yo():
 @fixture
 def bindoff():
     return Instruction({"type": "bindoff", "number of produced meshes": 0})
-    
+
 
 @fixture
 def colored_instruction():

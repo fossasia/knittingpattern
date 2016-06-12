@@ -19,12 +19,12 @@ LAYER_END = """    </g>"""
 
 class SVGBuilder(object):
     """This class builds an SVG to a file.
-    
+
     The class itself does not know what the objects look like.
     It offers a more convinient interface to build SVG files.
-    
+
     To place `svg_content` is `(x, y)` position ina layer `layer1` do:
-    
+
         with SVGBuilder(file) as builder:
             builder.place(x, y, svg_content, "layer1")
     """
@@ -36,7 +36,7 @@ class SVGBuilder(object):
 
     def _write(self, string):
         """Shortcut for writing to the file.
-        
+
         This should be used instead of `self.file.write()`"""
         self._file.write(string)
 
@@ -72,7 +72,7 @@ class SVGBuilder(object):
     def place(self, x, y, svg, layer_id):
         """Place the `svg` content at `(x, y)` position in the file, in
         a layer with the id `layer_id`.
-        
+
         This can be used to place instructions in layers."""
         self._in_layer(layer_id)
         self._write(ELEMENT_STRING.format(x=x, y=y, content=svg))
@@ -95,6 +95,6 @@ class SVGBuilder(object):
 
 
 __all__ = [
-        "SVGBuilder", "START_OF_SVG_FILE", "END_OF_SVG_FILE", 
+        "SVGBuilder", "START_OF_SVG_FILE", "END_OF_SVG_FILE",
         "ELEMENT_STRING", "ROW_START", "ROW_END"
     ]

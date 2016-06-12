@@ -13,12 +13,14 @@ import io
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
 
+
 def parse_file(file):
     parser = untangle.make_parser()
     sax_handler = untangle.Handler()
     parser.setContentHandler(sax_handler)
     parser.parse(file)
     return sax_handler.root
+
 
 def parse_string(string):
     file = io.StringIO()

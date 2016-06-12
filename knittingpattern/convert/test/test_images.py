@@ -75,7 +75,7 @@ def test_default_content_has_identifier_in_place(default_content):
     assert "{instruction.type}" in default_content
 
 __all__ = [
-        "KNIT_FILE", "PURL_FILE", "YO_FILE", "IMAGES_FOLDER", 
-        "IMAGES_FOLDER_NAME", "DEFAULT_FILE", "read", "knit_content", 
+        "KNIT_FILE", "PURL_FILE", "YO_FILE", "IMAGES_FOLDER",
+        "IMAGES_FOLDER_NAME", "DEFAULT_FILE", "read", "knit_content",
         "purl_content", "yo_content", "default_content"
     ]
