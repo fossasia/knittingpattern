@@ -43,6 +43,11 @@ class InstructionInGrid(object):
         """instruction that is placed on the grid"""
         return self._instruction
 
+    @property
+    def color(self):
+        """returns the color of the instruction"""
+        return self._instruction.color
+
 
 def identity(object):
     """returns the argument"""

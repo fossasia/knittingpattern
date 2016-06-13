@@ -8,12 +8,14 @@ class AYABPNGBuilder(object):
     """Convert knitting patterns to png files that onlny contain the color
     information and (x, y) coordinates."""
     
-    def __init__(self, file, min_x, max_x, min_y, max_y):
+    def __init__(self, file, min_x, max_x, min_y, max_y, 
+                 default_color="black"):
         """Initialize the builder with the file for the PNG.
         
         x ∈ [min_x, max_x) and y ∈ [min_y, max_y) are the bounds of the
         instructions.
         Instructions outside the bounds are not rendered.
+        Any Pixel that is not set has the `default_color`.
         """
         
     def open(self):
@@ -61,6 +63,13 @@ class AYABPNGBuilder(object):
     def set_instructions_in_grid(self, some_instructions_in_grid):
         """Same as `set_instruction_in_grid()` but with a collection of 
         instructions in grid.
+        """
+           
+    @property
+    def default_color(self):
+        """Returns the color of the pixels that are not set.
+        
+        You can set this color by passing it to the constructor.
         """
 
 

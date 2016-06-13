@@ -1,1 +1,2 @@
 setuptools
+Pillow>=3.2.0
