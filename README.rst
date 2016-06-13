@@ -20,6 +20,10 @@ ayab
 .. image:: https://badge.fury.io/py/knittingpattern.svg
    :target: https://pypi.python.org/pypi/knittingpattern
    :alt: Issue Count
+   
+.. image:: https://img.shields.io/pypi/dm/knittingpattern.svg
+   :target: https://pypi.python.org/pypi/knittingpattern#downloads
+   :alt: Downloads from pypi   
 
 
 Installation
