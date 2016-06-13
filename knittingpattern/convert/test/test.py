@@ -11,7 +11,9 @@ import pytest
 import untangle  # http://docs.python-guide.org/en/latest/scenarios/xml/
 import io
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../.."))
+HERE = os.path.dirname(__file__)
+
+sys.path.insert(0, os.path.join(HERE, "../../.."))
 
 
 def parse_file(file):
