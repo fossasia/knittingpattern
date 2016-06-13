@@ -13,8 +13,8 @@ def file():
 
 
 @fixture
-def builder(file):
-    return AYABPNGBuilder(file, -1, -1, 10, 5)
+def builder():
+    return AYABPNGBuilder(-1, -1, 10, 5)
 
 
 class TestColorConversion(object):
@@ -37,44 +37,17 @@ class TestColorConversion(object):
     def test_can_convert_anything_to_color(self, convert):
         assert convert("ajsdkahsj") != convert("ajsahsj")
 
-
-class TestWithStatement(object):
-    """Use the with-satement with AYABPNGBuilder"""
-    
-    @fixture
-    def patched(self, builder):
-        builder.close = MagicMock()
-        builder.open = MagicMock()
-    
-    def test_not_opened_not_closed(self, patched):
-        assert not patched.open.called
-        assert not patched.close.called
-    
-    def test_open_is_called_in_with(self, patched):
-        with patched:
-            assert patched.open.called
-            assert not patched.close.called
-    
-    def test_close_is_called_at_the_end(self, patched):
-        with patched:
-            pass
-        assert patched.close.called
-
-
+        
 class TestBounds(object):
     """Check whether points are inside and outside of the bounds."""
+    @pytest.mark.parametrize('x, y', [(0,0), (-1, 0), (0, -1), (0, 4), (9,4)])
+    def test_inside(self, builder, x, y):
+        assert builder.is_in_bounds(x, y)
+
     
-    def test_inside(self, builder):
-        assert builder.is_in_bounds(0, 0)
-        assert builder.is_in_bounds(-1, 0)
-        assert builder.is_in_bounds(0, -1)
-        assert builder.is_in_bounds(0, 4)
-        assert builder.is_in_bounds(9, 4)
-    
-    def test_outside(self, builder):
-        assert not builder.is_in_bounds(-2, -2)
-        assert not builder.is_in_bounds(10, 0)
-        assert not builder.is_in_bounds(5, 5)
+    @pytest.mark.parametrize('x, y', [(-2, -2), (10, 0), (5, 5), (30, 30)])
+    def test_outside(self, builder, x, y):
+        assert not builder.is_in_bounds(x, y)
     
 
 class TestSetPixel(object):
@@ -97,11 +70,11 @@ class TestSetPixel(object):
         set.assert_called_with(2, 3, "#000000")
     
     def test_set_with_instruction(self, patched, set):
-        patched.set_instruction_in_grid(InstructionInGrid(0, 0, "#adadad"))
+        patched.set_color_in_grid(InstructionInGrid(0, 0, "#adadad"))
         set.assert_called_with(0, 0, "#adadad")
     
     def test_call_many_instructions(self, patched, set):
-        patched.set_instructions_in_grid([
+        patched.set_colors_in_grid([
                 InstructionInGrid(0, 0, "#000000"),
                 InstructionInGrid(0, 1, "#111111"),
                 InstructionInGrid(2, 0, "#222222")
@@ -118,11 +91,11 @@ class TestSavingAsPNG(object):
      
     @fixture
     def builder(self, image_file):
-        builder = AYABPNGBuilder(image_file, -1, -1, 2, 2)
-        with builder:
-            builder.set_pixel(0, 0, "#000000")
-            builder.set_pixel(-1, -1, "#111111")
-            builder.set_pixel(1, 1, "#222222")
+        builder = AYABPNGBuilder(-1, -1, 2, 2)
+        builder.set_pixel(0, 0, "#000000")
+        builder.set_pixel(-1, -1, "#111111")
+        builder.set_pixel(1, 1, "#222222")
+        builder.write_to_file(image_file)
         return builder
         
     @fixture
@@ -142,7 +115,7 @@ class TestSavingAsPNG(object):
         assert image.getbbox() == (0, 0, 3, 3)
     
     def test_other_pixels_have_default_color(self, image):
-        assert image.getpixel(1,2) == "#000000"
+        assert image.getpixel(1,2) == "#ffffff"
         
-    def test_default_color_is_black(self, builder):
-        assert builder.default_color == "black"
+    def test_default_color_is_white(self, builder):
+        assert builder.default_color == "white"
