@@ -1,34 +1,25 @@
 """Convert knitting patterns to png files.
 
 These png files are used to be fed into the ayab-desktop software.
-They do not ocntain so much layout information.
+They only contain which meshes will be knit with a contrast color.
 They just contain colors."""
 
 class AYABPNGBuilder(object):
     """Convert knitting patterns to png files that onlny contain the color
     information and (x, y) coordinates."""
     
-    def __init__(self, file, min_x, max_x, min_y, max_y, 
-                 default_color="black"):
+    def __init__(self, min_x, max_x, min_y, max_y, 
+                 default_color="white"):
         """Initialize the builder with the file for the PNG.
         
-        x ∈ [min_x, max_x) and y ∈ [min_y, max_y) are the bounds of the
+        x in [min_x, max_x) and y in [min_y, max_y) are the bounds of the
         instructions.
         Instructions outside the bounds are not rendered.
         Any Pixel that is not set has the `default_color`.
         """
         
-    def open(self):
-        """Start writing to the file."""
-        
-    def close(self):
-        """Stop writing to the file."""
-        
-    def __enter__(self):
-        """`open()` but for the `with` statement."""
-        
-    def __exit__(self, ty=None, err=None, tb=None):
-        """`close()` but for the `with` statement."""
+    def write_to_file(self, file):
+        """Writes the png to the file."""
 
     @staticmethod
     def _convert_color_to_RRGGBB(color):
@@ -48,10 +39,10 @@ class AYABPNGBuilder(object):
         min_y, max_y.
         """
         
-    def set_instruction_in_grid(self, instruction_in_grid):
-        """Set the pixel at the position of the instruction to its color.
+    def set_color_in_grid(self, color_in_grid):
+        """Set the pixel at the position of the `color_in_grid` to its color.
         
-        `instruction_in_grid` must have the following attributes:
+        `color_in_grid` must have the following attributes:
         
         - `color` is the color to set the pixel to
         - `x` is the x position of the pixel
@@ -60,9 +51,9 @@ class AYABPNGBuilder(object):
         Also see `set_pixel()`
         """
     
-    def set_instructions_in_grid(self, some_instructions_in_grid):
-        """Same as `set_instruction_in_grid()` but with a collection of 
-        instructions in grid.
+    def set_colors_in_grid(self, some_colors_in_grid):
+        """Same as `set_color_in_grid()` but with a collection of 
+        colors in grid.
         """
            
     @property
