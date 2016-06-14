@@ -175,7 +175,7 @@ class GridLayout(object):
 
     @property
     def bounding_box(self):
-        """Returns (min_x, min_y, max_x, max_y)"""
+        """Returns (min_x, min_y, max_x + 1, max_y + 1)"""
         x, y = zip(*self.walk_instructions(
                 lambda instruction: (instruction.x, instruction.y)
             ))

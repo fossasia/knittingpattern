@@ -24,6 +24,18 @@ def binary():
     return ContentDumper(dump_to_bytes, text_is_expected=False)
 
 
+@fixture
+def no_encode_text():
+    return ContentDumper(lambda file: file.write("asd"), encoding=None)
+
+
+@fixture
+def no_encode_binary():
+    return ContentDumper(lambda file: file.write(b"asd"),
+                         text_is_expected=False,
+                         encoding=None)
+
+
 def pytest_generate_tests(metafunc):
     if 'save_to' in metafunc.fixturenames:
         metafunc.parametrize("save_to", [
@@ -35,6 +47,11 @@ def pytest_generate_tests(metafunc):
 @fixture
 def temp_file(save_to):
     return save_to.temporary_file()
+
+
+@fixture
+def binary_temp_file(save_to):
+    return save_to.temporary_binary_file()
 
 
 @fixture
@@ -50,6 +67,11 @@ def assert_string_is_file_content(file):
 def assert_string_is_path_content(path):
     with open(path, encoding="UTF-8") as file:
         assert file.read() == STRING
+
+
+def assert_string_is_binary_content(file):
+    file.seek(0)
+    assert file.read() == BYTES
 
 
 def test_string_is_long():
@@ -85,20 +107,40 @@ def test_dump_to_temporary_file(temp_file):
     assert_string_is_file_content(temp_file)
 
 
+def test_dump_to_temporary_binary_file(binary_temp_file):
+    assert_string_is_binary_content(binary_temp_file)
+
 def test_temporary_file_is_deleted_on_default(temp_file):
+    assert_temporary_file_is_deleted(temp_file)
+
+def test_binary_temporary_file_is_deleted_on_default(binary_temp_file):
+    assert_temporary_file_is_deleted(binary_temp_file)
+
+
+def assert_temporary_file_is_deleted(temp_file):
     temp_file.close()
-    assert temp_file.delete
     assert not os.path.isfile(temp_file.name)
 
+
+def assert_temporary_file_is_not_deleted(temp_file):
+    temp_file.close()
+    assert os.path.isfile(temp_file.name)
 
 def test_temporary_file_exists(temp_file):
     assert os.path.isfile(temp_file.name)
 
 
+def test_temporary_file_exists(binary_temp_file):
+    assert os.path.isfile(binary_temp_file.name)
+
+
 def test_temporary_file_has_option_for_deletion(save_to):
     file = save_to.temporary_file(delete_when_closed=False)
-    file.close()
-    assert_string_is_path_content(file.name)
+    assert_temporary_file_is_not_deleted(file)
+
+def test_binary_temporary_file_has_option_for_deletion(save_to):
+    file = save_to.binary_temporary_file(delete_when_closed=False)
+    assert_temporary_file_is_not_deleted(file)
 
 
 def test_file_returns_new_file(save_to):
@@ -136,43 +178,11 @@ def test_test_binary_file_is_at_end(save_to):
     assert not save_to.binary_file().read()
 
 
-@fixture
-def no_encode_text():
-    return ContentDumper(lambda file: file.write("asd"), encoding=None)
-
-
-@pytest.mark.parametrize(
-        'attr', 
-        [
-            lambda dumper: dumper.bytes(), 
-            lambda dumper: dumper.binary_file(),
-            lambda dumper: dumper.binary_file(io.BytesIO())
-        ]
-    )
-def test_errors_if_no_encoding_is_given(no_encode_text, attr):
-    with raises(NeedEncodingException) as excinfo:
-        attr(no_encode_text)
-    assert "text to bytes" in str(excinfo)
-
-
-@fixture
-def no_encode_binary():
-    return ContentDumper(lambda file: file.write(b"asd"), 
-                         text_is_expected=False, 
-                         encoding=None)
-
 def test_encoding_is_none(no_encode_binary, no_encode_text):
     assert no_encode_text.encoding is None
     assert no_encode_binary.encoding is None
-                         
-@pytest.mark.parametrize(
-        'attr', 
-        [
-            lambda dumper: dumper.string(), 
-            lambda dumper: dumper.file()
-        ]
-    )
-def test_errors_if_no_encoding_is_given(no_encode_binary, attr):
-    with raises(NeedEncodingException) as excinfo:
-        attr(no_encode_binary)
-    assert "bytes to text" in str(excinfo)
+
+
+def test_temporary_path_has_extension(save_to):
+    assert save_to.temporary_path(extension=".png").endswith(".png")
+    assert save_to.temporary_path(extension=".JPG").endswith(".JPG")
