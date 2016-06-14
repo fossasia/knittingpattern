@@ -4,7 +4,7 @@
 #
 
 from pytest import fixture, raises, fail
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, call
 import os
 import sys
 import pytest
