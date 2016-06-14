@@ -5,6 +5,7 @@ and save them to files.
 """
 from io import StringIO
 from tempfile import NamedTemporaryFile
+import json
 
 
 class ContentDumper(object):
@@ -20,7 +21,8 @@ class ContentDumper(object):
     a file on the hard drive on a fixed or temporary location,
     posted to some url or in a zip file.
     This class should provide for all those needs while providing a uniform
-    interface for the dumping."""
+    interface for the dumping.
+    """
 
     def __init__(self, on_dump):
         """Create a new dumper object with a function `on_dump(file)`
@@ -29,12 +31,12 @@ class ContentDumper(object):
         one of its save methods, `string`, `file`, ..., is called.
         The file-like object in the 'file' argument supports the method
         `write` to which the content should be written."""
-        self._on_dump = on_dump
+        self.__dump_to_file = on_dump
 
     def string(self):
         """Returns the dump as a string."""
         file = StringIO()
-        self._on_dump(file)
+        self.__dump_to_file(file)
         file.seek(0)
         return file.read()
 
@@ -48,13 +50,13 @@ class ContentDumper(object):
         read/write position points behind the dumped content."""
         if file is None:
             file = StringIO()
-        self._on_dump(file)
+        self.__dump_to_file(file)
         return file
 
     def path(self, path):
         """Saves the dump in a file named `path`."""
         with open(path, "w") as file:
-            self._on_dump(file)
+            self.__dump_to_file(file)
 
     def temporary_path(self):
         """Saves the dump in a temporary file and returns its path.
@@ -82,8 +84,27 @@ class ContentDumper(object):
     def _temporary_file(self, delete=True):
         """The private interface to save to temporary files."""
         file = NamedTemporaryFile("w+", encoding="UTF8", delete=delete)
-        self._on_dump(file)
+        self.__dump_to_file(file)
         return file
+
+
+class JSONDumper(ContentDumper):
+
+    def __init__(self, on_dump):
+        """Create a new JSONDumper object with the callable `on_dump`.
+
+        `on_dump` takes no aguments and returns the object that should be
+        serialized to JSON."""
+        super().__init__(self._dump_to_file)
+        self.__dump_to_json = on_dump
+
+    def object(self):
+        """Return the object that should be dumped."""
+        return self.__dump_to_json()
+
+    def _dump_to_file(self, file):
+        """dump to the file"""
+        json.dump(self.object(), file)
 
 
 __all__ = ["ContentDumper"]

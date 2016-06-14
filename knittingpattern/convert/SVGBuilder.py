@@ -49,7 +49,7 @@ class SVGBuilder(object):
         self.close()
 
     def open(self):
-        """Start wiring to the file."""
+        """Start writing to the file."""
         self._write(self._beginning_of_file)
 
     @property
