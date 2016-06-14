@@ -283,7 +283,7 @@ test_if_row_with_lowest_number_of_connections_exist_use_smallest_id = "TODO"
 
 
 def test_InstructionInGrid_get_color_from_instruction():
-    Instruction = namedtuple("Instruction", ["color", 
+    Instruction = namedtuple("Instruction", ["color",
                                              "number_of_consumed_meshes"])
     instruction = Instruction("black", 1)
     instruction_in_grid = InstructionInGrid(instruction, 0, 0)

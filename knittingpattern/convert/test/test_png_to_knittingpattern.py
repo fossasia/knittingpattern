@@ -13,13 +13,16 @@ def patterns(image_path):
     patterns = load_from_object(object)
     return patterns
 
+
 @fixture
 def pattern(patterns):
     return patterns.patterns.at(0)
 
+
 @fixture
 def image(image_path):
     return Image.open(image_path)
+
 
 def pytest_generate_tests(metafunc):
     if 'image_path' in metafunc.fixturenames:
@@ -27,6 +30,7 @@ def pytest_generate_tests(metafunc):
                 os.path.join(IMAGE_PATH, file)
                 for file in os.listdir(IMAGE_PATH)
             ])
+
 
 def test_convert_image_to_knittingpattern(patterns, image_path):
     assert patterns.comment["source"] == image_path

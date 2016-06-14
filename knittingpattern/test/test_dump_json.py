@@ -1,6 +1,7 @@
 from test import *
-from knittingpattern.Dumper import JSONDumper 
-import json   
+from knittingpattern.Dumper import JSONDumper
+import json
+
 
 @fixture
 def obj():

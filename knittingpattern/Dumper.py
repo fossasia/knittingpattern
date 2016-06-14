@@ -21,7 +21,8 @@ class ContentDumper(object):
     a file on the hard drive on a fixed or temporary location,
     posted to some url or in a zip file.
     This class should provide for all those needs while providing a uniform
-    interface for the dumping."""
+    interface for the dumping.
+    """
 
     def __init__(self, on_dump):
         """Create a new dumper object with a function `on_dump(file)`
@@ -91,20 +92,19 @@ class JSONDumper(ContentDumper):
 
     def __init__(self, on_dump):
         """Create a new JSONDumper object with the callable `on_dump`.
-        
+
         `on_dump` takes no aguments and returns the object that should be
         serialized to JSON."""
         super().__init__(self._dump_to_file)
         self.__dump_to_json = on_dump
-    
+
     def object(self):
         """Return the object that should be dumped."""
         return self.__dump_to_json()
-    
+
     def _dump_to_file(self, file):
         """dump to the file"""
         json.dump(self.object(), file)
-        
-        
-        
+
+
 __all__ = ["ContentDumper"]

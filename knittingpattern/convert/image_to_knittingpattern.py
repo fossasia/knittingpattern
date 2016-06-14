@@ -13,9 +13,9 @@ import os
 def convert_image_to_knitting_pattern(path):
     """Load a image file such as png bitmap of jpeg file and convert it
     to a knitting pattern file.
-    
+
     Example:
-    
+
         convert_image_to_knitting_pattern.path("image.png").path("image.knit")
     """
     image = PIL.Image.open(path)
@@ -25,16 +25,16 @@ def convert_image_to_knitting_pattern(path):
     rows = []
     connections = []
     pattern_set = {
-            "version" : "0.1",
-            "type" : "knitting pattern",
-            "comment" : {
+            "version": "0.1",
+            "type": "knitting pattern",
+            "comment": {
                 "source": path
             },
             "patterns": [
                 {
-                    "name" : id, 
-                    "id" : id, 
-                    "rows" : rows,
+                    "name": id,
+                    "id": id,
+                    "rows": rows,
                     "connections": connections
                 }
             ]
@@ -42,14 +42,14 @@ def convert_image_to_knitting_pattern(path):
     bbox = image.getbbox()
     if not bbox:
         return pattern_set
-    white = image.getpixel((0,0))
+    white = image.getpixel((0, 0))
     min_x, min_y, max_x, max_y = bbox
     last_row_y = None
     for y in range(min_y, max_y):
         instructions = []
         row = {
-                "id" : y,
-                "instructions" : instructions
+                "id": y,
+                "instructions": instructions
             }
         rows.append(row)
         for x in range(min_x, max_x):
@@ -58,14 +58,15 @@ def convert_image_to_knitting_pattern(path):
             instructions.append(instruction)
         if last_row_y is not None:
             connections.append({
-                  "from" : {
-                    "id" : last_row_y
-                  }, 
-                  "to" : {
-                    "id" : y
+                  "from": {
+                    "id": last_row_y
+                  },
+                  "to": {
+                    "id": y
                   }
                 })
         last_row_y = y
     return pattern_set
+
 
 __all__ = ["convert_image_to_knitting_pattern"]
