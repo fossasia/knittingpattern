@@ -33,6 +33,7 @@ class BaseTest:
     SIZES = [(1, 1)] * 16
     ROW_IDS = [1, 2, 3, 4]
     LARGER_CONNECTIONS = []
+    BOUNDING_BOX = (0, 0, 4, 4)
 
     @fixture
     def pattern(self):
@@ -66,6 +67,8 @@ class BaseTest:
     def test_connections(self, grid):
         assert connections(grid) == self.LARGER_CONNECTIONS
 
+    def test_bounding_box(self, grid):
+        assert grid.bounding_box == self.BOUNDING_BOX
 
 class TestBlock4x4(BaseTest):
     pass
@@ -89,6 +92,7 @@ class TestAddAndRemoveMeshes(BaseTest):
             (0, 2), (1, 2), (2, 2),
             (-1, 3), (0, 3), (1, 3), (2, 3), (3, 3)
         ]
+    BOUNDING_BOX = (-1, 0, 5, 4)
 
     # test how instructions are connected
 
@@ -252,6 +256,7 @@ class TestParallelRows(BaseTest):
         ]
     ROW_IDS = ["1.1", "2.1", "2.2", "3.2", "4.1"]
     LARGER_CONNECTIONS = [((0, 1), (0, 3)), ((1, 1), (1, 3))]
+    BOUNDING_BOX = (0, 0, 5, 4)
 
     @fixture
     def r4(self, pattern):

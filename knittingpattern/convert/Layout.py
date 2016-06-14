@@ -173,4 +173,12 @@ class GridLayout(object):
                     #      connection.stop.instruction)
                     yield mapping(connection)
 
+    @property
+    def bounding_box(self):
+        """Returns (min_x, min_y, max_x, max_y)"""
+        x, y = zip(*self.walk_instructions(
+                lambda instruction: (instruction.x, instruction.y)
+            ))
+        return min(x), min(y), max(x) + 1, max(y) + 1
+                    
 __all__ = ["GridLayout"]
