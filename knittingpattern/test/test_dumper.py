@@ -16,6 +16,7 @@ def unicode():
         file.write(STRING[1:])
     return ContentDumper(dump_to_string)
 
+
 @fixture
 def binary():
     def dump_to_bytes(file):
@@ -110,8 +111,10 @@ def test_dump_to_temporary_file(temp_file):
 def test_dump_to_temporary_binary_file(binary_temp_file):
     assert_string_is_binary_content(binary_temp_file)
 
+
 def test_temporary_file_is_deleted_on_default(temp_file):
     assert_temporary_file_is_deleted(temp_file)
+
 
 def test_binary_temporary_file_is_deleted_on_default(binary_temp_file):
     assert_temporary_file_is_deleted(binary_temp_file)
@@ -126,6 +129,7 @@ def assert_temporary_file_is_not_deleted(temp_file):
     temp_file.close()
     assert os.path.isfile(temp_file.name)
 
+
 def test_temporary_file_exists(temp_file):
     assert os.path.isfile(temp_file.name)
 
@@ -137,6 +141,7 @@ def test_temporary_file_exists(binary_temp_file):
 def test_temporary_file_has_option_for_deletion(save_to):
     file = save_to.temporary_file(delete_when_closed=False)
     assert_temporary_file_is_not_deleted(file)
+
 
 def test_binary_temporary_file_has_option_for_deletion(save_to):
     file = save_to.binary_temporary_file(delete_when_closed=False)

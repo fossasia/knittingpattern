@@ -1,5 +1,6 @@
 from .convert.AYABPNGDumper import AYABPNGDumper
 
+
 class KnittingPatternSet(object):
 
     def __init__(self, type, version, patterns, comment=None):
@@ -27,7 +28,7 @@ class KnittingPatternSet(object):
     def comment(self):
         """Returns the comment for the knitting pattern set or None."""
         return self._comment
-    
+
     @property
     def to_ayabpng(self):
         """Returns a Dumper to save this pattern set as png for AYAB."""

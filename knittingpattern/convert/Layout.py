@@ -180,5 +180,5 @@ class GridLayout(object):
                 lambda instruction: (instruction.x, instruction.y)
             ))
         return min(x), min(y), max(x) + 1, max(y) + 1
-                    
+
 __all__ = ["GridLayout"]

@@ -70,6 +70,7 @@ class BaseTest:
     def test_bounding_box(self, grid):
         assert grid.bounding_box == self.BOUNDING_BOX
 
+
 class TestBlock4x4(BaseTest):
     pass
 

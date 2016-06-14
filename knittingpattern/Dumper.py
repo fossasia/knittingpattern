@@ -38,7 +38,7 @@ class ContentDumper(object):
         one of its save methods, `string`, `file`, ..., is called.
         The file-like object in the 'file' argument supports the method
         `write` to which the content should be written.
-        
+
         `text_is_expected` should be
         - `True` to pass a file to `on_dump` that you can write strings to
         - `False` to pass a file to `on_dump` that you can write bytes to
@@ -47,7 +47,7 @@ class ContentDumper(object):
         self.__dump_to_file = on_dump
         self.__text_is_expected = text_is_expected
         self.__encoding = encoding
-        
+
     @property
     def encoding(self):
         """return the encoding for byte to string conversion."""
@@ -60,27 +60,26 @@ class ContentDumper(object):
         else:
             return self._bytes().decode(self.__encoding)
 
-        
     def _string(self):
-        """Return the rtsing from a StringIO()"""
+        """Return the string from a StringIO()"""
         file = StringIO()
         self.__dump_to_file(file)
         file.seek(0)
         return file.read()
-        
+
     def bytes(self):
         """Returns the dump as bytes."""
         if self.__text_is_expected:
             return self.string().encode(self.__encoding)
         else:
             return self._bytes()
-            
+
     def _bytes(self):
         """Returns bytes from a BytesIO()"""
         file = BytesIO()
         self.__dump_to_file(file)
         file.seek(0)
-        return file.read()    
+        return file.read()
 
     def file(self, file=None):
         """Saves the dump in a file-like object in text mode.
@@ -95,33 +94,32 @@ class ContentDumper(object):
             file = StringIO()
         self._file(file)
         return file
-        
+
     def _file(self, file):
         """Dump the content to a `file`.
-        
+
         `instead` is the method that should be used if encoding does not work.
         """
         if not self.__text_is_expected:
             file = BytesWrapper(file, self.__encoding)
         self.__dump_to_file(file)
-        
-        
+
     def binary_file(self, file=None):
         """Same as `file()` but for binary content."""
         if file is None:
             file = BytesIO()
         self._binary_file(file)
         return file
-        
+
     def _binary_file(self, file):
         """Dump the ocntent into the `file` in binary mode.
-        
+
         `instead` is the method that should be used if encoding does not work.
         """
         if self.__text_is_expected:
             file = TextWrapper(file, self.__encoding)
         self.__dump_to_file(file)
-        
+
     def _mode_and_encoding_for_open(self):
         """Returns the file mode and encoding for `open()`."""
         if self.__text_is_expected:
@@ -131,16 +129,16 @@ class ContentDumper(object):
     def path(self, path):
         """Saves the dump in a file named `path`."""
         self._path(path)
-        
+
     def _path(self, path):
         """Saves the dump in a file named `path`."""
         mode, encoding = self._mode_and_encoding_for_open()
         with open(path, mode, encoding=encoding) as file:
             self.__dump_to_file(file)
-            
+
     def _temporary_file(self, delete):
         """Returns a temporary file where the content is dumped to."""
-        file = NamedTemporaryFile("w+", delete=delete, 
+        file = NamedTemporaryFile("w+", delete=delete,
                                   encoding=self.__encoding)
         self._file(file)
         return file
@@ -151,7 +149,7 @@ class ContentDumper(object):
         The user of this method is responsible for deleting this file to
         save space on the hard drive. If you only need a file object for
         a short period of time you can use the method `temporary_file()`.
-        
+
         `extension` is the ending ot the file name e.g. ".png".
         """
         path = NamedTemporaryFile(delete=False, suffix=extension).name
@@ -173,7 +171,7 @@ class ContentDumper(object):
         the location of the file.
         """
         return self._temporary_file(delete_when_closed)
-        
+
     def binary_temporary_file(self, delete_when_closed=True):
         """Same as `temporary_file` but for binary mode."""
         return self._binary_temporary_file(delete_when_closed)

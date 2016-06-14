@@ -45,11 +45,11 @@ class AYABPNGBuilder(object):
         else:
             hex = color
         return webcolors.normalize_hex(hex)
-        
+
     def _convert_RRGGBB_to_image_color(self, rrggbb):
         """Returns the color that is used by the image."""
         return webcolors.hex_to_rgb(rrggbb)
-        
+
     def _convert_to_image_color(self, color):
         """Returns a color thet can be used by the image."""
         rgb = self._convert_color_to_RRGGBB(color)
