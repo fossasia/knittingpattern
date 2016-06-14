@@ -5,7 +5,7 @@ import PIL.Image
 import tempfile
 
 
-InstructionInGrid = namedtuple("InstructionInGrid", ["x", "y", "color"])
+ColorInGrid = namedtuple("ColorInGrid", ["x", "y", "color"])
 
 
 @fixture
@@ -72,18 +72,28 @@ class TestSetPixel(object):
         set.assert_called_with(2, 3, "#000000")
 
     def test_set_with_instruction(self, patched, set):
-        patched.set_color_in_grid(InstructionInGrid(0, 0, "#adadad"))
+        patched.set_color_in_grid(ColorInGrid(0, 0, "#adadad"))
         set.assert_called_with(0, 0, "#adadad")
 
     def test_call_many_instructions(self, patched, set):
         patched.set_colors_in_grid([
-                InstructionInGrid(0, 0, "#000000"),
-                InstructionInGrid(0, 1, "#111111"),
-                InstructionInGrid(2, 0, "#222222")
+                ColorInGrid(0, 0, "#000000"),
+                ColorInGrid(0, 1, "#111111"),
+                ColorInGrid(2, 0, "#222222")
             ])
         set.assert_has_calls([call(0, 0, "#000000"),
                               call(0, 1, "#111111"),
                               call(2, 0, "#222222")])
+
+    def test_setiing_color_none_does_nothing(self, patched, set):
+        patched.set_pixel(2, 2, None)
+        patched.set_color_in_grid(ColorInGrid(0, 0, None))
+        patched.set_colors_in_grid([
+                ColorInGrid(0, 0, None),
+                ColorInGrid(0, 1, None),
+                ColorInGrid(2, 0, None)
+            ])
+        assert not set.called
 
 
 class TestSavingAsPNG(object):
@@ -100,8 +110,8 @@ class TestSavingAsPNG(object):
         builder.set_pixel(-1, -1, "#111111")
         builder.set_pixel(1, 1, "#222222")
         # set out of bounds pixels
-        builder.set_colors_in_grid([InstructionInGrid(12, 12, "red")])
-        builder.set_color_in_grid(InstructionInGrid(-3, -3, "#adadad"))
+        builder.set_colors_in_grid([ColorInGrid(12, 12, "red")])
+        builder.set_color_in_grid(ColorInGrid(-3, -3, "#adadad"))
         builder.set_pixel(-3, 4, "#adadad")
         builder.write_to_file(image_path)
         return builder
