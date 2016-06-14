@@ -15,6 +15,7 @@ TO = "to"
 START = "start"
 DEFAULT_START = 0
 MESHES = "meshes"
+COMMENT = "comment"
 
 # constants
 
@@ -125,7 +126,9 @@ class Parser(object):
     def create_pattern_set(self, pattern, values):
         type = self.get_type(values)
         version = self.get_version(values)
+        comment = values.get(COMMENT)
         self.pattern_set = self.knitting_context.PatternSet(
-                                    type, version, pattern)
+                type, version, pattern, comment
+            )
 
 __all__ = ["PatternParser"]
