@@ -45,7 +45,8 @@ class TestBounds(object):
         assert builder.is_in_bounds(x, y)
 
     
-    @pytest.mark.parametrize('x, y', [(-2, -2), (10, 0), (5, 5), (30, 30)])
+    @pytest.mark.parametrize('x, y', [(-2, -2), (10, 0), (5, 5), (30, 30), 
+                                      (12, 12)])
     def test_outside(self, builder, x, y):
         assert not builder.is_in_bounds(x, y)
     
@@ -79,8 +80,10 @@ class TestSetPixel(object):
                 InstructionInGrid(0, 1, "#111111"),
                 InstructionInGrid(2, 0, "#222222")
             ])
-        set.assert_has_calls([(0, 0, "#000000"), (0, 1, "#111111"), 
-                              (2, 0, "#222222")])
+        set.assert_has_calls([call(0, 0, "#000000"),
+                              call(0, 1, "#111111"), 
+                              call(2, 0, "#222222")])
+        
 
 
 class TestSavingAsPNG(object):
@@ -92,30 +95,45 @@ class TestSavingAsPNG(object):
     @fixture
     def builder(self, image_file):
         builder = AYABPNGBuilder(-1, -1, 2, 2)
+        # set pixels inside
         builder.set_pixel(0, 0, "#000000")
         builder.set_pixel(-1, -1, "#111111")
         builder.set_pixel(1, 1, "#222222")
-        builder.write_to_file(image_file)
+        # set out of bounds pixels
+        builder.set_colors_in_grid([InstructionInGrid(12, 12, "red")])
+        builder.set_color_in_grid(InstructionInGrid(-3, -3, "#adadad"))
+        builder.set_pixel(-3, 4, "#adadad")
+        builder.write_to_file(image_file.strpath)
         return builder
         
     @fixture
     def image(self, image_file, builder):
         return PIL.Image.open(image_file.strpath)
-        
-    @fixture
-    def default_color(self, builder):
-        return builder.default_color
     
     def test_pixels_are_set(self, image):
-        assert image.getpixel(1,1) == "#000000"
-        assert image.getpixel(0,0) == "#111111"
-        assert image.getpixel(2,2) == "#333333"
+        assert image.getpixel((1,1)) == (0, 0, 0)
+        assert image.getpixel((0,0)) == (0x11, 0x11, 0x11)
+        assert image.getpixel((2,2)) == (0x22, 0x22, 0x22)
     
     def test_bbox_is_3x3(self, image):
         assert image.getbbox() == (0, 0, 3, 3)
     
     def test_other_pixels_have_default_color(self, image):
-        assert image.getpixel(1,2) == "#ffffff"
+        assert image.getpixel((1,2)) == (255, 255, 255)
+
         
-    def test_default_color_is_white(self, builder):
-        assert builder.default_color == "white"
+class TestDefaultColor(object):
+
+    @fixture
+    def default_color(self, builder):
+        return builder.default_color
+
+    def test_can_change_default_color(self):
+        builder = AYABPNGBuilder(-1, -1, 2, 2, "black")
+        assert builder.default_color == "black"
+        
+    def test_default_color_is_white(self, default_color):
+        assert default_color == "white"
+    
+        
+        
