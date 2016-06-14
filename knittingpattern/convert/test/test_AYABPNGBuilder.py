@@ -2,6 +2,7 @@ from test import *
 from knittingpattern.convert.AYABPNGBuilder import AYABPNGBuilder
 from collections import namedtuple
 import PIL.Image
+import tempfile
 
 
 InstructionInGrid = namedtuple("InstructionInGrid", ["x", "y", "color"])
@@ -87,12 +88,12 @@ class TestSetPixel(object):
 
 class TestSavingAsPNG(object):
 
-    @fixture
-    def image_file(self, tmpdir):
-        return tmpdir.join("test.png")
+    @fixture(scope="class")
+    def image_path(self):
+        return tempfile.mktemp()
 
-    @fixture
-    def builder(self, image_file):
+    @fixture(scope="class")
+    def builder(self, image_path):
         builder = AYABPNGBuilder(-1, -1, 2, 2)
         # set pixels inside
         builder.set_pixel(0, 0, "#000000")
@@ -102,12 +103,12 @@ class TestSavingAsPNG(object):
         builder.set_colors_in_grid([InstructionInGrid(12, 12, "red")])
         builder.set_color_in_grid(InstructionInGrid(-3, -3, "#adadad"))
         builder.set_pixel(-3, 4, "#adadad")
-        builder.write_to_file(image_file.strpath)
+        builder.write_to_file(image_path)
         return builder
 
-    @fixture
-    def image(self, image_file, builder):
-        return PIL.Image.open(image_file.strpath)
+    @fixture(scope="class")
+    def image(self, image_path, builder):
+        return PIL.Image.open(image_path)
 
     def test_pixels_are_set(self, image):
         assert image.getpixel((1, 1)) == (0, 0, 0)
