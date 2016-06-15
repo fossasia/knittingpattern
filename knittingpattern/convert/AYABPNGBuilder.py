@@ -25,8 +25,10 @@ class AYABPNGBuilder(object):
         self._max_x = max_x
         self._max_y = max_y
         self._default_color = default_color
-        self._image = PIL.Image.new("RGB", (max_x - min_x, max_y - min_y),
-                                    default_color)
+        self._image = PIL.Image.new(
+                "RGB", (max_x - min_x, max_y - min_y),
+                self._convert_to_image_color(default_color)
+            )
 
     def write_to_file(self, file):
         """Writes the png to the file."""
@@ -37,14 +39,26 @@ class AYABPNGBuilder(object):
         """Takes a color such as "#fff" or "blue" and converts it into a 24 bit
         color "#RrGgBb".
         """
-        hex = color
         if not color.startswith("#"):
             rgb = webcolors.html5_parse_legacy_color(color)
             hex = webcolors.html5_serialize_simple_color(rgb)
+        else:
+            hex = color
         return webcolors.normalize_hex(hex)
+
+    def _convert_RRGGBB_to_image_color(self, rrggbb):
+        """Returns the color that is used by the image."""
+        return webcolors.hex_to_rgb(rrggbb)
+
+    def _convert_to_image_color(self, color):
+        """Returns a color thet can be used by the image."""
+        rgb = self._convert_color_to_RRGGBB(color)
+        return self._convert_RRGGBB_to_image_color(rgb)
 
     def _set_pixel_and_convert_color(self, x, y, color):
         """Set the pixel but convert the color before."""
+        if color is None:
+            return
         color = self._convert_color_to_RRGGBB(color)
         self._set_pixel(x, y, color)
 
@@ -56,7 +70,7 @@ class AYABPNGBuilder(object):
         """
         if not self.is_in_bounds(x, y):
             return
-        rgb = webcolors.hex_to_rgb(color)
+        rgb = self._convert_RRGGBB_to_image_color(color)
         x -= self._min_x
         y -= self._min_y
         self._image.putpixel((x, y), rgb)

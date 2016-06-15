@@ -2,9 +2,10 @@ from test import *
 from knittingpattern.convert.AYABPNGBuilder import AYABPNGBuilder
 from collections import namedtuple
 import PIL.Image
+import tempfile
 
 
-InstructionInGrid = namedtuple("InstructionInGrid", ["x", "y", "color"])
+ColorInGrid = namedtuple("ColorInGrid", ["x", "y", "color"])
 
 
 @fixture
@@ -71,43 +72,53 @@ class TestSetPixel(object):
         set.assert_called_with(2, 3, "#000000")
 
     def test_set_with_instruction(self, patched, set):
-        patched.set_color_in_grid(InstructionInGrid(0, 0, "#adadad"))
+        patched.set_color_in_grid(ColorInGrid(0, 0, "#adadad"))
         set.assert_called_with(0, 0, "#adadad")
 
     def test_call_many_instructions(self, patched, set):
         patched.set_colors_in_grid([
-                InstructionInGrid(0, 0, "#000000"),
-                InstructionInGrid(0, 1, "#111111"),
-                InstructionInGrid(2, 0, "#222222")
+                ColorInGrid(0, 0, "#000000"),
+                ColorInGrid(0, 1, "#111111"),
+                ColorInGrid(2, 0, "#222222")
             ])
         set.assert_has_calls([call(0, 0, "#000000"),
                               call(0, 1, "#111111"),
                               call(2, 0, "#222222")])
 
+    def test_setiing_color_none_does_nothing(self, patched, set):
+        patched.set_pixel(2, 2, None)
+        patched.set_color_in_grid(ColorInGrid(0, 0, None))
+        patched.set_colors_in_grid([
+                ColorInGrid(0, 0, None),
+                ColorInGrid(0, 1, None),
+                ColorInGrid(2, 0, None)
+            ])
+        assert not set.called
+
 
 class TestSavingAsPNG(object):
 
-    @fixture
-    def image_file(self, tmpdir):
-        return tmpdir.join("test.png")
+    @fixture(scope="class")
+    def image_path(self):
+        return tempfile.mktemp()
 
-    @fixture
-    def builder(self, image_file):
+    @fixture(scope="class")
+    def builder(self, image_path):
         builder = AYABPNGBuilder(-1, -1, 2, 2)
         # set pixels inside
         builder.set_pixel(0, 0, "#000000")
         builder.set_pixel(-1, -1, "#111111")
         builder.set_pixel(1, 1, "#222222")
         # set out of bounds pixels
-        builder.set_colors_in_grid([InstructionInGrid(12, 12, "red")])
-        builder.set_color_in_grid(InstructionInGrid(-3, -3, "#adadad"))
+        builder.set_colors_in_grid([ColorInGrid(12, 12, "red")])
+        builder.set_color_in_grid(ColorInGrid(-3, -3, "#adadad"))
         builder.set_pixel(-3, 4, "#adadad")
-        builder.write_to_file(image_file.strpath)
+        builder.write_to_file(image_path)
         return builder
 
-    @fixture
-    def image(self, image_file, builder):
-        return PIL.Image.open(image_file.strpath)
+    @fixture(scope="class")
+    def image(self, image_path, builder):
+        return PIL.Image.open(image_path)
 
     def test_pixels_are_set(self, image):
         assert image.getpixel((1, 1)) == (0, 0, 0)

@@ -1,7 +1,9 @@
+
 Specification
 =============
 
-For the words see [the glossary](https://github.com/AllYarnsAreBeautiful/ayab-desktop/wiki/Glossary)
+For the words see `the glossary
+<https://github.com/AllYarnsAreBeautiful/ayab-desktop/wiki/Glossary>`_.
 
 Design Decisions
 ----------------
@@ -16,21 +18,26 @@ Assumptions
 -----------
 
 - we start from bottom right
-- default instruction ([see](https://github.com/AllYarnsAreBeautiful/ayab-desktop/wiki/2016-05-25---Knitting-pattern))
-
-        {
-          "type" : "knit", 
-        }
-        {
-          "type" : "ktog tbl", # identifier
-          "count" : 2
-        }
+- default instruction (`see
+  <https://github.com/AllYarnsAreBeautiful/ayab-desktop/wiki/2016-05-25---Knitting-pattern>`_)
+  
+  .. code:: python
+    
+    {
+      "type" : "knit", 
+    }
+    {
+      "type" : "ktog tbl", # identifier
+      "count" : 2
+    }
     
 - default connection
 
-        {
-          "start" : 0,
-        }
+  .. code:: python
+   
+      {
+        "start" : 0,
+      }
         
-- `"id"` can point to an object.
+- ``"id"`` can point to an object.
 

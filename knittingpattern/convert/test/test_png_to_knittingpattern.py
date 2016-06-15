@@ -7,19 +7,19 @@ from PIL import Image
 IMAGE_PATH = os.path.join(HERE, "pictures")
 
 
-@fixture
+@fixture(scope="module")
 def patterns(image_path):
     object = convert_image_to_knitting_pattern.path(image_path).object()
     patterns = load_from_object(object)
     return patterns
 
 
-@fixture
+@fixture(scope="module")
 def pattern(patterns):
     return patterns.patterns.at(0)
 
 
-@fixture
+@fixture(scope="module")
 def image(image_path):
     return Image.open(image_path)
 
@@ -29,7 +29,7 @@ def pytest_generate_tests(metafunc):
         metafunc.parametrize("image_path", [
                 os.path.join(IMAGE_PATH, file)
                 for file in os.listdir(IMAGE_PATH)
-            ])
+            ], scope="module")
 
 
 def test_convert_image_to_knittingpattern(patterns, image_path):
