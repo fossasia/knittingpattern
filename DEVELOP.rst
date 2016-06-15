@@ -1,3 +1,9 @@
+
+1. Item 1 initial text.
+
+   a) Item 1a.
+   b) Item 1b.
+
 Version
 -------
 
@@ -8,11 +14,11 @@ Version
 
  git checkout -b <new_version>
 
-2. Increase the ``__version__`` in `__init__.py
-<knittingpattern/__init__.py>`_
-  - no letter at the end means release
-  - ``b`` in the end means Beta
-  - ``a`` in the end means Alpha
+2. Increase the ``__version__`` in `__init__.py <knittingpattern/__init__.py>`_
+
+   - no letter at the end means release
+   - ``b`` in the end means Beta
+   - ``a`` in the end means Alpha
 
 3. Commit and upload this version.
   
@@ -21,10 +27,12 @@ Version
   git push origin <new_version>
     
 4. Create a pull-request.
-5. Wait for `travis-ci
-<https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern>`_
-  to pass the tests.
+
+5. Wait for `travis-ci <https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern>`_
+to pass the tests.
+
 6. Merge the pull-request.
+
 7. Upload_
   
 
