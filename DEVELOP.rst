@@ -1,12 +1,13 @@
 Version
 -------
 
+Throughout this chapter, ``<new_version>`` refers to a a string of the form ``[0-9]+\.[0-9]+\.[0-9]+[ab]?`` or ``<MAYOR>.<MINOR>.<STEP>[<MATURITY>]`` where ``<MAYOR>``, ``<MINOR>`` and, ``<STEP>`` represent numbers and ``<MATURITY>`` can be a letter to indicate how mature the release is.
 
 1. Create a new branch for the version.
 
 .. code:: bash
 
- git checkout -b <new_version>
+  git checkout -b <new_version>
 
 2. Increase the ``__version__`` in `__init__.py <knittingpattern/__init__.py#L3>`_
 
@@ -15,19 +16,25 @@ Version
    - ``a`` in the end means Alpha
 
 3. Commit and upload this version.
-  
+
 .. code:: bash
   
+  git add knittingpattern/__init__.py
+  git commit -m "version <new_version>"
   git push origin <new_version>
-    
+
 4. Create a pull-request.
 
-5. Wait for `travis-ci <https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern>`_
-to pass the tests.
+5. Wait for `travis-ci <https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern>`_ to pass the tests.
 
 6. Merge the pull-request.
+7. Tag the version with a ``v`` in the beginning and push it to github
 
-7. Upload_
+.. code:: bash
+
+  git tag v<version_name>
+
+8. Upload_ the code to Pypi.
   
 
 Upload
