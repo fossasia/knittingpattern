@@ -4,35 +4,34 @@ Version
 
 1. Create a new branch for the version.
 
-  .. code:: bash
-  
-    git checkout -b <new_version>
+.. code:: bash
 
-2. Increase the ``__version__`` in ```__init__.py``
-  <knittingpattern/__init__.py>`_
+ git checkout -b <new_version>
+
+2. Increase the ``__version__`` in `__init__.py
+<knittingpattern/__init__.py>`_
   - no letter at the end means release
   - ``b`` in the end means Beta
   - ``a`` in the end means Alpha
 
 3. Commit and upload this version.
   
-  .. code:: bash
+.. code:: bash
   
-    git push origin <new_version>
+  git push origin <new_version>
     
 4. Create a pull-request.
-5. Wait `travis-ci
-  <https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern>`_ 
+5. Wait for `travis-ci
+<https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern>`_
   to pass the tests.
 6. Merge the pull-request.
-7. `Upload
-  sec:upload`_
+7. Upload_
   
 
 Upload
 ------
 
-.. _sec:upload:
+.. Upload:
 
 First ensure all tests are running:
 
