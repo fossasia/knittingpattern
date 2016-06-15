@@ -18,6 +18,7 @@ Throughout this chapter, ``<new_version>`` refers to a a string of the form ``[0
 3. Commit and upload this version.
 
 .. _commit:
+
 .. code:: bash
   
   git add knittingpattern/__init__.py
