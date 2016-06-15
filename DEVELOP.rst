@@ -1,9 +1,3 @@
-
-1. Item 1 initial text.
-
-   a) Item 1a.
-   b) Item 1b.
-
 Version
 -------
 
