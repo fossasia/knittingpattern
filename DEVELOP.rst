@@ -1,5 +1,56 @@
+Version
+-------
+
+Throughout this chapter, ``<new_version>`` refers to a a string of the form ``[0-9]+\.[0-9]+\.[0-9]+[ab]?`` or ``<MAYOR>.<MINOR>.<STEP>[<MATURITY>]`` where ``<MAYOR>``, ``<MINOR>`` and, ``<STEP>`` represent numbers and ``<MATURITY>`` can be a letter to indicate how mature the release is.
+
+1. Create a new branch for the version.
+
+.. code:: bash
+
+  git checkout -b <new_version>
+
+2. Increase the ``__version__`` in `__init__.py <knittingpattern/__init__.py#L3>`_
+
+   - no letter at the end means release
+   - ``b`` in the end means Beta
+   - ``a`` in the end means Alpha
+
+3. Commit and upload this version.
+
+.. _commit:
+
+.. code:: bash
+  
+  git add knittingpattern/__init__.py
+  git commit -m "version <new_version>"
+  git push origin <new_version>
+
+4. Create a pull-request.
+
+5. Wait for `travis-ci <https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern>`_ to pass the tests.
+
+6. Merge the pull-request.
+7. Checkout the master branch and pull the changes from the commit_.
+
+.. code:: bash
+
+  git checkout master
+  git pull
+
+8. Tag the version at the master branch with a ``v`` in the beginning and push it to github.
+
+.. code:: bash
+
+  git tag v<new_version>
+  git push origin v<new_version>
+
+9. Upload_ the code to Pypi.
+  
+
 Upload
 ------
+
+.. Upload:
 
 First ensure all tests are running:
 
@@ -18,7 +69,7 @@ From `docs.python.org
 Install
 -------
 
-Install it with a specific python verison under windows:
+Install it with a specific python version under windows:
 
 .. code:: cmd
 
