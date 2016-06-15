@@ -17,6 +17,7 @@ Throughout this chapter, ``<new_version>`` refers to a a string of the form ``[0
 
 3. Commit and upload this version.
 
+.. _commit:
 .. code:: bash
   
   git add knittingpattern/__init__.py
@@ -28,16 +29,21 @@ Throughout this chapter, ``<new_version>`` refers to a a string of the form ``[0
 5. Wait for `travis-ci <https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern>`_ to pass the tests.
 
 6. Merge the pull-request.
-7. Tag the version at the master branch with a ``v`` in the beginning and push it to github
+7. Checkout the master branch and pull the changes from the commit_.
 
 .. code:: bash
 
   git checkout master
   git pull
+
+8. Tag the version at the master branch with a ``v`` in the beginning and push it to github.
+
+.. code:: bash
+
   git tag v<new_version>
   git push origin v<new_version>
 
-8. Upload_ the code to Pypi.
+9. Upload_ the code to Pypi.
   
 
 Upload
