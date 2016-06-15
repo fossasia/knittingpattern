@@ -28,11 +28,14 @@ Throughout this chapter, ``<new_version>`` refers to a a string of the form ``[0
 5. Wait for `travis-ci <https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern>`_ to pass the tests.
 
 6. Merge the pull-request.
-7. Tag the version with a ``v`` in the beginning and push it to github
+7. Tag the version at the master branch with a ``v`` in the beginning and push it to github
 
 .. code:: bash
 
-  git tag v<version_name>
+  git checkout master
+  git pull
+  git tag v<new_version>
+  git push origin v<new_version>
 
 8. Upload_ the code to Pypi.
   
