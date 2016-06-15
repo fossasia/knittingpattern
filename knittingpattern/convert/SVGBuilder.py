@@ -7,7 +7,8 @@
 START_OF_SVG_FILE = """<?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with knittingpattern
      https://github.com/AllYarnsAreBeautiful/knittingpattern -->
-<svg width="0" height="0">"""
+<svg width="{width}" height="{height}" 
+     viewport="{min_x} {min_y} {max_x} {max_y}" >"""
 END_OF_SVG_FILE = """</svg>"""
 ELEMENT_STRING = """        <g transform=\"translate({x},{y})\">
         {content}
@@ -29,10 +30,19 @@ class SVGBuilder(object):
             builder.place(x, y, svg_content, "layer1")
     """
 
-    def __init__(self, file):
+    def __init__(self, file, min_x, min_y, max_x, max_y):
         """Initialize this object with the file for the SVG."""
         self._file = file
         self._current_layer = None
+        self._min_x = min_x
+        self._min_y = min_y
+        self._max_x = max_x
+        self._max_y = max_y
+    
+    @property
+    def bounding_box(self):
+        """Returns (min_x, min_y, max_x, max_y)"""
+        return (self._min_x, self._min_y, self._max_x, self._max_y)
 
     def _write(self, string):
         """Shortcut for writing to the file.
@@ -55,7 +65,14 @@ class SVGBuilder(object):
     @property
     def _beginning_of_file(self):
         """This is the beginning of the SVG."""
-        return START_OF_SVG_FILE
+        return START_OF_SVG_FILE.format(
+                width=self._max_x - self._min_x,
+                height=self._max_y - self._min_y,
+                min_x=self._min_x,
+                max_x=self._max_x,
+                min_y=self._min_y,
+                max_y=self._max_y
+            )
 
     def close(self):
         """Close the SVG tag."""

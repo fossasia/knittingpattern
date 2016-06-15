@@ -2,6 +2,7 @@ from test import *
 from knittingpattern.convert.SVGBuilder import SVGBuilder
 import io
 
+BBOX = (-1, -2, 5, 10)
 
 @fixture
 def file():
@@ -10,7 +11,7 @@ def file():
 
 @fixture
 def builder(file):
-    return SVGBuilder(file)
+    return SVGBuilder(file, *BBOX)
 
 
 @fixture
@@ -85,8 +86,7 @@ def test_rendering_nothing_is_an_svg(builder, file):
     with builder:
         pass
     grafics = parse_file(file)
-    assert grafics.svg["width"] == "0"
-    assert grafics.svg["height"] == "0"
+    assert not hasattr(svg, "g")
 
 
 def test_translate_to_right_position(instruction1):
@@ -135,3 +135,20 @@ def test_exit_handler_raises_exception(builder):
     with raises(ValueError):
         with builder:
             raise ValueError("test!")
+
+
+def test_bounding_box(builder):
+    assert builder.bounding_box == BBOX
+
+
+def test_viewport_is_bounding_box(svg1):
+    assert svg1["viewport"] == "{} {} {} {}".format(*BBOX)
+
+
+def test_width(svg1):
+    assert svg1["width"] == "{}".format(BBOX[2] - BBOX[0])
+
+
+def test_height(svg1):
+    assert svg1["height"] == "{}".format(BBOX[3] - BBOX[1])
+
