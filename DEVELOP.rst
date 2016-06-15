@@ -14,7 +14,7 @@ Version
 
  git checkout -b <new_version>
 
-2. Increase the ``__version__`` in `__init__.py <knittingpattern/__init__.py>`_
+2. Increase the ``__version__`` in `__init__.py <knittingpattern/__init__.py#L3>`_
 
    - no letter at the end means release
    - ``b`` in the end means Beta
