@@ -52,7 +52,7 @@ From `docs.python.org
 Install
 -------
 
-Install it with a specific python verison under windows:
+Install it with a specific python version under windows:
 
 .. code:: cmd
 
