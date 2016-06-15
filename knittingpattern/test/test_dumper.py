@@ -1,5 +1,5 @@
 from test import *
-from knittingpattern.Dumper import ContentDumper, NeedEncodingException
+from knittingpattern.Dumper import ContentDumper
 from io import StringIO, BytesIO
 from tempfile import mktemp
 import os

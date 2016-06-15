@@ -9,12 +9,6 @@ import json
 from .FileWrapper import BytesWrapper, TextWrapper
 
 
-class NeedEncodingException(ValueError):
-    """This method is raised if no encoding was specified but the content
-    should be encoded or decoded."""
-    pass
-
-
 class ContentDumper(object):
     """This class is a unified interface for saving objects.
 
