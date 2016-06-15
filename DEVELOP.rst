@@ -7,11 +7,7 @@ First ensure all tests are running:
 
 From [docs.python.org](https://docs.python.org/3.1/distutils/uploading.html):
 
-    setup.py sdist bdist_wininst upload
-
-For first upload use
-
-    setup.py register
+    setup.py sdist bdist_wininst upload register
 
 Install
 -------
