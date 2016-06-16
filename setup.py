@@ -27,7 +27,7 @@ def read_file_named(file_name):
 
 
 def read_filled_lines_from_file_named(file_name):
-    content = read_file_named("requirements-test.txt")
+    content = read_file_named(file_name)
     lines = content.splitlines()
     return [line for line in lines if line]
 
@@ -146,6 +146,33 @@ required_packages = \
     read_filled_lines_from_file_named("requirements.txt")
 required_test_packages = \
     read_filled_lines_from_file_named("requirements-test.txt")
+if sys.version_info <= (3, 2):
+    # remove package pytest-cov because it is not compatible
+    required_test_packages = [
+            package for package in required_test_packages
+            if not package.startswith("pytest-cov")
+        ]
+
+# print requirements
+
+class PrintRequiredPackages(Command):
+
+    description = "Print the packages to install. Use pip install `setup.py requirements`"
+    user_options = []
+    name = "requirements"
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    @staticmethod
+    def run():
+        for package in required_packages + required_test_packages:
+            print(package)
+
+# set development status from __version__
 
 DEVELOPMENT_STATES = {
         "p": "Development Status :: 1 - Planning",
@@ -197,7 +224,8 @@ SETUPTOOLS_METADATA = dict(
         "fakes_test": FlakesTestCommand,
         "coverage_pep8_test": CoveragePEP8TestCommand,
         "lint": LintCommand,
-        "link": LinkIntoSitePackages
+        "link": LinkIntoSitePackages,
+        PrintRequiredPackages.name: PrintRequiredPackages
         },
 )
 
@@ -216,4 +244,7 @@ def main():
         distutils.core.setup(**METADATA)
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) == 2 and sys.argv[1] == PrintRequiredPackages.name:
+        PrintRequiredPackages.run()
+    else:
+        main()
