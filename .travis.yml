@@ -1,7 +1,7 @@
 language: python
 sudo: required
 python:
-  - "3.2"
+#  - "3.2" # C:\Python32\lib\site-packages\pkg_resources\__init__.py:80: UserWarning: Support for Python 3.0-3.2 has been dropped. Future versions will fail here.
   - "3.3"
   - "3.4"
   - "3.5"
@@ -19,8 +19,7 @@ script:
   
   # test with pep8
   # add coverage for python 3.3 and above
-  - if [ "$TRAVIS_PYTHON_VERSION" == "3.2" ]; then py.test knittingpattern --pep8; fi
-  - if [ "$TRAVIS_PYTHON_VERSION" != "3.2" ]; then py.test knittingpattern --cov=knittingpattern --pep8; fi
+  - py.test knittingpattern --cov=knittingpattern --pep8
   
   # test import form everywhere
   - ( cd / && python3 -c "import knittingpattern;print(\"imported\")" )
