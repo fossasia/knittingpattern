@@ -26,9 +26,7 @@ script:
   - ( cd / && python3 -c "import knittingpattern;print(\"imported\")" )
   
   # run tests from installation
-  - sitepackages="`python3 -c \"import sys; print([p for p in sys.path if 'site-packages' in p][-1])\"`"
-  - echo "sitepackages $sitepackages"
-  - ( cd "$sitepackages" && py.test knittingpattern )
+  - ( cd / && py.test --pyargs knittingpattern )
   
 after_script:
 
