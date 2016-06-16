@@ -159,6 +159,7 @@ class PrintRequiredPackages(Command):
 
     description = "Print the packages to install. Use pip install `setup.py requirements`"
     user_options = []
+    name = "requirements"
 
     def initialize_options(self):
         pass
@@ -166,7 +167,8 @@ class PrintRequiredPackages(Command):
     def finalize_options(self):
         pass
 
-    def run(self):
+    @staticmethod
+    def run():
         for package in required_packages + required_test_packages:
             print(package)
 
@@ -223,7 +225,7 @@ SETUPTOOLS_METADATA = dict(
         "coverage_pep8_test": CoveragePEP8TestCommand,
         "lint": LintCommand,
         "link": LinkIntoSitePackages,
-        "requirements": PrintRequiredPackages
+        PrintRequiredPackages.name: PrintRequiredPackages
         },
 )
 
@@ -242,4 +244,7 @@ def main():
         distutils.core.setup(**METADATA)
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) == 2 and sys.argv[1] == PrintRequiredPackages.name:
+        PrintRequiredPackages.run()
+    else:
+        main()
