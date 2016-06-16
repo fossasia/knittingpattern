@@ -1,16 +1,34 @@
 language: python
 sudo: required
 python:
+#  - "3.2" # C:\Python32\lib\site-packages\pkg_resources\__init__.py:80: UserWarning: Support for Python 3.0-3.2 has been dropped. Future versions will fail here.
   - "3.3"
   - "3.4"
   - "3.5"
-install: 
-  - pip install -r requirements.txt
-  - pip install -r requirements-test.txt
+install:
+  
+  # install the package
+  - python3 setup.py install
+  - python3 -m pip install `python3 setup.py requirements`
+  
+  # show the versions
+  - py.test --version
+  - python3 setup.py requirements
+
 script:
-  - py.test --cov=knittingpattern --pep8
-  - bash -c '( python3 setup.py link && cd / && python3 -c "import knittingpattern;print(\"imported\")" )'
+  
+  # test with pep8
+  # add coverage for python 3.3 and above
+  - py.test knittingpattern --cov=knittingpattern --pep8
+  
+  # test import form everywhere
+  - ( cd / && python3 -c "import knittingpattern;print(\"imported\")" )
+  
+  # run tests from installation
+  - ( cd / && py.test --pyargs knittingpattern )
+  
 after_script:
+
   # https://github.com/codeclimate/python-test-reporter
   # set the environment variable CODECLIMATE_REPO_TOKEN in travis-ci settings
   - codeclimate-test-reporter
