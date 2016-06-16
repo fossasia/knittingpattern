@@ -1,6 +1,6 @@
 # there should be no imports
 
-__version__ = '0.0.4a'
+__version__ = '0.0.5a'
 
 
 def _load():
