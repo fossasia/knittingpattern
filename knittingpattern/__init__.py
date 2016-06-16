@@ -2,7 +2,7 @@
 
 __version__ = '0.0.4a'
 
-def _load()
+def _load():
     """Returns the loader of a KnittingContext to load objects from."""
     from .KnittingContext import KnittingContext
     return KnittingContext.load
