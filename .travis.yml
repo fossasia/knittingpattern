@@ -8,7 +8,7 @@ python:
 install:
   
   # install the package
-  - python3 setup.py install
+  - python3 -m pip install `setup.py requirements`
 
 script:
   
