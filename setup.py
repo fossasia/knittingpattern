@@ -27,7 +27,7 @@ def read_file_named(file_name):
 
 
 def read_filled_lines_from_file_named(file_name):
-    content = read_file_named("requirements-test.txt")
+    content = read_file_named(file_name)
     lines = content.splitlines()
     return [line for line in lines if line]
 
