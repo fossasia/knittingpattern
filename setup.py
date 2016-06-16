@@ -146,6 +146,12 @@ required_packages = \
     read_filled_lines_from_file_named("requirements.txt")
 required_test_packages = \
     read_filled_lines_from_file_named("requirements-test.txt")
+if sys.version_info <= (3, 2):
+    # remove package pytest-cov because it is not compatible
+    required_test_packages = [
+            package for package in required_test_packages
+            if not package.startswith("pytest-cov")
+        ]
 
 DEVELOPMENT_STATES = {
         "p": "Development Status :: 1 - Planning",
