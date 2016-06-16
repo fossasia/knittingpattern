@@ -153,6 +153,25 @@ if sys.version_info <= (3, 2):
             if not package.startswith("pytest-cov")
         ]
 
+# print requirements
+
+class PrintRequiredPackages(Command):
+
+    description = "Print the packages to install. Use pip install `setup.py requirements`"
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        for package in required_packages + required_test_packages:
+            print(package)
+
+# set development status from __version__
+
 DEVELOPMENT_STATES = {
         "p": "Development Status :: 1 - Planning",
         "pa": "Development Status :: 2 - Pre-Alpha",
@@ -203,7 +222,8 @@ SETUPTOOLS_METADATA = dict(
         "fakes_test": FlakesTestCommand,
         "coverage_pep8_test": CoveragePEP8TestCommand,
         "lint": LintCommand,
-        "link": LinkIntoSitePackages
+        "link": LinkIntoSitePackages,
+        "requirements": PrintRequiredPackages
         },
 )
 
