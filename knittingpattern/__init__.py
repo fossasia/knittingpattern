@@ -2,6 +2,7 @@
 
 __version__ = '0.0.4a'
 
+
 def _load():
     """Returns the loader of a KnittingContext to load objects from."""
     from .KnittingContext import KnittingContext
@@ -35,7 +36,7 @@ def load_from_url(url):
 
 def load_from_relative_file(module, path_relative_to):
     """Load a knitting pattern from a `path_relative_to` a `module`.
-    
+
     `module` can be a module, a module's name or a module's path."""
     return _load().relative_file(module, path_relative_to)
 
