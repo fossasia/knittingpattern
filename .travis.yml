@@ -9,6 +9,10 @@ install:
   
   # install the package
   - python3 setup.py install
+  
+  # show the versions
+  - py.test --version
+  - setup.py requirements
 
 script:
   
