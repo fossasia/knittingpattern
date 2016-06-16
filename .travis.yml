@@ -9,13 +9,13 @@ install:
   
   # install the package
   - python3 setup.py install
-  
+
 script:
   
   # test with pep8
   # add coverage for python 3.3 and above
-  - if [ "$TRAVIS_PYTHON_VERSION" == "3.2" ]; then py.test --pep8; fi
-  - if [ "$TRAVIS_PYTHON_VERSION" != "3.2" ]; then py.test --cov=knittingpattern --pep8; fi
+  - if [ "$TRAVIS_PYTHON_VERSION" == "3.2" ]; then py.test knittingpattern --pep8; fi
+  - if [ "$TRAVIS_PYTHON_VERSION" != "3.2" ]; then py.test knittingpattern --cov=knittingpattern --pep8; fi
   
   # test import form everywhere
   - ( cd / && python3 -c "import knittingpattern;print(\"imported\")" )
