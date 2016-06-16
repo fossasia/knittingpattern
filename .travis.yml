@@ -1,16 +1,31 @@
 language: python
 sudo: required
 python:
+  - "3.2"
   - "3.3"
   - "3.4"
   - "3.5"
-install: 
-  - pip install -r requirements.txt
-  - pip install -r requirements-test.txt
+install:
+  
+  # install the package
+  - python3 setup.py install
+  
 script:
-  - py.test --cov=knittingpattern --pep8
-  - bash -c '( python3 setup.py link && cd / && python3 -c "import knittingpattern;print(\"imported\")" )'
+  
+  # test with pep8
+  # add coverage for python 3.3 and above
+  - if [ "$TRAVIS_PYTHON_VERSION" == "3.2" ]; then py.test --pep8; fi
+  - if [ "$TRAVIS_PYTHON_VERSION" != "3.2" ]; then py.test --cov=knittingpattern --pep8; fi
+  
+  # test import form everywhere
+  - ( cd / && python3 -c "import knittingpattern;print(\"imported\")" )
+  
+  # run tests from installation
+  - sitepackages="`python3 -c \"import sys; print(*[p for p in sys.path if 'site-packages; in p])\"`"
+  - ( cd "$sitepackages" && py.test knittingpattern )
+  
 after_script:
+
   # https://github.com/codeclimate/python-test-reporter
   # set the environment variable CODECLIMATE_REPO_TOKEN in travis-ci settings
   - codeclimate-test-reporter
