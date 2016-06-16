@@ -5,7 +5,7 @@ __version__ = '0.0.4a'
 def _load():
     """Returns the loader of a KnittingContext to load objects from."""
     from .KnittingContext import KnittingContext
-    return KnittingContext.load
+    return KnittingContext().load
 
 
 def load_from_object(object):
