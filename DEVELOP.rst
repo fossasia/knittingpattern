@@ -16,7 +16,7 @@ To upload new versions, tag them with git and push them.
 
 The tag shows up as a `travis build
 <https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern/builds>`__.
-If the build succeeds it is automatically deployed to `Pypi
+If the build succeeds, it is automatically deployed to `Pypi
 <https://pypi.python.org/pypi/knittingpattern>`__.
 
 Manual Upload to the Python Package Index
