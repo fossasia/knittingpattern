@@ -9,13 +9,15 @@ install:
 # install the package
 - python3 setup.py install
 - python3 -m pip install `python3 setup.py requirements`
+# remove the build folder because it creates problems for py.test
+- rm -rf build
 # show the versions
 - py.test --version
 - python3 setup.py requirements
 script:
 # test with pep8
 # add coverage for python 3.3 and above
-- py.test knittingpattern --cov=knittingpattern --pep8
+- py.test --cov=knittingpattern --pep8
 # test import form everywhere
 - ( cd / && python3 -c "import knittingpattern;print(\"imported\")" )
 # run tests from installation
