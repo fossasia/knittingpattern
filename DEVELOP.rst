@@ -6,7 +6,7 @@ Before you put something on Pypi, ensure the following:
 1. The version in in the master branch on github.
 2. The tests run by travis-ci run successfully.
 
-Pypi is automatically deployed by travis. `See here.
+Pypi is automatically deployed by travis. `See here
 <https://docs.travis-ci.com/user/deployment/pypi>`__.
 To upload new versions, tag them with git and push them.
 
