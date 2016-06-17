@@ -1,5 +1,6 @@
 from test import *
 from knittingpattern.Loader import ContentLoader
+import re
 
 HERE = os.path.dirname(__file__)
 IMAGES_FOLDER_NAME = "test_images"
@@ -12,7 +13,8 @@ DEFAULT_FILE = os.path.join(IMAGES_FOLDER, "default.svg")
 
 
 def title(content):
-    return parse_string(content).svg.title
+    """returns the title of the svg"""
+    return re.findall("<title[^>]*>([^<]*)</title>", content)[-1]
 
 
 def is_knit(content):
@@ -70,6 +72,6 @@ def test_default_content_has_identifier_in_place():
 
 __all__ = [
         "KNIT_FILE", "PURL_FILE", "YO_FILE", "K2TOG_FILE", "IMAGES_FOLDER",
-        "IMAGES_FOLDER_NAME", "DEFAULT_FILE", "read", 
+        "IMAGES_FOLDER_NAME", "DEFAULT_FILE", "read", "title",
         "is_knit", "is_purl", "is_yo", "is_k2tog", "is_default"
     ]

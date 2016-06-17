@@ -92,11 +92,10 @@ class TestDefaultInstrucionToSVG(object):
 
 class TestInstructionToSVG(object):
 
-    def test_file_content_is_included(self, loaded_knit_to_svg, knit_content):
-        assert knit_content in loaded_knit_to_svg
+    def test_file_content_is_included(self, loaded_knit_to_svg):
+        assert is_knit(loaded_knit_to_svg)
 
-    def test_first_element_is_scaled_group(self, loaded_knit_to_svg,
-                                           knit_content):
+    def test_first_element_is_scaled_group(self, loaded_knit_to_svg):
         parsed = parse_string(loaded_knit_to_svg)
         # transform = parsed.g["transform"]
         # x, y, width, height = map(float, parsed.g.svg["viewbox"])
