@@ -8,8 +8,12 @@ from unittest.mock import MagicMock, call
 import os
 import sys
 import pytest
-import untangle  # http://docs.python-guide.org/en/latest/scenarios/xml/
 import io
+try:
+    import untangle  # http://docs.python-guide.org/en/latest/scenarios/xml/
+except ImportError:
+    raise ImportError("Install untangle with \"{} -m pip install untangle\"."
+                      "".format(sys.executable))
 
 HERE = os.path.dirname(__file__)
 
