@@ -9,11 +9,16 @@ install:
 # install the package
 - python3 setup.py install
 - python3 -m pip install `python3 setup.py requirements`
+- PACKAGE_VERSION=`python3 setup.py --version`
+- TAG_NAME=v$PACKAGE_VERSION
+before_script:
 # remove the build folder because it creates problems for py.test
 - rm -rf build
 # show the versions
+- python3 setup.py --version
 - py.test --version
 - python3 setup.py requirements
+- echo Package version $PACKAGE_VERSION with possible tag name $TAG_NAME
 script:
 # test with pep8
 # add coverage for python 3.3 and above
@@ -22,6 +27,9 @@ script:
 - ( cd / && python3 -c "import knittingpattern;print(\"imported\")" )
 # run tests from installation
 - "( cd / && py.test --pyargs knittingpattern )"
+# test that the tag represents the version
+# https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
+- ( if [ -n "$TRAVIS_TAG" ]; then if [ $TAG_NAME != $TRAVIS_TAG ]; then echo "This tag is for the wrong version. Got \"$TRAVIS_TAG\" expected \"$TAG_NAME\"."; exit 1; fi; fi; )
 after_script:
 # https://github.com/codeclimate/python-test-reporter
 # set the environment variable CODECLIMATE_REPO_TOKEN in travis-ci settings
