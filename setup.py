@@ -156,9 +156,11 @@ if sys.version_info <= (3, 2):
 
 # print requirements
 
+
 class PrintRequiredPackagesCommand(Command):
 
-    description = "Print the packages to install. Use pip install `setup.py requirements`"
+    description = "Print the packages to install. "\
+                  "Use pip install `setup.py requirements`"
     user_options = []
     name = "requirements"
 
@@ -193,6 +195,7 @@ if not __version__[-1:].isdigit():
     METADATA["version"] += "0"
 
 # tag and upload to github to autodeploy with travis
+
 
 class TagAndDeployCommand(Command):
 
