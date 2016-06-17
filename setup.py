@@ -204,6 +204,7 @@ class TagAndDeployCommand(Command):
     user_options = []
     name = "tag_and_deploy"
     remote = "origin"
+    branch = "master"
 
     def initialize_options(self):
         pass
@@ -211,21 +212,32 @@ class TagAndDeployCommand(Command):
     def finalize_options(self):
         pass
 
-    @staticmethod
-    def run():
+    def run(self):
+        if subprocess.call(["git", "--version"]) != 0:
+            print("ERROR:\n\tPlease install git.")
+            exit(1)
+        status_lines = subprocess.check_output(["git", "status"]).splitlines()
+        current_branch = status_lines[0].strip().split()[-1].decode()
+        print("On branch {}.".format(current_branch))
+        if current_branch != self.branch:
+            print("ERROR:\n\tNew tags can only be made from branch \"{}\"."
+                  "".format(self.branch))
+            print("\tYou can use \"git checkout {}\" to switch the branch."
+                  "".format(self.branch))
+            exit(1)
         tags_output = subprocess.check_output(["git", "tag"])
-        tags = [tag.strip() for tag in tags_output.splitlines()]
+        tags = [tag.strip().decode() for tag in tags_output.splitlines()]
         tag = "v" + __version__
         if tag in tags:
-            print("ERROR: \n\tTag {} already exists.".format(tag))
+            print("Warning: \n\tTag {} already exists.".format(tag))
             print("\tEdit the version information in {}".format(
                     os.path.join(HERE, PACKAGE_NAME, "__init__.py")
                 ))
         else:
             print("Creating tag \"{}\".".format(tag))
             subprocess.check_call(["git", "tag", tag])
-        print("Pushing tag \"{}\" to remote \"{}\".".format(tag, remote))
-        subprocess.check_call(["git", "push", remote, tag])
+        print("Pushing tag \"{}\" to remote \"{}\".".format(tag, self.remote))
+        subprocess.check_call(["git", "push", self.remote, tag])
 
 
 SETUPTOOLS_METADATA = dict(
