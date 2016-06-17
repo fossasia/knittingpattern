@@ -1,3 +1,30 @@
+Automatic Upload to Pypi
+========================
+
+Before you put something on Pypi, ensure the following:
+
+1. The version in in the master branch on github.
+2. The tests run by travis-ci run successfully.
+
+Pypi is automatically deployed by travis. `See here
+<https://docs.travis-ci.com/user/deployment/pypi>`__.
+To upload new versions, tag them with git and push them.
+
+.. code:: bash
+
+  setup.py tag_and_deploy
+
+The tag shows up as a `travis build
+<https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern/builds>`__.
+If the build succeeds, it is automatically deployed to `Pypi
+<https://pypi.python.org/pypi/knittingpattern>`__.
+
+Manual Upload to the Python Package Index
+=========================================
+
+
+However, here you can see how to upload this package manually.
+
 Version
 -------
 
@@ -9,7 +36,7 @@ Throughout this chapter, ``<new_version>`` refers to a a string of the form ``[0
 
   git checkout -b <new_version>
 
-2. Increase the ``__version__`` in `__init__.py <knittingpattern/__init__.py#L3>`_
+2. Increase the ``__version__`` in `__init__.py <knittingpattern/__init__.py#L3>`__
 
    - no letter at the end means release
    - ``b`` in the end means Beta
@@ -27,7 +54,7 @@ Throughout this chapter, ``<new_version>`` refers to a a string of the form ``[0
 
 4. Create a pull-request.
 
-5. Wait for `travis-ci <https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern>`_ to pass the tests.
+5. Wait for `travis-ci <https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern>`__ to pass the tests.
 
 6. Merge the pull-request.
 7. Checkout the master branch and pull the changes from the commit_.
@@ -60,14 +87,20 @@ First ensure all tests are running:
 
 
 From `docs.python.org
-<https://docs.python.org/3.1/distutils/uploading.html>`_:
+<https://docs.python.org/3.1/distutils/uploading.html>`__:
 
 .. code:: bash
 
     setup.py sdist bdist_wininst upload register
+    
+Classifiers
+-----------
 
-Install
--------
+You can find all Pypi classifiers `here
+<http://pypi.python.org/pypi?%3Aaction=list_classifiers>`_.
+
+Package installation from Pypi
+==============================
 
 Install it with a specific python version under windows:
 
@@ -82,8 +115,3 @@ Test the installed version. You might have forgotten some includes:
     cd C:\Python35-32\Lib\site-packages
     py -3.5 -m pytest knittingpattern
 
-Classifiers
------------
-
-You can find all Pypi classifiers `here
-<http://pypi.python.org/pypi?%3Aaction=list_classifiers>`_.
