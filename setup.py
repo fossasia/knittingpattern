@@ -282,7 +282,7 @@ def main():
         distutils.core.setup(**METADATA)
 
 if __name__ == '__main__':
-    if len(sys.argv) == 2 and sys.argv[1] == PrintRequiredPackages.name:
-        PrintRequiredPackages.run()
+    if len(sys.argv) == 2 and sys.argv[1] == PrintRequiredPackagesCommand.name:
+        PrintRequiredPackagesCommand.run()
     else:
         main()
