@@ -1,34 +1,48 @@
 language: python
 sudo: required
 python:
-#  - "3.2" # C:\Python32\lib\site-packages\pkg_resources\__init__.py:80: UserWarning: Support for Python 3.0-3.2 has been dropped. Future versions will fail here.
-  - "3.3"
-  - "3.4"
-  - "3.5"
+#- "3.2" # C:\Python32\lib\site-packages\pkg_resources\__init__.py:80: UserWarning: Support for Python 3.0-3.2 has been dropped. Future versions will fail here.
+- '3.3'
+- '3.4'
+- '3.5'
 install:
-  
-  # install the package
-  - python3 setup.py install
-  - python3 -m pip install `python3 setup.py requirements`
-  
-  # show the versions
-  - py.test --version
-  - python3 setup.py requirements
-
+# install the package
+- python3 setup.py install
+- python3 -m pip install `python3 setup.py requirements`
+- PACKAGE_VERSION=`python3 setup.py --version`
+- TAG_NAME=v$PACKAGE_VERSION
+before_script:
+# remove the build folder because it creates problems for py.test
+- rm -rf build
+# show the versions
+- python3 setup.py --version
+- py.test --version
+- python3 setup.py requirements
+- echo Package version $PACKAGE_VERSION with possible tag name $TAG_NAME
 script:
-  
-  # test with pep8
-  # add coverage for python 3.3 and above
-  - py.test knittingpattern --cov=knittingpattern --pep8
-  
-  # test import form everywhere
-  - ( cd / && python3 -c "import knittingpattern;print(\"imported\")" )
-  
-  # run tests from installation
-  - ( cd / && py.test --pyargs knittingpattern )
-  
+# test with pep8
+# add coverage for python 3.3 and above
+- py.test --cov=knittingpattern --pep8
+# test import form everywhere
+- ( cd / && python3 -c "import knittingpattern;print(\"imported\")" )
+# run tests from installation
+- "( cd / && py.test --pyargs knittingpattern )"
+# test that the tag represents the version
+# https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
+- ( if [ -n "$TRAVIS_TAG" ]; then if [ $TAG_NAME != $TRAVIS_TAG ]; then echo "This tag is for the wrong version. Got \"$TRAVIS_TAG\" expected \"$TAG_NAME\"."; exit 1; fi; fi; )
 after_script:
-
-  # https://github.com/codeclimate/python-test-reporter
-  # set the environment variable CODECLIMATE_REPO_TOKEN in travis-ci settings
-  - codeclimate-test-reporter
+# https://github.com/codeclimate/python-test-reporter
+# set the environment variable CODECLIMATE_REPO_TOKEN in travis-ci settings
+- codeclimate-test-reporter
+deploy:
+# created with travis command line tool
+# https://docs.travis-ci.com/user/deployment/pypi
+# $ travis setup pypi
+  provider: pypi
+  user: niccokunzmann2
+  password:
+    secure: nqxnwagFphdLLJsjt4of/jMnLtsMtk8HqoPmENodEfaeue0A4ziIIm46tSBKdBqHURxuCFjj8siuaVCsXiZso/b4aJaIy08C3dcYltiLTfnYDJisicijEMg2wLNffJqiTN2+W6trHFJ7TzYz932jQEMmOC09mynt7LbP7RJOfqOGxvHiVL8D7I677xNLz+Kgu5R5FfZ9lzWcuBEbFTLffFcITeqVM+0yGJv9pZ+rud3RXl3qCAFYsG7SlHnzGuOyV/vWdAmfEuCvW+bs3oFS85Im4LiD1YTE5CQZhrwwGslncjOlWOAlrMuJzWmAG/6OTrIK7nIpI5gVlZdkesZQsx6JeR/22rVjkD9UcKj1R+7lzsC2X9Lh+vMRtxHJnDlW7clUA9+qw+TnvmR85UUhnmaaGtGJwZXDi0TP9wYmg3TaxoKKx5SnYDyFIq5kbVnSxSu1ng0qFMszGH1HYR350fEk8/so3IxdAbrHYbK5xeMv0vISJXdzIv/0U14lb4uB3agWf+SANQkrjYNx4BSE5zP1qj2HC2NsGwXdkl/8HjbTFe9Daj5nLTmGRL80GQ0BpRyJrT5wERRqozuWM1Jb1v6kgADhZhWAUryFlTZ+875He1CYXXoVSI59IER1ccK89NautsrF3mW/4o/WXCTzPDHtDkdavAvVPJc34oTmZgI=
+  on:
+    tags: true
+    distributions: sdist bdist_wininst bdist_wheel
+    repo: AllYarnsAreBeautiful/knittingpattern

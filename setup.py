@@ -11,13 +11,14 @@ PACKAGE_NAMES = [
         "knittingpattern.convert", "knittingpattern.convert.test"
     ]
 
+HERE = os.path.abspath(os.path.dirname(__file__))
+sys.path.insert(0, HERE)  # for package import
+
 __doc__ = '''
 The setup and build script for the {} library.
 '''.format(PACKAGE_NAME)
 __version__ = __import__(PACKAGE_NAME).__version__
 __author__ = 'Nicco Kunzmann'
-
-HERE = os.path.abspath(os.path.dirname(__file__))
 
 
 def read_file_named(file_name):
@@ -94,7 +95,7 @@ class LintCommand(TestCommandBase):
 # command for linking
 
 
-class LinkIntoSitePackages(Command):
+class LinkIntoSitePackagesCommand(Command):
 
     description = "link this module into the site-packages so the latest "\
         "version can always be used without installation."
@@ -155,9 +156,11 @@ if sys.version_info <= (3, 2):
 
 # print requirements
 
-class PrintRequiredPackages(Command):
 
-    description = "Print the packages to install. Use pip install `setup.py requirements`"
+class PrintRequiredPackagesCommand(Command):
+
+    description = "Print the packages to install. "\
+                  "Use pip install `setup.py requirements`"
     user_options = []
     name = "requirements"
 
@@ -190,6 +193,52 @@ for ending in DEVELOPMENT_STATES:
 
 if not __version__[-1:].isdigit():
     METADATA["version"] += "0"
+
+# tag and upload to github to autodeploy with travis
+
+
+class TagAndDeployCommand(Command):
+
+    description = "Create a git tag for this version and push it to origin."\
+                  "To trigger a travis-ci build and and deploy."
+    user_options = []
+    name = "tag_and_deploy"
+    remote = "origin"
+    branch = "master"
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        if subprocess.call(["git", "--version"]) != 0:
+            print("ERROR:\n\tPlease install git.")
+            exit(1)
+        status_lines = subprocess.check_output(["git", "status"]).splitlines()
+        current_branch = status_lines[0].strip().split()[-1].decode()
+        print("On branch {}.".format(current_branch))
+        if current_branch != self.branch:
+            print("ERROR:\n\tNew tags can only be made from branch \"{}\"."
+                  "".format(self.branch))
+            print("\tYou can use \"git checkout {}\" to switch the branch."
+                  "".format(self.branch))
+            exit(1)
+        tags_output = subprocess.check_output(["git", "tag"])
+        tags = [tag.strip().decode() for tag in tags_output.splitlines()]
+        tag = "v" + __version__
+        if tag in tags:
+            print("Warning: \n\tTag {} already exists.".format(tag))
+            print("\tEdit the version information in {}".format(
+                    os.path.join(HERE, PACKAGE_NAME, "__init__.py")
+                ))
+        else:
+            print("Creating tag \"{}\".".format(tag))
+            subprocess.check_call(["git", "tag", tag])
+        print("Pushing tag \"{}\" to remote \"{}\".".format(tag, self.remote))
+        subprocess.check_call(["git", "push", self.remote, tag])
+
 
 SETUPTOOLS_METADATA = dict(
     install_requires=required_packages,
@@ -224,8 +273,9 @@ SETUPTOOLS_METADATA = dict(
         "fakes_test": FlakesTestCommand,
         "coverage_pep8_test": CoveragePEP8TestCommand,
         "lint": LintCommand,
-        "link": LinkIntoSitePackages,
-        PrintRequiredPackages.name: PrintRequiredPackages
+        "link": LinkIntoSitePackagesCommand,
+        PrintRequiredPackagesCommand.name: PrintRequiredPackagesCommand,
+        TagAndDeployCommand.name: TagAndDeployCommand
         },
 )
 
@@ -244,7 +294,7 @@ def main():
         distutils.core.setup(**METADATA)
 
 if __name__ == '__main__':
-    if len(sys.argv) == 2 and sys.argv[1] == PrintRequiredPackages.name:
-        PrintRequiredPackages.run()
+    if len(sys.argv) == 2 and sys.argv[1] == PrintRequiredPackagesCommand.name:
+        PrintRequiredPackagesCommand.run()
     else:
         main()
