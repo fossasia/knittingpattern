@@ -21,9 +21,6 @@ class KnittingPatternSet(object):
     def patterns(self):
         return self._patterns
 
-    def to_svg(self):
-        pass
-
     @property
     def comment(self):
         """Returns the comment for the knitting pattern set or None."""

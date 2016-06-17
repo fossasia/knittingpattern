@@ -10,7 +10,7 @@ def file():
 
 @fixture
 def builder(file):
-    return SVGBuilder(file)
+    return SVGBuilder(file, 0, 0, 10, 10)
 
 
 @fixture
