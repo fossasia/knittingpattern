@@ -7,7 +7,32 @@ IMAGES_FOLDER = os.path.join(HERE, IMAGES_FOLDER_NAME)
 KNIT_FILE = os.path.join(IMAGES_FOLDER, "knit.svg")
 PURL_FILE = os.path.join(IMAGES_FOLDER, "purl.svg")
 YO_FILE = os.path.join(IMAGES_FOLDER, "yo.svg")
+K2TOG_FILE = os.path.join(IMAGES_FOLDER, "k2tog.svg")
 DEFAULT_FILE = os.path.join(IMAGES_FOLDER, "default.svg")
+
+
+def title(content):
+    return parse_string(content).svg.title
+
+
+def is_knit(content):
+    return title(content) == "knit"
+
+
+def is_purl(content):
+    return title(content) == "purl"
+
+
+def is_yo(content):
+    return title(content) == "yo"
+
+
+def is_k2tog(content):
+    return title(content) == "k2tog"
+    
+
+def is_default(content):
+    return title(content) == "default"
 
 
 def read(path):
@@ -15,67 +40,36 @@ def read(path):
         return file.read()
 
 
-@fixture
-def knit_content():
-    return read(KNIT_FILE)
+file_to_test = {
+        KNIT_FILE: is_knit,
+        PURL_FILE: is_purl,
+        YO_FILE: is_yo,
+        K2TOG_FILE: is_k2tog,
+        DEFAULT_FILE: is_default
+    }
 
 
-@fixture
-def purl_content():
-    return read(PURL_FILE)
+@pytest.mark.parametrize('path, test', list(file_to_test.items()))
+def test_tests_work_on_corresponding_file(path, test):
+    assert test(read(path))
 
 
-@fixture
-def yo_content():
-    return read(YO_FILE)
+@pytest.mark.parametrize('path, test', [
+        (path, _test)
+        for path in file_to_test
+        for test_path, _test in file_to_test.items()
+        if path != test_path
+    ])
+def test_tests_do_not_work_on_other_files(path, test):
+    assert not test(read(path))
 
 
-@fixture
-def default_content():
-    return read(DEFAULT_FILE)
+def test_default_content_has_identifier_in_place():
+    assert "{instruction.type}" in read(DEFAULT_FILE)
 
-
-def test_knit_is_in_knit_file(knit_content):
-    assert "knit" in knit_content
-
-
-def test_knit_is_in_knit_file(purl_content):
-    assert "purl" in purl_content
-
-
-def test_knit_is_in_knit_file(yo_content):
-    assert "yo" in yo_content
-
-
-def test_knit_is_not_in_purl_file(purl_content):
-    assert "knit" not in purl_content
-
-
-def test_knit_is_not_in_yo_file(yo_content):
-    assert "knit" not in yo_content
-
-
-def test_yo_is_not_in_purl_file(purl_content):
-    assert "yo" not in purl_content
-
-
-def test_purl_is_not_in_yo_file(yo_content):
-    assert "purl" not in yo_content
-
-
-def test_purl_is_not_in_knit_file(knit_content):
-    assert "purl" not in knit_content
-
-
-def test_yo_is_not_in_knit_file(knit_content):
-    assert "yo" not in knit_content
-
-
-def test_default_content_has_identifier_in_place(default_content):
-    assert "{instruction.type}" in default_content
 
 __all__ = [
-        "KNIT_FILE", "PURL_FILE", "YO_FILE", "IMAGES_FOLDER",
-        "IMAGES_FOLDER_NAME", "DEFAULT_FILE", "read", "knit_content",
-        "purl_content", "yo_content", "default_content"
+        "KNIT_FILE", "PURL_FILE", "YO_FILE", "K2TOG_FILE", "IMAGES_FOLDER",
+        "IMAGES_FOLDER_NAME", "DEFAULT_FILE", "read", 
+        "is_knit", "is_purl", "is_yo", "is_k2tog", "is_default"
     ]
