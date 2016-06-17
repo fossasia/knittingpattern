@@ -2,6 +2,11 @@
 
 """
 
+def _copy_attributes(from_function, to_class):
+    to_class.__name__ = from_function.__name__
+    to_class.__doc__ = from_function.__doc__
+    to_class.__qualname__ = from_function.__qualname__
+    to_class.__module__ = from_function.__module__
 
 def load_and_dump(Loader, Dumper, load_and_dump,
                   loader_args=(), loader_kw={},
@@ -16,13 +21,11 @@ def load_and_dump(Loader, Dumper, load_and_dump,
 
     class Load(Loader):
         pass
-    Load.__name__ = load_and_dump.__name__
-    Load.__doc__ = load_and_dump.__doc__
-
+    _copy_attributes(load_and_dump, Load)
+    
     class Dump(Dumper):
         pass
-    Dumper.__name__ = load_and_dump.__name__
-    Dumper.__doc__ = load_and_dump.__doc__
+    _copy_attributes(load_and_dump, Dump)
 
     def load(*args1, **kw):
         """return the dumper"""
@@ -39,10 +42,18 @@ def decorate_load_and_dump(Loader, Dumper,
     """Same as `load_and_dump()` but returns a function to enable decorator
     syntax.
 
-        @decorate_load_and_dump(Loader, Dumper)
+    Examples:
+    
+        @decorate_load_and_dump(ContentLoader, JSONDumper)
         def convert_from_loader_to_dumper(loaded_stuff):
             # convert
             return converted_stuff
+
+        @decorate_load_and_dump(PathLoader, ContentDumper)
+        def convert_from_loader_to_dumper(loaded_stuff, to_file):
+            # convert
+            to_file.write(converted_stuff)
+
     """
     return lambda function: load_and_dump(Loader, Dumper, function,
                                           loader_args, loader_kw,
