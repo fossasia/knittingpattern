@@ -26,7 +26,6 @@ class KnittingPatternSet(object):
         """Returns the comment for the knitting pattern set or None."""
         return self._comment
 
-    @property
     def to_ayabpng(self):
         """Returns a Dumper to save this pattern set as png for AYAB."""
         return AYABPNGDumper(lambda: self)
