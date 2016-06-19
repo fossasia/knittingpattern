@@ -93,22 +93,22 @@ def assert_has_one_colored_layer(svg):
 
 def assert_fill_has_color_of(svg, instruction):
     colored_layer = color_layers(svg)[0]
-    for element_type in dir(colored_layer):
-        element = getattr(colored_layer, element_type)
-        if "style" in element:
-            style = rectangle[element]
-            assert "fill:" + knit.color in style
+    element = (colored_layer.rect 
+               if "rect" in dir(colored_layer) 
+               else colored_layer.circle)
+    style = element["style"]
+    assert "fill:" + instruction.color in style
 
 
 class TestInstructionToSVG(object):
 
     @fixture
     def knit_svg(self, loaded, knit):
-        return parse_string(loaded.instruction_to_svg(knit))
+        return parse_string(loaded.instruction_to_svg(knit)).svg
 
     @fixture
     def purl_svg(self, loaded, purl):
-        return parse_string(loaded.instruction_to_svg(purl))
+        return parse_string(loaded.instruction_to_svg(purl)).svg
 
     def test_file_content_is_included(self, knit_svg):
         assert is_knit(knit_svg)
@@ -117,7 +117,7 @@ class TestInstructionToSVG(object):
         assert is_purl(purl_svg)
 
     def test_returned_object_is_svg_with_viewbox(self, knit_svg):
-        assert all(map(str.isdigit, knit_svg["viewbox"].split()))
+        assert len(knit_svg["viewBox"].split()) == 4
         
     def test_there_is_one_color_layer(self, knit_svg):
         assert_has_one_colored_layer(knit_svg)
@@ -131,4 +131,4 @@ class TestInstructionToSVG(object):
     def test_purl_is_colored(self, purl_svg, purl):
         assert_fill_has_color_of(purl_svg, purl)
         
-        
+    # TODO> test colored layer so it does everything as specified    

@@ -14,7 +14,9 @@ DEFAULT_FILE = os.path.join(IMAGES_FOLDER, "default.svg")
 
 def title(content):
     """returns the title of the svg"""
-    return re.findall("<title[^>]*>([^<]*)</title>", content)[-1]
+    if isinstance(content, str):
+        return re.findall("<title[^>]*>([^<]*)</title>", content)[-1]
+    return content.title.cdata
 
 
 def is_knit(content):

@@ -1,5 +1,6 @@
 """This module maps instrucitons to SVG."""
 import os
+import xmltodict
 
 
 REPLACE_IN_DEFAULT_SVG = "{instruction.type}"
@@ -51,8 +52,41 @@ class InstructionToSVG(object):
         """
         instruction_type = instruction.type
         if instruction_type in self._instruction_type_to_file_content:
-            return self._instruction_type_to_file_content[instruction_type]
+            svg_content = self._instruction_type_to_file_content[instruction_type]
+            return self._set_fills_in_color_layer(svg_content, instruction.color)
         return self.default_instruction_to_svg(instruction)
+        
+    def _set_fills_in_color_layer(self, svg_string, color):
+        """replaces fill colors in <g inkscape:label="color" 
+        inkscape:groupmode="layer"> with color"""
+        structure = xmltodict.parse(svg_string)
+        layers = structure["svg"]["g"]
+        if not isinstance(layers, list):
+            layers = [layers]
+        for layer in layers:
+            print("layer:", layer)
+            if not isinstance(layer, dict):
+                continue
+            if layer.get("@inkscape:label") == "color" and layer.get("@inkscape:groupmode") == "layer":
+                for key, elements in layer.items():
+                    if key.startswith("@") or key.startswith("#"):
+                        continue
+                    if not isinstance(elements, list):
+                        elements = [elements]
+                    for element in elements:
+                        print("ELEMENT:", element)
+                        style = element.get("@style", None)
+                        if style:
+                            print("style:", style)
+                            style = style.split(";")
+                            processed_style = []
+                            for e in style:
+                                if e.startswith("fill:"):
+                                    e = "fill:" + color
+                                processed_style.append(e)
+                            style = ";".join(processed_style)
+                            element["@style"] = style
+        return xmltodict.unparse(structure)
 
     def has_svg_for_instruction(self, instruction):
         """Returns whether there is an image for the instruction.
@@ -82,7 +116,8 @@ class InstructionToSVG(object):
             return ""
         default_svg = self._instruction_type_to_file_content[default_type]
         default_svg = default_svg.replace(rep_str, instruction_type)
-        return default_svg
+        colored_svg = self._set_fills_in_color_layer(default_svg, instruction.color)
+        return colored_svg
 
 
 def load_svg_files_from_directory(path):
