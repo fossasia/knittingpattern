@@ -32,7 +32,7 @@ def svg(path):
 
 @fixture
 def rows(svg):
-    return ["row-{}".format(i), row for i, row in enumerate(svg.g)]
+    return [("row-{}".format(i), row) for i, row in enumerate(svg.g)]
 
 
 @fixture
@@ -62,43 +62,43 @@ def test_svg_contains_four_rows(svg):
 
 @rows_test
 def test_rows_contain_four_instructions(row_id, row):
-    assert len(row.g) == 4)
+    assert len(row.g) == 4
 
 
 @rows_test
 def test_rows_are_labeled_for_inkscape(row_id, row):
-    assert row["inkscape:label"] == row_id)
+    assert row["inkscape:label"] == row_id
 
 
 @rows_test
 def test_row_is_inkscape_layer(row_id, row):
-    assert row["inkscape:groupmode"] == "layer")
+    assert row["inkscape:groupmode"] == "layer"
 
 
 @rows_test
 def test_rows_have_class_for_styling(row_id, row):
-    assert row["class"] == "row")
+    assert row["class"] == "row"
 
 
 @rows_test
 def test_rows_have_id_for_styling(row_id, row):
-    assert row["id"] == row_id)
+    assert row["id"] == row_id
 
 
 @instructions_test
 def test_instructions_have_class(instruction):
-    assert instruction["class"] == "instruction")
+    assert instruction["class"] == "instruction"
 
 
 @instructions_test
 def test_instructions_have_id(instruction):
     # TODO all ids should be made up from the real ids
-    assert instruction["id"].startswith("instruction-"))
+    assert instruction["id"].startswith("instruction-")
 
 
 @instructions_test
 def test_instructions_content_is_knit_svg_file(instruction):
-    assert instruction.g["title"] == "knit")
+    assert instruction.g["title"] == "knit"
 
         
 @instructions_test
