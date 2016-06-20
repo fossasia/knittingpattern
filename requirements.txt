@@ -1,3 +1,4 @@
 setuptools
 Pillow>=3.2.0
 webcolors>=1.5
+xmltodict>=0.10.2
