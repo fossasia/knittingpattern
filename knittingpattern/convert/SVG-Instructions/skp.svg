@@ -16,9 +16,9 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="k2tog.svg">
+   sodipodi:docname="skp.svg">
   <title
-     id="title4556">k2tog</title>
+     id="title4283">skp</title>
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2"
-     inkscape:cx="31.723131"
-     inkscape:cy="123.45584"
+     inkscape:zoom="5.6568543"
+     inkscape:cx="108.08841"
+     inkscape:cy="54.883775"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"
@@ -59,7 +59,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>k2tog</dc:title>
+        <dc:title>skp</dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1445,7 +1445,7 @@
      transform="translate(-5,-15.21429)">
     <path
        style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:20;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-       d="M 186.16208,16.281909 5.67551,100.98516 l 5.616769,11.96677 c 6.180833,0.91013 9.617167,0.45687 13.920549,0.95792 L 204.42746,29.80352 198.36697,16.891359 c -5.9709,-0.09166 -4.4654,-0.556012 -12.20489,-0.60945 z"
+       d="m 23.94089,16.281909 180.48657,84.703251 -5.61677,11.96677 c -6.18083,0.91013 -9.61717,0.45687 -13.92055,0.95792 L 5.67551,29.80352 11.736,16.891359 c 5.9709,-0.09166 4.4654,-0.556012 12.20489,-0.60945 z"
        id="path4558"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccc" />
@@ -1457,9 +1457,8 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccssssssssssssssssss" />
     <path
-       transform="translate(-216.14285,-368.50507)"
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 226.06735,478.5423 416.32142,389.25563"
+       d="M 200.17847,110.03723 9.9244,20.75056"
        id="path4551"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
