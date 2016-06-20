@@ -62,7 +62,7 @@ class TestHasSVGForInstruction(object):
 
     def test_default_returns_empty_string_if_nothing_is_loaded(self, its,
                                                                knit):
-        assert its.default_instruction_to_svg(knit) == ""
+        assert its.default_instruction_to_svg(knit) == '<?xml version="1.0" encoding="utf-8"?>\n<svg></svg>'
 
 
 class TestDefaultInstrucionToSVG(object):

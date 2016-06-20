@@ -5,7 +5,15 @@
 import xmltodict
 
 SVG_FILE = """
-<svg xmlns:ns="http://PURL.org/dc/elements/1.1/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" version="1.1">
+<svg 
+   xmlns:ns="http://PURL.org/dc/elements/1.1/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" >
     <title>knittingpattern</title>
     <defs></defs>
 </svg>"""
@@ -45,7 +53,7 @@ class SVGBuilder(object):
         self._max_y = max_y
         self._svg["@height"] = str(max_y - min_y)
         self._svg["@width"] = str(max_x - min_x)
-        self._svg["@viewBox"] = "{} {} {} {}".format(*bbox)
+        self._svg["@viewBox"] = "{} {} {} {}".format(min_x, min_y, max_x, max_y)
 
 
     def place(self, x, y, svg, layer_id):
@@ -54,9 +62,18 @@ class SVGBuilder(object):
 
         This can be used to place instructions in layers."""
         content = xmltodict.parse(svg)
-        content["@transform"] = "translate({},{})".format(x, y)
+        self.place_svg_dict(x, y, content, layer_id)
+        
+    def place_svg_dict(self, x, y, svg_dict, layer_id, group={}):
+        """Same as place but with a dictionary instead of a string"""
+        group_ = {
+                "@transform" : "translate({},{})".format(x, y), 
+                "g" : svg_dict["svg"],
+            }
+        group_.update(group)
         layer = self._get_layer(layer_id)
-        layer["g"].append(content)
+        layer["g"].append(group_)
+        
         
     def _get_layer(self, layer_id):
         if layer_id not in self._layer_id_to_layer:
@@ -65,7 +82,8 @@ class SVGBuilder(object):
                     "g":[], 
                     "@inkscape:label": layer_id,
                     "@id": layer_id,
-                    "@inkscape:groupmode":"layer"
+                    "@inkscape:groupmode":"layer",
+                    "@class" : "row"
                 }
             self._layer_id_to_layer[layer_id] = layer
             self._svg["g"].append(layer)

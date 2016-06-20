@@ -2,7 +2,7 @@ from test import *
 from knittingpattern import load_from_relative_file
 import untangle
 from itertools import chain
-from functools import wraps
+import re
 
 INKSCAPE_MESSAGE = "row is usable by inkscape"
 TRANSFORM_REGEX = "^translate\(\s*(\S+?)\s*,\s*(\S+?)\s*\)\s*,"\
@@ -32,7 +32,7 @@ def svg(path):
 
 @fixture
 def rows(svg):
-    return [("row-{}".format(i), row) for i, row in enumerate(svg.g)]
+    return [("row-{}".format(i), row) for i, row in enumerate(svg.g, 1)]
 
 
 @fixture
@@ -96,7 +96,7 @@ def test_instructions_have_id(instruction):
 
 @instructions_test
 def test_instructions_content_is_knit_svg_file(instruction):
-    assert instruction.g["title"] == "knit"
+    assert instruction.g.title == "knit"
 
         
 @instructions_test
@@ -104,7 +104,7 @@ def test_instructions_have_transform(instruction):
     transform = instruction["transform"]
     x, y, zoom = map(float, re.match(TRANSFORM_REGEX, transform).groups())
     svg = instruction.g
-    min_x, min_y, max_x, max_y = map(float, svg["viewbox"].split())
+    min_x, min_y, max_x, max_y = map(float, svg["viewBox"].split())
     min_zoom = zoom * 0.99  # rounding errors
     max_zoom = zoom * 1.01
     assert is_close_to(DEFAULT_ZOOM / (max_y - min_y), zoom), ZOOM_MESSAGE
