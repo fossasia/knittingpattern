@@ -22,7 +22,7 @@ def patterns():
 
 @fixture(scope="module")
 def path(patterns):
-    return patterns.to_svg(zoom=DEFAULT_ZOOM).temporary_path()
+    return patterns.to_svg(zoom=DEFAULT_ZOOM).temporary_path(".svg")
     
 
 @fixture(scope="module")

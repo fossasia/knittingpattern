@@ -107,7 +107,7 @@ def test_row_is_displayed_correctly_by_inkscape(row1):
 
 
 def test_content_is_in_group(instruction1):
-    assert instruction1.instruction["id"] == "inst1-id"
+    assert instruction1.g["id"] == "inst1-id"
 
 
 def test_row_contains_several_instructions(row1, row2):

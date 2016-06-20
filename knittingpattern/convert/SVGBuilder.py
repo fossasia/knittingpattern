@@ -68,7 +68,7 @@ class SVGBuilder(object):
         """Same as place but with a dictionary instead of a string"""
         group_ = {
                 "@transform" : "translate({},{})".format(x, y), 
-                "g" : svg_dict["svg"],
+                "g" : list(svg_dict.values())
             }
         group_.update(group)
         layer = self._get_layer(layer_id)
