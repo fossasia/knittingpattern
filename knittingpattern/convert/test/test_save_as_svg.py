@@ -41,7 +41,6 @@ def instructions(rows):
 
 
 def rows_test(function):
-    @wraps(function)
     def test(rows):
         for row_id, row in rows:
             function(row_id, row)
@@ -49,7 +48,6 @@ def rows_test(function):
 
 
 def instructions_test(function):
-    @wraps(function)
     def test(instructions):
         for instruction in instructions:
             function(instruction)

@@ -59,6 +59,8 @@ class InstructionToSVG(object):
     def _set_fills_in_color_layer(self, svg_string, color):
         """replaces fill colors in <g inkscape:label="color" 
         inkscape:groupmode="layer"> with color"""
+        if color is None:
+            return svg_string
         structure = xmltodict.parse(svg_string)
         layers = structure["svg"]["g"]
         if not isinstance(layers, list):
@@ -118,12 +120,12 @@ class InstructionToSVG(object):
         default_svg = default_svg.replace(rep_str, instruction_type)
         colored_svg = self._set_fills_in_color_layer(default_svg, instruction.color)
         return colored_svg
+        
 
+def default_instructions_to_SVG():
+    """Loads the default set of svg files for instructions."""
+    instruction_to_SVG = InstructionToSVG()
+    instruction_to_SVG.load.relative_folder(__name__, "SVG-Instructions")
+    return instruction_to_SVG
 
-def load_svg_files_from_directory(path):
-    """Load the SVG files for the instructions from this path.
-
-    This returns an `InstructionToSVG` object."""
-
-
-__all__ = ["InstructionToSVG", "load_svg_files_from_directory"]
+__all__ = ["InstructionToSVG", "default_instructions_to_SVG"]
