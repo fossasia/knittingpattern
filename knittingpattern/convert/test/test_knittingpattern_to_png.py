@@ -10,7 +10,7 @@ def block4x4():
 
 @fixture(scope="module")
 def path(block4x4):
-    return block4x4.to_ayabpng.temporary_path()
+    return block4x4.to_ayabpng().temporary_path()
 
 
 @fixture(scope="module")

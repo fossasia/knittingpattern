@@ -2,27 +2,25 @@ from test_images import *
 from test import *
 from knittingpattern.convert.InstructionToSVG import InstructionToSVG
 import re
+from collections import namedtuple
+
+Instruction = namedtuple("TestInstruction", ["type", "color"])
+XML_START = '<?xml version="1.0" encoding="utf-8"?>\n<svg></svg>'
 
 
 @fixture
 def knit():
-    knit = MagicMock()
-    knit.type = "knit"
-    return knit
+    return Instruction("knit", "green")
 
 
 @fixture
 def purl():
-    purl = MagicMock()
-    purl.type = "purl"
-    return purl
+    return Instruction("purl", "red")
 
 
 @fixture
 def yo():
-    yo = MagicMock()
-    yo.type = "yo"
-    return yo
+    return Instruction("yo", "brown")
 
 
 @fixture
@@ -40,16 +38,6 @@ def loaded(its):
 def default(its):
     its.load.path(DEFAULT_FILE)
     return its
-
-
-@fixture
-def loaded_knit_to_svg(loaded, knit):
-    return loaded.instruction_to_svg(knit)
-
-
-@fixture
-def loaded_purl_to_svg(loaded, purl):
-    return loaded.instruction_to_svg(purl)
 
 
 class TestHasSVGForInstruction(object):
@@ -75,7 +63,7 @@ class TestHasSVGForInstruction(object):
 
     def test_default_returns_empty_string_if_nothing_is_loaded(self, its,
                                                                knit):
-        assert its.default_instruction_to_svg(knit) == ""
+        assert its.default_instruction_to_svg(knit) == XML_START
 
 
 class TestDefaultInstrucionToSVG(object):
@@ -90,18 +78,58 @@ class TestDefaultInstrucionToSVG(object):
         assert string == default_string
 
 
+def is_color_layer(layer):
+    layer_has_label_color = layer["inkscape:label"] == "color"
+    layer_is_of_mode_layer = layer["inkscape:groupmode"] == "layer"
+    return layer_has_label_color and layer_is_of_mode_layer
+
+
+def color_layers(svg):
+    return [layer for layer in svg.g if is_color_layer(layer)]
+
+
+def assert_has_one_colored_layer(svg):
+    assert len(color_layers(svg)) == 1
+
+
+def assert_fill_has_color_of(svg, instruction):
+    colored_layer = color_layers(svg)[0]
+    element = (colored_layer.rect
+               if "rect" in dir(colored_layer)
+               else colored_layer.circle)
+    style = element["style"]
+    assert "fill:" + instruction.color in style
+
+
 class TestInstructionToSVG(object):
 
-    def test_file_content_is_included(self, loaded_knit_to_svg, knit_content):
-        assert knit_content in loaded_knit_to_svg
+    @fixture
+    def knit_svg(self, loaded, knit):
+        return parse_string(loaded.instruction_to_svg(knit)).svg
 
-    def test_first_element_is_scaled_group(self, loaded_knit_to_svg,
-                                           knit_content):
-        parsed = parse_string(loaded_knit_to_svg)
-        # transform = parsed.g["transform"]
-        # x, y, width, height = map(float, parsed.g.svg["viewbox"])
-        # assert x == 0
-        # assert y == 0
-        # TODO: test that
-        # 1. this is scaled down to a 1x1 and
-        # 2. placed in the middle
+    @fixture
+    def purl_svg(self, loaded, purl):
+        return parse_string(loaded.instruction_to_svg(purl)).svg
+
+    def test_file_content_is_included(self, knit_svg):
+        assert is_knit(knit_svg)
+
+    def test_file_content_is_purl(self, purl_svg):
+        assert is_purl(purl_svg)
+
+    def test_returned_object_is_svg_with_viewbox(self, knit_svg):
+        assert len(knit_svg["viewBox"].split()) == 4
+
+    def test_there_is_one_color_layer(self, knit_svg):
+        assert_has_one_colored_layer(knit_svg)
+
+    def test_purl_has_one_color_layer(self, purl_svg):
+        assert_has_one_colored_layer(purl_svg)
+
+    def test_fill_in_colored_layer_is_replaced_by_color(self, knit_svg, knit):
+        assert_fill_has_color_of(knit_svg, knit)
+
+    def test_purl_is_colored(self, purl_svg, purl):
+        assert_fill_has_color_of(purl_svg, purl)
+
+    # TODO: test colored layer so it does everything as specified

@@ -2,6 +2,8 @@ from test import *
 from knittingpattern.convert.SVGBuilder import SVGBuilder
 import io
 
+BBOX = (-1, -2, 5, 10)
+
 
 @fixture
 def file():
@@ -9,13 +11,19 @@ def file():
 
 
 @fixture
-def builder(file):
-    return SVGBuilder(file)
+def builder():
+    builder = SVGBuilder()
+    builder.bounding_box = BBOX
+    return builder
 
 
 @fixture
 def svg(builder, file):
     def svg():
+        builder.write_to_file(file)
+        file.seek(0)
+        print(file.read())
+        file.seek(0)
         return parse_file(file).svg
     return svg
 
@@ -23,13 +31,12 @@ def svg(builder, file):
 @fixture
 def svg1(builder, svg):
     instruction = "<instruction id=\"inst{}-id\"></instruction>"
-    with builder:
-        builder.place(0, 0, instruction.format(1), "row1")
-        builder.place(1, 0, instruction.format(2), "row1")
-        builder.place(2, 0, instruction.format(3), "row1")
-        builder.place(0, 1, instruction.format(4), "row2")
-        builder.place(1, 1, instruction.format(5), "row2")
-        builder.place(2.0, 1.0, instruction.format(6), "row2")
+    builder.place(0, 0, instruction.format(1), "row1")
+    builder.place(1, 0, instruction.format(2), "row1")
+    builder.place(2, 0, instruction.format(3), "row1")
+    builder.place(0, 1, instruction.format(4), "row2")
+    builder.place(1, 1, instruction.format(5), "row2")
+    builder.place(2.0, 1.0, instruction.format(6), "row2")
     return svg()
 
 
@@ -74,19 +81,18 @@ def instruction23(row2):
 
 
 def test_rendering_nothing_is_a_valid_xml(builder, file):
-    with builder:
-        pass
+    builder.write_to_file(file)
+    file.seek(0)
     first_line = file.readline()
     assert first_line.endswith("?>\n")
     assert first_line.startswith("<?xml")
 
 
 def test_rendering_nothing_is_an_svg(builder, file):
-    with builder:
-        pass
+    builder.write_to_file(file)
+    file.seek(0)
     grafics = parse_file(file)
-    assert grafics.svg["width"] == "0"
-    assert grafics.svg["height"] == "0"
+    assert not hasattr(svg, "g")
 
 
 def test_translate_to_right_position(instruction1):
@@ -103,7 +109,7 @@ def test_row_is_displayed_correctly_by_inkscape(row1):
 
 
 def test_content_is_in_group(instruction1):
-    assert instruction1.instruction["id"] == "inst1-id"
+    assert instruction1.g["id"] == "inst1-id"
 
 
 def test_row_contains_several_instructions(row1, row2):
@@ -131,7 +137,17 @@ def test_instruction23_is_translated(instruction23):
     assert instruction23["transform"] == "translate(2.0,1.0)"
 
 
-def test_exit_handler_raises_exception(builder):
-    with raises(ValueError):
-        with builder:
-            raise ValueError("test!")
+def test_bounding_box(builder):
+    assert builder.bounding_box == BBOX
+
+
+def test_viewport_is_bounding_box(svg1):
+    assert svg1["viewBox"] == "{} {} {} {}".format(*BBOX)
+
+
+def test_width(svg1):
+    assert svg1["width"] == "{}".format(BBOX[2] - BBOX[0])
+
+
+def test_height(svg1):
+    assert svg1["height"] == "{}".format(BBOX[3] - BBOX[1])
