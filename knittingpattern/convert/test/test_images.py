@@ -33,7 +33,7 @@ def is_yo(content):
 
 def is_k2tog(content):
     return title(content) == "k2tog"
-    
+
 
 def is_default(content):
     return title(content) == "default"

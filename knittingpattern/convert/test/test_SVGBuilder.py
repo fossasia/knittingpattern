@@ -4,19 +4,21 @@ import io
 
 BBOX = (-1, -2, 5, 10)
 
+
 @fixture
 def file():
     return io.StringIO()
+
 
 @fixture
 def builder():
     builder = SVGBuilder()
     builder.bounding_box = BBOX
-    return builder 
+    return builder
 
 
 @fixture
-def svg(builder, file ):
+def svg(builder, file):
     def svg():
         builder.write_to_file(file)
         file.seek(0)
@@ -149,4 +151,3 @@ def test_width(svg1):
 
 def test_height(svg1):
     assert svg1["height"] == "{}".format(BBOX[3] - BBOX[1])
-

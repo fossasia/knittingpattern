@@ -5,6 +5,7 @@ import re
 from collections import namedtuple
 
 Instruction = namedtuple("TestInstruction", ["type", "color"])
+XML_START = '<?xml version="1.0" encoding="utf-8"?>\n<svg></svg>'
 
 
 @fixture
@@ -62,7 +63,7 @@ class TestHasSVGForInstruction(object):
 
     def test_default_returns_empty_string_if_nothing_is_loaded(self, its,
                                                                knit):
-        assert its.default_instruction_to_svg(knit) == '<?xml version="1.0" encoding="utf-8"?>\n<svg></svg>'
+        assert its.default_instruction_to_svg(knit) == XML_START
 
 
 class TestDefaultInstrucionToSVG(object):
@@ -81,20 +82,20 @@ def is_color_layer(layer):
     layer_has_label_color = layer["inkscape:label"] == "color"
     layer_is_of_mode_layer = layer["inkscape:groupmode"] == "layer"
     return layer_has_label_color and layer_is_of_mode_layer
-        
+
 
 def color_layers(svg):
     return [layer for layer in svg.g if is_color_layer(layer)]
-        
+
 
 def assert_has_one_colored_layer(svg):
     assert len(color_layers(svg)) == 1
-        
+
 
 def assert_fill_has_color_of(svg, instruction):
     colored_layer = color_layers(svg)[0]
-    element = (colored_layer.rect 
-               if "rect" in dir(colored_layer) 
+    element = (colored_layer.rect
+               if "rect" in dir(colored_layer)
                else colored_layer.circle)
     style = element["style"]
     assert "fill:" + instruction.color in style
@@ -118,17 +119,17 @@ class TestInstructionToSVG(object):
 
     def test_returned_object_is_svg_with_viewbox(self, knit_svg):
         assert len(knit_svg["viewBox"].split()) == 4
-        
+
     def test_there_is_one_color_layer(self, knit_svg):
         assert_has_one_colored_layer(knit_svg)
-        
+
     def test_purl_has_one_color_layer(self, purl_svg):
         assert_has_one_colored_layer(purl_svg)
-        
+
     def test_fill_in_colored_layer_is_replaced_by_color(self, knit_svg, knit):
         assert_fill_has_color_of(knit_svg, knit)
-        
+
     def test_purl_is_colored(self, purl_svg, purl):
         assert_fill_has_color_of(purl_svg, purl)
-        
-    # TODO> test colored layer so it does everything as specified    
+
+    # TODO: test colored layer so it does everything as specified

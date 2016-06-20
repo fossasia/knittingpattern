@@ -23,7 +23,7 @@ def patterns():
 @fixture(scope="module")
 def path(patterns):
     return patterns.to_svg(zoom=DEFAULT_ZOOM).temporary_path(".svg")
-    
+
 
 @fixture(scope="module")
 def svg(path):
@@ -52,7 +52,7 @@ def instructions_test(function):
         for instruction in instructions:
             function(instruction)
     return test
- 
+
 
 def test_svg_contains_four_rows(svg):
     assert len(svg.g) == 4
@@ -98,7 +98,7 @@ def test_instructions_have_id(instruction):
 def test_instructions_content_is_knit_svg_file(instruction):
     assert instruction.g.title == "knit"
 
-        
+
 @instructions_test
 def test_instructions_have_transform(instruction):
     transform = instruction["transform"]
@@ -108,5 +108,3 @@ def test_instructions_have_transform(instruction):
     min_zoom = zoom * 0.99  # rounding errors
     max_zoom = zoom * 1.01
     assert is_close_to(DEFAULT_ZOOM / (max_y - min_y), zoom), ZOOM_MESSAGE
-               
-

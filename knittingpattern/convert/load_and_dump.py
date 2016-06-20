@@ -2,11 +2,13 @@
 
 """
 
+
 def _copy_attributes(from_function, to_class):
     to_class.__name__ = from_function.__name__
     to_class.__doc__ = from_function.__doc__
     to_class.__qualname__ = from_function.__qualname__
     to_class.__module__ = from_function.__module__
+
 
 def load_and_dump(Loader, Dumper, load_and_dump,
                   loader_args=(), loader_kw={},
@@ -22,7 +24,7 @@ def load_and_dump(Loader, Dumper, load_and_dump,
     class Load(Loader):
         pass
     _copy_attributes(load_and_dump, Load)
-    
+
     class Dump(Dumper):
         pass
     _copy_attributes(load_and_dump, Dump)
@@ -43,7 +45,7 @@ def decorate_load_and_dump(Loader, Dumper,
     syntax.
 
     Examples:
-    
+
         @decorate_load_and_dump(ContentLoader, JSONDumper)
         def convert_from_loader_to_dumper(loaded_stuff):
             # convert
