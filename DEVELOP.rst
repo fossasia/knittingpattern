@@ -1,5 +1,24 @@
-Automatic Upload to Pypi
-========================
+Version Pinning
+===============
+
+We use version pinning, described in `this blog post (outdated)
+<http://nvie.com/posts/pin-your-packages/>`__.
+Also read the `current version
+<https://github.com/nvie/pip-tools>`__ for how to set up.
+
+After installation you can run
+
+    pip-sync requirements.txt dev-requirements.txt test-requirements.txt
+    pip-compile --output-file requirements.txt requirements.in
+    pip-compile --output-file test-requirements.txt test-requirements.in
+    pip-compile --output-file dev-requirements.txt dev-requirements.in
+    pip install --upgrade -r requirements.txt -r test-requirements.txt -r dev-requirements.txt
+
+This uninstalls every package you do not need and 
+writes the fix package versions to the requirements files.
+
+Continuous Integration to Pypi
+==============================
 
 Before you put something on Pypi, ensure the following:
 

@@ -1,0 +1,7 @@
+pytest
+pytest-cov
+pytest-flakes
+pylint
+pytest-pep8
+codeclimate-test-reporter
+untangle

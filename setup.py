@@ -27,10 +27,18 @@ def read_file_named(file_name):
         return f.read()
 
 
-def read_filled_lines_from_file_named(file_name):
+def read_requirements_file(file_name):
     content = read_file_named(file_name)
-    lines = content.splitlines()
-    return [line for line in lines if line]
+    lines = []
+    for line in content.splitlines():
+        comment_index = line.find("#")
+        if comment_index >= 0:
+            line = line[:comment_index]
+        line = line.strip()
+        if not line:
+            continue
+        lines.append(line)
+    return lines
 
 
 # The base package metadata to be used by both distutils and setuptools
@@ -143,16 +151,8 @@ class LinkIntoSitePackagesCommand(Command):
 
 # Extra package metadata to be used only if setuptools is installed
 
-required_packages = \
-    read_filled_lines_from_file_named("requirements.txt")
-required_test_packages = \
-    read_filled_lines_from_file_named("requirements-test.txt")
-if sys.version_info <= (3, 2):
-    # remove package pytest-cov because it is not compatible
-    required_test_packages = [
-            package for package in required_test_packages
-            if not package.startswith("pytest-cov")
-        ]
+required_packages = read_requirements_file("requirements.txt")
+required_test_packages = read_requirements_file("test-requirements.txt")
 
 # print requirements
 
