@@ -72,7 +72,6 @@ class InstructionToSVG(object):
         if not isinstance(layers, list):
             layers = [layers]
         for layer in layers:
-            print("layer:", layer)
             if not isinstance(layer, dict):
                 continue
             if layer.get("@inkscape:label") == "color" and \
@@ -83,10 +82,8 @@ class InstructionToSVG(object):
                     if not isinstance(elements, list):
                         elements = [elements]
                     for element in elements:
-                        print("ELEMENT:", element)
                         style = element.get("@style", None)
                         if style:
-                            print("style:", style)
                             style = style.split(";")
                             processed_style = []
                             for e in style:
