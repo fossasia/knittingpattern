@@ -12,8 +12,9 @@ After installation you can run
     pip-compile --output-file requirements.txt requirements.in
     pip-compile --output-file test-requirements.txt test-requirements.in
     pip-compile --output-file dev-requirements.txt dev-requirements.in
+    pip install --upgrade -r requirements.txt -r test-requirements.txt -r dev-requirements.txt
 
-It uninstalls every package you do not need and 
+This uninstalls every package you do not need and 
 writes the fix package versions to the requirements files.
 
 Continuous Integration to Pypi
