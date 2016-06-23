@@ -23,11 +23,11 @@ def sphinx_build():
     if os.path.exists(BUILD_DIRECTORY):
         shutil.rmtree(BUILD_DIRECTORY)
     output = subprocess.check_output(
-            ["make", "html"], shell=True, cwd=DOCS_DIRECTORY,
+            "make html", shell=True, cwd=DOCS_DIRECTORY,
             stderr=subprocess.STDOUT
         )
     output += subprocess.check_output(
-            ["make", "coverage"], shell=True, cwd=DOCS_DIRECTORY,
+            "make coverage", shell=True, cwd=DOCS_DIRECTORY,
             stderr=subprocess.STDOUT
         )
     print(output.decode())
@@ -55,6 +55,3 @@ def test_doc_build_passes_without_warnings(warnings):
     for warning in warnings:
         print_bytes(warning.strip())
     assert warnings == []
-    
-
-

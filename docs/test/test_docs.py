@@ -8,7 +8,9 @@ PACKAGE = "knittingpattern"
 
 # constants
 
-absjoin = lambda *args: os.path.abspath(os.path.join(*args))
+
+def absjoin(*args):
+    return os.path.abspath(os.path.join(*args))
 
 HERE = absjoin(os.path.dirname(__file__))
 DOCS_DIRECTORY = absjoin(HERE, "..")
