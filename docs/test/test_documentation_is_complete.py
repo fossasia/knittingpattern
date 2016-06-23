@@ -1,7 +1,7 @@
 """Test the coverage of documentation.
 
 No function shall be left out by the documentation.
-
+Run this module to create the missing documentation files.
 
 """
 
@@ -17,19 +17,20 @@ PACKAGE = "knittingpattern"
 # constants
 
 HERE = os.path.abspath(os.path.dirname(__file__))
-PACKAGE_ROOT = os.path.abspath(os.path.join("..", "..", PACKAGE))
+PACKAGE_LOCATION = os.path.abspath(os.path.join(HERE, "..", ".."))
+PACKAGE_ROOT = os.path.join(PACKAGE_LOCATION, PACKAGE)
 DOCUMENTATION_ROOT = os.path.join(HERE, "..", "reference")
 
 
 def relative_module_path(absolute_path):
-    relative_module_path = absolute_path[len(PACKAGE_ROOT):]
+    relative_module_path = absolute_path[len(PACKAGE_LOCATION):]
     if not relative_module_path.startswith(PACKAGE):
         # remove /
         relative_module_path = relative_module_path[1:]
     assert relative_module_path.startswith(PACKAGE)
     return relative_module_path
-    
-    
+
+
 def module_name_and_doc(relative_path):
     assert relative_path.startswith(PACKAGE)
     file, ext = os.path.splitext(relative_path)
@@ -50,7 +51,7 @@ def module_name_and_doc(relative_path):
 
 Module = namedtuple("Module", ["absolute_path", "path", "name", "doc_file",
                                "lines", "title"])
-modules = [] 
+modules = []
 
 
 def add_module(absolute_path):
@@ -63,12 +64,12 @@ def add_module(absolute_path):
         lines = []
     relative_name = name.rsplit(".", 1)[-1]
     title = ":py:mod:`{}` Module".format(relative_name)
-    modules.append(Module(absolute_path, relative_path, name, doc_path, lines, 
+    modules.append(Module(absolute_path, relative_path, name, doc_path, lines,
                           title))
 
 
 for dirpath, dirnames, filenames in os.walk(PACKAGE_ROOT):
-    if not "__init__.py" in filenames:
+    if "__init__.py" not in filenames:
         # only use module content
         continue
     for filename in filenames:
@@ -106,7 +107,7 @@ def create_new_module_documentation():
                 f.write("\n")
                 f.write(module.title + "\n")
                 f.write("=" * len(module.title) + "\n")
-            
+
 
 if __name__ == "__main__":
-    create_new_module_documentation ()
+    create_new_module_documentation()
