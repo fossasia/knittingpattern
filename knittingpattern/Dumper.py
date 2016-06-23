@@ -28,21 +28,21 @@ class ContentDumper(object):
     def __init__(self, on_dump, text_is_expected=True, encoding="UTF-8"):
         """Create a new dumper object with a function :paramref:`on_dump`
 
-        :param on_dump: a function that takes a file-like object as argument 
+        :param on_dump: a function that takes a file-like object as argument
           and writes content to it.
-        :param bool text_is_expected: whether to use text mode (:obj:`True`, 
+        :param bool text_is_expected: whether to use text mode (:obj:`True`,
           default) or binary mode (:obj:`False`) for :paramref:`on_dump`.
-        
+
         The dumper calls :paramref:`on_dump` with a file-like object every time
         one of its save methods, e.g. :meth:`string` or :meth:`file` is called.
-        The file-like object in the :paramref:`file` argument supports the 
+        The file-like object in the :paramref:`file` argument supports the
         method ``write()`` to which the content should be written.
 
         :paramref:`text_is_expected` should be
-        
-        - :obj:`True` to pass a file to :paramref:`on_dump` that you can write 
+
+        - :obj:`True` to pass a file to :paramref:`on_dump` that you can write
           strings to
-        
+
         - :obj:`False` to pass a file to :paramref:`on_dump` that you can write
           bytes to
 
@@ -90,11 +90,11 @@ class ContentDumper(object):
 
         :param file: :obj:`None` or a file-like object.
         :return: a file-like object
-        
-        If :paramref:`file` is :obj:`None`, a new :class:`io.StringIO` 
+
+        If :paramref:`file` is :obj:`None`, a new :class:`io.StringIO`
         is returned.
         If :paramref:`file` is not :obj:`None` it should be a file-like object.
-        
+
         The content is written to the file. After writing, the file's
         read/write position points behind the dumped content.
         """
@@ -132,7 +132,7 @@ class ContentDumper(object):
 
     def path(self, path):
         """Saves the dump in a file named :paramref:`path`.
-        
+
         :param str path: a valid path to a file location. The file can exist.
         """
         self._path(path)
@@ -153,14 +153,14 @@ class ContentDumper(object):
     def temporary_path(self, extension=""):
         """Saves the dump in a temporary file and returns its path.
 
-        .. warning:: The user of this method is responsible for deleting this 
-                     file to save space on the hard drive. 
-                     If you only need a file object for a short period of time 
+        .. warning:: The user of this method is responsible for deleting this
+                     file to save space on the hard drive.
+                     If you only need a file object for a short period of time
                      you can use the method :meth:`temporary_file`.
 
         :param str extension: the ending ot the file name e.g. ``".png"``
         :return: a path to the temporary file
-        :rtype: str        
+        :rtype: str
         """
         path = NamedTemporaryFile(delete=False, suffix=extension).name
         self.path(path)
@@ -172,12 +172,12 @@ class ContentDumper(object):
         :param bool delete_when_closed: whether to delete the temporary file
                                         when it is closed.
         :return: a file-like object
-        
-        If :paramref:`delete_when_closed` is :obj:`True` (default) the file 
-        on the hard drive will be deleted if it is closed or not referenced 
+
+        If :paramref:`delete_when_closed` is :obj:`True` (default) the file
+        on the hard drive will be deleted if it is closed or not referenced
         any more.
 
-        If :paramref:`delete_when_closed` is :obj:`False` the returned 
+        If :paramref:`delete_when_closed` is :obj:`False` the returned
         temporary file is not deleted when closed or unreferenced.
         The user of this method has then the responsibility to free the
         space on the host system.
@@ -200,7 +200,7 @@ class ContentDumper(object):
 
     def __repr__(self):
         """the string representation for people to read
-        
+
         :return: the string represenation of this object
         :rtype: str
         """
