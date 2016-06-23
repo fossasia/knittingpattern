@@ -48,8 +48,8 @@ def module_name_and_doc(relative_path):
     return ".".join(names), doc_file
 
 
-Module = namedtuple("Module", ["absolute_path", "path", "name", "doc_file"
-                               "lines"])
+Module = namedtuple("Module", ["absolute_path", "path", "name", "doc_file",
+                               "lines", "title"])
 modules = [] 
 
 
@@ -61,7 +61,7 @@ def add_module(absolute_path):
             lines = f.readlines()
     else:
         lines = []
-    relative_name = name.rsplit(".", 1)[1]
+    relative_name = name.rsplit(".", 1)[-1]
     title = ":py:mod:`{}` Module".format(relative_name)
     modules.append(Module(absolute_path, relative_path, name, doc_path, lines, 
                           title))
@@ -82,22 +82,24 @@ def test_module_has_a_documentation_file(module):
 
 
 @pytest.mark.parametrize('module', modules)
-def _test_documentation_references_module(module):
+def test_documentation_references_module(module):
     assert module.lines[0].strip() == ".. py:module:: " + module.name
     assert module.lines[1].strip() == ".. py:currentmodule:: " + module.name
 
 
 @pytest.mark.parametrize('module', modules)
-def _test_documentation_has_proper_title(module):
-    assert lines[2].strip() == ""
-    assert lines[3].strip() == module.title
-    assert lines[4].strip() == "=" * len(title)
+def test_documentation_has_proper_title(module):
+    assert module.lines[2].strip() == ""
+    assert module.lines[3].strip() == module.title
+    assert module.lines[4].strip() == "=" * len(module.title)
 
 
 def create_new_module_documentation():
     """Create documentation so it fits the tests."""
     for module in modules:
         if not os.path.isfile(module.doc_file):
+            dir = os.path.dirname(module.doc_file)
+            os.makedirs(dir, exist_ok=True)
             with open(module.doc_file, "w") as f:
                 f.write(".. py:module:: " + module.name + "\n")
                 f.write(".. py:currentmodule:: " + module.name + "\n")
