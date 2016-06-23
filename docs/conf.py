@@ -69,9 +69,9 @@ author = 'AllYarnsAreBeautiful'
 # built documents.
 #
 # The short X.Y version.
-#version = '0.0'
+# version = '0.0'
 # The full version, including alpha/beta/rc tags.
-#release = '8'
+# release = '8'
 project_version = __import__(project).__version__
 version, release = project_version.rsplit(".", 1)
 
@@ -160,8 +160,8 @@ html_short_title = project
 # TODO
 
 # The name of an image file (relative to this directory) to use as a favicon of
-# the docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
-# pixels large.
+# the docs.  This file should be a Windows icon file (.ico) being 16x16 or
+# 32x32 pixels large.
 #
 # html_favicon = None
 # TODO
