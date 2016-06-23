@@ -6,4 +6,5 @@
 
 .. automodule:: knittingpattern.Instruction
    :members:
+   :show-inheritance:
 

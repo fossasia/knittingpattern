@@ -6,4 +6,5 @@
 
 .. automodule:: knittingpattern.convert
    :members:
+   :show-inheritance:
 

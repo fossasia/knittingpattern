@@ -41,6 +41,8 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
+    'sphinx_paramlinks',  # https://pypi.python.org/pypi/sphinx-paramlinks/
+                          # http://stackoverflow.com/a/20845306/1320237
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -104,6 +106,10 @@ exclude_patterns = []
 # If true, '()' will be appended to :func: etc. cross-reference text.
 #
 add_function_parentheses = True
+
+# http://stackoverflow.com/q/5599254/1320237
+# use the doc string in the init method
+autoclass_content = 'both'
 
 # If true, the current module name will be prepended to all description
 # unit titles (such as .. function::).
@@ -434,4 +440,3 @@ epub_exclude_files = ['search.html']
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}

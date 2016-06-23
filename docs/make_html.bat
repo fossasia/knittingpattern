@@ -12,4 +12,4 @@ call make coverage
 
 py -c "print(open('../build/coverage/Python.txt').read())"
 
-pause
+py -c "import time;time.sleep(10);print('exit')"

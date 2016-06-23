@@ -6,4 +6,5 @@
 
 .. automodule:: knittingpattern.convert.AYABPNGBuilder
    :members:
+   :show-inheritance:
 

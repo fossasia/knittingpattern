@@ -6,4 +6,5 @@
 
 .. automodule:: knittingpattern.convert.InstructionToSVG
    :members:
+   :show-inheritance:
 

@@ -12,8 +12,9 @@ Sphinx Documentation Setup
 Sphinx was setup using `the tutorial from readthedocs
 <http://read-the-docs.readthedocs.io/en/latest/getting_started.html>`__.
 
+Further reading:
 
-
+- `domains <http://www.sphinx-doc.org/en/stable/domains.html>`__
 
 Version Pinning
 ===============
@@ -25,6 +26,7 @@ Also read the `current version
 
 After installation you can run
 
+    pip install -r requirements.in -r test-requirements.in -r dev-requirements.in
     pip-sync requirements.txt dev-requirements.txt test-requirements.txt
     pip-compile --output-file requirements.txt requirements.in
     pip-compile --output-file test-requirements.txt test-requirements.in

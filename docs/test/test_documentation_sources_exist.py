@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """Test the coverage of documentation.
 
 No function shall be left out by the documentation.
@@ -101,6 +102,7 @@ def create_new_module_documentation():
                 f.write("\n")
                 f.write(".. automodule:: " + module.name + "\n")
                 f.write("   :members:\n")
+                f.write("   :show-inheritance:\n")
                 f.write("\n")
 
 

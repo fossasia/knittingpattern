@@ -6,4 +6,5 @@
 
 .. automodule:: knittingpattern.IdCollection
    :members:
+   :show-inheritance:
 

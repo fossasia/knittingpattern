@@ -6,4 +6,5 @@
 
 .. automodule:: knittingpattern.FileWrapper
    :members:
+   :show-inheritance:
 
