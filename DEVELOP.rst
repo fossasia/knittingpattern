@@ -1,3 +1,20 @@
+Development Setup
+=================
+
+To setup the development environment, install Python 3 and execute the 
+following:
+
+    pip install --upgrade -r requirements.txt -r test-requirements.txt -r dev-requirements.txt
+
+Sphinx Documentation Setup
+--------------------------
+
+Sphinx was setup using `the tutorial from readthedocs
+<http://read-the-docs.readthedocs.io/en/latest/getting_started.html>`__.
+
+
+
+
 Version Pinning
 ===============
 
