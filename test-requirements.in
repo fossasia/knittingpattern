@@ -5,3 +5,4 @@ pylint
 pytest-pep8
 codeclimate-test-reporter
 untangle
+sphinx

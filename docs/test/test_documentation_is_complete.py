@@ -1,0 +1,110 @@
+"""Test the coverage of documentation.
+
+No function shall be left out by the documentation.
+
+
+"""
+
+import os
+from collections import namedtuple
+import pytest
+
+
+# configuration
+
+PACKAGE = "knittingpattern"
+
+# constants
+
+HERE = os.path.abspath(os.path.dirname(__file__))
+PACKAGE_ROOT = os.path.abspath(os.path.join("..", "..", PACKAGE))
+DOCUMENTATION_ROOT = os.path.join(HERE, "..", "reference")
+
+
+def relative_module_path(absolute_path):
+    relative_module_path = absolute_path[len(PACKAGE_ROOT):]
+    if not relative_module_path.startswith(PACKAGE):
+        # remove /
+        relative_module_path = relative_module_path[1:]
+    assert relative_module_path.startswith(PACKAGE)
+    return relative_module_path
+    
+    
+def module_name_and_doc(relative_path):
+    assert relative_path.startswith(PACKAGE)
+    file, ext = os.path.splitext(relative_path)
+    assert ext == ".py"
+    names = []
+    while file:
+        file, name = os.path.split(file)
+        names.insert(0, name)
+    assert names
+    if names[-1] == "__init__":
+        names.pop(-1)
+        doc = names + ["index.rst"]
+    else:
+        doc = names[:-1] + [names[-1] + ".rst"]
+    doc_file = os.path.join(DOCUMENTATION_ROOT, *doc)
+    return ".".join(names), doc_file
+
+
+Module = namedtuple("Module", ["absolute_path", "path", "name", "doc_file"
+                               "lines"])
+modules = [] 
+
+
+def add_module(absolute_path):
+    relative_path = relative_module_path(absolute_path)
+    name, doc_path = module_name_and_doc(relative_path)
+    if os.path.isfile(doc_path):
+        with open(doc_path) as f:
+            lines = f.readlines()
+    else:
+        lines = []
+    relative_name = name.rsplit(".", 1)[1]
+    title = ":py:mod:`{}` Module".format(relative_name)
+    modules.append(Module(absolute_path, relative_path, name, doc_path, lines, 
+                          title))
+
+
+for dirpath, dirnames, filenames in os.walk(PACKAGE_ROOT):
+    if not "__init__.py" in filenames:
+        # only use module content
+        continue
+    for filename in filenames:
+        if filename.endswith(".py"):
+            add_module(os.path.join(dirpath, filename))
+
+
+@pytest.mark.parametrize('module', modules)
+def test_module_has_a_documentation_file(module):
+    assert os.path.isfile(module.doc_file)
+
+
+@pytest.mark.parametrize('module', modules)
+def _test_documentation_references_module(module):
+    assert module.lines[0].strip() == ".. py:module:: " + module.name
+    assert module.lines[1].strip() == ".. py:currentmodule:: " + module.name
+
+
+@pytest.mark.parametrize('module', modules)
+def _test_documentation_has_proper_title(module):
+    assert lines[2].strip() == ""
+    assert lines[3].strip() == module.title
+    assert lines[4].strip() == "=" * len(title)
+
+
+def create_new_module_documentation():
+    """Create documentation so it fits the tests."""
+    for module in modules:
+        if not os.path.isfile(module.doc_file):
+            with open(module.doc_file, "w") as f:
+                f.write(".. py:module:: " + module.name + "\n")
+                f.write(".. py:currentmodule:: " + module.name + "\n")
+                f.write("\n")
+                f.write(module.title + "\n")
+                f.write("=" * len(module.title) + "\n")
+            
+
+if __name__ == "__main__":
+    create_new_module_documentation ()
