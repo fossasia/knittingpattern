@@ -5,21 +5,8 @@ Run this module to create the missing documentation files.
 
 """
 
-import os
+from test import *
 from collections import namedtuple
-import pytest
-
-
-# configuration
-
-PACKAGE = "knittingpattern"
-
-# constants
-
-HERE = os.path.abspath(os.path.dirname(__file__))
-PACKAGE_LOCATION = os.path.abspath(os.path.join(HERE, "..", ".."))
-PACKAGE_ROOT = os.path.join(PACKAGE_LOCATION, PACKAGE)
-DOCUMENTATION_ROOT = os.path.join(HERE, "..", "reference")
 
 
 def relative_module_path(absolute_path):
@@ -45,7 +32,7 @@ def module_name_and_doc(relative_path):
         doc = names + ["index.rst"]
     else:
         doc = names[:-1] + [names[-1] + ".rst"]
-    doc_file = os.path.join(DOCUMENTATION_ROOT, *doc)
+    doc_file = os.path.join(PACKAGE_DOCUMENTATION, *doc)
     return ".".join(names), doc_file
 
 
