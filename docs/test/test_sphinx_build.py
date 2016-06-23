@@ -7,7 +7,8 @@ import shutil
 UNDOCUMENTED_PYTHON_OBJECTS = """Undocumented Python objects
 ===========================
 """
-WARNING_PATTERN = b"(?:checking consistency\\.\\.\\. )?(.*WARNING:.*)"
+WARNING_PATTERN = b"(?:checking consistency\\.\\.\\. )?" \
+                  b"(.*(?:WARNING|SEVERE|ERROR):.*)"
 
 
 def print_bytes(bytes):
@@ -19,8 +20,13 @@ def print_bytes(bytes):
 
 @fixture(scope="module")
 def sphinx_build():
-    shutil.rmtree(BUILD_DIRECTORY)
+    if os.path.exists(BUILD_DIRECTORY):
+        shutil.rmtree(BUILD_DIRECTORY)
     output = subprocess.check_output(
+            ["make", "html"], shell=True, cwd=DOCS_DIRECTORY,
+            stderr=subprocess.STDOUT
+        )
+    output += subprocess.check_output(
             ["make", "coverage"], shell=True, cwd=DOCS_DIRECTORY,
             stderr=subprocess.STDOUT
         )

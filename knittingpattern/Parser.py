@@ -131,4 +131,4 @@ class Parser(object):
                 type, version, pattern, comment
             )
 
-__all__ = ["PatternParser"]
+__all__ = ["Parser"]

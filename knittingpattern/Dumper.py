@@ -208,4 +208,4 @@ class JSONDumper(ContentDumper):
         json.dump(self.object(), file)
 
 
-__all__ = ["ContentDumper"]
+__all__ = ["ContentDumper", "JSONDumper"]

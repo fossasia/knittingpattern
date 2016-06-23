@@ -45,6 +45,8 @@ def decorate_load_and_dump(Loader, Dumper,
     syntax.
 
     Examples:
+    
+    .. code:: Python
 
         @decorate_load_and_dump(ContentLoader, JSONDumper)
         def convert_from_loader_to_dumper(loaded_stuff):
@@ -62,4 +64,4 @@ def decorate_load_and_dump(Loader, Dumper,
                                           dumper_args, dumper_kw)
 
 
-__all__ = ["load_and_dump"]
+__all__ = ["load_and_dump", "decorate_load_and_dump"]

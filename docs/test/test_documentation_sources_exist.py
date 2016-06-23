@@ -64,14 +64,18 @@ for dirpath, dirnames, filenames in os.walk(PACKAGE_ROOT):
             add_module(os.path.join(dirpath, filename))
 
 
+CREATE_MODULE_MESSAGE = "You can execute {} to create the missing "\
+                        "documentation file.".format(__file__)
+
+
 @pytest.mark.parametrize('module', modules)
 def test_module_has_a_documentation_file(module):
-    assert os.path.isfile(module.doc_file)
+    assert os.path.isfile(module.doc_file), CREATE_MODULE_MESSAGE
 
 
 @pytest.mark.parametrize('module', modules)
 def test_documentation_references_module(module):
-    assert module.lines[0].strip() == ".. py:module:: " + module.name
+    # assert module.lines[0].strip() == ".. py:module:: " + module.name
     assert module.lines[1].strip() == ".. py:currentmodule:: " + module.name
 
 
@@ -89,11 +93,15 @@ def create_new_module_documentation():
             dir = os.path.dirname(module.doc_file)
             os.makedirs(dir, exist_ok=True)
             with open(module.doc_file, "w") as f:
-                f.write(".. py:module:: " + module.name + "\n")
+                f.write("\n")  # .. py:module:: " + module.name + "\n")
                 f.write(".. py:currentmodule:: " + module.name + "\n")
                 f.write("\n")
                 f.write(module.title + "\n")
                 f.write("=" * len(module.title) + "\n")
+                f.write("\n")
+                f.write(".. automodule:: " + module.name + "\n")
+                f.write("   :members:\n")
+                f.write("\n")
 
 
 if __name__ == "__main__":

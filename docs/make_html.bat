@@ -7,7 +7,7 @@ REM
 
 cd "%~dp0"
 
-REM call make html
+call make html
 call make coverage
 
 py -c "print(open('../build/coverage/Python.txt').read())"

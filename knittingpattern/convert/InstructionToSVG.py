@@ -52,6 +52,8 @@ class InstructionToSVG(object):
         a "fill" style gets this fill replaced by the color of the instruction.
         Example of a recangle that gets filled like the instruction:
 
+        .. code:: xml
+        
             <g inkscape:label="color" inkscape:groupmode="layer">
                 <rect style="fill:#ff0000;fill-opacity:1;fill-rule:nonzero"
                       id="rectangle1" width="10" height="10" x="0" y="0" />
