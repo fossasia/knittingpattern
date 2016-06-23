@@ -1,5 +1,5 @@
-ayab
-====
+knittingpattern
+===============
 
 .. image:: https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern.svg
    :target: https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern
@@ -25,7 +25,11 @@ ayab
    :target: https://pypi.python.org/pypi/knittingpattern#downloads
    :alt: Downloads from pypi   
 
+.. image:: https://readthedocs.org/projects/knittingpattern/badge/?version=latest
+   :target: https://knittingpattern.readthedocs.org
+   :alt: Read the Documentation
 
+   
 Installation
 ============ 
 
@@ -55,7 +59,7 @@ Note: Under Windows you can replace `python3` with `py -3` and remove `sudo`
   cd knittingpattern
   sudo python3 -m pip install --upgrade pip
   sudo python3 -m pip install -r requirements.txt
-  sudo python3 -m pip install -r requirements-test.txt
+  sudo python3 -m pip install -r test-requirements.txt
   py.test
 
 To also make it importable for other libraries, you can link it into the site-packages folder this way:
