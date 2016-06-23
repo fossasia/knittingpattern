@@ -1,4 +1,4 @@
-from test import *
+from test_knittingpattern import *
 from test_examples import charlotte, cafe
 from pytest import fixture, raises
 

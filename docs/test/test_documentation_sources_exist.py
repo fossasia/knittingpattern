@@ -5,7 +5,7 @@ Run this module to create the missing documentation files.
 
 """
 
-from test import *
+from test_docs import *
 from collections import namedtuple
 
 

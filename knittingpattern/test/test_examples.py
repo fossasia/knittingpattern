@@ -1,4 +1,4 @@
-from test import *
+from test_knittingpattern import *
 import knittingpattern
 
 EXAMPLES_PATH = os.path.join(os.path.dirname(__file__), "../examples")

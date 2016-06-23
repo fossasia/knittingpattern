@@ -1,4 +1,4 @@
-from test import *
+from test_knittingpattern import *
 from knittingpattern.InstructionLibrary import InstructionLibrary
 from knittingpattern.KnittingContext import KnittingContext
 

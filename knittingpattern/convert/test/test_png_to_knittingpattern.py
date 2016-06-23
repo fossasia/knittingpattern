@@ -1,4 +1,4 @@
-from test import *
+from test_convert import *
 from knittingpattern.convert.image_to_knittingpattern import *
 from knittingpattern import load_from_object
 from PIL import Image

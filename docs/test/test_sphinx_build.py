@@ -1,4 +1,4 @@
-from test import *
+from test_docs import *
 import subprocess
 import re
 import shutil

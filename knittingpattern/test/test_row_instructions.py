@@ -1,4 +1,4 @@
-from test import *
+from test_knittingpattern import *
 from test_example_rows import a1, charlotte
 
 

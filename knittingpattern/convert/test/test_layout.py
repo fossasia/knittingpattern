@@ -1,4 +1,4 @@
-from test import *
+from test_convert import *
 import os
 from knittingpattern.convert.Layout import GridLayout, InstructionInGrid
 from knittingpattern import load_from_relative_file

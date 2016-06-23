@@ -1,4 +1,4 @@
-from test import *
+from test_knittingpattern import *
 from knittingpattern import load_from_object
 from knittingpattern.Loader import JSONLoader as Loader
 
