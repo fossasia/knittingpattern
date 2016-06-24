@@ -174,7 +174,7 @@ def default_instructions_to_SVG():
     """load the default set of svg files for instructions
     
     :return: the default svg files for the instructions in this package
-    :rtype: InstructionToSVG
+    :rtype: knittingpattern.InstructionToSVG.InstructionToSVG
     
     """
     instruction_to_SVG = InstructionToSVG()

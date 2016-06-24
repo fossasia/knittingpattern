@@ -253,13 +253,13 @@ class ProducedMesh(Mesh):
         row_and_index = self._consuming_row_and_index()
         assert row_and_index is not None, "Use is_consumed() before."
         consuming_row, index = row_and_index
-        return consuming_row.get_instruction_and_index_at_consumed_mesh_index(
+        return consuming_row._get_instruction_and_index_at_consumed_mesh_index(
                    index
                )
         
     def __consuming_row_and_index_or_None(self):
         producing_row, index = self._producing_row_and_index()
-        return producing_row.get_consuming_row_and_index(index)
+        return producing_row._get_consuming_row_and_index(index)
         
     def _consuming_row_and_index(self):
         result = self.__consuming_row_and_index_or_None()

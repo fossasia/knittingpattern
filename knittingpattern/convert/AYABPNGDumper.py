@@ -13,6 +13,7 @@ class AYABPNGDumper(ContentDumper):
     def __init__(self, function_that_returns_a_knitting_pattern_set):
         """Initialize the Dumper with a
         :paramref:`function_that_returns_a_knitting_pattern_set`.
+        
         :param function_that_returns_a_knitting_pattern_set: a function that
           takes no arguments but returns a 
           :class:`knittinpattern.KnittingPatternSet.KnittingPatternSet`

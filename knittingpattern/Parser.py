@@ -147,7 +147,7 @@ class Parser(object):
             meshes = min(from_row.number_of_produced_meshes,
                          to_row.number_of_produced_meshes)
             number_of_meshes = connection.get(MESHES, meshes)
-            from_row.produce_number_of_meshes_for_row(
+            from_row._produce_number_of_meshes_for_row(
                     from_row_mesh_index,
                     from_row_mesh_index + number_of_meshes,
                     to_row,

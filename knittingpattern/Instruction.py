@@ -362,7 +362,7 @@ class InstructionInRow(Instruction):
         index_in_consuming_row = \
             self._index_of_first_consumed_mesh_in_rows_consumed_meshes + \
             mesh_index
-        origin = consuming_row.get_producing_row_and_index(
+        origin = consuming_row._get_producing_row_and_index(
                 index_in_consuming_row
             )
         if origin is None:
