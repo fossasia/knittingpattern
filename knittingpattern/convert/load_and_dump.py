@@ -1,5 +1,7 @@
 """convinience methods for conversion
 
+Best to use :meth:`decorate_load_and_dump`.
+
 """
 from functools import wraps
 
@@ -7,12 +9,28 @@ from functools import wraps
 def load_and_dump(Loader, Dumper, load_and_dump,
                   loader_args=(), loader_kw={},
                   dumper_args=(), dumper_kw={}):
-    """Returns a loader instance that first loads an the dumps.
+    """:return: a function that has the doc string of :paramref:`load_and_dump`
+      additional arguments to this function are passed on to
+      :paramref:`load_and_dump`.
 
-    The arguments of both, Loader and Dumper will be passed to `load_and_dump`.
-    The return value of `load_and_dump` is passed to the Dumper.
+    :param Loader: a loader, e.g. :class:`knittingpattern.Loader.PathLoader`
+    :param tuple loader_args: additional arguments for the creation of the
+      :paramref:`Loader`
+    :param dict loader_kw: additional keyword arguments for the creation of the
+      :paramref:`Loader`
+    :param Dumper: a loader, e.g. :class:`knittingpattern.Dumper.ContentDumper`
+    :param tuple dumper_args: additional arguments for the creation of the
+      :paramref:`Dumper`
+    :param dict dumper_kw: additional keyword arguments for the creation of the
+      :paramref:`Dumper`
+    :param load_and_dump: a function to call with the loaded content.
+      The arguments of both, :paramref:`Loader` and :paramref:`Dumper`
+      will be passed to :paramref:`load_and_dump`.
+      Any additional arguments to the return value are also passed to
+      :paramref:`load_and_dump`.
+      The return value of :paramref:`load_and_dump` is passed back to the 
+      :paramref:`Dumper`.
 
-    The resulting loader Object has the doc string of `load_and_dump`.
     """
     @wraps(load_and_dump)
     def create_loader(*args, **kw1):
@@ -30,7 +48,7 @@ def load_and_dump(Loader, Dumper, load_and_dump,
 def decorate_load_and_dump(Loader, Dumper,
                            loader_args=(), loader_kw={},
                            dumper_args=(), dumper_kw={}):
-    """Same as `load_and_dump()` but returns a function to enable decorator
+    """Same as :func:`load_and_dump` but returns a function to enable decorator
     syntax.
 
     Examples:

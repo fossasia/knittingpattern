@@ -1,9 +1,10 @@
-"""Build SVG files
+"""build SVG files
 
 
 """
 import xmltodict
 
+#: an empty svg file as a basis
 SVG_FILE = """
 <svg
    xmlns:ns="http://PURL.org/dc/elements/1.1/"
@@ -28,14 +29,23 @@ class SVGBuilder(object):
     """
 
     def __init__(self):
-        """Initialize this object with the file for the SVG."""
+        """Initialize this object without arguments."""
         self._structure = xmltodict.parse(SVG_FILE)
         self._layer_id_to_layer = {}
         self._svg = self._structure["svg"]
 
     @property
     def bounding_box(self):
-        """Returns (min_x, min_y, max_x, max_y)"""
+        """the bounding box of this SVG
+        ``(min_x, min_y, max_x, max_y)``
+        
+        .. code:: python
+        
+            svg_builder10x10.bounding_box = (0, 0, 10, 10)
+            assert svg_builder10x10.bounding_box == (0, 0, 10, 10)
+        
+        ``viewBox``, ``width`` and ``height`` are computed from this.
+        """
         return (self._min_x, self._min_y, self._max_x, self._max_y)
 
     @bounding_box.setter
@@ -51,15 +61,25 @@ class SVGBuilder(object):
                                                      max_x, max_y)
 
     def place(self, x, y, svg, layer_id):
-        """Place the `svg` content at `(x, y)` position in the file, in
-        a layer with the id `layer_id`.
-
-        This can be used to place instructions in layers."""
+        """Place the :paramref:`svg` content at ``(x, y)`` position
+        in the SVG, in a layer with the id :paramref:`layer_id`.
+        
+        :param float x: the x position of the svg
+        :param float y: the y position of the svg
+        :param str svg: the SVG to place at ``(x, y)``
+        :param str layer_id: the id of the layer that this 
+          :paramref:`svg` should be placed inside
+        
+        """
         content = xmltodict.parse(svg)
         self.place_svg_dict(x, y, content, layer_id)
 
     def place_svg_dict(self, x, y, svg_dict, layer_id, group={}):
-        """Same as place but with a dictionary instead of a string"""
+        """Same as :meth:`place` but with a dictionary as :paramref:`svg_dict`
+        
+        :param dict svg_dict: a dictionary returned by `xmltodict.parse()
+          <https://github.com/martinblech/xmltodict>`__
+        """
         group_ = {
                 "@transform": "translate({},{})".format(x, y),
                 "g": list(svg_dict.values())
@@ -69,6 +89,11 @@ class SVGBuilder(object):
         layer["g"].append(group_)
 
     def _get_layer(self, layer_id):
+        """
+        :return: the layer with the :paramref:`layer_id`. If the layer
+          does not exist, it is created.
+        :param str layer_id: the id of the layer
+        """
         if layer_id not in self._layer_id_to_layer:
             self._svg.setdefault("g", [])
             layer = {
@@ -83,7 +108,10 @@ class SVGBuilder(object):
         return self._layer_id_to_layer[layer_id]
 
     def write_to_file(self, file):
-        """Writes to the file"""
+        """Writes the current SVG to the :paramref:`file`
+        
+        :param file: a file-like object
+        """
         xmltodict.unparse(self._structure, file, pretty=True)
 
 

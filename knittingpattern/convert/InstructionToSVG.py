@@ -18,6 +18,7 @@ class InstructionToSVG(object):
     def _loader_class(self):
         """:return: the loader to load svgs from different locations
         :rtype: knittingpattern.Loader.PathLoader"""
+        return PathLoader
 
     def __init__(self):
         """create a InstructionToSVG object without arguments"""
