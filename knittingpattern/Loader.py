@@ -1,3 +1,8 @@
+"""One can load objects from different locations. 
+This module provides functionality to load objects from different locations
+while preserving a simple interface to the cosumer.
+
+"""
 import json
 import os
 import sys
@@ -5,12 +10,14 @@ from itertools import filterfalse
 
 
 def indentity(object):
-    """Returns the argument."""
+    """:return: the argument
+    :param object: the object to be returned"""
     return object
 
 
 def true(object):
-    """Returns `True`."""
+    """:return: :obj:`True`
+    :param object: can be ignored"""
     return True
 
 
@@ -153,4 +160,4 @@ class JSONLoader(ContentLoader):
         return self.object(object)
 
 
-__all__ = ["JSONLoader", "ContentLoader", "PathLoader"]
+__all__ = ["JSONLoader", "ContentLoader", "PathLoader", "true", "identity"]
