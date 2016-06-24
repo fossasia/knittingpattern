@@ -1,5 +1,5 @@
 from test_images import *
-from test import *
+from test_convert import *
 from knittingpattern.convert.InstructionToSVG import InstructionToSVG
 import re
 from collections import namedtuple

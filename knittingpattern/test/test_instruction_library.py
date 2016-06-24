@@ -1,6 +1,5 @@
-from test import *
+from test_knittingpattern import *
 from knittingpattern.InstructionLibrary import InstructionLibrary
-from knittingpattern.KnittingContext import KnittingContext
 
 DESCRIPTION = "here you can see how to knit: URL"
 DESCRIPTION_2 = "well, this is kinda a different description"
@@ -94,3 +93,7 @@ def test_library_can_load_multiple_times(library2):
 
 def test_library_handles_loading_several_instructions_with_same_type(library2):
     assert library2.as_instruction({})["description"] == DESCRIPTION_2
+
+
+def test_access_via_type(library):
+    assert library["knit"]["type"] == "knit"

@@ -1,4 +1,4 @@
-from test import *
+from test_convert import *
 from knittingpattern.Loader import ContentLoader
 import re
 

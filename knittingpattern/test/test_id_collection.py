@@ -1,4 +1,4 @@
-from test import *
+from test_knittingpattern import *
 from knittingpattern.IdCollection import IdCollection
 from collections import namedtuple
 
@@ -31,3 +31,8 @@ def test_length(c):
     assert len(c) == 1
     c.append(I(""))
     assert len(c) == 2
+
+
+def test_at_raises_keyerror(c):
+    with raises(KeyError):
+        c["unknown-id"]

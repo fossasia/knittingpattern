@@ -1,4 +1,4 @@
-from test import *
+from test_convert import *
 from knittingpattern.convert.AYABPNGBuilder import AYABPNGBuilder
 from collections import namedtuple
 import PIL.Image

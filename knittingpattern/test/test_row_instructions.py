@@ -1,4 +1,4 @@
-from test import *
+from test_knittingpattern import *
 from test_example_rows import a1, charlotte
 
 
@@ -36,6 +36,13 @@ def instruction1(row1):
 def test_row0_consumes_empty_meshes(row0):
     assert len(row0.consumed_meshes) == 5
     assert not any(mesh.is_produced() for mesh in row0.consumed_meshes)
+
+
+def test_consumed_meshes_have_index(row0):
+    for i in range(5):
+        mesh = row0.consumed_meshes[i]
+        assert mesh.mesh_index_in_consuming_row == i
+        assert mesh.consuming_row == row0
 
 
 def test_row0_produces_5_meshes(row0):

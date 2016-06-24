@@ -1,4 +1,4 @@
-from test import *
+from test_knittingpattern import *
 import knittingpattern
 import json
 import io

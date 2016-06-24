@@ -172,7 +172,9 @@ class PrintRequiredPackagesCommand(Command):
 
     @staticmethod
     def run():
-        for package in required_packages + required_test_packages:
+        packages = list(set(required_packages + required_test_packages))
+        packages.sort(key=lambda s: s.lower())
+        for package in packages:
             print(package)
 
 # set development status from __version__

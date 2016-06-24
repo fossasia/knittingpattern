@@ -12,11 +12,16 @@ class AYABPNGDumper(ContentDumper):
 
     def __init__(self, function_that_returns_a_knitting_pattern_set):
         """Initialize the Dumper with a
-        `function_that_returns_a_knitting_pattern_set`.
+        :paramref:`function_that_returns_a_knitting_pattern_set`.
+
+        :param function_that_returns_a_knitting_pattern_set: a function that
+          takes no arguments but returns a
+          :class:`knittinpattern.KnittingPatternSet.KnittingPatternSet`
 
         When a dump is requested, the
-        `function_that_returns_a_knitting_pattern_set`() is called and the
-        knitting pattern set is converted and saved to the specified location.
+        :paramref:`function_that_returns_a_knitting_pattern_set`
+        is called and the knitting pattern set is converted and saved to the
+        specified location.
         """
         super().__init__(self._dump_knitting_pattern,
                          text_is_expected=False, encoding=None)
@@ -32,7 +37,6 @@ class AYABPNGDumper(ContentDumper):
         builder.write_to_file(file)
 
     def temporary_path(self, extension=".png"):
-        """Returns a path to a temporary file with the content."""
         return super().temporary_path(extension=extension)
     temporary_path.__doc__ = ContentDumper.temporary_path.__doc__
 

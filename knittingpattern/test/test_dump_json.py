@@ -1,4 +1,4 @@
-from test import *
+from test_knittingpattern import *
 from knittingpattern.Dumper import JSONDumper
 import json
 
