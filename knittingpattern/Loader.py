@@ -9,7 +9,7 @@ import sys
 from itertools import filterfalse
 
 
-def indentity(object):
+def identity(object):
     """:return: the argument
     :param object: the object to be returned"""
     return object
@@ -24,22 +24,31 @@ def true(object):
 class PathLoader(object):
     """Load paths and folders from the local file system."""
 
-    def __init__(self, process=indentity, chooses_path=true):
+    def __init__(self, process=identity, chooses_path=true):
         """Create a PathLoader object.
 
-        `process(path)` is called with the `path` to load as first argument.
-        The result of process is returned to the caller.
-
-        `chooses_path(path)` returns `True` or `False` depending on whether
-        a specific path should be loaded"""
+        :param process: ``process(path)`` is called with the `path` to load.
+          The result of :paramref:`process` is returned to the caller. The
+          default value is :func:`identity`, so the paths are returned when
+          loaded.
+        :param chooses_path: ``chooses_path(path)`` is called before
+          :paramref:`process` and returns :obj:`True` or :obj:`False`
+          depending on whether a specific path should be loaded and passed to
+          :paramref:`process`.
+        """
         self._process = process
         self._chooses_path = chooses_path
 
     def folder(self, folder):
         """Load all files from a folder recursively.
 
-        Depending on `chooses_path` some paths will not be loaded.
+        Depending on :meth:`chooses_path` some paths may not be loaded.
         Every loaded path is processed and returned part of the returned list.
+        
+        :param str folder: the folder to load the files from
+        :rtype: list
+        :return: a list of the results of the processing steps of the loaded
+          files
         """
         result = []
         for root, directories, files in os.walk(folder):
@@ -50,22 +59,25 @@ class PathLoader(object):
         return result
 
     def chooses_path(self, path):
-        """returns whether a `path` should be loaded."""
+        """:return: whether the path should be loaded
+        :rtype: bool
+        
+        :param str path: the path to the file to be tested
+        """
         return self._chooses_path(path)
 
     def path(self, path):
-        """load a `path` and return the processed result."""
+        """load a :paramref:`path` and return the processed result
+        
+        :param str path: the path to the file to be processed
+        :return: the result of processing step
+        """
         return self._process(path)
 
     def _relative_to_absolute(self, module_location, folder):
-        """Returns the absolute path for the `folder` relative to
+        """:return: the absolute path for the `folder` relative to
         the module_location.
-
-        `module_locetion` can be
-
-        - a folder
-        - a file
-        - a module name
+        :rtype: str
         """
         if os.path.isfile(module_location):
             path = os.path.dirname(module_location)
@@ -82,14 +94,20 @@ class PathLoader(object):
         """Load a folder located relative to a module and return the processed
         result.
 
-        `module` can be
+        :param str module: can be
+        
+          - a path to a folder
+          - a path to a file
+          - a module name
+        
+        :param str folder: the path of a folder relative to :paramref:`module`
+        :return: a list of the results of the processing
+        :rtype: list
 
-        - a folder
-        - a file
-        - a module name
-
-        Depending on `chooses_path` some paths will not be loaded.
+        Depending on :meth:`chooses_path` some paths may not be loaded.
         Every loaded path is processed and returned part of the returned list.
+        You can use :meth:`choose_paths` to find out which paths are chosen to
+        load.
         """
         folder = self._relative_to_absolute(module, folder)
         return self.folder(folder)
@@ -97,19 +115,23 @@ class PathLoader(object):
     def relative_file(self, module, file):
         """Load a file relative to a module.
 
-        `module` can be
-
-        - a folder
-        - a file
-        - a module name
-
-        The processed result is returned.
+        :param str module: can be
+        
+          - a path to a folder
+          - a path to a file
+          - a module name
+        
+        :param str folder: the path of a folder relative to :paramref:`module`
+        :return: the result of the processing
+        
         """
         path = self._relative_to_absolute(module, file)
         return self.path(path)
 
     def choose_paths(self, paths):
-        """Returns a list of `paths` that are chosen by `chooses_path`."""
+        """:return: the paths that are chosen by :meth:`chooses_path`
+        :rtype: list
+        """
         return [path for path in paths if self._chooses_path(path)]
 
 
