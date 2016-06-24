@@ -1,13 +1,7 @@
 """Convinience methods for conversion
 
 """
-
-
-def _copy_attributes(from_function, to_class):
-    to_class.__name__ = from_function.__name__
-    to_class.__doc__ = from_function.__doc__
-    to_class.__qualname__ = from_function.__qualname__
-    to_class.__module__ = from_function.__module__
+from functools import wraps
 
 
 def load_and_dump(Loader, Dumper, load_and_dump,
@@ -20,22 +14,17 @@ def load_and_dump(Loader, Dumper, load_and_dump,
 
     The resulting loader Object has the doc string of `load_and_dump`.
     """
-
-    class Load(Loader):
-        pass
-    _copy_attributes(load_and_dump, Load)
-
-    class Dump(Dumper):
-        pass
-    _copy_attributes(load_and_dump, Dump)
-
-    def load(*args1, **kw):
-        """return the dumper"""
-        def dump(*args2, **kw2):
-            kw.update(kw2)
-            return load_and_dump(*(args1 + args2), **kw)
-        return Dump(dump, *dumper_args, **dumper_kw)
-    return Load(load, *loader_args, **loader_kw)
+    @wraps(load_and_dump)
+    def create_loader(*args, **kw1):
+        def load(*args1, **kw):
+            """return the dumper"""
+            def dump(*args2, **kw2):
+                kw.update(kw2)
+                kw.update(kw1)
+                return load_and_dump(*(args + args1 + args2), **kw)
+            return Dumper(dump, *dumper_args, **dumper_kw)
+        return Loader(load, *loader_args, **loader_kw)
+    return create_loader
 
 
 def decorate_load_and_dump(Loader, Dumper,
@@ -49,7 +38,7 @@ def decorate_load_and_dump(Loader, Dumper,
     .. code:: Python
 
         @decorate_load_and_dump(ContentLoader, JSONDumper)
-        def convert_from_loader_to_dumper(loaded_stuff):
+        def convert_from_loader_to_dumper(loaded_stuff, other="arguments"):
             # convert
             return converted_stuff
 
