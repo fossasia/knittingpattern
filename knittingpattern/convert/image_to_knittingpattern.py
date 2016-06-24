@@ -10,10 +10,10 @@ import os
 
 
 @decorate_load_and_dump(PathLoader, JSONDumper)
-def convert_image_to_knitting_pattern(path, colors = ["white", "black"]):
+def convert_image_to_knitting_pattern(path, colors=["white", "black"]):
     """Load a image file such as a png bitmap of jpeg file and convert it
     to a :ref:`knitting pattern file <FileFormatSpecification>`.
-    
+
     :param list colors: a list of strings that should be used as
       :ref:`colors <png-color>`.
     :param str path: ignore this. It is fulfilled by the dumper.
@@ -21,7 +21,7 @@ def convert_image_to_knitting_pattern(path, colors = ["white", "black"]):
     Example:
 
     .. code:: python
-    
+
         convert_image_to_knitting_pattern().path("image.png").path("image.json")
     """
     image = PIL.Image.open(path)

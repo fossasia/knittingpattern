@@ -40,7 +40,7 @@ def r32(a1):
 def r41(a1):
     return a1.rows["4.1"]
 
-    
+
 # TODO: test _get_producing_row_and_index
 
 class TestRow11:

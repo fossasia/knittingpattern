@@ -13,7 +13,7 @@ class InstructionInGrid(object):
           <knittingpattern.Instruction.InstructionInRow>`
         :param float x: the x position of the :paramref:`instruction`
         :param float y: the y position of the :paramref:`instruction`
-        
+
         """
         self._instruction = instruction
         self._x = x
@@ -166,7 +166,7 @@ class Connection(object):
     def is_visible(self):
         """:return: is this connection is visible
         :rtype: bool
-        
+
         A connection is visible if it is longer that 0."""
         if self._start.y + 1 < self._stop.y:
             return True
@@ -180,7 +180,7 @@ class GridLayout(object):
         """
         :param knittingpattern.KnittingPattern.KnittingPattern pattern: the
           pattern to layout
-        
+
         """
         self._pattern = pattern
         self._rows = list(sorted(self._pattern.rows))
@@ -191,12 +191,12 @@ class GridLayout(object):
         :return: an iterator over :class:`instructions in grid
           <InstructionInGrid>`
         :param mapping: funcion to map the result
-        
+
         .. code:: python
-        
+
             for pos, c in layout.walk_instructions(lambda i: (i.xy, i.color)):
                 print("color {} at {}".format(c, pos))
-            
+
         """
         instructions = chain(*self.walk_rows(lambda row: row.instructions))
         grid = map(self._walk.in_grid, instructions)

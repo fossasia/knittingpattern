@@ -14,7 +14,7 @@ from .Instruction import Instruction
 
 
 class InstructionLibrary(object):
-    """This library can be used to look up default specification of 
+    """This library can be used to look up default specification of
     instructions.
 
     The specification is searched for by the type of the instruction.
@@ -37,7 +37,7 @@ class InstructionLibrary(object):
         """Create a new :class:`InstructionLibrary
         <knittingpattern.InstructionLibrary.InstructionLibrary>` without
         arguments.
-        
+
         Use :attr:`load` to load specifications.
         """
         self._type_to_instruction = {}
@@ -46,11 +46,11 @@ class InstructionLibrary(object):
     def load(self):
         """:return: a loader that can be used to load specifications
         :rtype: knittingpattern.Loader.JSONLoader
-        
+
         A file to load is a list of instructions in JSON format.
-        
+
         .. code:: json
-        
+
             [
                 {
                     "type" : "knit",
@@ -60,7 +60,7 @@ class InstructionLibrary(object):
                     "type" : "purl"
                 }
             ]
-        
+
         """
         return self._loader_class(self._process_loaded_object)
 
@@ -73,10 +73,10 @@ class InstructionLibrary(object):
 
     def add_instruction(self, specification):
         """Add an instruction specification
-        
-        :param specification: a specification with a key 
+
+        :param specification: a specification with a key
           :data:`knittingpattern.Instruction.TYPE`
-          
+
         .. seealso:: :meth:`as_instruction`
         """
         instruction = self.as_instruction(specification)
@@ -84,12 +84,12 @@ class InstructionLibrary(object):
 
     def as_instruction(self, specification):
         """Convert the specification into an instruction
-        
-        :param specification: a specification with a key 
+
+        :param specification: a specification with a key
           :data:`knittingpattern.Instruction.TYPE`
-        
+
         The instruction is not added.
-        
+
         .. seealso:: :meth:`add_instruction`
         """
         instruction = self._instruction_class(specification)
@@ -100,7 +100,7 @@ class InstructionLibrary(object):
 
     def __getitem__(self, instruction_type):
         """:return: the specification for :paramref:`instruction_type`
-        
+
         .. seealso:: :meth:`as_instruction`
         """
         return self.as_instruction({"type": instruction_type})
@@ -115,7 +115,7 @@ class DefaultInstructions(InstructionLibrary):
 
     def __init__(self):
         """Create the default instruction library without arguments.
-        
+
         The default specifications are loaded automatically form this package.
         """
         super().__init__()
@@ -124,9 +124,9 @@ class DefaultInstructions(InstructionLibrary):
 
 def default_instructions():
     """:return: a default library
-    
-    .. warning:: The return value is mutable and you should not add new 
-      instructions to it. If you would like to add instructions to it, 
+
+    .. warning:: The return value is mutable and you should not add new
+      instructions to it. If you would like to add instructions to it,
       create a new :class:`DefaultInstructions
       <knittingpattern.InstructionLibrary.DefaultInstructions>` instance.
     """

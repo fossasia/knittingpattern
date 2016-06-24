@@ -4,7 +4,7 @@
 from .Prototype import *
 from itertools import chain
 
-ID = "id" #: the id of the row
+ID = "id"  #: the id of the row
 #: an error message
 CONISTENCY_MESSAGE = "The data structure must be consistent."
 
@@ -17,14 +17,14 @@ class Row(Prototype):
 
     def __init__(self, id, values, inheriting_from=[]):
         """create a new row
-        
+
         :param id: an identifier for the row
         :param values: the values from the specification
         :param list inheriting_from: a list of specifications to inherit values
           from, see :class:`knittingpattern.Prototype.Prototype`
-        
+
         .. note:: Seldomly, you need to create this row on your own. You can
-          load it with the :mod:`knittingpattern` or the 
+          load it with the :mod:`knittingpattern` or the
           :class:`knittingpattern.Parser.Parser`.
         """
         super().__init__(values, inheriting_from)
@@ -52,8 +52,8 @@ class Row(Prototype):
         """
         :return: the number of meshes that this row produces
         :rtype: int
-        
-        .. seealso:: 
+
+        .. seealso::
           :meth:`Instruction.number_of_produced_meshes()
           <knittingpattern.Instruction.Instruction.number_of_produced_meshes>`,
           :meth:`number_of_consumed_meshes`
@@ -66,8 +66,8 @@ class Row(Prototype):
         """
         :return: the number of meshes that this row consumes
         :rtype: int
-        
-        .. seealso:: 
+
+        .. seealso::
           :meth:`Instruction.number_of_consumed_meshes()
           <knittingpattern.Instruction.Instruction.number_of_consumed_meshes>`,
           :meth:`number_of_produced_meshes`
@@ -76,13 +76,13 @@ class Row(Prototype):
                    for instruction in self.instructions)
 
     def _produce_number_of_meshes_for_row(self, start_index,
-                                         stop_index, row,
-                                         row_start_index):
+                                          stop_index, row,
+                                          row_start_index):
         """set a connection between to rows"""
         mesh_index_in_row = row_start_index
         for mesh_index in range(start_index, stop_index):
             self._set_consuming_row_and_index(mesh_index, row,
-                                             mesh_index_in_row)
+                                              mesh_index_in_row)
             mesh_index_in_row += 1
 
     def _get_consuming_row_and_index_for_produced_mesh_at(self, mesh_index):
@@ -124,20 +124,20 @@ class Row(Prototype):
 
     def _is_produced_mesh_index(self, mesh_index):
         """:return: whether the mesh_index is in bounds
-        
+
         .. seealso:: :meth:`_check_is_produced_mesh_index`
         """
         return mesh_index >= 0 and mesh_index < self.number_of_produced_meshes
 
     def _is_consumed_mesh_index(self, mesh_index):
         """:return: whether the mesh_index is in bounds
-        
+
         .. seealso:: :meth:`_check_is_consumed_mesh_index`
         """
         return mesh_index >= 0 and mesh_index < self.number_of_consumed_meshes
 
     def _set_consuming_row_and_index(self, mesh_index, row,
-                                    mesh_index_in_row):
+                                     mesh_index_in_row):
         """
         :param int mesh_index: is the index of the mesh in this row
         :param Row row: is the other row to connect to
@@ -152,7 +152,7 @@ class Row(Prototype):
         """reverse :meth:`_set_consuming_row_and_index`"""
         row, mesh_index_in_row = self._mapping_to_row[mesh_index]
         row._remove_producing_row_and_index_callback(mesh_index_in_row,
-                                            self, mesh_index)
+                                                     self, mesh_index)
         del self._mapping_to_row[mesh_index]
 
     def _set_producing_row_and_index(self, mesh_index, row, mesh_index_in_row):
@@ -187,7 +187,7 @@ class Row(Prototype):
         row._remove_consuming_row_and_index(mesh_index_in_row)
 
     def _get_producing_row_and_index(self, mesh_index):
-        """:return: the producing row and index of the consumed mesh at 
+        """:return: the producing row and index of the consumed mesh at
         mesh_index"""
         if mesh_index < 0 or mesh_index >= self.number_of_consumed_meshes:
             message = "I only have {} consumed meshes "\
@@ -203,7 +203,7 @@ class Row(Prototype):
         """
         :return: a collection of :class:`meshes <knittingpattern.Mesh.Mesh>`
           that this instruction produces
-          
+
         """
         return list(chain(*(instruction.produced_meshes
                           for instruction in self.instructions)))
@@ -213,7 +213,7 @@ class Row(Prototype):
         """
         :return: a collection of :class:`meshes <knittingpattern.Mesh.Mesh>`
           that this instruction consumes
-          
+
         """
         return list(chain(*(instruction.consumed_meshes
                           for instruction in self.instructions)))
@@ -237,7 +237,7 @@ class Row(Prototype):
 
     def __lt__(self, other):
         """``row < other_row``
-        
+
         :return: whether the own id is lowre that the other id
         :rtype: bool
         """

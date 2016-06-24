@@ -5,15 +5,15 @@ for encoding and decoding.
 
 
 class BytesWrapper(object):
-    """Use this class if you have a text-file but you want to 
+    """Use this class if you have a text-file but you want to
     write bytes to it.
     """
 
     def __init__(self, text_file, encoding):
-        """Create a wrapper around :paramref:`text_file` that decodes 
+        """Create a wrapper around :paramref:`text_file` that decodes
         bytes to string using :paramref:`encoding` and writes them
         to :paramref:`text_file`.
-        
+
         :param str encoding: The encoding to use to transfer the written bytes
           to string so they can be written to :paramref:`text_file`
         :param text_file: a file-like object open in text mode
@@ -28,15 +28,15 @@ class BytesWrapper(object):
 
 
 class TextWrapper(object):
-    """Use this class if you have a binary-file but you want to 
+    """Use this class if you have a binary-file but you want to
     write strings to it.
     """
 
     def __init__(self, binary_file, encoding):
-        """Create a wrapper around :paramref:`binary_file` that encodes 
+        """Create a wrapper around :paramref:`binary_file` that encodes
         strings to bytes using :paramref:`encoding` and writes them
         to :paramref:`binary_file`.
-        
+
         :param str encoding: The encoding to use to transfer the written string
           to bytes so they can be written to :paramref:`binary_file`
         :param binary_file: a file-like object open in binary mode

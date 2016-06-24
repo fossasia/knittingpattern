@@ -1,4 +1,4 @@
-"""One can load objects from different locations. 
+"""One can load objects from different locations.
 This module provides functionality to load objects from different locations
 while preserving a simple interface to the cosumer.
 
@@ -23,8 +23,8 @@ def true(object):
 
 class PathLoader(object):
     """Load paths and folders from the local file system.
-    
-    The :paramref:`process <PathLoader.__init__.process>` is called with a 
+
+    The :paramref:`process <PathLoader.__init__.process>` is called with a
     :class:`path <str>` as first argument: ``process(path)``.
     """
 
@@ -48,7 +48,7 @@ class PathLoader(object):
 
         Depending on :meth:`chooses_path` some paths may not be loaded.
         Every loaded path is processed and returned part of the returned list.
-        
+
         :param str folder: the folder to load the files from
         :rtype: list
         :return: a list of the results of the processing steps of the loaded
@@ -65,14 +65,14 @@ class PathLoader(object):
     def chooses_path(self, path):
         """:return: whether the path should be loaded
         :rtype: bool
-        
+
         :param str path: the path to the file to be tested
         """
         return self._chooses_path(path)
 
     def path(self, path):
         """load a :paramref:`path` and return the processed result
-        
+
         :param str path: the path to the file to be processed
         :return: the result of processing step
         """
@@ -99,11 +99,11 @@ class PathLoader(object):
         result.
 
         :param str module: can be
-        
+
           - a path to a folder
           - a path to a file
           - a module name
-        
+
         :param str folder: the path of a folder relative to :paramref:`module`
         :return: a list of the results of the processing
         :rtype: list
@@ -120,14 +120,14 @@ class PathLoader(object):
         """Load a file relative to a module.
 
         :param str module: can be
-        
+
           - a path to a folder
           - a path to a file
           - a module name
-        
+
         :param str folder: the path of a folder relative to :paramref:`module`
         :return: the result of the processing
-        
+
         """
         path = self._relative_to_absolute(module, file)
         return self.path(path)
@@ -141,8 +141,8 @@ class PathLoader(object):
 
 class ContentLoader(PathLoader):
     """Load contents of files and ressources.
-    
-    The :paramref:`process <PathLoader.__init__.process>` is called with a 
+
+    The :paramref:`process <PathLoader.__init__.process>` is called with a
     :class:`string <str>` as first argument: ``process(string)``.
     """
 
@@ -155,7 +155,7 @@ class ContentLoader(PathLoader):
     def file(self, file):
         """:return: the processed result of the content of a file-like object.
 
-        :param file: the file-like object to load the content from. 
+        :param file: the file-like object to load the content from.
           It should support the ``read`` method.
         """
         string = file.read()
@@ -163,7 +163,7 @@ class ContentLoader(PathLoader):
 
     def path(self, path):
         """:return: the processed result of a :paramref:`path's <path>` content.
-        :param str path: the path where to load the content from. 
+        :param str path: the path where to load the content from.
           It should exist on the local file system.
         """
         with open(path) as file:
@@ -171,12 +171,12 @@ class ContentLoader(PathLoader):
 
     def url(self, url, encoding="UTF-8"):
         """load and process the content behind a url
-        
+
         :return: the processed result of the :paramref:`url's <url>` content
         :param str url: the url to retrieve the content from
         :param str encoding: the encoding of the retrieved content.
           The default encoding is UTF-8.
-        
+
         """
         import urllib.request
         with urllib.request.urlopen(url) as file:
@@ -187,14 +187,14 @@ class ContentLoader(PathLoader):
 
 class JSONLoader(ContentLoader):
     """Load an process JSON from various locations.
-    
-    The :paramref:`process <PathLoader.__init__.process>` is called with an 
+
+    The :paramref:`process <PathLoader.__init__.process>` is called with an
     :class:`object` as first argument: ``process(object)``.
     """
 
     def object(self, object):
         """Processes an already loaded object.
-        
+
         :return: the result of the processing step
         :param object: the object to be loaded
         """
@@ -202,7 +202,7 @@ class JSONLoader(ContentLoader):
 
     def string(self, string):
         """Load an object from a string and return the processed JSON content
-        
+
         :return: the result of the processing step
         :param str string: the string to load the JSON from
         """

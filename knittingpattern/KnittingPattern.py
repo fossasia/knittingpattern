@@ -6,21 +6,22 @@ Their functionlaity can be found in this module.
 
 """
 
+
 class KnittingPattern(object):
-    """This classes instances contain a set of instructions that form a 
+    """This classes instances contain a set of instructions that form a
     pattern.
-    Usually you do not create instances of this but rather load a 
+    Usually you do not create instances of this but rather load a
     :class:`knitting pattern set
     <knittingpattern.KnittingPatternSet.KnittingPatternSet>`.
     """
 
     def __init__(self, id, name, rows):
         """Create a new instance
-        
+
         :param id: the id of this pattern
         :param name: the human readable name of this pattern
         :param rows: a collection of rows of instructions
-        
+
         """
         self._id = id
         self._name = name
@@ -41,8 +42,8 @@ class KnittingPattern(object):
     @property
     def rows(self):
         """a collection of rows that this pattern is made of
-        
-        Usually this should be a 
+
+        Usually this should be a
         :class:`knittingpattern.IdCollection.IdCollection` of
         :class:`knittingpattern.Row.Row`."""
         return self._rows

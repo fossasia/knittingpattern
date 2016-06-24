@@ -1,8 +1,8 @@
 """When parsing :class:`knitting patterns
-<knittingpattern.KnittingPatternSet.KnittingPatternSet>` a lot of classes can 
+<knittingpattern.KnittingPatternSet.KnittingPatternSet>` a lot of classes can
 be used.
 
-The :class:`ParsingSpecification` is the one place where to go to change a 
+The :class:`ParsingSpecification` is the one place where to go to change a
 class that is used throughout the whole structure loaded by e.g. a
 :class:`knittingpattern.Parser.Parser`.
 :func:`new_knitting_pattern_set_loader` is a convinient interface for
@@ -15,11 +15,11 @@ These functions should do the same:
     # (1) load from module
     import knittingpattern
     kp = knittingpattern.load_from_file("my_pattern")
-    
+
     # (2) load from knitting pattern
     from knittingpattern.ParsingSpecification import *
     kp = new_knitting_pattern_set_loader().file("my_pattern")
-    
+
 """
 from .Loader import JSONLoader
 from .Parser import Parser, ParsingError
@@ -30,11 +30,12 @@ from .Row import Row
 from .InstructionLibrary import DefaultInstructions
 from .Instruction import InstructionInRow
 
+
 class ParsingSpecification(object):
     """This class contains the specification for the
     :class:`parser <knittingpattern.Parser.Parser>`.
     """
-    
+
     def __init__(self, Loader=JSONLoader, Parser=Parser,
                  ParsingError=ParsingError, PatternSet=KnittingPatternSet,
                  PatternCollection=IdCollection, RowCollection=IdCollection,
@@ -58,9 +59,10 @@ class ParsingSpecification(object):
 def new_knitting_pattern_set_loader(specification=ParsingSpecification()):
     """create a loader for the knitting pattern set specified in
     :paramref:`specification`
-    
+
     :param specification: a :class:`specification
-      <knittingpattern.ParsingSpecification.ParsingSpecification>` for the knitting pattern set
+      <knittingpattern.ParsingSpecification.ParsingSpecification>`
+      for the knitting pattern set
     """
     parser = specification.Parser(specification)
     loader = specification.Loader(parser.knitting_pattern_set)

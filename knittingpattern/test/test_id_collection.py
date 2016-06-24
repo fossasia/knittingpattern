@@ -32,7 +32,7 @@ def test_length(c):
     c.append(I(""))
     assert len(c) == 2
 
-    
+
 def test_at_raises_keyerror(c):
     with raises(KeyError):
         c["unknown-id"]

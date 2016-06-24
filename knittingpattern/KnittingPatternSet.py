@@ -16,14 +16,14 @@ class KnittingPatternSet(object):
 
     def __init__(self, type, version, patterns, comment=None):
         """create a new knitting pattern set
-        
-        :param str type: the type of the knitting pattern set, see the 
+
+        :param str type: the type of the knitting pattern set, see the
           :ref:`specification <FileFormatSpecification>`.
         :param str version: the version of the knitting pattern set.
-          This is not the version of the library but the version of the 
+          This is not the version of the library but the version of the
           :ref:`specification <FileFormatSpecification>`.
-        :param patterns: a collection of patterns. This should be a 
-          :class:`~knittingpattern.IdCollection.IdCollection` of 
+        :param patterns: a collection of patterns. This should be a
+          :class:`~knittingpattern.IdCollection.IdCollection` of
           :class:`KnittingPatterns
           <knittingpattern.KnittingPattern.KnittingPattern>`.
         """
@@ -54,23 +54,23 @@ class KnittingPatternSet(object):
     @property
     def comment(self):
         """
-        :return: the comment for the knitting pattern set or None, 
+        :return: the comment for the knitting pattern set or None,
           see :meth:`__init__`
         """
         return self._comment
 
     def to_ayabpng(self):
-        """:return: a dumper to save this pattern set as png for the AYAB 
+        """:return: a dumper to save this pattern set as png for the AYAB
           software
         :rtype: knittingpattern.convert.AYABPNGDumper.AYABPNGDumper
-        
+
         Example:
-        
+
         .. code:: python
-        
+
             >>> knitting_pattern_set.to_ayabpng().temporary_path()
             "/the/path/to/the/file.png"
-        
+
         """
         return AYABPNGDumper(lambda: self)
 
@@ -81,9 +81,9 @@ class KnittingPatternSet(object):
         :rtype: knittingpattern.Dumper.ContentDumper
 
         Example:
-        
+
         .. code:: python
-        
+
             >>> knitting_pattern_set.to_svg().temporary_path()
             "/the/path/to/the/file.svg"
         """

@@ -37,21 +37,21 @@ class Parser(object):
 
     def __init__(self, specification):
         """Create a parser with a specification
-        
+
         :param specification: the types and classes to use for the resulting
-          object structure, preferably a 
+          object structure, preferably a
           :class:`knittingpattern.ParsingSpecification.ParsingSpecification`
-        
+
         """
         self._specification = specification
         self._start()
-        
+
     def _start(self):
         """initialize the parsing process"""
         self._instruction_library = self._specification.DefaultInstructions()
         self._id_cache = {}
         self._pattern_set = None
-        
+
     @staticmethod
     def _to_id(id):
         """:return: a hashable object"""
@@ -59,21 +59,21 @@ class Parser(object):
 
     def _error(self, text):
         """:raises: a specified ParsingError
-        
+
         :param str text: the text to include in the error message
         """
         raise self._specification.ParsingError(text)
 
     def knitting_pattern_set(self, values):
-        """parses a 
+        """parses a
         :class:`~knittingpattern.KnittingPatternSet.KnittingPatternSet`
-        
+
         :param dict value: the specification of the knitting pattern set
         :rtype: knittingpattern.KnittingPatternSet.KnittingPatternSet
         :raises knittingpattern.KnittingPatternSet.ParsingError: if
           :paramref:`value` does not fulfill the :ref:`specification
           <FileFormatSpecification>`.
-          
+
         """
         self._start()
         pattern_collection = self._new_pattern_collection()
@@ -158,12 +158,12 @@ class Parser(object):
         """returns the type of a knitting pattern set"""
         if TYPE not in values:
             self._error("No pattern type given but should be "
-                       "\"{}\"".format(KNITTING_PATTERN_TYPE))
+                        "\"{}\"".format(KNITTING_PATTERN_TYPE))
         type = values[TYPE]
         if type != KNITTING_PATTERN_TYPE:
             self._error("Wrong pattern type. Type is \"{}\" "
-                       "but should be \"{}\""
-                       "".format(type, KNITTING_PATTERN_TYPE))
+                        "but should be \"{}\""
+                        "".format(type, KNITTING_PATTERN_TYPE))
         return type
 
     def _get_version(self, values):

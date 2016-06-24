@@ -38,12 +38,12 @@ class SVGBuilder(object):
     def bounding_box(self):
         """the bounding box of this SVG
         ``(min_x, min_y, max_x, max_y)``
-        
+
         .. code:: python
-        
+
             svg_builder10x10.bounding_box = (0, 0, 10, 10)
             assert svg_builder10x10.bounding_box == (0, 0, 10, 10)
-        
+
         ``viewBox``, ``width`` and ``height`` are computed from this.
         """
         return (self._min_x, self._min_y, self._max_x, self._max_y)
@@ -63,20 +63,20 @@ class SVGBuilder(object):
     def place(self, x, y, svg, layer_id):
         """Place the :paramref:`svg` content at ``(x, y)`` position
         in the SVG, in a layer with the id :paramref:`layer_id`.
-        
+
         :param float x: the x position of the svg
         :param float y: the y position of the svg
         :param str svg: the SVG to place at ``(x, y)``
-        :param str layer_id: the id of the layer that this 
+        :param str layer_id: the id of the layer that this
           :paramref:`svg` should be placed inside
-        
+
         """
         content = xmltodict.parse(svg)
         self.place_svg_dict(x, y, content, layer_id)
 
     def place_svg_dict(self, x, y, svg_dict, layer_id, group={}):
         """Same as :meth:`place` but with a dictionary as :paramref:`svg_dict`
-        
+
         :param dict svg_dict: a dictionary returned by `xmltodict.parse()
           <https://github.com/martinblech/xmltodict>`__
         """
@@ -109,7 +109,7 @@ class SVGBuilder(object):
 
     def write_to_file(self, file):
         """Writes the current SVG to the :paramref:`file`
-        
+
         :param file: a file-like object
         """
         xmltodict.unparse(self._structure, file, pretty=True)

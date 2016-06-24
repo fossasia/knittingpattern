@@ -28,7 +28,7 @@ def load_and_dump(Loader, Dumper, load_and_dump,
       will be passed to :paramref:`load_and_dump`.
       Any additional arguments to the return value are also passed to
       :paramref:`load_and_dump`.
-      The return value of :paramref:`load_and_dump` is passed back to the 
+      The return value of :paramref:`load_and_dump` is passed back to the
       :paramref:`Dumper`.
 
     """

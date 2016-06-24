@@ -13,7 +13,7 @@ REPLACE_IN_DEFAULT_SVG = "{instruction.type}"
 
 class InstructionToSVG(object):
     """This class maps instructions to SVGs."""
-    
+
     @property
     def _loader_class(self):
         """:return: the loader to load svgs from different locations
@@ -29,21 +29,21 @@ class InstructionToSVG(object):
         """:return: a loader object that allows loading SVG files from
           various sources such as files and folders.
         :rtype: knittingpattern.Loader.PathLoader
-        
+
         Examples:
-        
+
         - ``instruction_to_svg.load.path(path)`` loads an SVG from a file named
           path
         - ``instruction_to_svg.load.folder(path)`` loads all SVG files for
           instructions in the folder recursively.
           If multiple files have the same name, the last occurrence is used.
-        
+
         """
         return self._loader_class(self._process_loaded_object)
 
     def _process_loaded_object(self, path):
         """process the :paramref:`path`
-        
+
         :param str path: the path to load an svg from
         """
         file_name = os.path.basename(path)
@@ -67,7 +67,7 @@ class InstructionToSVG(object):
         """:return: an SVG representing the instruction
 
         The SVG file is determined by the type attribute of the instruction.
-        An instruction of type ``"knit"`` is looked for in a file named 
+        An instruction of type ``"knit"`` is looked for in a file named
         ``"knit.svg"``.
 
         Every element inside a group labeled ``"color"`` of mode ``"layer"``
@@ -90,7 +90,7 @@ class InstructionToSVG(object):
     def _set_fills_in_color_layer(self, svg_string, color):
         """replaces fill colors in ``<g inkscape:label="color"
         inkscape:groupmode="layer">`` with :paramref:`color`
-        
+
         :param color: a color fill the objects in the layer with
         """
         structure = xmltodict.parse(svg_string)
@@ -128,10 +128,10 @@ class InstructionToSVG(object):
 
         This can be used before :meth:`instruction_to_svg` as it determines
         whether
-        
+
         - the default value is used (:obj:`False`)
         - or there is a dedicated svg representation (:obj:`True`).
-        
+
         """
         instruction_type = instruction.type
         return instruction_type in self._instruction_type_to_file_content
@@ -140,7 +140,7 @@ class InstructionToSVG(object):
         """As :meth:`instruction_to_svg` but it only takes the ``default.svg``
         file into account.
 
-        In case no file is found for an instruction in 
+        In case no file is found for an instruction in
         :meth:`instruction_to_svg`,
         this method is used to determine the default svg for it.
 
@@ -155,7 +155,7 @@ class InstructionToSVG(object):
     def default_instruction_to_svg_dict(self, instruction):
         """Returns an xml-dictionary with the same content as
         :meth:`default_instruction_to_svg`
-        
+
         If no file ``default.svg`` was loaded, an empty svg-dict is returned.
         """
         instruction_type = instruction.type
@@ -172,10 +172,10 @@ class InstructionToSVG(object):
 
 def default_instructions_to_SVG():
     """load the default set of svg files for instructions
-    
+
     :return: the default svg files for the instructions in this package
     :rtype: knittingpattern.InstructionToSVG.InstructionToSVG
-    
+
     """
     instruction_to_SVG = InstructionToSVG()
     instruction_to_SVG.load.relative_folder(__name__, "SVG-Instructions")

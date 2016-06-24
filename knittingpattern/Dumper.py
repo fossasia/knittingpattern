@@ -30,7 +30,7 @@ class ContentDumper(object):
 
         :param on_dump: a function that takes a file-like object as argument
           and writes content to it.
-        :param bool text_is_expected: whether to use text mode 
+        :param bool text_is_expected: whether to use text mode
           (:obj:`True`, default) or binary mode (:obj:`False`)
           for :paramref:`on_dump`.
 

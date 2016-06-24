@@ -8,21 +8,21 @@ class IdCollection(object):
 
     def __init__(self):
         """Creat a new :class:`IdCollection` with no arguments.
-        
+
         You can add objects later using the method :meth:`append`.
         """
         self._items = OrderedDict()
 
     def append(self, item):
         """Add an object to the end of the :class:`IdCollection`.
-        
+
         :param item: an object that has an id
         """
         self._items[item.id] = item
 
     def at(self, index):
         """Get the object at an :paramref:`index`.
-        
+
         :param int index: the index of the object
         :return: the object at :paramref:`index`
         """
@@ -32,15 +32,15 @@ class IdCollection(object):
 
     def __getitem__(self, id):
         """Get the object with the :paramref:`id`
-        
+
         .. code:: python
-        
+
             ic = IdCollection()
             ic.append(object_1)
             ic.append(object_2)
             assert ic[object_1.id] == object_1
             assert ic[object_2.id] == object_1
-            
+
         :param id: the id of an object
         :return: the object with the :paramref:`id`
         :raises KeyError: if no object with :paramref:`id` was found
@@ -55,7 +55,7 @@ class IdCollection(object):
 
     def __iter__(self):
         """allows you to iterate and use for-loops
-        
+
         The objects in the iterator have the order in which they were appended.
         """
         for id in self._items:
