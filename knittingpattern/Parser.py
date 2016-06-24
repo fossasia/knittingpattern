@@ -181,4 +181,4 @@ class Parser(object):
 
 __all__ = ["Parser", "ID", "NAME", "TYPE", "VERSION", "INSTRUCTIONS",
            "SAME_AS", "PATTERNS", "ROWS", "CONNECTIONS", "FROM", "TO", "START",
-           "DEFAULT_START", "MESHES", "COMMENT"]
+           "DEFAULT_START", "MESHES", "COMMENT", "ParsingError"]
