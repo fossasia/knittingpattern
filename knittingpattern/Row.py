@@ -6,6 +6,9 @@ CONISTENCY_MESSAGE = "The data structure must be consistent."
 
 
 class Row(Prototype):
+    """
+    A row
+    """
 
     def __init__(self, id, values, inheriting_from=[]):
         super().__init__(values, inheriting_from)
@@ -138,8 +141,8 @@ class Row(Prototype):
         for inst in self.instructions:
             if not inst.consumes_meshes():
                 continue
-            mini = inst.index_of_first_consumed_mesh_in_rows_consumed_meshes
-            maxi = inst.index_of_last_consumed_mesh_in_rows_consumed_meshes
+            mini = inst._index_of_first_consumed_mesh_in_rows_consumed_meshes
+            maxi = inst._index_of_last_consumed_mesh_in_rows_consumed_meshes
             if mini <= mesh_index <= maxi:
                 return inst, mesh_index - mini
         assert False, "Passing all instructions should never happen."

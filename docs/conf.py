@@ -109,7 +109,7 @@ add_function_parentheses = True
 
 # http://stackoverflow.com/q/5599254/1320237
 # use the doc string in the init method
-autoclass_content = 'both'
+# autoclass_content = 'both'
 
 # If true, the current module name will be prepended to all description
 # unit titles (such as .. function::).

@@ -5,6 +5,7 @@
 =======================
 
 .. automodule:: knittingpattern.Parser
-   :members:
    :show-inheritance:
+   :members:
+   :special-members:
 

@@ -101,8 +101,9 @@ def create_new_module_documentation():
                 f.write("=" * len(module.title) + "\n")
                 f.write("\n")
                 f.write(".. automodule:: " + module.name + "\n")
-                f.write("   :members:\n")
                 f.write("   :show-inheritance:\n")
+                f.write("   :members:\n")
+                f.write("   :special-members:\n")
                 f.write("\n")
 
 

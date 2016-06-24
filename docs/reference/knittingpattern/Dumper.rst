@@ -5,6 +5,7 @@
 =======================
 
 .. automodule:: knittingpattern.Dumper
-   :members:
    :show-inheritance:
+   :members:
+   :special-members:
 

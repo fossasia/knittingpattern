@@ -5,6 +5,7 @@
 =====================
 
 .. automodule:: knittingpattern.Mesh
-   :members:
    :show-inheritance:
+   :members:
+   :special-members:
 

@@ -5,6 +5,7 @@
 ==============================
 
 .. automodule:: knittingpattern.convert.load_and_dump
-   :members:
    :show-inheritance:
+   :members:
+   :special-members:
 

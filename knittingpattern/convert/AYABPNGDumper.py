@@ -15,7 +15,7 @@ class AYABPNGDumper(ContentDumper):
         `function_that_returns_a_knitting_pattern_set`.
 
         When a dump is requested, the
-        `function_that_returns_a_knitting_pattern_set`() is called and the
+        `function_that_returns_a_knitting_pattern_set` is called and the
         knitting pattern set is converted and saved to the specified location.
         """
         super().__init__(self._dump_knitting_pattern,

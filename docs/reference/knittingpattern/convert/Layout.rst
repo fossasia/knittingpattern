@@ -5,6 +5,7 @@
 =======================
 
 .. automodule:: knittingpattern.convert.Layout
-   :members:
    :show-inheritance:
+   :members:
+   :special-members:
 

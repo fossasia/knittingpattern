@@ -1,5 +1,9 @@
+"""This module contains the :class:`Prototype` that can be used to 
+create inheritance on object level instead of class level.
+"""
 
 class Prototype(object):
+    """Prototype"""
 
     def __init__(self, specification, inherited_values=[]):
         self.__specification = [specification] + inherited_values

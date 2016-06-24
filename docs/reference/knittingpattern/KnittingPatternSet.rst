@@ -5,6 +5,7 @@
 ===================================
 
 .. automodule:: knittingpattern.KnittingPatternSet
-   :members:
    :show-inheritance:
+   :members:
+   :special-members:
 

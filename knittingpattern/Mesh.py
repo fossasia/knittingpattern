@@ -1,3 +1,31 @@
+from abc import ABCMeta, abstractmethod
+
+class Mesh(metaclass=ABCMeta):
+    """
+    A mesh that is either consumed of produced by an instruction.
+    
+    .. code:: python
+    
+        assert mesh.is_produced() or mesh.is_consumed()
+    
+    Since this is an abstract base class you will only get instances of 
+    :class:`ProducedMesh <knittingpattern.Mesh.ProducedMesh>` and
+    :class:`ConsumedMesh <knittingpattern.Mesh.ConsumedMesh>`.
+    
+    """
+    
+    @abstractmethod
+    def is_produced(self):
+        """
+        :return: whether the mesh is produced by an instruction
+        :rtype: bool
+        """
+
+    def is_consumed(self):
+        """
+        :return: whether the mesh is consumed by an instruction
+        :rtype: bool
+        """
 
 
 class ProducedMesh(object):
@@ -29,7 +57,7 @@ class ProducedMesh(object):
     @property
     def mesh_index_in_producing_row(self):
         instruction = self.producing_instruction
-        i = instruction.index_of_first_produced_mesh_in_rows_produced_meshes
+        i = instruction._index_of_first_produced_mesh_in_rows_produced_meshes
         return i + self.mesh_index_in_producing_instruction
 
     @property
@@ -88,3 +116,9 @@ class ConsumedMesh(object):
 
     def is_produced(self):
         return False
+
+
+Mesh.register(ProducedMesh)
+Mesh.register(ConsumedMesh)
+
+__all__ = ["Mesh", "ProducedMesh", "ConsumedMesh"]

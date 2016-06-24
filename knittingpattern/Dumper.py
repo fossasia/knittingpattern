@@ -30,8 +30,9 @@ class ContentDumper(object):
 
         :param on_dump: a function that takes a file-like object as argument
           and writes content to it.
-        :param bool text_is_expected: whether to use text mode (:obj:`True`,
-          default) or binary mode (:obj:`False`) for :paramref:`on_dump`.
+        :param bool text_is_expected: whether to use text mode 
+          (:obj:`True`, default) or binary mode (:obj:`False`)
+          for :paramref:`on_dump`.
 
         The dumper calls :paramref:`on_dump` with a file-like object every time
         one of its save methods, e.g. :meth:`string` or :meth:`file` is called.
@@ -45,8 +46,6 @@ class ContentDumper(object):
 
         - :obj:`False` to pass a file to :paramref:`on_dump` that you can write
           bytes to
-
-
         """
         self.__dump_to_file = on_dump
         self.__text_is_expected = text_is_expected
@@ -54,7 +53,8 @@ class ContentDumper(object):
 
     @property
     def encoding(self):
-        """:return str: the encoding for byte to string conversion"""
+        """:return: the encoding for byte to string conversion
+        :rtype: str"""
         return self.__encoding
 
     def string(self):
