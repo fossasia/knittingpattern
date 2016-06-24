@@ -1,3 +1,5 @@
+"""
+"""
 from .Prototype import *
 from itertools import chain
 
@@ -128,11 +130,13 @@ class Row(Prototype):
 
     @property
     def produced_meshes(self):
+        """asdasd"""
         return list(chain(*(instruction.produced_meshes
                           for instruction in self.instructions)))
 
     @property
     def consumed_meshes(self):
+        """asdsada"""
         return list(chain(*(instruction.consumed_meshes
                           for instruction in self.instructions)))
 
