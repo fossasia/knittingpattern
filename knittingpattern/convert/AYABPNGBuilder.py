@@ -2,23 +2,41 @@
 
 These png files are used to be fed into the ayab-desktop software.
 They only contain which meshes will be knit with a contrast color.
-They just contain colors."""
+They just contain colors.
+"""
 import webcolors
 import PIL.Image
 
 
 class AYABPNGBuilder(object):
-    """Convert knitting patterns to png files that onlny contain the color
-    information and (x, y) coordinates."""
+    """Convert knitting patterns to png files that only contain the color
+    information and ``(x, y)`` coordinates.
+    
+    .. _png-color:
+    
+    Througout this class the term `color` refers to either
+    
+    - a valid html5 color name such as ``"black"``, ``"white"``
+    - colors of the form ``"#RGB"``, ``"#RRGGBB"`` and ``"#RRRGGGBBB"``
+    
+    """
 
     def __init__(self, min_x, min_y, max_x, max_y,
                  default_color="white"):
-        """Initialize the builder with the file for the PNG.
+        """Initialize the builder with the bounding box and a default color.
 
-        x in [min_x, max_x) and y in [min_y, max_y) are the bounds of the
+        .. _png-builder-bounds:
+        
+        ``min_x <= x < max_x`` and ``min_y <= y < max_y`` are the bounds of the
         instructions.
         Instructions outside the bounds are not rendered.
-        Any Pixel that is not set has the `default_color`.
+        Any Pixel that is not set has the :paramref:`default_color`.
+        
+        :param int min_x: the lower bound of the x coordinates 
+        :param int max_x: the upper bound of the x coordinates 
+        :param int min_y: the lower bound of the y coordinates 
+        :param int max_y: the upper bound of the y coordinates 
+        :param default_color: a valid :ref:`color <png-color>`
         """
         self._min_x = min_x
         self._min_y = min_y
@@ -31,13 +49,17 @@ class AYABPNGBuilder(object):
             )
 
     def write_to_file(self, file):
-        """Writes the png to the file."""
+        """write the png to the file
+        
+        :param file: a file-like object
+        """
         self._image.save(file, format="PNG")
 
     @staticmethod
     def _convert_color_to_RRGGBB(color):
-        """Takes a color such as "#fff" or "blue" and converts it into a 24 bit
-        color "#RrGgBb".
+        """takes a :ref:`color <png-color>` and converts it into a 24 bit
+        color "#RrGgBb"
+        
         """
         if not color.startswith("#"):
             rgb = webcolors.html5_parse_legacy_color(color)
@@ -47,26 +69,26 @@ class AYABPNGBuilder(object):
         return webcolors.normalize_hex(hex)
 
     def _convert_RRGGBB_to_image_color(self, rrggbb):
-        """Returns the color that is used by the image."""
+        """:return: the color that is used by the image"""
         return webcolors.hex_to_rgb(rrggbb)
 
     def _convert_to_image_color(self, color):
-        """Returns a color thet can be used by the image."""
+        """:return: a color that can be used by the image"""
         rgb = self._convert_color_to_RRGGBB(color)
         return self._convert_RRGGBB_to_image_color(rgb)
 
     def _set_pixel_and_convert_color(self, x, y, color):
-        """Set the pixel but convert the color before."""
+        """set the pixel but convert the color before."""
         if color is None:
             return
         color = self._convert_color_to_RRGGBB(color)
         self._set_pixel(x, y, color)
 
     def _set_pixel(self, x, y, color):
-        """Set the color of the pixel.
+        """set the color of the pixel.
 
-        `color` must be a valid color in the form of "#rrggbb".
-        If you need to convert color, use `_set_pixel_and_convert_color()`.
+        :param color: must be a valid color in the form of "#rrggbb".
+          If you need to convert color, use `_set_pixel_and_convert_color()`.
         """
         if not self.is_in_bounds(x, y):
             return
@@ -76,39 +98,47 @@ class AYABPNGBuilder(object):
         self._image.putpixel((x, y), rgb)
 
     def set_pixel(self, x, y, color):
-        """Set the pixel at x, y position to color.
+        """set the pixel at ``(x, y)`` position to :paramref:`color`
 
-        If (x, y) is out of the bounds min_x, max_x, min_y, max_y,
+        If ``(x, y)`` is out of the :ref:`bounds <png-builder-bounds>`
         this does not change the image.
+        
+        .. seealso:: :meth:`set_color_in_grid`
         """
         self._set_pixel_and_convert_color(x, y, color)
 
     def is_in_bounds(self, x, y):
-        """Return whether `(x, y)` are inside the bounds of min_x, max_x,
-        min_y, max_y.
+        """
+        :return: whether ``(x, y)`` is inside the :ref:`bounds
+          <png-builder-bounds>`
+        :rtype: bool
         """
         lower = self._min_x <= x and self._min_y <= y
         upper = self._max_x > x and self._max_y > y
         return lower and upper
 
     def set_color_in_grid(self, color_in_grid):
-        """Set the pixel at the position of the `color_in_grid` to its color.
+        """Set the pixel at the position of the :paramref:`color_in_grid`
+        to its color.
 
-        `color_in_grid` must have the following attributes:
+        :param color_in_grid: must have the following attributes:
 
-        - `color` is the color to set the pixel to
-        - `x` is the x position of the pixel
-        - `y` is the y position of the pixel
+          - ``color`` is the :ref:`color <png-color>` to set the pixel to
+          - ``x`` is the x position of the pixel
+          - ``y`` is the y position of the pixel
 
-        Also see `set_pixel()`
+        .. seealso:: :meth:`set_pixel`, :meth:`set_colors_in_grid`
         """
         self._set_pixel_and_convert_color(
                 color_in_grid.x, color_in_grid.y, color_in_grid.color
             )
 
     def set_colors_in_grid(self, some_colors_in_grid):
-        """Same as `set_color_in_grid()` but with a collection of
+        """Same as :meth:`set_color_in_grid` but with a collection of
         colors in grid.
+        
+        :param iterable some_colors_in_grid: a collection of colors in grid for
+          :meth:`set_color_in_grid`
         """
         for color_in_grid in some_colors_in_grid:
             self._set_pixel_and_convert_color(
@@ -117,9 +147,10 @@ class AYABPNGBuilder(object):
 
     @property
     def default_color(self):
-        """Returns the color of the pixels that are not set.
+        """:return: the :ref:`color <png-color>` of the pixels that are not set
 
-        You can set this color by passing it to the constructor.
+        You can set this color by passing it to the :meth:`constructor
+        <__init__>`.
         """
         return self._default_color
 
