@@ -16,6 +16,7 @@ def convert_image_to_knitting_pattern(path, colors = ["white", "black"]):
     
     :param list colors: a list of strings that should be used as
       :ref:`colors <png-color>`.
+    :param str path: ignore this. It is fulfilled by the dumper.
 
     Example:
 

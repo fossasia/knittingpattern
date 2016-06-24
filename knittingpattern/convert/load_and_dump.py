@@ -1,4 +1,4 @@
-"""Convinience methods for conversion
+"""convinience methods for conversion
 
 """
 from functools import wraps
