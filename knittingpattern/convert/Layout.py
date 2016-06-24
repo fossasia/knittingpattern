@@ -1,4 +1,4 @@
-"""Map `(x, y)` coordinates to instructions.
+"""Map ``(x, y)`` coordinates to instructions
 
 """
 from itertools import chain
@@ -8,6 +8,13 @@ class InstructionInGrid(object):
     """Holder of an instruction in the GridLayout."""
 
     def __init__(self, instruction, x, y):
+        """
+        :param instruction: an :class:`instruction
+          <knittingpattern.Instruction.InstructionInRow>`
+        :param float x: the x position of the :paramref:`instruction`
+        :param float y: the y position of the :paramref:`instruction`
+        
+        """
         self._instruction = instruction
         self._x = x
         self._y = y
@@ -16,45 +23,58 @@ class InstructionInGrid(object):
 
     @property
     def x(self):
-        """x coordinate in the grid"""
+        """:return: x coordinate in the grid
+        :rtype: float
+        """
         return self._x
 
     @property
     def y(self):
-        """y coordinate in the grid"""
+        """:return: y coordinate in the grid
+        :rtype: float
+        """
         return self._y
 
     @property
     def xy(self):
+        """:return: ``(x, y)`` coordinate in the grid
+        :rtype: float
+        """
         return self._x, self._y
 
     @property
     def width(self):
-        """width of the instruction on the grid"""
+        """:return: width of the instruction on the grid
+        :rtype: float
+        """
         return self._width
 
     @property
     def height(self):
-        """height of the instruction on the grid"""
+        """:return: height of the instruction on the grid
+        :rtype: float
+        """
         return self._height
 
     @property
     def instruction(self):
-        """instruction that is placed on the grid"""
+        """:return: instruction that is placed on the grid
+        :rtype: knittingpattern.Instruction.InstructionInRow
+        """
         return self._instruction
 
     @property
     def color(self):
-        """returns the color of the instruction"""
+        """:return: the color of the :attr:`instruction`"""
         return self._instruction.color
 
 
 def identity(object):
-    """returns the argument"""
+    """:return: the argument"""
     return object
 
 
-class RecursiveWalk(object):
+class _RecursiveWalk(object):
     """This class starts walking the knitting pattern and maps instructions to
     positions in the grid that is created."""
 
@@ -119,48 +139,84 @@ class RecursiveWalk(object):
 
 
 class Connection(object):
-    """A connection between two `InstructionInGrid` objects."""
+    """a connection between two :class:`InstructionInGrid` objects"""
 
     def __init__(self, start, stop):
+        """
+        :param InstructionInGrid start: the start of the connection
+        :param InstructionInGrid stop: the end of the connection
+        """
         self._start = start
         self._stop = stop
 
     @property
     def start(self):
-        """start of the connection
-
-        This is a `InstructionInGrid` object."""
+        """:return: the start of the connection
+        :rtype: InstructionInGrid
+        """
         return self._start
 
     @property
     def stop(self):
-        """stop of the connection
-
-        This is a `InstructionInGrid` object."""
+        """:return: the end of the connection
+        :rtype: InstructionInGrid
+        """
         return self._stop
 
     def is_visible(self):
+        """:return: is this connection is visible
+        :rtype: bool
+        
+        A connection is visible if it is longer that 0."""
         if self._start.y + 1 < self._stop.y:
             return True
         return False
 
 
 class GridLayout(object):
+    """This class places the instructions at ``(x, y)`` positions."""
 
     def __init__(self, pattern):
+        """
+        :param knittingpattern.KnittingPattern.KnittingPattern pattern: the
+          pattern to layout
+        
+        """
         self._pattern = pattern
         self._rows = list(sorted(self._pattern.rows))
-        self._walk = RecursiveWalk(self._rows[0].instructions[0])
+        self._walk = _RecursiveWalk(self._rows[0].instructions[0])
 
     def walk_instructions(self, mapping=identity):
+        """
+        :return: an iterator over :class:`instructions in grid
+          <InstructionInGrid>`
+        :param mapping: funcion to map the result
+        
+        .. code:: python
+        
+            for pos, c in layout.walk_instructions(lambda i: (i.xy, i.color)):
+                print("color {} at {}".format(c, pos))
+            
+        """
         instructions = chain(*self.walk_rows(lambda row: row.instructions))
         grid = map(self._walk.in_grid, instructions)
         return map(mapping, grid)
 
     def walk_rows(self, mapping=identity):
+        """
+        :return: an iterator over :class:`rows <knittingpattern.Row.Row>`
+        :param mapping: funcion to map the result, see
+          :meth:`walk_instructions` for an example usage
+        """
         return map(mapping, self._rows)
 
     def walk_connections(self, mapping=identity):
+        """
+        :return: an iterator over :class:`connections <Connection>` between
+          :class:`instructions in grid <InstructionInGrid>`
+        :param mapping: funcion to map the result, see
+          :meth:`walk_instructions` for an example usage
+        """
         for start in self.walk_instructions():
             for stop_instruction in start.instruction.consuming_instructions:
                 if stop_instruction is None:
@@ -175,10 +231,14 @@ class GridLayout(object):
 
     @property
     def bounding_box(self):
-        """Returns (min_x, min_y, max_x + 1, max_y + 1)"""
+        """
+        :return: ``(min_x, min_y, max_x + 1, max_y + 1)`` the bounding box
+          of this layout
+        :rtype: tuple
+        """
         x, y = zip(*self.walk_instructions(
                 lambda instruction: (instruction.x, instruction.y)
             ))
         return min(x), min(y), max(x) + 1, max(y) + 1
 
-__all__ = ["GridLayout"]
+__all__ = ["GridLayout", "InstructionInGrid", "Connection", "identity"]
