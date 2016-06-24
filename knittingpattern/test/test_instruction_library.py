@@ -1,6 +1,5 @@
 from test_knittingpattern import *
 from knittingpattern.InstructionLibrary import InstructionLibrary
-from knittingpattern.KnittingContext import KnittingContext
 
 DESCRIPTION = "here you can see how to knit: URL"
 DESCRIPTION_2 = "well, this is kinda a different description"

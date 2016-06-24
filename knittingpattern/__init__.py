@@ -4,9 +4,9 @@ __version__ = '0.0.8'
 
 
 def _load():
-    """Returns the loader of a KnittingContext to load objects from."""
-    from .KnittingContext import KnittingContext
-    return KnittingContext().load
+    """Returns the loader to load objects from."""
+    from .ParsingSpecification import new_knitting_pattern_set_loader
+    return new_knitting_pattern_set_loader()
 
 
 def load_from_object(object):

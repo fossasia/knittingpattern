@@ -6,7 +6,7 @@ Reference
 
    knittingpattern/index
    knittingpattern/KnittingPatternSet
-   knittingpattern/KnittingContext
+   knittingpattern/ParsingSpecification
    knittingpattern/Loader
    knittingpattern/Dumper
    knittingpattern/FileWrapper
