@@ -5,6 +5,6 @@ python-targets:
 pep8:
     full: true
 doc-warnings: yes
-test-warnings: no
+test-warnings: yes
 max-line-length: 79
 autodetect: yes
