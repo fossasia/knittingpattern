@@ -16,6 +16,32 @@ Further reading:
 
 - `domains <http://www.sphinx-doc.org/en/stable/domains.html>`__
 
+Code Climate
+------------
+
+To install the code climate command line interface (cli), read about it in
+their github `repository <https://github.com/codeclimate/codeclimate>`__
+You need docker to be installed. Under inux you can execute this ini the 
+terminal to install docker:
+
+.. code:: bash
+    
+    wget -qO- https://get.docker.com/ | sh
+    sudo usermod -aG docker $USER
+    
+Then log in and out. Then you can install the command line interface:
+
+.. code:: bash
+
+    wget -qO- https://github.com/codeclimate/codeclimate/archive/master.tar.gz | tar xvz
+    cd codeclimate-* && sudo make install
+
+Then go to the knittingpattern repository and analyze it.
+
+.. code:: bash
+
+    codeclimate analyze
+    
 Version Pinning
 ===============
 
