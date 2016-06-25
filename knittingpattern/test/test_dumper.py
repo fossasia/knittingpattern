@@ -1,4 +1,4 @@
-from test_knittingpattern import *
+from test_knittingpattern import fixture
 from knittingpattern.Dumper import ContentDumper
 from io import StringIO, BytesIO
 from tempfile import mktemp

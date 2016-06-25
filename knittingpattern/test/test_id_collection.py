@@ -1,4 +1,4 @@
-from test_knittingpattern import *
+from test_knittingpattern import fixture, raises
 from knittingpattern.IdCollection import IdCollection
 from collections import namedtuple
 

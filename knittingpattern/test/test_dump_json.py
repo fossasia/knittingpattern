@@ -1,4 +1,4 @@
-from test_knittingpattern import *
+from test_knittingpattern import fixture, MagicMock
 from knittingpattern.Dumper import JSONDumper
 import json
 from knittingpattern.ParsingSpecification import ParsingSpecification

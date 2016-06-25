@@ -288,7 +288,7 @@ def test_InstructionInGrid_get_color_from_instruction():
 #
 # def test_use_row_with_lowest_number_of_incoming_connections_as_first_row():
 #     fail()
-# 
-# 
+#
+#
 # def test_if_row_with_lowest_number_of_connections_exist_use_smallest_id():
 #     fail()

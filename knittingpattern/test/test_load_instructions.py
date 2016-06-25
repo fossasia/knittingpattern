@@ -1,4 +1,4 @@
-from test_knittingpattern import *
+from test_knittingpattern import fixture, os
 from knittingpattern.InstructionLibrary import InstructionLibrary
 
 
