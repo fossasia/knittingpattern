@@ -110,8 +110,8 @@ class Row(Prototype):
             raise IndexError(message)
 
     def _check_is_consumed_mesh_index(self, mesh_index):
-        """:raises IndexError: if the :paramref:`mesh_index` is out of bounds
-        :param int mesh_index: the index of the mesh to check the index for
+        """same as :meth:`_check_is_produced_mesh_index` but for consumed
+        meshes
         """
         if not self._is_consumed_mesh_index(mesh_index):
             message = "{} only has {} consumed meshes "\
@@ -124,15 +124,19 @@ class Row(Prototype):
 
     def _is_produced_mesh_index(self, mesh_index):
         """:return: whether the mesh_index is in bounds
+        :rtype: bool
 
-        .. seealso:: :meth:`_check_is_produced_mesh_index`
+        .. seealso:: :meth:`_check_is_produced_mesh_index`,
+          :meth:`_is_consumed_mesh_index`
         """
         return mesh_index >= 0 and mesh_index < self.number_of_produced_meshes
 
     def _is_consumed_mesh_index(self, mesh_index):
-        """:return: whether the mesh_index is in bounds
+        """same as :meth:`_is_produced_mesh_index` but for consumed
+        meshes
 
-        .. seealso:: :meth:`_check_is_consumed_mesh_index`
+        .. seealso:: :meth:`_check_is_consumed_mesh_index`,
+          :meth:`_is_produced_mesh_index`
         """
         return mesh_index >= 0 and mesh_index < self.number_of_consumed_meshes
 
@@ -210,10 +214,7 @@ class Row(Prototype):
 
     @property
     def consumed_meshes(self):
-        """
-        :return: a collection of :class:`meshes <knittingpattern.Mesh.Mesh>`
-          that this instruction consumes
-
+        """same as :attr:`produced_meshes` but for consumed meshes
         """
         return list(chain(*(instruction.consumed_meshes
                           for instruction in self.instructions)))

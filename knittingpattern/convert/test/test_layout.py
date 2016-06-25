@@ -126,7 +126,7 @@ class TestAddAndRemoveMeshes(BaseTest):
                    for i in instructions)
 
     # i1 produced
-
+    
     def test_i1_0_is_not_produced(self, i1):
         assert i1[0].producing_instructions == [None]
 

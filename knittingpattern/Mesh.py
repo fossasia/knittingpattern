@@ -17,27 +17,27 @@ class Mesh(metaclass=ABCMeta):
 
     @abstractmethod
     def _producing_instruction_and_index(self):
-        pass
+        """override this method"""
 
     @abstractmethod
     def _producing_row_and_index(self):
-        pass
+        """override this method"""
 
     @abstractmethod
     def _consuming_instruction_and_index(self):
-        pass
+        """override this method"""
 
     @abstractmethod
     def _consuming_row_and_index(self):
-        pass
+        """override this method"""
 
     @abstractmethod
     def _is_produced(self):
-        pass
+        """override this method"""
 
     @abstractmethod
     def _is_consumed(self):
-        pass
+        """override this method"""
 
     def is_produced(self):
         """
