@@ -34,6 +34,7 @@ from .Instruction import InstructionInRow
 
 
 class ParsingSpecification(object):
+
     """This is the specification for knitting pattern parsers.
 
     The :class:`<knittingpattern.Parser.Parser>` uses this specification
@@ -52,8 +53,7 @@ class ParsingSpecification(object):
                  new_row=Row,
                  new_default_instructions=DefaultInstructions,
                  new_instruction_in_row=InstructionInRow):
-        """Create a new parsing specification.
-        """
+        """Create a new parsing specification."""
         self.new_loader = new_loader
         self.new_parser = new_parser
         self.new_parsing_error = new_parsing_error
@@ -67,6 +67,7 @@ class ParsingSpecification(object):
 
 
 class DefaultSpecification(ParsingSpecification):
+
     """This is the default specification.
 
     It is created like pasing no arguments to :class:`ParsingSpecification`.
