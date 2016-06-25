@@ -11,7 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   Installation
    FileFormatSpecification
+   DevelopmentSetup
    reference/index
    
 

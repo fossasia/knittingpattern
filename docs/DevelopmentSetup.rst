@@ -1,8 +1,19 @@
+.. _development-setup:
+
 Development Setup
 =================
 
-To setup the development environment, install Python 3 and execute the 
-following:
+Make sure that you have the :ref:`repository installed
+<installation-repository>`.
+
+.. _development-setup-requirements:
+
+Install Requirements
+--------------------
+
+To install all requirements for the development setup, execute
+
+.. code:: bash
 
     pip install --upgrade -r requirements.txt -r test-requirements.txt -r dev-requirements.txt
 
@@ -11,13 +22,41 @@ Sphinx Documentation Setup
 
 Sphinx was setup using `the tutorial from readthedocs
 <http://read-the-docs.readthedocs.io/en/latest/getting_started.html>`__.
+It should be already setup if you completed :ref:`the previous step
+<development-setup-requirements>`.
 
 Further reading:
 
 - `domains <http://www.sphinx-doc.org/en/stable/domains.html>`__
 
+Code Climate
+------------
+
+To install the code climate command line interface (cli), read about it in
+their github `repository <https://github.com/codeclimate/codeclimate>`__
+You need docker to be installed. Under Linux you can execute this in the 
+Terminal to install docker:
+
+.. code:: bash
+    
+    wget -qO- https://get.docker.com/ | sh
+    sudo usermod -aG docker $USER
+    
+Then, log in and out. Then, you can install the command line interface:
+
+.. code:: bash
+
+    wget -qO- https://github.com/codeclimate/codeclimate/archive/master.tar.gz | tar xvz
+    cd codeclimate-* && sudo make install
+
+Then, go to the knittingpattern repository and analyze it.
+
+.. code:: bash
+
+    codeclimate analyze
+    
 Version Pinning
-===============
+---------------
 
 We use version pinning, described in `this blog post (outdated)
 <http://nvie.com/posts/pin-your-packages/>`__.
@@ -25,6 +64,8 @@ Also read the `current version
 <https://github.com/nvie/pip-tools>`__ for how to set up.
 
 After installation you can run
+
+.. code:: bash
 
     pip install -r requirements.in -r test-requirements.in -r dev-requirements.in
     pip-compile --output-file requirements.txt requirements.in
@@ -37,11 +78,12 @@ This uninstalls every package you do not need and
 writes the fix package versions to the requirements files.
 
 Continuous Integration to Pypi
-==============================
+------------------------------
 
-Before you put something on Pypi, ensure the following:
+Before you put something on `Pypi
+<https://pypi.python.org/pypi/knittingpattern>`__, ensure the following:
 
-1. The version in in the master branch on github.
+1. The version is in the master branch on github.
 2. The tests run by travis-ci run successfully.
 
 Pypi is automatically deployed by travis. `See here
@@ -58,13 +100,13 @@ If the build succeeds, it is automatically deployed to `Pypi
 <https://pypi.python.org/pypi/knittingpattern>`__.
 
 Manual Upload to the Python Package Index
-=========================================
+-----------------------------------------
 
 
 However, here you can see how to upload this package manually.
 
 Version
--------
+~~~~~~~
 
 Throughout this chapter, ``<new_version>`` refers to a a string of the form ``[0-9]+\.[0-9]+\.[0-9]+[ab]?`` or ``<MAYOR>.<MINOR>.<STEP>[<MATURITY>]`` where ``<MAYOR>``, ``<MINOR>`` and, ``<STEP>`` represent numbers and ``<MATURITY>`` can be a letter to indicate how mature the release is.
 
@@ -113,7 +155,7 @@ Throughout this chapter, ``<new_version>`` refers to a a string of the form ``[0
   
 
 Upload
-------
+~~~~~~
 
 .. Upload:
 
@@ -137,19 +179,4 @@ Classifiers
 You can find all Pypi classifiers `here
 <http://pypi.python.org/pypi?%3Aaction=list_classifiers>`_.
 
-Package installation from Pypi
-==============================
-
-Install it with a specific python version under windows:
-
-.. code:: cmd
-
-    py -3.5 -m pip --no-cache-dir install --upgrade knittingpattern
-
-Test the installed version. You might have forgotten some includes:
-
-.. code:: cmd
-
-    cd C:\Python35-32\Lib\site-packages
-    py -3.5 -m pytest knittingpattern
 
