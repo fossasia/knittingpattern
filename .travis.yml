@@ -7,10 +7,11 @@ python:
 - '3.5'
 install:
 # install the package
-- python3 setup.py install
-- python3 -m pip install `python3 setup.py requirements`
 - PACKAGE_VERSION=`python3 setup.py --version`
 - TAG_NAME=v$PACKAGE_VERSION
+- python3 setup.py sdist
+- python3 -m pip install dist/knittingpattern-*
+- python3 -m pip install -r test-requirements.txt
 before_script:
 # remove the build folder because it creates problems for py.test
 - rm -rf build
