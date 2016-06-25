@@ -29,6 +29,10 @@ Further reading:
 
 - `domains <http://www.sphinx-doc.org/en/stable/domains.html>`__
 
+With Notepad++ under Windows, you can run the `make_html.bat
+<https://github.com/AllYarnsAreBeautiful/knittingpattern/blob/master/docs/make_html.bat>`__ file in the
+``docs`` directory to create the documentation and show undocumented code.
+
 Code Climate
 ------------
 
@@ -74,7 +78,7 @@ After installation you can run
     pip-sync requirements.txt dev-requirements.txt test-requirements.txt
     pip install --upgrade -r requirements.txt -r test-requirements.txt -r dev-requirements.txt
 
-This uninstalls every package you do not need and 
+``pip-sync`` uninstalls every package you do not need and 
 writes the fix package versions to the requirements files.
 
 Continuous Integration to Pypi
