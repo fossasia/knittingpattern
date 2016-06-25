@@ -9,9 +9,8 @@ IMAGE_PATH = os.path.join(HERE, "pictures")
 
 @fixture(scope="module")
 def patterns(image_path):
-    object = convert_image_to_knitting_pattern().path(image_path).object()
-    patterns = load_from_object(object)
-    return patterns
+    loader = convert_image_to_knitting_pattern()
+    return loader.path(image_path).knitting_pattern()
 
 
 @fixture(scope="module")
