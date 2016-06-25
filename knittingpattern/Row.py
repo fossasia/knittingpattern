@@ -15,10 +15,10 @@ class Row(Prototype):
     <knittingpattern.KnittingPattern.KnittingPattern>`
     """
 
-    def __init__(self, id, values, inheriting_from=()):
+    def __init__(self, row_id, values, inheriting_from=()):
         """create a new row
 
-        :param id: an identifier for the row
+        :param row_id: an identifier for the row
         :param values: the values from the specification
         :param list inheriting_from: a list of specifications to inherit values
           from, see :class:`knittingpattern.Prototype.Prototype`
@@ -28,7 +28,7 @@ class Row(Prototype):
           :class:`knittingpattern.Parser.Parser`.
         """
         super().__init__(values, inheriting_from)
-        self._id = id
+        self._id = row_id
         self._values = values
         self._instructions = []
         self._mapping_to_row = {}
