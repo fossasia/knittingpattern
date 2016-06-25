@@ -34,6 +34,9 @@ after_script:
 # https://github.com/codeclimate/python-test-reporter
 # set the environment variable CODECLIMATE_REPO_TOKEN in travis-ci settings
 - codeclimate-test-reporter
+before_deploy:
+# create the documentation
+- ( cd docs ; make html )
 deploy:
 # created with travis command line tool
 # https://docs.travis-ci.com/user/deployment/pypi
