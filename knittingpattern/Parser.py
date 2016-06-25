@@ -1,6 +1,4 @@
-"""In this module you can find the parsing of knitting pattern structures
-
-"""
+"""In this module you can find the parsing of knitting pattern structures."""
 # attributes
 
 ID = "id"  #: the id of a row, an instruction or a pattern
@@ -27,16 +25,20 @@ KNITTING_PATTERN_TYPE = "knitting pattern"
 
 
 class ParsingError(ValueError):
-    """This Error is raised if there is an error during the parsing for
-    :class:`~knittingpattern.Parser.Parser`"""
-    pass
+
+    """Mistake in the provided object to parse.
+
+    This Error is raised if there is an error during the parsing for
+    :class:`~knittingpattern.Parser.Parser`.
+    """
 
 
 class Parser(object):
-    """parse a knitting pattern set and anything in it"""
+
+    """Parses a knitting pattern set and anything in it."""
 
     def __init__(self, specification):
-        """Create a parser with a specification
+        """Create a parser with a specification.
 
         :param specification: the types and classes to use for the resulting
           object structure, preferably a
@@ -47,7 +49,7 @@ class Parser(object):
         self._start()
 
     def _start(self):
-        """initialize the parsing process"""
+        """Initialize the parsing process."""
         self._instruction_library = self._spec.new_default_instructions()
         self._as_instruction = self._instruction_library.as_instruction
         self._id_cache = {}
@@ -55,19 +57,22 @@ class Parser(object):
 
     @staticmethod
     def _to_id(id_):
-        """:return: a hashable object"""
+        """Converts the argument to a object suitable as an identifier.
+
+        :return: a hashable object
+        """
         return tuple(id_) if isinstance(id_, list) else id_
 
     def _error(self, text):
-        """:raises: a specified ParsingError
+        """Raise an error.
 
+        :raises: a specified ParsingError
         :param str text: the text to include in the error message
         """
         raise self._spec.new_parsing_error(text)
 
     def knitting_pattern_set(self, values):
-        """parses a
-        :class:`~knittingpattern.KnittingPatternSet.KnittingPatternSet`
+        """Parse a knitting pattern set.
 
         :param dict value: the specification of the knitting pattern set
         :rtype: knittingpattern.KnittingPatternSet.KnittingPatternSet
@@ -83,24 +88,30 @@ class Parser(object):
         return self._pattern_set
 
     def _new_pattern_collection(self):
-        """:return: a new specified PatternCollection for
-          :meth:`knitting_pattern_set`"""
+        """Create a new pattern collection.
+
+        :return: a new specified pattern collection for
+          :meth:`knitting_pattern_set`
+        """
         return self._spec.new_pattern_collection()
 
     def _new_row_collection(self):
-        """:return: a new specified RowCollection for
-          :meth:`pattern`"""
+        """Create a new row collection.
+
+        :return: a new specified row collection for
+          :meth:`pattern`
+        """
         return self._spec.new_row_collection()
 
     def _fill_pattern_collection(self, pattern_collection, values):
-        """fills a pattern collection"""
+        """Fill a pattern collection."""
         pattern = values.get(PATTERNS, [])
         for pattern_to_parse in pattern:
             parsed_pattern = self._pattern(pattern_to_parse)
             pattern_collection.append(parsed_pattern)
 
     def _row(self, values):
-        """parses a row"""
+        """Parse a row."""
         id = self._to_id(values[ID])
         inheritance = []
         if SAME_AS in values:
@@ -115,12 +126,12 @@ class Parser(object):
         return row
 
     def _instruction(self, row, instruction_):
-        """parses an instruction"""
+        """Parse an instruction."""
         whole_instruction_ = self._as_instruction(instruction_)
         return self._spec.new_instruction_in_row(row, whole_instruction_)
 
     def _pattern(self, base):
-        """parses a pattern"""
+        """Parse a pattern."""
         rows = self._rows(base.get(ROWS, []))
         self._connect_rows(base.get(CONNECTIONS, []))
         id_ = self._to_id(base[ID])
@@ -128,14 +139,14 @@ class Parser(object):
         return self._spec.new_pattern(id_, name, rows)
 
     def _rows(self, spec):
-        """parses a collection of rows"""
+        """Parse a collection of rows."""
         rows = self._new_row_collection()
         for row in spec:
             rows.append(self._row(row))
         return rows
 
     def _connect_rows(self, connections):
-        """connects the parsed rows"""
+        """Connect the parsed rows."""
         for connection in connections:
             from_row_id = self._to_id(connection[FROM][ID])
             from_row = self._id_cache[from_row_id]
@@ -154,7 +165,7 @@ class Parser(object):
                 )
 
     def _get_type(self, values):
-        """returns the type of a knitting pattern set"""
+        """:return: the type of a knitting pattern set."""
         if TYPE not in values:
             self._error("No pattern type given but should be "
                         "\"{}\"".format(KNITTING_PATTERN_TYPE))
@@ -166,11 +177,11 @@ class Parser(object):
         return type_
 
     def _get_version(self, values):
-        """::return: the version of :paramref:`values`"""
+        """:return: the version of :paramref:`values`."""
         return values[VERSION]
 
     def _create_pattern_set(self, pattern, values):
-        """Creates a new pattern set."""
+        """Create a new pattern set."""
         type_ = self._get_type(values)
         version = self._get_version(values)
         comment = values.get(COMMENT)

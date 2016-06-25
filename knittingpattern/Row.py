@@ -182,7 +182,7 @@ class Row(Prototype):
         """Reverse :meth:`_set_consuming_row_and_index`."""
         row, mesh_index_in_row = self._mapping_to_row[mesh_index]
         row.__remove_producing_row_and_index_callback(mesh_index_in_row,
-                                                     self, mesh_index)
+                                                      self, mesh_index)
         del self._mapping_to_row[mesh_index]
 
     def _set_producing_row_and_index(self, mesh_index, row, mesh_index_in_row):
@@ -197,7 +197,7 @@ class Row(Prototype):
         self._mapping_from_row[mesh_index] = (row, mesh_index_in_row)
 
     def __remove_producing_row_and_index_callback(self, mesh_index, row,
-                                                 mesh_index_in_row):
+                                                  mesh_index_in_row):
         """Do not use.
 
         called by :meth:`_remove_producing_row_and_index` after all the
