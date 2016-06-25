@@ -2,12 +2,11 @@
 # see https://pytest.org/latest/goodpractices.html
 # for why this module exists
 #
-
 from pytest import fixture, raises, fail
 from unittest.mock import MagicMock, call
+import pytest
 import os
 import sys
-import pytest
 import io
 try:
     import untangle  # http://docs.python-guide.org/en/latest/scenarios/xml/
@@ -33,3 +32,7 @@ def parse_string(string):
     file.write(string)
     file.seek(0)
     return parse_file(file)
+
+
+__all__ = ["HERE", "parse_string", "parse_file", "pytest", "fixture", "raises",
+           "fail", "MagicMock", "call", "untangle", "os", "sys", "io"]

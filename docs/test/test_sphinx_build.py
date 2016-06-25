@@ -1,7 +1,10 @@
-from test_docs import *
+from test_docs import BUILD_DIRECTORY, DOCS_DIRECTORY, PYTHON_COVERAGE_FILE
 import subprocess
 import re
 import shutil
+import pytest
+from pytest import fixture
+import os
 
 
 UNDOCUMENTED_PYTHON_OBJECTS = """Undocumented Python objects
@@ -11,11 +14,11 @@ WARNING_PATTERN = b"(?:checking consistency\\.\\.\\. )?" \
                   b"(.*(?:WARNING|SEVERE|ERROR):.*)"
 
 
-def print_bytes(bytes):
+def print_bytes(bytes_):
     try:
-        print(bytes.decode())
-    except:
-        print(bytes)
+        print(bytes_.decode())
+    except UnicodeDecodeError:
+        print(bytes_)
 
 
 @fixture(scope="module")
@@ -36,6 +39,7 @@ def sphinx_build():
 
 @fixture(scope="module")
 def coverage(sphinx_build):
+    assert sphinx_build, "we built before we try to access the result"
     with open(PYTHON_COVERAGE_FILE) as f:
         return f.read()
 

@@ -5,18 +5,21 @@ No function shall be left out by the documentation.
 Run this module to create the missing documentation files.
 
 """
-
-from test_docs import *
+from test_docs import PACKAGE_LOCATION, PACKAGE, PACKAGE_DOCUMENTATION, \
+    PACKAGE_ROOT
+import pytest
+from pytest import fixture
 from collections import namedtuple
+import os
 
 
 def relative_module_path(absolute_path):
-    relative_module_path = absolute_path[len(PACKAGE_LOCATION):]
-    if not relative_module_path.startswith(PACKAGE):
+    relative_path = absolute_path[len(PACKAGE_LOCATION):]
+    if not relative_path.startswith(PACKAGE):
         # remove /
-        relative_module_path = relative_module_path[1:]
-    assert relative_module_path.startswith(PACKAGE)
-    return relative_module_path
+        relative_path = relative_path[1:]
+    assert relative_path.startswith(PACKAGE)
+    return relative_path
 
 
 def module_name_and_doc(relative_path):
@@ -91,8 +94,8 @@ def create_new_module_documentation():
     """Create documentation so it fits the tests."""
     for module in modules:
         if not os.path.isfile(module.doc_file):
-            dir = os.path.dirname(module.doc_file)
-            os.makedirs(dir, exist_ok=True)
+            directory = os.path.dirname(module.doc_file)
+            os.makedirs(directory, exist_ok=True)
             with open(module.doc_file, "w") as f:
                 f.write("\n")  # .. py:module:: " + module.name + "\n")
                 f.write(".. py:currentmodule:: " + module.name + "\n")
@@ -107,5 +110,4 @@ def create_new_module_documentation():
                 f.write("\n")
 
 
-if __name__ == "__main__":
-    create_new_module_documentation()
+create_new_module_documentation()

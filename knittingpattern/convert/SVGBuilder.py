@@ -33,6 +33,10 @@ class SVGBuilder(object):
         self._structure = xmltodict.parse(SVG_FILE)
         self._layer_id_to_layer = {}
         self._svg = self._structure["svg"]
+        self._min_x = None
+        self._min_y = None
+        self._max_x = None
+        self._max_y = None
 
     @property
     def bounding_box(self):
@@ -45,6 +49,9 @@ class SVGBuilder(object):
             assert svg_builder10x10.bounding_box == (0, 0, 10, 10)
 
         ``viewBox``, ``width`` and ``height`` are computed from this.
+
+        If the bounding box was never set, the result is a tuple of four
+        :obj:`None`.
         """
         return (self._min_x, self._min_y, self._max_x, self._max_y)
 
