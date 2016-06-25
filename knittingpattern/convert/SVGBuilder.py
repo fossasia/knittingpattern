@@ -33,6 +33,10 @@ class SVGBuilder(object):
         self._structure = xmltodict.parse(SVG_FILE)
         self._layer_id_to_layer = {}
         self._svg = self._structure["svg"]
+        self._min_x = None
+        self._min_y = None
+        self._max_x = None
+        self._max_y = None
 
     @property
     def bounding_box(self):
@@ -45,6 +49,9 @@ class SVGBuilder(object):
             assert svg_builder10x10.bounding_box == (0, 0, 10, 10)
 
         ``viewBox``, ``width`` and ``height`` are computed from this.
+
+        If the bounding box was never set, the result is a tuple of four
+        :obj:`None`.
         """
         return (self._min_x, self._min_y, self._max_x, self._max_y)
 
@@ -74,12 +81,17 @@ class SVGBuilder(object):
         content = xmltodict.parse(svg)
         self.place_svg_dict(x, y, content, layer_id)
 
-    def place_svg_dict(self, x, y, svg_dict, layer_id, group={}):
+    def place_svg_dict(self, x, y, svg_dict, layer_id, group=None):
         """Same as :meth:`place` but with a dictionary as :paramref:`svg_dict`
 
         :param dict svg_dict: a dictionary returned by `xmltodict.parse()
           <https://github.com/martinblech/xmltodict>`__
+        :param dict group: a dictionary of values to add to the group the
+          :paramref:`svg_dict` will be added to or :obj:`None` if nothing
+          should be added
         """
+        if group is None:
+            group = {}
         group_ = {
                 "@transform": "translate({},{})".format(x, y),
                 "g": list(svg_dict.values())

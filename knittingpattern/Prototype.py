@@ -13,7 +13,7 @@ class Prototype(object):
     to look up a value in the specification.
     """
 
-    def __init__(self, specification, inherited_values=[]):
+    def __init__(self, specification, inherited_values=()):
         """create a new prototype
 
         :param specification: the specification of the prototype.
@@ -31,7 +31,7 @@ class Prototype(object):
         :paramref:`inherited_values`, by calling :meth:`inherit_from`.
 
         """
-        self.__specification = [specification] + inherited_values
+        self.__specification = [specification] + list(inherited_values)
 
     def get(self, key, default=None):
         """

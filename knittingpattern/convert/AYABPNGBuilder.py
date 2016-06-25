@@ -63,10 +63,10 @@ class AYABPNGBuilder(object):
         """
         if not color.startswith("#"):
             rgb = webcolors.html5_parse_legacy_color(color)
-            hex = webcolors.html5_serialize_simple_color(rgb)
+            hex_color = webcolors.html5_serialize_simple_color(rgb)
         else:
-            hex = color
-        return webcolors.normalize_hex(hex)
+            hex_color = color
+        return webcolors.normalize_hex(hex_color)
 
     def _convert_RRGGBB_to_image_color(self, rrggbb):
         """:return: the color that is used by the image"""

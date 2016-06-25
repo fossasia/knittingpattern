@@ -29,5 +29,9 @@ knittingpattern
    :target: https://knittingpattern.readthedocs.org
    :alt: Read the Documentation
 
+.. image:: https://landscape.io/github/AllYarnsAreBeautiful/knittingpattern/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/AllYarnsAreBeautiful/knittingpattern/master
+   :alt: Code Health
+
 For installation instructions and more, `see the documentation
 <http://knittingpattern.readthedocs.io/>`__.

@@ -21,9 +21,9 @@ class BytesWrapper(object):
         self._file = text_file
         self._encoding = encoding
 
-    def write(self, bytes):
+    def write(self, bytes_):
         """Write bytes to the file."""
-        string = bytes.decode(self._encoding)
+        string = bytes_.decode(self._encoding)
         self._file.write(string)
 
 
@@ -46,8 +46,8 @@ class TextWrapper(object):
 
     def write(self, string):
         """Write a string to the file."""
-        bytes = string.encode(self._encoding)
-        self._file.write(bytes)
+        bytes_ = string.encode(self._encoding)
+        self._file.write(bytes_)
 
 
 __all__ = ["TextWrapper", "BytesWrapper"]

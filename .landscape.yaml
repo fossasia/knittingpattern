@@ -1,0 +1,10 @@
+# https://docs.landscape.io/configuration.html
+strictness: veryhigh
+python-targets:
+  - 3
+pep8:
+    full: true
+doc-warnings: yes
+test-warnings: yes
+max-line-length: 79
+autodetect: yes

@@ -6,48 +6,41 @@ Best to use :meth:`decorate_load_and_dump`.
 from functools import wraps
 
 
-def load_and_dump(Loader, Dumper, load_and_dump,
-                  loader_args=(), loader_kw={},
-                  dumper_args=(), dumper_kw={}):
-    """:return: a function that has the doc string of :paramref:`load_and_dump`
+def load_and_dump(create_loader, create_dumper, load_and_dump_):
+    """:return: a function that has the doc string of
+      :paramref:`load_and_dump_`
       additional arguments to this function are passed on to
-      :paramref:`load_and_dump`.
+      :paramref:`load_and_dump_`.
 
-    :param Loader: a loader, e.g. :class:`knittingpattern.Loader.PathLoader`
-    :param tuple loader_args: additional arguments for the creation of the
-      :paramref:`Loader`
-    :param dict loader_kw: additional keyword arguments for the creation of the
-      :paramref:`Loader`
-    :param Dumper: a loader, e.g. :class:`knittingpattern.Dumper.ContentDumper`
-    :param tuple dumper_args: additional arguments for the creation of the
-      :paramref:`Dumper`
-    :param dict dumper_kw: additional keyword arguments for the creation of the
-      :paramref:`Dumper`
-    :param load_and_dump: a function to call with the loaded content.
+    :param create_loader: a loader, e.g.
+      :class:`knittingpattern.Loader.PathLoader`
+    :param create_dumper: a dumper, e.g.
+      :class:`knittingpattern.Dumper.ContentDumper`
+    :param load_and_dump_: a function to call with the loaded content.
       The arguments of both, :paramref:`Loader` and :paramref:`Dumper`
-      will be passed to :paramref:`load_and_dump`.
+      will be passed to :paramref:`load_and_dump_`.
       Any additional arguments to the return value are also passed to
-      :paramref:`load_and_dump`.
-      The return value of :paramref:`load_and_dump` is passed back to the
+      :paramref:`load_and_dump_`.
+      The return value of :paramref:`load_and_dump_` is passed back to the
       :paramref:`Dumper`.
 
     """
-    @wraps(load_and_dump)
-    def create_loader(*args, **kw1):
-        def load(*args1, **kw):
+    @wraps(load_and_dump_)
+    def load_and_dump__(*args1, **kw1):
+        def load(*args2, **kw2):
             """return the dumper"""
-            def dump(*args2, **kw2):
-                kw.update(kw2)
+            def dump(*args3, **kw3):
+                kw = {}
                 kw.update(kw1)
-                return load_and_dump(*(args + args1 + args2), **kw)
-            return Dumper(dump, *dumper_args, **dumper_kw)
-        return Loader(load, *loader_args, **loader_kw)
-    return create_loader
+                kw.update(kw2)
+                kw.update(kw3)
+                return load_and_dump_(*(args1 + args2 + args3), **kw)
+            return create_dumper(dump)
+        return create_loader(load)
+    return load_and_dump__
 
 
-def decorate_load_and_dump(Loader, Dumper,
-                           loader_args=(), loader_kw={},
-                           dumper_args=(), dumper_kw={}):
+def decorate_load_and_dump(create_loader, create_dumper):
     """Same as :func:`load_and_dump` but returns a function to enable decorator
     syntax.
 
@@ -60,15 +53,14 @@ def decorate_load_and_dump(Loader, Dumper,
             # convert
             return converted_stuff
 
-        @decorate_load_and_dump(PathLoader, ContentDumper)
+        @decorate_load_and_dump(PathLoader, lambda dump: ContentDumper(dump,
+            encoding=None))
         def convert_from_loader_to_dumper(loaded_stuff, to_file):
             # convert
             to_file.write(converted_stuff)
 
     """
-    return lambda function: load_and_dump(Loader, Dumper, function,
-                                          loader_args, loader_kw,
-                                          dumper_args, dumper_kw)
+    return lambda func: load_and_dump(create_loader, create_dumper, func)
 
 
 __all__ = ["load_and_dump", "decorate_load_and_dump"]

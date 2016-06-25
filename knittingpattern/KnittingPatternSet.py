@@ -14,7 +14,7 @@ class KnittingPatternSet(object):
     <knittingpattern.KnittingPattern.KnittingPattern>`.
     """
 
-    def __init__(self, type, version, patterns, comment=None):
+    def __init__(self, type_, version, patterns, comment=None):
         """create a new knitting pattern set
 
         :param str type: the type of the knitting pattern set, see the
@@ -28,7 +28,7 @@ class KnittingPatternSet(object):
           <knittingpattern.KnittingPattern.KnittingPattern>`.
         """
         self._version = version
-        self._type = type
+        self._type = type_
         self._patterns = patterns
         self._comment = comment
 
@@ -98,9 +98,8 @@ class KnittingPatternSet(object):
                     lambda i: (i.x*zoom, i.y*zoom, i.instruction)):
                 layer_id = "row-{}".format(instruction.row.id)
                 svg = instruction_to_SVG.instruction_to_svg_dict(instruction)
-                min_x, min_y, max_x, max_y = \
-                    map(float, svg["svg"]["@viewBox"].split())
-                scale = zoom/(max_y-min_y)
+                bbox = list(map(float, svg["svg"]["@viewBox"].split()))
+                scale = zoom / (bbox[3] - bbox[1])
                 group = {
                         "@class": "instruction",
                         "@id": "instruction-{}".format(instruction.id),
