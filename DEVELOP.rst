@@ -27,10 +27,10 @@ Also read the `current version
 After installation you can run
 
     pip install -r requirements.in -r test-requirements.in -r dev-requirements.in
-    pip-sync requirements.txt dev-requirements.txt test-requirements.txt
     pip-compile --output-file requirements.txt requirements.in
     pip-compile --output-file test-requirements.txt test-requirements.in
     pip-compile --output-file dev-requirements.txt dev-requirements.in
+    pip-sync requirements.txt dev-requirements.txt test-requirements.txt
     pip install --upgrade -r requirements.txt -r test-requirements.txt -r dev-requirements.txt
 
 This uninstalls every package you do not need and 
