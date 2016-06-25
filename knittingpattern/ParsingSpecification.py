@@ -56,17 +56,35 @@ class ParsingSpecification(object):
         self.InstructionInRow = InstructionInRow
 
 
-def new_knitting_pattern_set_loader(specification=ParsingSpecification()):
+class DefaultSpecification(ParsingSpecification):
+    """This is the default specification, like pasing no arguments to
+    :class:`ParsingSpecification`. The idea is to make the default
+    specification easy to spot and create.
+    """
+
+    def __init__(self):
+        """initializes the default specification with no arguments"""
+        super().__init__()
+
+    @classmethod
+    def __repr__(cls):
+        """the string representation"""
+        return "<{}.{}>".format(cls.__module__, cls.__qualname__)
+
+
+def new_knitting_pattern_set_loader(specification=DefaultSpecification()):
     """create a loader for the knitting pattern set specified in
     :paramref:`specification`
 
     :param specification: a :class:`specification
       <knittingpattern.ParsingSpecification.ParsingSpecification>`
-      for the knitting pattern set
+      for the knitting pattern set, default
+      :class:`DefaultSpecification`
     """
     parser = specification.Parser(specification)
     loader = specification.Loader(parser.knitting_pattern_set)
     return loader
 
 
-__all__ = ["ParsingSpecification", "new_knitting_pattern_set_loader"]
+__all__ = ["ParsingSpecification", "new_knitting_pattern_set_loader",
+           "DefaultSpecification"]

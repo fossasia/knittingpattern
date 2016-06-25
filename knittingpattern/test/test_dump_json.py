@@ -1,6 +1,7 @@
 from test_knittingpattern import *
 from knittingpattern.Dumper import JSONDumper
 import json
+from knittingpattern.ParsingSpecification import ParsingSpecification
 
 
 @fixture
@@ -13,6 +14,11 @@ def dumper(obj):
     def dump():
         return obj
     return JSONDumper(dump)
+
+
+@fixture
+def parser():
+    return MagicMock()
 
 
 def test_dump_object(dumper, obj):
@@ -28,3 +34,10 @@ def test_dump_to_temporary_file(dumper, obj):
     with open(temp_path) as file:
         obj2 = json.load(file)
     assert obj2 == obj
+
+
+def test_dump_to_knitting_pattern(dumper, parser, obj):
+    spec = ParsingSpecification(Parser=parser)
+    dumper.knitting_pattern(spec)
+    parser.assert_called_with(spec)
+    parser(spec).knitting_pattern_set.assert_called_with(obj)
