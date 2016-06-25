@@ -32,7 +32,12 @@ pytz==2016.4              # via babel
 requests==2.10.0          # via codeclimate-test-reporter
 six==1.10.0               # via astroid, pylint, sphinx
 snowballstemmer==1.2.1    # via sphinx
+sphinx-bootstrap-theme==0.4.9
 sphinx-paramlinks==0.3.2
 sphinx==1.4.4
 untangle==1.1.0
 wrapt==1.10.8             # via astroid
+
+# The following packages are commented out because they are
+# considered to be unsafe in a requirements file:
+# setuptools                # via sphinx-bootstrap-theme
