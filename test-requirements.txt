@@ -33,6 +33,7 @@ requests==2.10.0          # via codeclimate-test-reporter
 six==1.10.0               # via astroid, pylint, sphinx
 snowballstemmer==1.2.1    # via sphinx
 sphinx-paramlinks==0.3.2
+sphinx-rtd-theme==0.1.9
 sphinx==1.4.4
 untangle==1.1.0
 wrapt==1.10.8             # via astroid

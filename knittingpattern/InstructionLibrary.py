@@ -123,12 +123,14 @@ class DefaultInstructions(InstructionLibrary):
 
 
 def default_instructions():
-    """:return: a default library
+    """:return: a default instruction library
+    :rtype: DefaultInstructions
 
     .. warning:: The return value is mutable and you should not add new
       instructions to it. If you would like to add instructions to it,
-      create a new :class:`DefaultInstructions
-      <knittingpattern.InstructionLibrary.DefaultInstructions>` instance.
+      create a new
+      :class:`~knittingpattern.InstructionLibrary.DefaultInstructions`
+      instance.
     """
     global _default_instructions
     if _default_instructions is None:

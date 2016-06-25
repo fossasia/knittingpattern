@@ -7,3 +7,4 @@ codeclimate-test-reporter
 untangle
 sphinx
 sphinx-paramlinks
+sphinx_rtd_theme
