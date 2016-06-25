@@ -43,7 +43,7 @@ Then go to the knittingpattern repository and analyze it.
     codeclimate analyze
     
 Version Pinning
-===============
+---------------
 
 We use version pinning, described in `this blog post (outdated)
 <http://nvie.com/posts/pin-your-packages/>`__.
@@ -63,7 +63,7 @@ This uninstalls every package you do not need and
 writes the fix package versions to the requirements files.
 
 Continuous Integration to Pypi
-==============================
+------------------------------
 
 Before you put something on Pypi, ensure the following:
 
@@ -84,13 +84,13 @@ If the build succeeds, it is automatically deployed to `Pypi
 <https://pypi.python.org/pypi/knittingpattern>`__.
 
 Manual Upload to the Python Package Index
-=========================================
+-----------------------------------------
 
 
 However, here you can see how to upload this package manually.
 
 Version
--------
+~~~~~~~
 
 Throughout this chapter, ``<new_version>`` refers to a a string of the form ``[0-9]+\.[0-9]+\.[0-9]+[ab]?`` or ``<MAYOR>.<MINOR>.<STEP>[<MATURITY>]`` where ``<MAYOR>``, ``<MINOR>`` and, ``<STEP>`` represent numbers and ``<MATURITY>`` can be a letter to indicate how mature the release is.
 
@@ -139,7 +139,7 @@ Throughout this chapter, ``<new_version>`` refers to a a string of the form ``[0
   
 
 Upload
-------
+~~~~~~
 
 .. Upload:
 
@@ -163,19 +163,4 @@ Classifiers
 You can find all Pypi classifiers `here
 <http://pypi.python.org/pypi?%3Aaction=list_classifiers>`_.
 
-Package installation from Pypi
-==============================
-
-Install it with a specific python version under windows:
-
-.. code:: cmd
-
-    py -3.5 -m pip --no-cache-dir install --upgrade knittingpattern
-
-Test the installed version. You might have forgotten some includes:
-
-.. code:: cmd
-
-    cd C:\Python35-32\Lib\site-packages
-    py -3.5 -m pytest knittingpattern
 
