@@ -9,9 +9,9 @@ def _load():
     return new_knitting_pattern_set_loader()
 
 
-def load_from_object(object):
+def load_from_object(object_):
     """Load a knitting pattern from an object."""
-    return _load().object(object)
+    return _load().object(object_)
 
 
 def load_from_string(string):

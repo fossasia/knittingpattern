@@ -2,7 +2,6 @@
 
 """
 import PIL.Image
-import json
 from ..Loader import PathLoader
 from ..Dumper import JSONDumper
 from .load_and_dump import decorate_load_and_dump
@@ -16,7 +15,7 @@ def convert_image_to_knitting_pattern(path, colors=("white", "black")):
 
     :param list colors: a list of strings that should be used as
       :ref:`colors <png-color>`.
-    :param str path: ignore this. It is fulfilled by the dumper.
+    :param str path: ignore this. It is fulfilled by the loeder.
 
     Example:
 
@@ -25,8 +24,7 @@ def convert_image_to_knitting_pattern(path, colors=("white", "black")):
         convert_image_to_knitting_pattern().path("image.png").path("image.json")
     """
     image = PIL.Image.open(path)
-    color_maps = {}
-    id = os.path.splitext(os.path.basename(path))[0]
+    pattern_id = os.path.splitext(os.path.basename(path))[0]
     rows = []
     connections = []
     pattern_set = {
@@ -37,8 +35,8 @@ def convert_image_to_knitting_pattern(path, colors=("white", "black")):
             },
             "patterns": [
                 {
-                    "name": id,
-                    "id": id,
+                    "name": pattern_id,
+                    "id": pattern_id,
                     "rows": rows,
                     "connections": connections
                 }
@@ -58,7 +56,10 @@ def convert_image_to_knitting_pattern(path, colors=("white", "black")):
             }
         rows.append(row)
         for x in range(min_x, max_x):
-            color = ("white" if image.getpixel((x, y)) == white else "black")
+            if image.getpixel((x, y)) == white:
+                color = colors[0]
+            else:
+                color = colors[1]
             instruction = {"color": color}
             instructions.append(instruction)
         if last_row_y is not None:

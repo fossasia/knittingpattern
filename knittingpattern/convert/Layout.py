@@ -69,9 +69,9 @@ class InstructionInGrid(object):
         return self._instruction.color
 
 
-def identity(object):
+def identity(object_):
     """:return: the argument"""
-    return object
+    return object_
 
 
 class _RecursiveWalk(object):

@@ -6,18 +6,17 @@ while preserving a simple interface to the cosumer.
 import json
 import os
 import sys
-from itertools import filterfalse
 
 
-def identity(object):
+def identity(object_):
     """:return: the argument
-    :param object: the object to be returned"""
-    return object
+    :param object_: the object to be returned"""
+    return object_
 
 
-def true(object):
+def true(_):
     """:return: :obj:`True`
-    :param object: can be ignored"""
+    :param _: can be ignored"""
     return True
 
 
@@ -55,7 +54,7 @@ class PathLoader(object):
           files
         """
         result = []
-        for root, directories, files in os.walk(folder):
+        for root, _, files in os.walk(folder):
             for file in files:
                 path = os.path.join(root, file)
                 if self._chooses_path(path):
@@ -192,13 +191,13 @@ class JSONLoader(ContentLoader):
     :class:`object` as first argument: ``process(object)``.
     """
 
-    def object(self, object):
+    def object(self, object_):
         """Processes an already loaded object.
 
         :return: the result of the processing step
         :param object: the object to be loaded
         """
-        return self._process(object)
+        return self._process(object_)
 
     def string(self, string):
         """Load an object from a string and return the processed JSON content
@@ -206,8 +205,8 @@ class JSONLoader(ContentLoader):
         :return: the result of the processing step
         :param str string: the string to load the JSON from
         """
-        object = json.loads(string)
-        return self.object(object)
+        object_ = json.loads(string)
+        return self.object(object_)
 
 
 __all__ = ["JSONLoader", "ContentLoader", "PathLoader", "true", "identity"]

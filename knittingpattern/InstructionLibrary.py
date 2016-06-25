@@ -5,10 +5,7 @@ in each :class:`knitting pattern set
 This module provides the fucntionality to load default values for instructions
 from various locations.
 """
-
-import os
 from .Instruction import TYPE
-
 from .Loader import JSONLoader
 from .Instruction import Instruction
 
@@ -93,9 +90,9 @@ class InstructionLibrary(object):
         .. seealso:: :meth:`add_instruction`
         """
         instruction = self._instruction_class(specification)
-        type = instruction.type
-        if type in self._type_to_instruction:
-            instruction.inherit_from(self._type_to_instruction[type])
+        type_ = instruction.type
+        if type_ in self._type_to_instruction:
+            instruction.inherit_from(self._type_to_instruction[type_])
         return instruction
 
     def __getitem__(self, instruction_type):
@@ -103,7 +100,7 @@ class InstructionLibrary(object):
 
         .. seealso:: :meth:`as_instruction`
         """
-        return self.as_instruction({"type": instruction_type})
+        return self.as_instruction({TYPE: instruction_type})
 
 
 class DefaultInstructions(InstructionLibrary):

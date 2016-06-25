@@ -30,7 +30,7 @@ class IdCollection(object):
         key = keys[index]
         return self[key]
 
-    def __getitem__(self, id):
+    def __getitem__(self, id_):
         """Get the object with the :paramref:`id`
 
         .. code:: python
@@ -41,11 +41,11 @@ class IdCollection(object):
             assert ic[object_1.id] == object_1
             assert ic[object_2.id] == object_1
 
-        :param id: the id of an object
+        :param id_: the id of an object
         :return: the object with the :paramref:`id`
         :raises KeyError: if no object with :paramref:`id` was found
         """
-        return self._items[id]
+        return self._items[id_]
 
     def __bool__(self):
         """:return: whether there is anything in the collection.
@@ -58,8 +58,8 @@ class IdCollection(object):
 
         The objects in the iterator have the order in which they were appended.
         """
-        for id in self._items:
-            yield self[id]
+        for id_ in self._items:
+            yield self[id_]
 
     def __len__(self):
         """:return: the number of objects in this collection"""

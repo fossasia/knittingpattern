@@ -53,9 +53,9 @@ class Parser(object):
         self._pattern_set = None
 
     @staticmethod
-    def _to_id(id):
+    def _to_id(id_):
         """:return: a hashable object"""
-        return tuple(id) if isinstance(id, list) else id
+        return tuple(id_) if isinstance(id_, list) else id_
 
     def _error(self, text):
         """:raises: a specified ParsingError
@@ -103,9 +103,9 @@ class Parser(object):
         id = self._to_id(values[ID])
         inheritance = []
         if SAME_AS in values:
-            _id = self._to_id(values[SAME_AS])
-            object = self._id_cache[_id]
-            inheritance.append(object)
+            id_ = self._to_id(values[SAME_AS])
+            object_ = self._id_cache[id_]
+            inheritance.append(object_)
         row = self._specification.Row(id, values, inheritance)
         for instruction_ in row.get(INSTRUCTIONS, []):
             instruction = self._instruction(row, instruction_)
@@ -124,9 +124,9 @@ class Parser(object):
         """parses a pattern"""
         rows = self._rows(base.get(ROWS, []))
         self._connect_rows(base.get(CONNECTIONS, []))
-        id = self._to_id(base[ID])
+        id_ = self._to_id(base[ID])
         name = base[NAME]
-        return self._specification.Pattern(id, name, rows)
+        return self._specification.Pattern(id_, name, rows)
 
     def _rows(self, spec):
         """parses a collection of rows"""
@@ -159,12 +159,12 @@ class Parser(object):
         if TYPE not in values:
             self._error("No pattern type given but should be "
                         "\"{}\"".format(KNITTING_PATTERN_TYPE))
-        type = values[TYPE]
-        if type != KNITTING_PATTERN_TYPE:
+        type_ = values[TYPE]
+        if type_ != KNITTING_PATTERN_TYPE:
             self._error("Wrong pattern type. Type is \"{}\" "
                         "but should be \"{}\""
-                        "".format(type, KNITTING_PATTERN_TYPE))
-        return type
+                        "".format(type_, KNITTING_PATTERN_TYPE))
+        return type_
 
     def _get_version(self, values):
         """::return: the version of :paramref:`values`"""
@@ -172,11 +172,11 @@ class Parser(object):
 
     def _create_pattern_set(self, pattern, values):
         """Creates a new pattern set."""
-        type = self._get_type(values)
+        type_ = self._get_type(values)
         version = self._get_version(values)
         comment = values.get(COMMENT)
         self._pattern_set = self._specification.PatternSet(
-                type, version, pattern, comment
+                type_, version, pattern, comment
             )
 
 __all__ = ["Parser", "ID", "NAME", "TYPE", "VERSION", "INSTRUCTIONS",

@@ -15,15 +15,15 @@ class KnittingPattern(object):
     <knittingpattern.KnittingPatternSet.KnittingPatternSet>`.
     """
 
-    def __init__(self, id, name, rows):
+    def __init__(self, id_, name, rows):
         """Create a new instance
 
-        :param id: the id of this pattern
+        :param id_: the id of this pattern
         :param name: the human readable name of this pattern
         :param rows: a collection of rows of instructions
 
         """
-        self._id = id
+        self._id = id_
         self._name = name
         self._rows = rows
 
