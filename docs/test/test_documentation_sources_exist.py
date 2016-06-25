@@ -7,6 +7,7 @@ Run this module to create the missing documentation files.
 """
 from test_docs import PACKAGE_LOCATION, PACKAGE, PACKAGE_DOCUMENTATION, \
     PACKAGE_ROOT
+import pytest
 from pytest import fixture
 from collections import namedtuple
 import os
