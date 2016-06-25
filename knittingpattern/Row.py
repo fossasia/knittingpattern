@@ -15,7 +15,7 @@ class Row(Prototype):
     <knittingpattern.KnittingPattern.KnittingPattern>`
     """
 
-    def __init__(self, id, values, inheriting_from=[]):
+    def __init__(self, id, values, inheriting_from=()):
         """create a new row
 
         :param id: an identifier for the row

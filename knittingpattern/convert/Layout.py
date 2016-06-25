@@ -84,15 +84,15 @@ class _RecursiveWalk(object):
         self._first_instruction = first_instruction
         self._instructions_in_grid = {}
         self._todo = []
-        self._expand(first_instruction, 0, 0, 0, 0)
+        self._expand(first_instruction, 0, 0, 0, 0, [])
         self._walk()
 
     def _expand(self, *args, **kw):
         """Add the arguments `(args, kw)` to `_walk` to the todo list."""
         self._todo.append((args, kw))
 
-    def _step(self, instruction, cx, cy, px, py,
-              subtract_width=False, passed=[], rows=0):
+    def _step(self, instruction, cx, cy, px, py, passed,
+              subtract_width=False, rows=0):
         """Walk through the knitting pattern by expading an instruction."""
         if instruction is None:
             return
@@ -113,19 +113,19 @@ class _RecursiveWalk(object):
         in_grid = InstructionInGrid(instruction, cx, cy)
         self._instructions_in_grid[instruction] = in_grid
         self._expand(instruction.previous_instruction_in_row,
-                     cx, cy, px, py, subtract_width=True, passed=new_passed,
+                     cx, cy, px, py, new_passed, subtract_width=True,
                      rows=rows)
         self._expand(instruction.next_instruction_in_row,
                      cx + instruction.number_of_consumed_meshes, cy,
                      px + instruction.number_of_produced_meshes, py,
-                     passed=new_passed, rows=rows)
+                     new_passed, rows=rows)
         for i, mesh in enumerate(instruction.produced_meshes):
             if not mesh.is_consumed():
                 continue
             x = px + i - mesh.mesh_index_in_consuming_instruction
             y = py + in_grid.height
             self._expand(mesh.consuming_instruction, x, y, x, y,
-                         passed=new_passed, rows=rows + 1)
+                         new_passed, rows=rows + 1)
 
     def _walk(self):
         """Loop through all the instructions that are `_todo`."""
