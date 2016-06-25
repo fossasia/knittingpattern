@@ -1,7 +1,7 @@
 .. _installation:
 
 knittingpattern Installation Instructions
-========================================
+=========================================
 
 Package installation from Pypi
 ------------------------------
