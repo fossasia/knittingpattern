@@ -1,4 +1,6 @@
-"""When parsing :class:`knitting patterns
+"""This modules specifies how to convert JSON to knitting patterns.
+
+When parsing :class:`knitting patterns
 <knittingpattern.KnittingPatternSet.KnittingPatternSet>` a lot of classes can
 be used.
 
@@ -32,57 +34,69 @@ from .Instruction import InstructionInRow
 
 
 class ParsingSpecification(object):
-    """This class contains the specification for the
-    :class:`parser <knittingpattern.Parser.Parser>`.
+    """This is the specification for knitting pattern parsers.
+
+    The :class:`<knittingpattern.Parser.Parser>` uses this specification
+    to parse the knitting patterns. You can change every class in the data
+    structure to add own functionality.
     """
 
-    def __init__(self, Loader=JSONLoader, Parser=Parser,
-                 ParsingError=ParsingError, PatternSet=KnittingPatternSet,
-                 PatternCollection=IdCollection, RowCollection=IdCollection,
-                 Pattern=KnittingPattern, Row=Row,
-                 DefaultInstructions=DefaultInstructions,
-                 InstructionInRow=InstructionInRow):
+    def __init__(self,
+                 new_loader=JSONLoader,
+                 new_parser=Parser,
+                 new_parsing_error=ParsingError,
+                 new_pattern_set=KnittingPatternSet,
+                 new_pattern_collection=IdCollection,
+                 new_row_collection=IdCollection,
+                 new_pattern=KnittingPattern,
+                 new_row=Row,
+                 new_default_instructions=DefaultInstructions,
+                 new_instruction_in_row=InstructionInRow):
         """Create a new parsing specification.
         """
-        self.Loader = Loader
-        self.Parser = Parser
-        self.ParsingError = ParsingError
-        self.PatternSet = PatternSet
-        self.PatternCollection = PatternCollection
-        self.RowCollection = RowCollection
-        self.Pattern = Pattern
-        self.Row = Row
-        self.DefaultInstructions = DefaultInstructions
-        self.InstructionInRow = InstructionInRow
+        self.new_loader = new_loader
+        self.new_parser = new_parser
+        self.new_parsing_error = new_parsing_error
+        self.new_pattern_set = new_pattern_set
+        self.new_pattern_collection = new_pattern_collection
+        self.new_row_collection = new_row_collection
+        self.new_pattern = new_pattern
+        self.new_row = new_row
+        self.new_default_instructions = new_default_instructions
+        self.new_instruction_in_row = new_instruction_in_row
 
 
 class DefaultSpecification(ParsingSpecification):
-    """This is the default specification, like pasing no arguments to
-    :class:`ParsingSpecification`. The idea is to make the default
-    specification easy to spot and create.
+    """This is the default specification.
+
+    It is created like pasing no arguments to :class:`ParsingSpecification`.
+    The idea is to make the default specification easy to spot and create.
     """
 
     def __init__(self):
-        """initializes the default specification with no arguments"""
+        """Initialize the default specification with no arguments."""
         super().__init__()
 
     @classmethod
     def __repr__(cls):
-        """the string representation"""
+        """The string representation of the object.
+
+        :return: the string representation
+        :rtype: str
+        """
         return "<{}.{}>".format(cls.__module__, cls.__qualname__)
 
 
 def new_knitting_pattern_set_loader(specification=DefaultSpecification()):
-    """create a loader for the knitting pattern set specified in
-    :paramref:`specification`
+    """Create a loader for a knitting pattern set.
 
     :param specification: a :class:`specification
       <knittingpattern.ParsingSpecification.ParsingSpecification>`
       for the knitting pattern set, default
       :class:`DefaultSpecification`
     """
-    parser = specification.Parser(specification)
-    loader = specification.Loader(parser.knitting_pattern_set)
+    parser = specification.new_parser(specification)
+    loader = specification.new_loader(parser.knitting_pattern_set)
     return loader
 
 

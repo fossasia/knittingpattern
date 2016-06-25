@@ -43,12 +43,13 @@ class Parser(object):
           :class:`knittingpattern.ParsingSpecification.ParsingSpecification`
 
         """
-        self._specification = specification
+        self._spec = specification
         self._start()
 
     def _start(self):
         """initialize the parsing process"""
-        self._instruction_library = self._specification.DefaultInstructions()
+        self._instruction_library = self._spec.new_default_instructions()
+        self._as_instruction = self._instruction_library.as_instruction
         self._id_cache = {}
         self._pattern_set = None
 
@@ -62,7 +63,7 @@ class Parser(object):
 
         :param str text: the text to include in the error message
         """
-        raise self._specification.ParsingError(text)
+        raise self._spec.new_parsing_error(text)
 
     def knitting_pattern_set(self, values):
         """parses a
@@ -84,12 +85,12 @@ class Parser(object):
     def _new_pattern_collection(self):
         """:return: a new specified PatternCollection for
           :meth:`knitting_pattern_set`"""
-        return self._specification.PatternCollection()
+        return self._spec.new_pattern_collection()
 
     def _new_row_collection(self):
         """:return: a new specified RowCollection for
           :meth:`pattern`"""
-        return self._specification.RowCollection()
+        return self._spec.new_row_collection()
 
     def _fill_pattern_collection(self, pattern_collection, values):
         """fills a pattern collection"""
@@ -106,7 +107,7 @@ class Parser(object):
             id_ = self._to_id(values[SAME_AS])
             object_ = self._id_cache[id_]
             inheritance.append(object_)
-        row = self._specification.Row(id, values, inheritance)
+        row = self._spec.new_row(id, values, inheritance)
         for instruction_ in row.get(INSTRUCTIONS, []):
             instruction = self._instruction(row, instruction_)
             row.instructions.append(instruction)
@@ -115,10 +116,8 @@ class Parser(object):
 
     def _instruction(self, row, instruction_):
         """parses an instruction"""
-        whole_instruction_ = \
-            self._instruction_library.as_instruction(instruction_)
-        return self._specification.InstructionInRow(
-                        row, whole_instruction_)
+        whole_instruction_ = self._as_instruction(instruction_)
+        return self._spec.new_instruction_in_row(row, whole_instruction_)
 
     def _pattern(self, base):
         """parses a pattern"""
@@ -126,7 +125,7 @@ class Parser(object):
         self._connect_rows(base.get(CONNECTIONS, []))
         id_ = self._to_id(base[ID])
         name = base[NAME]
-        return self._specification.Pattern(id_, name, rows)
+        return self._spec.new_pattern(id_, name, rows)
 
     def _rows(self, spec):
         """parses a collection of rows"""
@@ -175,7 +174,7 @@ class Parser(object):
         type_ = self._get_type(values)
         version = self._get_version(values)
         comment = values.get(COMMENT)
-        self._pattern_set = self._specification.PatternSet(
+        self._pattern_set = self._spec.new_pattern_set(
                 type_, version, pattern, comment
             )
 

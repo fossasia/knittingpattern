@@ -37,7 +37,7 @@ def test_dump_to_temporary_file(dumper, obj):
 
 
 def test_dump_to_knitting_pattern(dumper, parser, obj):
-    spec = ParsingSpecification(Parser=parser)
+    spec = ParsingSpecification(new_parser=parser)
     dumper.knitting_pattern(spec)
     parser.assert_called_with(spec)
     parser(spec).knitting_pattern_set.assert_called_with(obj)
