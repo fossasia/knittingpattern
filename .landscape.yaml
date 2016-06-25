@@ -1,6 +1,6 @@
 # https://docs.landscape.io/configuration.html
 strictness: veryhigh
-python-targets
+python-targets:
   - 3
 pep8:
     full: true
