@@ -1,4 +1,6 @@
-from test_knittingpattern import *
+"""These tests access the instructions in rows."""
+
+from test_knittingpattern import fixture
 from test_example_rows import a1, charlotte
 
 
@@ -174,5 +176,5 @@ def test_previous_instruction_is_None_at_border(instruction0):
     assert instruction0.previous_instruction_in_row is None
 
 
-def test_previous_instruction_is_None_at_border(row0):
+def test_next_instruction_is_None_at_border(row0):
     assert row0.instructions[-1].next_instruction_in_row is None
