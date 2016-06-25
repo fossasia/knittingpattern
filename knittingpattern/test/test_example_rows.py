@@ -1,6 +1,11 @@
 """Test properties of rows."""
 from test_knittingpattern import fixture, raises
-from test_examples import charlotte
+from test_examples import charlotte as _charlotte
+
+
+@fixture
+def charlotte():
+    return _charlotte()
 
 
 @fixture
