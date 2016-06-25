@@ -1,10 +1,14 @@
+"""The knitting pattern module.
+
+Load and convert knitting patterns using the convinience functions lited below.
+"""
 # there should be no imports
 
 __version__ = '0.0.10'
 
 
 def _load():
-    """Returns the loader to load objects from."""
+    """:return: the loader to load objects from."""
     from .ParsingSpecification import new_knitting_pattern_set_loader
     return new_knitting_pattern_set_loader()
 
@@ -37,12 +41,10 @@ def load_from_url(url):
 def load_from_relative_file(module, path_relative_to):
     """Load a knitting pattern from a `path_relative_to` a `module`.
 
-    `module` can be a module, a module's name or a module's path."""
+    `module` can be a module, a module's name or a module's path.
+    """
     return _load().relative_file(module, path_relative_to)
 
 
-__all__ = [
-        "load_from_object",
-        "load_from_string", "load_from_file", "load_from_path",
-        "load_from_url", "load_from_relative_file"
-    ]
+__all__ = ["load_from_object", "load_from_string", "load_from_file",
+           "load_from_path", "load_from_url", "load_from_relative_file"]
