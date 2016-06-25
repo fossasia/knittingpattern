@@ -19,7 +19,7 @@ WARNING_PATTERN = b"(?:checking consistency\\.\\.\\. )?" \
 
 
 def print_bytes(bytes_):
-    """print bytes safely as string"""
+    """Print bytes safely as string."""
     try:
         print(bytes_.decode())
     except UnicodeDecodeError:
@@ -47,8 +47,8 @@ def sphinx_build():
 def coverage(sphinx_build):
     """:return: the documentation coverage outpupt."""
     assert sphinx_build, "we built before we try to access the result"
-    with open(PYTHON_COVERAGE_FILE) as f:
-        return f.read()
+    with open(PYTHON_COVERAGE_FILE) as file:
+        return file.read()
 
 
 @fixture

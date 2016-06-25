@@ -17,7 +17,7 @@ CONISTENCY_MESSAGE = "The data structure must be consistent."
 class Row(Prototype):
 
     """This class contains the functionality for rows.
-    
+
     This class is used by :class:`knitting patterns
     <knittingpattern.KnittingPattern.KnittingPattern>`.
     """
@@ -44,7 +44,7 @@ class Row(Prototype):
     @property
     def id(self):
         """The id of the row.
-        
+
         :return: the id of the row
         """
         return self._id
@@ -52,7 +52,7 @@ class Row(Prototype):
     @property
     def instructions(self):
         """The instructions in this row.
-        
+
         :return: a collection of :class:`instructions inside the row
           <knittingpattern.Instruction.InstructionInRow>`
           e.g. a :class:`knittingpattern.IdCollection.IdCollection`
@@ -62,7 +62,7 @@ class Row(Prototype):
     @property
     def number_of_produced_meshes(self):
         """The number of meshes that this row produces.
-        
+
         :return: the number of meshes that this row produces
         :rtype: int
 
@@ -77,7 +77,7 @@ class Row(Prototype):
     @property
     def number_of_consumed_meshes(self):
         """The number of meshes that this row consumes.
-        
+
         :return: the number of meshes that this row consumes
         :rtype: int
 
@@ -101,7 +101,7 @@ class Row(Prototype):
 
     def _get_consuming_row_and_index_for_produced_mesh_at(self, mesh_index):
         """The mesh at mesh_index is produced in this row.
-        
+
         :return: the row that consumes this mesh and
           this meshes index in to array of
           consumed meshes of the returned row.
@@ -115,7 +115,7 @@ class Row(Prototype):
 
     def _check_is_produced_mesh_index(self, mesh_index):
         """Check if the mesh index is correct.
-        
+
         :raises IndexError: if the :paramref:`mesh_index` is out of bounds
         :param int mesh_index: the index of the mesh to check the index for
         """
@@ -130,7 +130,7 @@ class Row(Prototype):
 
     def _check_is_consumed_mesh_index(self, mesh_index):
         """Check if the mesh index is correct.
-        
+
         Same as :meth:`_check_is_produced_mesh_index` but for consumed
         meshes.
         """
@@ -145,7 +145,7 @@ class Row(Prototype):
 
     def _is_produced_mesh_index(self, mesh_index):
         """Returns if the mesh index is correct.
-        
+
         :return: whether the mesh_index is in bounds
         :rtype: bool
 
@@ -156,7 +156,7 @@ class Row(Prototype):
 
     def _is_consumed_mesh_index(self, mesh_index):
         """Returns if the mesh index is correct.
-        
+
         Same as :meth:`_is_produced_mesh_index` but for consumed
         meshes.
 
@@ -168,7 +168,7 @@ class Row(Prototype):
     def _set_consuming_row_and_index(self, mesh_index, row,
                                      mesh_index_in_row):
         """Create a connection between to rows.
-        
+
         :param int mesh_index: is the index of the mesh in this row
         :param Row row: is the other row to connect to
         :param int mesh_index_in_row: is the mesh index in the :paramref:`row`
@@ -187,7 +187,7 @@ class Row(Prototype):
 
     def _set_producing_row_and_index(self, mesh_index, row, mesh_index_in_row):
         """Create a connection between to rows.
-        
+
         :param int mesh_index: is the index of the mesh in this row
         :param Row row: is the other row to connect to
         :param int mesh_index_in_row: is the mesh index in the :paramref:`row`
@@ -199,7 +199,7 @@ class Row(Prototype):
     def __remove_producing_row_and_index_callback(self, mesh_index, row,
                                                  mesh_index_in_row):
         """Do not use.
-        
+
         called by :meth:`_remove_producing_row_and_index` after all the
         checks have passed to reverse a call of
         :meth:`_set_producing_row_and_index`
@@ -233,7 +233,7 @@ class Row(Prototype):
     @property
     def produced_meshes(self):
         """The meshes that this row produces with its instructions.
-        
+
         :return: a collection of :class:`meshes <knittingpattern.Mesh.Mesh>`
           that this instruction produces
 
@@ -249,7 +249,7 @@ class Row(Prototype):
 
     def _get_instruction_and_index_at_consumed_mesh_index(self, mesh_index):
         """Get a connection to an other row.
-        
+
         :return: the instruction and its index in that instruction of
           the mesh that is consumed by this row at mesh_index
         """
@@ -265,7 +265,7 @@ class Row(Prototype):
 
     def __repr__(self):
         """The string representation of this row.
-        
+
         :return: a string representation of this row
         """
         return "<{} {}>".format(self.__class__.__qualname__, self.id)
