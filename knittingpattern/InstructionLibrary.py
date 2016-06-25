@@ -128,7 +128,7 @@ def default_instructions():
 
     .. warning:: The return value is mutable and you should not add new
       instructions to it. If you would like to add instructions to it,
-      create a new 
+      create a new
       :class:`~knittingpattern.InstructionLibrary.DefaultInstructions`
       instance.
     """
