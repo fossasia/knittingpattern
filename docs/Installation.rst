@@ -54,8 +54,6 @@ Linux
 
 If you wish to get latest source version running, you can check out the repository and install it manually.
 
-Note: Under Windows you can replace `python3` with `py -3` and remove `sudo`
-
 .. code:: bash
 
   git clone https://github.com/AllYarnsAreBeautiful/knittingpattern.git
