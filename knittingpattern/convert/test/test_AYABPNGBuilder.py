@@ -9,11 +9,6 @@ ColorInGrid = namedtuple("ColorInGrid", ["x", "y", "color"])
 
 
 @fixture
-def file():
-    return io.StringIO()
-
-
-@fixture
 def builder():
     return AYABPNGBuilder(-1, -1, 10, 5)
 
