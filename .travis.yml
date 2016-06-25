@@ -9,8 +9,10 @@ install:
 # install the package
 - PACKAGE_VERSION=`python3 setup.py --version`
 - TAG_NAME=v$PACKAGE_VERSION
+# install from the zip file to see if files were forgotten
 - python3 setup.py sdist
 - ( cd dist ; python3 -m pip install knittingpattern-${PACKAGE_VERSION}.zip )
+# install the test requirements
 - python3 -m pip install -r test-requirements.txt
 before_script:
 # remove the build folder because it creates problems for py.test
