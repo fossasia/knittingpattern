@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""The setup and build script for the library named "PACKAGE_NAME"."""
 import os
 import sys
 from setuptools.command.test import test as TestCommandBase
@@ -14,9 +15,6 @@ PACKAGE_NAMES = [
 HERE = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, HERE)  # for package import
 
-__doc__ = '''
-The setup and build script for the {} library.
-'''.format(PACKAGE_NAME)
 __version__ = __import__(PACKAGE_NAME).__version__
 __author__ = 'Nicco Kunzmann'
 

@@ -112,17 +112,17 @@ class Parser(object):
 
     def _row(self, values):
         """Parse a row."""
-        id = self._to_id(values[ID])
+        row_id = self._to_id(values[ID])
         inheritance = []
         if SAME_AS in values:
-            id_ = self._to_id(values[SAME_AS])
-            object_ = self._id_cache[id_]
-            inheritance.append(object_)
-        row = self._spec.new_row(id, values, inheritance)
+            same_id = self._to_id(values[SAME_AS])
+            same = self._id_cache[same_id]
+            inheritance.append(same)
+        row = self._spec.new_row(row_id, values, inheritance)
         for instruction_ in row.get(INSTRUCTIONS, []):
             instruction = self._instruction(row, instruction_)
             row.instructions.append(instruction)
-        self._id_cache[id] = row
+        self._id_cache[row_id] = row
         return row
 
     def _instruction(self, row, instruction_):
