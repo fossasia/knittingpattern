@@ -4,8 +4,9 @@
 from itertools import chain
 from collections import namedtuple
 
+
+INSTRUCTION_HEIGHT = 1  #: the default height of an instruction in the grid
 Point = namedtuple("Point", ["x", "y"])
-INSTRUCTION_HEIGHT = 1
 
 
 class InGrid(object):
@@ -281,5 +282,5 @@ class GridLayout(object):
             ))
         return min(x), min(y), max(x) + 1, max(y) + 1
 
-__all__ = ["GridLayout", "InstructionInGrid", "Connection", "identity"
-           "Point"]
+__all__ = ["GridLayout", "InstructionInGrid", "Connection", "identity",
+           "Point", "INSTRUCTION_HEIGHT", "InGrid", "RowInGrid"]
