@@ -9,9 +9,9 @@ INSTRUCTION_HEIGHT = 1
 
 
 class InGrid(object):
-    
+
     """Base class for things in a grid"""
-    
+
     def __init__(self, position):
         """Create a new InGrid object."""
         self._position = position
@@ -86,7 +86,7 @@ class InstructionInGrid(InGrid):
 
 class RowInGrid(InGrid):
     """Assign x and y coordinates to rows."""
-    
+
     def __init__(self, row, position):
         """Create a new row in the grid."""
         super().__init__(position)
@@ -96,7 +96,7 @@ class RowInGrid(InGrid):
     def _number_of_consumed_meshes(self):
         """:return: the number of consumed meshes"""
         return self._row.number_of_consumed_meshes
-        
+
     @property
     def instructions(self):
         """:return: the instructions in a grid"""
@@ -122,7 +122,7 @@ class _RecursiveWalk(object):
         """
         self._rows_in_grid = {}
         self._todo = []
-        self._expand(first_instruction.row, Point(0,0), [])
+        self._expand(first_instruction.row, Point(0, 0), [])
         self._walk()
 
     def _expand(self, row, consumed_position, passed):
@@ -135,11 +135,11 @@ class _RecursiveWalk(object):
             return
         self._place_row(row, position)
         passed = [row] + passed
-        print("{}{} at\t{} {}".format("  " * len(passed), row, position, 
+        print("{}{} at\t{} {}".format("  " * len(passed), row, position,
                                       passed))
         for i, produced_mesh in enumerate(row.produced_meshes):
             self._expand_produced_mesh(produced_mesh, i, position, passed)
-            
+
     def _expand_produced_mesh(self, mesh, mesh_index, row_position, passed):
         """expand the produced meshes"""
         if not mesh.is_consumed():
