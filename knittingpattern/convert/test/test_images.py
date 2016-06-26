@@ -1,5 +1,4 @@
-from test_convert import fixture, os, HERE, pytest
-from knittingpattern.Loader import ContentLoader
+from test_convert import os, HERE, pytest
 import re
 
 IMAGES_FOLDER_NAME = "test_images"
