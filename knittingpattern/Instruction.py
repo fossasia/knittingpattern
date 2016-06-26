@@ -253,7 +253,7 @@ class InstructionInRow(Instruction):
         raise InstructionNotFoundInRow(self._instruction_not_found_message)
 
     @property
-    def index_of_first_produced_mesh_in_rows_produced_meshes(self):
+    def index_of_first_produced_mesh_in_row(self):
         """
         :return: an index of the first produced mesh of rows produced meshes
         :rtype: int
@@ -279,21 +279,21 @@ class InstructionInRow(Instruction):
         return index
 
     @property
-    def index_of_last_produced_mesh_in_rows_produced_meshes(self):
+    def index_of_last_produced_mesh_in_row(self):
         """
-        Same as :meth:`index_of_first_produced_mesh_in_rows_produced_meshes`
+        Same as :meth:`index_of_first_produced_mesh_in_row`
         but for the last mesh procduced.
         """
-        index = self.index_of_first_produced_mesh_in_rows_produced_meshes
+        index = self.index_of_first_produced_mesh_in_row
         if self.produces_meshes():
             return index + self.number_of_produced_meshes - 1
         else:
             return index
 
     @property
-    def index_of_first_consumed_mesh_in_rows_consumed_meshes(self):
+    def index_of_first_consumed_mesh_in_row(self):
         """
-        Same as :meth:`index_of_first_produced_mesh_in_rows_produced_meshes`
+        Same as :meth:`index_of_first_produced_mesh_in_row`
         but for consumed meshes.
         """
         index = 0
@@ -306,12 +306,12 @@ class InstructionInRow(Instruction):
         return index
 
     @property
-    def index_of_last_consumed_mesh_in_rows_consumed_meshes(self):
+    def index_of_last_consumed_mesh_in_row(self):
         """
-        Same as :meth:`index_of_first_consumed_mesh_in_rows_consumed_meshes`
+        Same as :meth:`index_of_first_consumed_mesh_in_row`
         but for the last consumed mesh.
         """
-        index = self.index_of_first_consumed_mesh_in_rows_consumed_meshes
+        index = self.index_of_first_consumed_mesh_in_row
         if self.consumes_meshes():
             return index + self.number_of_consumed_meshes - 1
         return index
@@ -362,7 +362,7 @@ class InstructionInRow(Instruction):
         """
         consuming_row = self.row
         index_in_consuming_row = \
-            self.index_of_first_consumed_mesh_in_rows_consumed_meshes + \
+            self.index_of_first_consumed_mesh_in_row + \
             mesh_index
         origin = consuming_row._get_producing_row_and_index(
                 index_in_consuming_row

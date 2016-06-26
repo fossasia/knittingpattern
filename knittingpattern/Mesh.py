@@ -247,9 +247,8 @@ class ProducedMesh(Mesh):
     def _producing_row_and_index(self):
         instruction, index = self.__producing_instruction_and_index
         producing_row = instruction.row
-        return (
-            producing_row, index +
-            instruction.index_of_first_produced_mesh_in_rows_produced_meshes)
+        return (producing_row,
+                index + instruction.index_of_first_produced_mesh_in_row)
 
     def _consuming_instruction_and_index(self):
         row_and_index = self._consuming_row_and_index()
@@ -311,7 +310,7 @@ class ConsumedMesh(Mesh):
         consuming_row = instruction.row
         return (
             consuming_row, index +
-            instruction.index_of_first_consumed_mesh_in_rows_consumed_meshes)
+            instruction.index_of_first_consumed_mesh_in_row)
 
     def _is_produced(self):
         return False
