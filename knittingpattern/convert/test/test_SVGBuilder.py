@@ -1,4 +1,4 @@
-from test_convert import fixture, parse_file
+from test_convert import fixture, parse_file, raises
 from knittingpattern.convert.SVGBuilder import SVGBuilder
 import io
 
@@ -91,8 +91,9 @@ def test_rendering_nothing_is_a_valid_xml(builder, file):
 def test_rendering_nothing_is_an_svg(builder, file):
     builder.write_to_file(file)
     file.seek(0)
-    grafics = parse_file(file)
-    assert not hasattr(svg, "g")
+    svg = parse_file(file)
+    with raises(IndexError):
+        svg.g
 
 
 def test_translate_to_right_position(instruction1):
