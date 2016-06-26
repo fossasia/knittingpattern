@@ -1,4 +1,4 @@
-from test_convert import *
+from test_convert import fixture, parse_file
 from knittingpattern.convert.SVGBuilder import SVGBuilder
 import io
 

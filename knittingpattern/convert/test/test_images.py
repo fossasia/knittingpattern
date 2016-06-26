@@ -1,8 +1,7 @@
-from test_convert import *
+from test_convert import fixture, os, HERE, pytest, parse_string
 from knittingpattern.Loader import ContentLoader
 import re
 
-HERE = os.path.dirname(__file__)
 IMAGES_FOLDER_NAME = "test_images"
 IMAGES_FOLDER = os.path.join(HERE, IMAGES_FOLDER_NAME)
 KNIT_FILE = os.path.join(IMAGES_FOLDER, "knit.svg")
@@ -74,6 +73,6 @@ def test_default_content_has_identifier_in_place():
 
 __all__ = [
         "KNIT_FILE", "PURL_FILE", "YO_FILE", "K2TOG_FILE", "IMAGES_FOLDER",
-        "IMAGES_FOLDER_NAME", "DEFAULT_FILE", "read", "title",
-        "is_knit", "is_purl", "is_yo", "is_k2tog", "is_default"
+        "IMAGES_FOLDER_NAME", "DEFAULT_FILE", "read", "title", "parse_string",
+        "is_knit", "is_purl", "is_yo", "is_k2tog", "is_default",
     ]
