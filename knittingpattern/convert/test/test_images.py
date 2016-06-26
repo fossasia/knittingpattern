@@ -1,4 +1,4 @@
-from test_convert import fixture, os, HERE, pytest, parse_string
+from test_convert import fixture, os, HERE, pytest
 from knittingpattern.Loader import ContentLoader
 import re
 
@@ -73,6 +73,6 @@ def test_default_content_has_identifier_in_place():
 
 __all__ = [
         "KNIT_FILE", "PURL_FILE", "YO_FILE", "K2TOG_FILE", "IMAGES_FOLDER",
-        "IMAGES_FOLDER_NAME", "DEFAULT_FILE", "read", "title", "parse_string",
+        "IMAGES_FOLDER_NAME", "DEFAULT_FILE", "read", "title",
         "is_knit", "is_purl", "is_yo", "is_k2tog", "is_default",
     ]
