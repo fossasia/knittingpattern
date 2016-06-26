@@ -2,59 +2,74 @@
 
 """
 from itertools import chain
+from collections import namedtuple
+
+Point = namedtuple("Point", ["x", "y"])
+INSTRUCTION_HEIGHT = 1
 
 
-class InstructionInGrid(object):
-    """Holder of an instruction in the GridLayout."""
-
-    def __init__(self, instruction, x, y):
-        """
-        :param instruction: an :class:`instruction
-          <knittingpattern.Instruction.InstructionInRow>`
-        :param float x: the x position of the :paramref:`instruction`
-        :param float y: the y position of the :paramref:`instruction`
-
-        """
-        self._instruction = instruction
-        self._x = x
-        self._y = y
-        self._width = instruction.number_of_consumed_meshes
-        self._height = 1
+class InGrid(object):
+    
+    """Base class for things in a grid"""
+    
+    def __init__(self, position):
+        """Create a new InGrid object."""
+        self._position = position
 
     @property
     def x(self):
         """:return: x coordinate in the grid
         :rtype: float
         """
-        return self._x
+        return self._position.x
 
     @property
     def y(self):
         """:return: y coordinate in the grid
         :rtype: float
         """
-        return self._y
+        return self._position.y
 
     @property
     def xy(self):
         """:return: ``(x, y)`` coordinate in the grid
         :rtype: float
         """
-        return self._x, self._y
+        return self._position
 
     @property
     def width(self):
         """:return: width of the instruction on the grid
         :rtype: float
         """
-        return self._width
+        return self._number_of_consumed_meshes
 
     @property
     def height(self):
         """:return: height of the instruction on the grid
         :rtype: float
         """
-        return self._height
+        return INSTRUCTION_HEIGHT
+
+
+class InstructionInGrid(InGrid):
+
+    """Holder of an instruction in the GridLayout."""
+
+    def __init__(self, instruction, position):
+        """
+        :param instruction: an :class:`instruction
+          <knittingpattern.Instruction.InstructionInRow>`
+        :param Point position: the position of the :paramref:`instruction`
+
+        """
+        self._instruction = instruction
+        super().__init__(position)
+
+    @property
+    def _number_of_consumed_meshes(self):
+        """:return: the number of consumed meshes"""
+        return self._instruction.number_of_consumed_meshes
 
     @property
     def instruction(self):
@@ -69,6 +84,30 @@ class InstructionInGrid(object):
         return self._instruction.color
 
 
+class RowInGrid(InGrid):
+    """Assign x and y coordinates to rows."""
+    
+    def __init__(self, row, position):
+        """Create a new row in the grid."""
+        super().__init__(position)
+        self._row = row
+
+    @property
+    def _number_of_consumed_meshes(self):
+        """:return: the number of consumed meshes"""
+        return self._row.number_of_consumed_meshes
+        
+    @property
+    def instructions(self):
+        """:return: the instructions in a grid"""
+        x = self.x
+        y = self.y
+        for instruction in self._row.instructions:
+            instruction_in_grid = InstructionInGrid(instruction, Point(x, y))
+            x += instruction_in_grid.width
+            yield instruction_in_grid
+
+
 def identity(object_):
     """:return: the argument"""
     return object_
@@ -81,61 +120,62 @@ class _RecursiveWalk(object):
     def __init__(self, first_instruction):
         """Start walking the knitting pattern starting from first_instruction.
         """
-        self._first_instruction = first_instruction
-        self._instructions_in_grid = {}
+        self._rows_in_grid = {}
         self._todo = []
-        self._expand(first_instruction, 0, 0, 0, 0, [])
+        self._expand(first_instruction.row, Point(0,0), [])
         self._walk()
 
-    def _expand(self, *args, **kw):
+    def _expand(self, row, consumed_position, passed):
         """Add the arguments `(args, kw)` to `_walk` to the todo list."""
-        self._todo.append((args, kw))
+        self._todo.append((row, consumed_position, passed))
 
-    def _step(self, instruction, cx, cy, px, py, passed,
-              subtract_width=False, rows=0):
-        """Walk through the knitting pattern by expading an instruction."""
-        if instruction is None:
+    def _step(self, row, position, passed):
+        """Walk through the knitting pattern by expanding an row."""
+        if row in passed or not self._row_should_be_placed(row, position):
             return
-        if instruction in passed:
+        self._place_row(row, position)
+        passed = [row] + passed
+        print("{}{} at\t{} {}".format("  " * len(passed), row, position, 
+                                      passed))
+        for i, produced_mesh in enumerate(row.produced_meshes):
+            self._expand_produced_mesh(produced_mesh, i, position, passed)
+            
+    def _expand_produced_mesh(self, mesh, mesh_index, row_position, passed):
+        """expand the produced meshes"""
+        if not mesh.is_consumed():
             return
-        if subtract_width:
-            cx -= instruction.number_of_consumed_meshes
-            px -= instruction.number_of_produced_meshes
-        if instruction in self._instructions_in_grid:
-            i2 = self._instructions_in_grid[instruction]
-            if i2.y >= cy:
-                return
-        # print("{}{} at ({},{})({},{}) {}".format(
-        #          "  " * rows, instruction,
-        #          cx, cy, px, py, subtract_width
-        #      ))
-        new_passed = [instruction] + passed
-        in_grid = InstructionInGrid(instruction, cx, cy)
-        self._instructions_in_grid[instruction] = in_grid
-        self._expand(instruction.previous_instruction_in_row,
-                     cx, cy, px, py, new_passed, subtract_width=True,
-                     rows=rows)
-        self._expand(instruction.next_instruction_in_row,
-                     cx + instruction.number_of_consumed_meshes, cy,
-                     px + instruction.number_of_produced_meshes, py,
-                     new_passed, rows=rows)
-        for i, mesh in enumerate(instruction.produced_meshes):
-            if not mesh.is_consumed():
-                continue
-            x = px + i - mesh.mesh_index_in_consuming_instruction
-            y = py + in_grid.height
-            self._expand(mesh.consuming_instruction, x, y, x, y,
-                         new_passed, rows=rows + 1)
+        row = mesh.consuming_row
+        position = Point(
+                row_position.x - mesh.index_in_consuming_row + mesh_index,
+                row_position.y + INSTRUCTION_HEIGHT
+            )
+        self._expand(row, position, passed)
+
+    def _row_should_be_placed(self, row, position):
+        """:return: whether to place this instruction"""
+        placed_row = self._rows_in_grid.get(row)
+        return placed_row is None or placed_row.y < position.y
+
+    def _place_row(self, row, position):
+        """place the instruction on a grid"""
+        self._rows_in_grid[row] = RowInGrid(row, position)
 
     def _walk(self):
         """Loop through all the instructions that are `_todo`."""
         while self._todo:
-            args, kw = self._todo.pop(0)
-            self._step(*args, **kw)
+            args = self._todo.pop(0)
+            self._step(*args)
 
-    def in_grid(self, instruction):
+    def instruction_in_grid(self, instruction):
         """Returns an `InstructionInGrid` object for the `instruction`"""
-        return self._instructions_in_grid[instruction]
+        row_position = self._rows_in_grid[instruction.row].xy
+        x = instruction.index_of_first_consumed_mesh_in_rows_consumed_meshes
+        position = Point(row_position.x + x, row_position.y)
+        return InstructionInGrid(instruction, position)
+
+    def row_in_grid(self, row):
+        """Returns an `RowInGrid` object for the `row`"""
+        return self._rows_in_grid[row]
 
 
 class Connection(object):
@@ -199,7 +239,7 @@ class GridLayout(object):
 
         """
         instructions = chain(*self.walk_rows(lambda row: row.instructions))
-        grid = map(self._walk.in_grid, instructions)
+        grid = map(self._walk.instruction_in_grid, instructions)
         return map(mapping, grid)
 
     def walk_rows(self, mapping=identity):
@@ -221,7 +261,7 @@ class GridLayout(object):
             for stop_instruction in start.instruction.consuming_instructions:
                 if stop_instruction is None:
                     continue
-                stop = self._walk.in_grid(stop_instruction)
+                stop = self._walk.instruction_in_grid(stop_instruction)
                 connection = Connection(start, stop)
                 if connection.is_visible():
                     # print("connection:",
@@ -241,4 +281,5 @@ class GridLayout(object):
             ))
         return min(x), min(y), max(x) + 1, max(y) + 1
 
-__all__ = ["GridLayout", "InstructionInGrid", "Connection", "identity"]
+__all__ = ["GridLayout", "InstructionInGrid", "Connection", "identity"
+           "Point"]

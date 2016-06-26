@@ -280,7 +280,7 @@ def test_InstructionInGrid_get_color_from_instruction():
     Instruction = namedtuple("Instruction", ["color",
                                              "number_of_consumed_meshes"])
     instruction = Instruction("black", 1)
-    instruction_in_grid = InstructionInGrid(instruction, 0, 0)
+    instruction_in_grid = InstructionInGrid(instruction, (0, 0))
     assert instruction_in_grid.color == "black"
 
 
