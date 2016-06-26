@@ -1,6 +1,6 @@
-from test_convert import *
-from knittingpattern.convert.image_to_knittingpattern import *
-from knittingpattern import load_from_object
+from test_convert import fixture, HERE, os
+from knittingpattern.convert.image_to_knittingpattern import \
+    convert_image_to_knitting_pattern
 from PIL import Image
 
 

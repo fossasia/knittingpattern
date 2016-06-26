@@ -1,4 +1,4 @@
-from test_convert import *
+from test_convert import fixture
 from knittingpattern import load_from_relative_file
 import untangle
 from itertools import chain
@@ -104,7 +104,5 @@ def test_instructions_have_transform(instruction):
     transform = instruction["transform"]
     x, y, zoom = map(float, re.match(TRANSFORM_REGEX, transform).groups())
     svg = instruction.g
-    min_x, min_y, max_x, max_y = map(float, svg["viewBox"].split())
-    min_zoom = zoom * 0.99  # rounding errors
-    max_zoom = zoom * 1.01
-    assert is_close_to(DEFAULT_ZOOM / (max_y - min_y), zoom), ZOOM_MESSAGE
+    bbox = list(map(float, svg["viewBox"].split()))
+    assert is_close_to(DEFAULT_ZOOM / (bbox[3] - bbox[1]), zoom), ZOOM_MESSAGE

@@ -1,4 +1,4 @@
-from test_convert import *
+from test_convert import fixture
 import os
 from knittingpattern.convert.Layout import GridLayout, InstructionInGrid
 from knittingpattern import load_from_relative_file
@@ -276,21 +276,19 @@ class TestParallelRows(BaseTest):
         assert len(r4.consumed_meshes) == 5
 
 
-def test_use_row_with_lowest_number_of_incoming_connections_as_first_row():
-    fail()
-
-
-def test_if_row_with_lowest_number_of_connections_exist_use_smallest_id():
-    fail()
-
-
-test_use_row_with_lowest_number_of_incoming_connections_as_first_row = "TODO"
-test_if_row_with_lowest_number_of_connections_exist_use_smallest_id = "TODO"
-
-
 def test_InstructionInGrid_get_color_from_instruction():
     Instruction = namedtuple("Instruction", ["color",
                                              "number_of_consumed_meshes"])
     instruction = Instruction("black", 1)
     instruction_in_grid = InstructionInGrid(instruction, 0, 0)
     assert instruction_in_grid.color == "black"
+
+
+# TODO
+#
+# def test_use_row_with_lowest_number_of_incoming_connections_as_first_row():
+#     fail()
+#
+#
+# def test_if_row_with_lowest_number_of_connections_exist_use_smallest_id():
+#     fail()

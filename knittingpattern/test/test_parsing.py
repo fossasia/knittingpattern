@@ -1,4 +1,4 @@
-from test_knittingpattern import *
+from test_knittingpattern import fixture, raises
 import knittingpattern
 import json
 import io

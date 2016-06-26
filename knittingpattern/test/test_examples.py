@@ -1,4 +1,4 @@
-from test_knittingpattern import *
+from test_knittingpattern import fixture, os, raises
 import knittingpattern
 
 EXAMPLES_PATH = os.path.join(os.path.dirname(__file__), "../examples")

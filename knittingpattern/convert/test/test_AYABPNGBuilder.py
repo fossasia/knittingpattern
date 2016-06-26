@@ -1,4 +1,4 @@
-from test_convert import *
+from test_convert import fixture, pytest, MagicMock, call
 from knittingpattern.convert.AYABPNGBuilder import AYABPNGBuilder
 from collections import namedtuple
 import PIL.Image
@@ -6,11 +6,6 @@ import tempfile
 
 
 ColorInGrid = namedtuple("ColorInGrid", ["x", "y", "color"])
-
-
-@fixture
-def file():
-    return io.StringIO()
 
 
 @fixture
