@@ -169,13 +169,13 @@ class InstructionInRow(Instruction):
         :rtype: knittingpattern.Row.Row
         """
         return self._row
-        
+
     def is_in_row(self):
         """Whether the instruction can be found in its row.
-        
+
         :return: whether the instruction is in its row
         :rtype: bool
-        
+
         Use this to avoid raising and :class:`InstructionNotFoundInRow`.
         """
         return self.get_index_in_row() is not None
@@ -429,7 +429,7 @@ class InstructionInRow(Instruction):
         if index is None:
             position = "not in {}".format(self.row)
         else:
-            position =  "in {} at {}".format(self.row, index)
+            position = "in {} at {}".format(self.row, index)
         return "<{} {}\"{}\" {}>".format(
                 self.__class__.__name__,
                 ("{} ".format(self.id) if self.id is not None else ""),
