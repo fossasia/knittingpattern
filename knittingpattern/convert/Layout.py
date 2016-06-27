@@ -34,24 +34,51 @@ class InGrid(object):
     @property
     def xy(self):
         """:return: ``(x, y)`` coordinate in the grid
-        :rtype: float
+        :rtype: tuple
         """
         return self._position
 
     @property
+    def yx(self):
+        """:return: ``(y, x)`` coordinate in the grid
+        :rtype: tuple
+        """
+        return self._position.y, self._position.x
+
+    @property
     def width(self):
-        """:return: width of the instruction on the grid
+        """:return: width of the object on the grid
         :rtype: float
         """
         return self._number_of_consumed_meshes
 
     @property
     def height(self):
-        """:return: height of the instruction on the grid
+        """:return: height of the object on the grid
         :rtype: float
         """
         return INSTRUCTION_HEIGHT
 
+    @property
+    def row(self):
+        """:return: row of the object on the grid
+        :rtype: knittingpattern.Row.Row
+        """
+        return self._row
+
+    @property
+    def bounding_box(self):
+        """The bounding box of this object.
+        
+        :return: (min x, min y, max x, max y)
+        :rtype: tuple
+        """
+        return self._bounding_box
+    
+    @property
+    def id(self):
+        """The id of this object."""
+        return self._id
 
 class InstructionInGrid(InGrid):
 
@@ -84,6 +111,10 @@ class InstructionInGrid(InGrid):
         """:return: the color of the :attr:`instruction`"""
         return self._instruction.color
 
+    def _row(self):
+        """For ``self.row``."""
+        return self._instruction.row
+
 
 class RowInGrid(InGrid):
     """Assign x and y coordinates to rows."""
@@ -108,6 +139,18 @@ class RowInGrid(InGrid):
             x += instruction_in_grid.width
             yield instruction_in_grid
 
+    @property
+    def _bounding_box(self):
+        min_x = self.x
+        min_y = self.y
+        max_x = min_x + max(self._row.number_of_consumed_meshes, 
+                            self._row.number_of_produced_meshes)
+        max_y = min_y + self.height
+        return min_x, min_y, max_x, max_y
+    
+    @property
+    def _id(self):
+        return self._row.id
 
 def identity(object_):
     """:return: the argument"""
@@ -140,6 +183,19 @@ class _RecursiveWalk(object):
         #                               passed))
         for i, produced_mesh in enumerate(row.produced_meshes):
             self._expand_produced_mesh(produced_mesh, i, position, passed)
+        for i, consumed_mesh in enumerate(row.consumed_meshes):
+            self._expand_consumed_mesh(consumed_mesh, i, position, passed)
+
+    def _expand_consumed_mesh(self, mesh, mesh_index, row_position, passed):
+        """expand the consumed meshes"""
+        if not mesh.is_produced():
+            return
+        row = mesh.producing_row
+        position = Point(
+                row_position.x + mesh.index_in_producing_row - mesh_index,
+                row_position.y - INSTRUCTION_HEIGHT
+            )
+        self._expand(row, position, passed)
 
     def _expand_produced_mesh(self, mesh, mesh_index, row_position, passed):
         """expand the produced meshes"""
@@ -224,8 +280,9 @@ class GridLayout(object):
 
         """
         self._pattern = pattern
-        self._rows = list(sorted(self._pattern.rows))
+        self._rows = list(pattern.rows)
         self._walk = _RecursiveWalk(self._rows[0].instructions[0])
+        self._rows.sort(key=lambda row: self._walk.row_in_grid(row).yx)
 
     def walk_instructions(self, mapping=identity):
         """
@@ -240,8 +297,7 @@ class GridLayout(object):
 
         """
         instructions = chain(*self.walk_rows(lambda row: row.instructions))
-        grid = map(self._walk.instruction_in_grid, instructions)
-        return map(mapping, grid)
+        return map(mapping, instructions)
 
     def walk_rows(self, mapping=identity):
         """
@@ -249,7 +305,8 @@ class GridLayout(object):
         :param mapping: funcion to map the result, see
           :meth:`walk_instructions` for an example usage
         """
-        return map(mapping, self._rows)
+        row_in_grid = self._walk.row_in_grid
+        return map(lambda row: mapping(row_in_grid(row)), self._rows)
 
     def walk_connections(self, mapping=identity):
         """
@@ -277,10 +334,10 @@ class GridLayout(object):
           of this layout
         :rtype: tuple
         """
-        x, y = zip(*self.walk_instructions(
-                lambda instruction: (instruction.x, instruction.y)
-            ))
-        return min(x), min(y), max(x) + 1, max(y) + 1
+        need_to = False
+        min_x, min_y, max_x, max_y = zip(*list(self.walk_rows(
+            lambda row: row.bounding_box)))
+        return min(min_x), min(min_y), max(max_x), max(max_y)
 
 __all__ = ["GridLayout", "InstructionInGrid", "Connection", "identity",
            "Point", "INSTRUCTION_HEIGHT", "InGrid", "RowInGrid"]

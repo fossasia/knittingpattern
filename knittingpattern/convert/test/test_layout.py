@@ -52,7 +52,10 @@ class BaseTest:
         assert coords == self.COORDINATES
 
     def test_size(self, grid):
-        assert sizes(grid) == self.SIZES
+        generated = sizes(grid)
+        print("generated:", generated)
+        print("expected: ", self.SIZES)
+        assert generated == self.SIZES
 
     def test_instructions(self, grid, pattern):
         instructions_ = []
@@ -65,7 +68,10 @@ class BaseTest:
         assert row_ids(grid) == self.ROW_IDS
 
     def test_connections(self, grid):
-        assert connections(grid) == self.LARGER_CONNECTIONS
+        generated = connections(grid)
+        print("generated:", generated)
+        print("expected: ", self.LARGER_CONNECTIONS)
+        assert generated == self.LARGER_CONNECTIONS
 
     def test_bounding_box(self, grid):
         assert grid.bounding_box == self.BOUNDING_BOX
@@ -250,13 +256,14 @@ class TestParallelRows(BaseTest):
     SIZES[-2] = (2, 1)
     COORDINATES = [
             (0, 0), (1, 0), (2, 0), (3, 0), (4, 0),
-            (0, 1), (1, 1),
             (3, 1), (4, 1),
+            (0, 2), (1, 2),  # could also be (0, 1), (1, 1)
             (3, 2), (4, 2),
             (0, 3), (1, 3), (2, 3), (4, 3)
         ]
-    ROW_IDS = ["1.1", "2.1", "2.2", "3.2", "4.1"]
-    LARGER_CONNECTIONS = [((0, 1), (0, 3)), ((1, 1), (1, 3))]
+    ROW_IDS = ["1.1", "2.2", "2.1", "3.2", "4.1"]
+    # LARGER_CONNECTIONS = [((0, 1), (0, 3)), ((1, 1), (1, 3))]
+    LARGER_CONNECTIONS = [((0, 0), (0, 2)), ((1, 0), (1, 2))]
     BOUNDING_BOX = (0, 0, 5, 4)
 
     @fixture
@@ -282,6 +289,28 @@ def test_InstructionInGrid_get_color_from_instruction():
     instruction = Instruction("black", 1)
     instruction_in_grid = InstructionInGrid(instruction, (0, 0))
     assert instruction_in_grid.color == "black"
+
+
+class TestSmallCafe(BaseTest):
+    """This test tests the negative expansion"""
+    FILE = "small-cafe.json"
+    PATTERN = "A.2"
+    SIZES = \
+        [(1, 1)] * 12 + \
+        [(0, 1), (1, 1), (0, 1)] + [(1, 1)] * 11 + \
+        [(1, 1)] * 14 + \
+        [(1, 1)] * 3 + [(0, 1)] + [(1, 1)] * 11 + [(0, 1)] + \
+        [(1, 1)] * 16
+    COORDINATES = \
+        [(i, -1) for i in range(12)] + \
+        [(0, 0), (0, 0), (1, 0)] + [(i, 0) for i in range(1, 12)] + \
+        [(i, 1) for i in range(-1, 13)] + \
+        [(-1, 2), (0, 2), (1, 2), (2, 2)] + [(i, 2) for i in range(2, 13)] + \
+        [(13, 2)] + \
+        [(i, 3) for i in range(-2, 14)]
+    ROW_IDS = ["B.first", "A.2.25", "A.2.26", "A.2.27", "A.2.28"]
+    LARGER_CONNECTIONS = []
+    BOUNDING_BOX = (-2, -1, 15, 4)
 
 
 # TODO

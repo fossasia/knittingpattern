@@ -151,11 +151,16 @@ class Parser(object):
             from_row_id = self._to_id(connection[FROM][ID])
             from_row = self._id_cache[from_row_id]
             from_row_mesh_index = connection[FROM].get(START, DEFAULT_START)
+            from_row_number_of_possible_meshes = \
+                from_row.number_of_produced_meshes - from_row_mesh_index
             to_row_id = self._to_id(connection[TO][ID])
             to_row = self._id_cache[to_row_id]
             to_row_mesh_index = connection[TO].get(START, DEFAULT_START)
-            meshes = min(from_row.number_of_produced_meshes,
-                         to_row.number_of_produced_meshes)
+            to_row_number_of_possible_meshes = \
+                to_row.number_of_produced_meshes - to_row_mesh_index
+            meshes = min(from_row_number_of_possible_meshes,
+                         to_row_number_of_possible_meshes)
+            # TODO: test all kinds of connections
             number_of_meshes = connection.get(MESHES, meshes)
             from_row._produce_number_of_meshes_for_row(
                     from_row_mesh_index,
