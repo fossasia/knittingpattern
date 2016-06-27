@@ -68,16 +68,17 @@ def test_loading_from_directory_selects_paths(loader):
     assert len(paths_to_load) == 1
     assert paths_to_load[0].endswith("test_instruction_2.json")
 
-    
+
 def example_path(example):
     return os.path.abspath(os.path.join(EXAMPLES_DIRECTORY, example))
-    
+
 
 @pytest.mark.parametrize("example", os.listdir(EXAMPLES_DIRECTORY))
 def test_load_example(path_loader, example):
     expected_path = example_path(example)
     generated_path = os.path.abspath(path_loader.example(example))
     assert generated_path == expected_path
+
 
 def test_load_examples(path_loader):
     example_paths = []
