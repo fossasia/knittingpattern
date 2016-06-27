@@ -122,10 +122,10 @@ method-rgx=[a-z_][a-z0-9_]{2,70}$
 method-name-hint=[a-z_][a-z0-9_]{2,70}$
 
 # Regular expression matching correct constant names
-const-rgx=(([A-Z_][A-Z0-9_]*)|(__.*__))$
+const-rgx=((?P<allUpper>([A-Z_][A-Z0-9_]*)|(__.*__))|(?P<allLower>([a-z_][a-z0-9_]*)|(__.*__)))$
 
 # Naming hint for constant names
-const-name-hint=(([A-Z_][A-Z0-9_]*)|(__.*__))$
+const-name-hint=((?P<allUpper>([A-Z_][A-Z0-9_]*)|(__.*__))|(?P<allLower>([a-z_][a-z0-9_]*)|(__.*__)))$
 
 # Regular expression matching correct class attribute names
 class-attribute-rgx=([A-Za-z_][A-Za-z0-9_]{2,70}|(__.*__))$
@@ -187,7 +187,7 @@ max-nested-blocks=5
 [FORMAT]
 
 # Maximum number of characters on a single line.
-max-line-length=100
+max-line-length=79
 
 # Regexp for a line that is allowed to be longer than the limit.
 ignore-long-lines=^\s*(# )?<?https?://\S+>?$
