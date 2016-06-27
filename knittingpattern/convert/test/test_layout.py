@@ -315,7 +315,7 @@ def test_get_color_from_instruction_in_grid():
 
 class TestSmallCafe(BaseTest):
     """This test tests the negative expansion of rows.
-    
+
     If you start expanding in the middle, this tests that all rows are
     included.
     """
