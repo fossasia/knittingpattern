@@ -102,14 +102,19 @@ class InstructionInGrid(InGrid):
 
     @property
     def instruction(self):
-        """:return: instruction that is placed on the grid
+        """The instruction.
+
+        :return: instruction that is placed on the grid
         :rtype: knittingpattern.Instruction.InstructionInRow
         """
         return self._instruction
 
     @property
     def color(self):
-        """:return: the color of the :attr:`instruction`"""
+        """The color of the instruction.
+
+        :return: the color of the :attr:`instruction`
+        """
         return self._instruction.color
 
     def _row(self):
@@ -132,13 +137,20 @@ class RowInGrid(InGrid):
 
     @property
     def instructions(self):
-        """:return: the instructions in a grid"""
+        """The instructions in a grid.
+
+        :return: the :class:`instructions in a grid <InstructionInGrid>` of
+          this row
+        :rtype: list
+        """
         x = self.x
         y = self.y
+        result = []
         for instruction in self._row.instructions:
             instruction_in_grid = InstructionInGrid(instruction, Point(x, y))
             x += instruction_in_grid.width
-            yield instruction_in_grid
+            result.append(instruction_in_grid)
+        return result
 
     @property
     def _bounding_box(self):
@@ -287,7 +299,8 @@ class GridLayout(object):
         self._rows.sort(key=lambda row: self._walk.row_in_grid(row).yx)
 
     def walk_instructions(self, mapping=identity):
-        """
+        """Iterate over instructions.
+
         :return: an iterator over :class:`instructions in grid
           <InstructionInGrid>`
         :param mapping: funcion to map the result
@@ -302,8 +315,9 @@ class GridLayout(object):
         return map(mapping, instructions)
 
     def walk_rows(self, mapping=identity):
-        """
-        :return: an iterator over :class:`rows <knittingpattern.Row.Row>`
+        """Iterate over rows.
+
+        :return: an iterator over :class:`rows <RowsInGrid>`
         :param mapping: funcion to map the result, see
           :meth:`walk_instructions` for an example usage
         """
@@ -311,7 +325,8 @@ class GridLayout(object):
         return map(lambda row: mapping(row_in_grid(row)), self._rows)
 
     def walk_connections(self, mapping=identity):
-        """
+        """Iterate over connections between instructions.
+
         :return: an iterator over :class:`connections <Connection>` between
           :class:`instructions in grid <InstructionInGrid>`
         :param mapping: funcion to map the result, see
@@ -332,7 +347,7 @@ class GridLayout(object):
     @property
     def bounding_box(self):
         """The minimum and maximum bounds of this layout.
-        
+
         :return: ``(min_x, min_y, max_x, max_y)`` the bounding box
           of this layout
         :rtype: tuple
