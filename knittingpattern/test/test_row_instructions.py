@@ -1,6 +1,7 @@
 """These tests access the instructions in rows."""
-from test_knittingpattern import fixture
+from test_knittingpattern import fixture, raises
 from test_examples import charlotte as _charlotte
+from knittingpattern.Instruction import InstructionNotFoundInRow
 
 
 @fixture
@@ -40,6 +41,11 @@ def instruction1(row1):
     return row1.instructions[0]
 
 
+@fixture
+def removed_instruction(row0):
+    return row0.instructions.pop(1)
+
+
 def test_row0_consumes_empty_meshes(row0):
     assert len(row0.consumed_meshes) == 5
     assert not any(mesh.is_produced() for mesh in row0.consumed_meshes)
@@ -74,7 +80,7 @@ def test_instruction0_is_knit(instruction0):
 
 def test_instruction_position_in_row(row0, instruction0):
     assert instruction0.row == row0
-    assert instruction0.index_in_row_instructions == 0
+    assert instruction0.index_in_row == 0
     assert row0.instructions[0] == instruction0
 
 
@@ -88,7 +94,7 @@ def test_instruction1_is_knit(instruction1):
 
 
 def test_instruction1_position_in_row(instruction1):
-    assert instruction1.index_in_row_instructions == 0
+    assert instruction1.index_in_row == 0
 
 
 def test_mesh0_is_produced(mesh0):
@@ -123,8 +129,8 @@ def test_skp(skp):
 def test_position_in_row2(skp, yo, row2):
     assert skp.row == row2
     assert yo.row == row2
-    assert skp.index_in_row_instructions == 0
-    assert yo.index_in_row_instructions == 1
+    assert skp.index_in_row == 0
+    assert yo.index_in_row == 1
 
 
 def test_skp_consumed_meshes_from_row1(skp, row1, row2):
@@ -183,3 +189,50 @@ def test_previous_instruction_is_None_at_border(instruction0):
 
 def test_next_instruction_is_None_at_border(row0):
     assert row0.instructions[-1].next_instruction_in_row is None
+
+
+def test_index_of_instruction_does_not_change(instruction0):
+    index1 = instruction0.index_in_row
+    index2 = instruction0.index_in_row
+    assert index1 == index2
+
+
+def test_repr(instruction0):
+    string = repr(instruction0)
+    assert string.startswith("<" + instruction0.__class__.__name__)
+    assert str(instruction0.index_in_row) in string
+    assert repr(instruction0.row) in string
+
+
+def test_instruction_consumes_no_mesh_but_has_mesh_index(yo):
+    assert yo.index_of_first_consumed_mesh_in_row == 2
+    assert yo.index_of_last_consumed_mesh_in_row == 1
+
+
+def test_index_of_last_produced_mesh_is_same_as_first(yo):
+    first = yo.index_of_first_produced_mesh_in_row
+    last = yo.index_of_last_produced_mesh_in_row
+    assert first == last
+
+
+def test_removed_instruction_raises_exception(removed_instruction):
+    with raises(InstructionNotFoundInRow):
+        removed_instruction.index_of_first_produced_mesh_in_row
+    with raises(InstructionNotFoundInRow):
+        removed_instruction.index_of_last_produced_mesh_in_row
+    with raises(InstructionNotFoundInRow):
+        removed_instruction.index_of_first_consumed_mesh_in_row
+    with raises(InstructionNotFoundInRow):
+        removed_instruction.index_of_last_consumed_mesh_in_row
+
+
+def test_instruction_is_in_row(instruction0):
+    assert instruction0.is_in_row()
+
+
+def test_instruction_is_not_in_row(removed_instruction):
+    assert not removed_instruction.is_in_row()
+
+
+def test_repr_removed_instruction(removed_instruction):
+    assert removed_instruction.__class__.__name__ in repr(removed_instruction)

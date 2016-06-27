@@ -2,8 +2,8 @@ from abc import ABCMeta, abstractmethod
 
 
 class Mesh(metaclass=ABCMeta):
-    """
-    A mesh that is either consumed of produced by an instruction.
+
+    """A mesh that is either consumed or produced by an instruction.
 
     .. code:: python
 
@@ -17,30 +17,31 @@ class Mesh(metaclass=ABCMeta):
 
     @abstractmethod
     def _producing_instruction_and_index(self):
-        """override this method"""
+        """Replace this method."""
 
     @abstractmethod
     def _producing_row_and_index(self):
-        """override this method"""
+        """Replace this method."""
 
     @abstractmethod
     def _consuming_instruction_and_index(self):
-        """override this method"""
+        """Replace this method."""
 
     @abstractmethod
     def _consuming_row_and_index(self):
-        """override this method"""
+        """Replace this method."""
 
     @abstractmethod
     def _is_produced(self):
-        """override this method"""
+        """Replace this method."""
 
     @abstractmethod
     def _is_consumed(self):
-        """override this method"""
+        """Replace this method."""
 
     def is_produced(self):
-        """
+        """Whether the mesh has an instruction that produces it.
+
         :return: whether the mesh is produced by an instruction
         :rtype: bool
 
@@ -49,13 +50,14 @@ class Mesh(metaclass=ABCMeta):
         :attr:`knittingpattern.Row.Row.produced_meshes`,
         this should be :obj:`True`.
 
-        Before you use any methods on how the mesh is produced, you should
-        check with ``mesh.is_produced()``.
+        .. warning:: Before you use any methods on how the mesh is produced,
+          you should check with ``mesh.is_produced()``.
         """
         return self._is_produced()
 
     def is_consumed(self):
-        """
+        """Whether the mesh has an instruction that consumed it.
+
         :return: whether the mesh is consumed by an instruction
         :rtype: bool
 
@@ -64,14 +66,15 @@ class Mesh(metaclass=ABCMeta):
         :attr:`knittingpattern.Row.Row.consumed_meshes`,
         this should be :obj:`True`.
 
-        Before you use any methods on how the mesh is consumed, you should
-        check with ``mesh.is_consumed()``.
+        .. warning:: Before you use any methods on how the mesh is consumed,
+          you should check with ``mesh.is_consumed()``.
         """
         return self._is_consumed()
 
     @property
     def index_in_producing_instruction(self):
-        """
+        """Index in instruction as a produced mesh.
+
         :return: the index of the mesh in the list of meshes that
           :attr:`producing_instruction` produces
         :rtype: int
@@ -82,34 +85,46 @@ class Mesh(metaclass=ABCMeta):
             index = mesh.index_in_producing_instruction
             assert instruction.produced_meshes[index] == mesh
 
+        .. seealso:: :attr:`producing_instruction`,
+          :attr:`index_in_consuming_instruction`
+
+        .. warning:: Check with :meth:`is_produced` before!
         """
         return self._producing_instruction_and_index()[1]
 
     @property
     def producing_instruction(self):
-        """
+        """Instruction which produces this mesh.
+
         :return: the instruction that produces this mesh
         :rtype: knittingpattern.Instruction.InstructionInRow
 
         .. seealso:: :attr:`index_in_producing_instruction`,
-          :attr:`producing_row`
+          :attr:`producing_row`, :attr:`consuming_row`
+
+        .. warning:: Check with :meth:`is_produced` before!
         """
         return self._producing_instruction_and_index()[0]
 
     @property
     def producing_row(self):
-        """
+        """Row which produces this mesh.
+
         :return: the row of the instruction that produces this mesh
         :rtype: knittingpattern.Row.Row
 
         .. seealso:: :attr:`index_in_producing_row`,
-          :attr:`producing_instruction`
+          :attr:`producing_instruction`, :attr:`consuming_row`
+
+        .. warning:: Check with :meth:`is_produced` before!
         """
         return self._producing_row_and_index()[0]
 
     @property
     def index_in_producing_row(self):
-        """:return: the index of the mesh in the :attr:`producing_row`
+        """Index in row as produced mesh.
+
+        :return: the index of the mesh in the :attr:`producing_row`
         :rtype: int
 
         .. code:: python
@@ -118,13 +133,16 @@ class Mesh(metaclass=ABCMeta):
             index = mesh.index_in_producing_row
             assert row[index] == mesh
 
-        .. seealso:: :attr:`producing_row`
+        .. seealso:: :attr:`producing_row`, :attr:`index_in_consuming_row`
+
+        .. warning:: Check with :meth:`is_produced` before!
         """
         return self._producing_row_and_index()[1]
 
     @property
     def index_in_consuming_row(self):
-        """
+        """Index in row as consumed mesh.
+
         :return: the index of the mesh in the list of meshes that
           :attr:`consuming_row` consumes
         :rtype: int
@@ -135,34 +153,44 @@ class Mesh(metaclass=ABCMeta):
             index = mesh.index_in_consuming_row
             assert row.consumed_meshes[index] == mesh
 
+        .. seealso:: :attr:`consuming_row`, :attr:`index_in_producing_row`
+
+        .. warning:: Check with :meth:`is_consumed` before!
         """
         return self._consuming_row_and_index()[1]
 
     @property
     def consuming_row(self):
-        """
+        """Row which consumes this mesh.
+
         :return: the row that consumes this mesh
         :rtype: knittingpattern.Row.Row
 
         .. seealso:: :attr:`index_in_consuming_row`,
-          :attr:`consuming_instruction`
+          :attr:`consuming_instruction`, :attr:`producing_row`
+
+        .. warning:: Check with :meth:`is_consumed` before!
         """
         return self._consuming_row_and_index()[0]
 
     @property
     def consuming_instruction(self):
-        """
+        """Instruction which consumes this mesh.
+
         :return: the instruction that consumes this mesh
         :rtype: knittingpattern.Instruction.InstructionInRow
 
         .. seealso:: :attr:`index_in_consuming_instruction`,
-          :attr:`consuming_row`
+          :attr:`consuming_row`, :attr:`producing_instruction`
+
+        .. warning:: Check with :meth:`is_consumed` before!
         """
         return self._consuming_instruction_and_index()[0]
 
     @property
     def index_in_consuming_instruction(self):
-        """
+        """Index in instruction as consumed mesh.
+
         :return: the index of the mesh in the list of meshes that
           :attr:`consuming_instruction` consumes
         :rtype: int
@@ -173,12 +201,17 @@ class Mesh(metaclass=ABCMeta):
             index = mesh.index_in_consuming_instruction
             assert instruction.consumed_meshes[index] == mesh
 
-        .. seealso:: :attr:`consuming_instruction`
+        .. seealso:: :attr:`consuming_instruction`,
+          :attr:`index_in_consuming_instruction`
+
+        .. warning:: Check with :meth:`is_consumed` before!
         """
         return self._consuming_instruction_and_index()[1]
 
     def is_knit(self):
-        """:return: whether the mesh is knit by an instruction
+        """Whether the mesh is produced by a knit instruction.
+
+        :return: whether the mesh is knit by an instruction
         :rtype: bool
 
         .. seealso:: :attr:`producing_instruction`
@@ -186,14 +219,16 @@ class Mesh(metaclass=ABCMeta):
         return self._producing_instruction_and_index()[0].does_knit()
 
     def __repr__(self):
-        """:return: the string representation of this mesh.
+        """This mesh as string.
+
+        :return: the string representation of this mesh.
         :rtype: str
 
         This is useful for :func:`print` and class:`str`
         """
         if self._is_consumed():
-            instruction, _ = self._consumed_instruction_and_index
-            row, row_index = self._consumed_row_and_index
+            instruction, _ = self._consuming_instruction_and_index()
+            row, row_index = self._consuming_row_and_index()
             consume_string = " for {} in {}[{}]".format(
                     instruction,
                     row,
@@ -202,8 +237,8 @@ class Mesh(metaclass=ABCMeta):
         else:
             consume_string = ""
         if self._is_produced():
-            instruction, _ = self._produced_instruction_and_index
-            row, row_index = self._produced_row_and_index
+            instruction, _ = self._producing_instruction_and_index()
+            row, row_index = self._producing_row_and_index()
             produce_string = " by {} in {}[{}]".format(
                     instruction,
                     row,
