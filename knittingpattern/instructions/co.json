@@ -3,6 +3,9 @@
         "type" : "co",
         "number of consumed meshes" : 0,
         "number of produced meshes" : 1,
+        "grid-layout" : {
+            "width" : 1
+        },
         "title" : {
             "en-en" : "Single Cast On"
         },
