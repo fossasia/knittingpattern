@@ -1,0 +1,186 @@
+{
+  "version" : "0.1",
+  "type" : "knitting pattern", 
+  "comment" : {
+    "markdown" : "This pattern is taken from [garnstudio](http://www.garnstudio.com/pattern.php?id=7350&cid=19). It only contains the last 4 rows",
+    "picture" : {
+      "type" : "url",
+      "url" : "http://www.garnstudio.com/drops/mag/167/17/17-lp.jpg"
+    }
+  },
+  "patterns" : [
+    {
+      "name" : "A.2", 
+      "id" : "A.2", 
+      "rows" : [
+        {
+          "id" : "A.2.25", 
+          "color" : "light brown",
+          "instructions" : [
+            {
+              "type" : "yo"
+            }, {}, {
+              "type" : "yo"
+            }, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+          ]
+        },
+        {
+          "id" : "A.2.26", 
+          "color" : "light brown",
+          "instructions" : [
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            }
+          ]
+        }, 
+        {
+          "id" : "A.2.27", 
+          "color" : "light brown",
+          "instructions" : [
+            {}, {}, {}, {
+              "type" : "yo"
+            }, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {
+              "type" : "yo"
+            }
+          ]
+        },
+        {
+          "id" : "A.2.28", 
+          "color" : "light brown",
+          "instructions" : [
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            },
+            {
+              "type" : "purl"
+            }
+          ]
+        },
+        {
+          "id" : "B.first", 
+          "color" : "light brown",
+          "instructions" : [
+            {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+          ]
+        }
+      ],
+      "connections" : [
+        {
+          "from" : {
+            "id" : "B.first"
+          }, 
+          "to" : {
+            "id" : "A.2.25"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.25"
+          }, 
+          "to" : {
+            "id" : "A.2.26",
+            "start" : 1
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.26"
+          }, 
+          "to" : {
+            "id" : "A.2.27"
+          }
+        }, 
+        {
+          "from" : {
+            "id" : "A.2.27"
+          }, 
+          "to" : {
+            "id" : "A.2.28",
+            "start" : 1
+          }
+        }
+      ]
+    }
+  ]
+}

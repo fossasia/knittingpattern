@@ -1,7 +1,6 @@
 from test_knittingpattern import fixture
 from knittingpattern.Dumper import ContentDumper
 from io import StringIO, BytesIO
-from tempfile import mktemp
 import os
 
 
@@ -39,10 +38,7 @@ def no_encode_binary():
 
 def pytest_generate_tests(metafunc):
     if 'save_to' in metafunc.fixturenames:
-        metafunc.parametrize("save_to", [
-                binary(),
-                unicode()
-            ])
+        metafunc.parametrize("save_to", [binary(), unicode()])
 
 
 @fixture
@@ -134,7 +130,7 @@ def test_temporary_file_exists(temp_file):
     assert os.path.isfile(temp_file.name)
 
 
-def test_temporary_file_exists(binary_temp_file):
+def test_binary_temporary_file_exists(binary_temp_file):
     assert os.path.isfile(binary_temp_file.name)
 
 

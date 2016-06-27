@@ -112,17 +112,17 @@ class Parser(object):
 
     def _row(self, values):
         """Parse a row."""
-        id = self._to_id(values[ID])
+        row_id = self._to_id(values[ID])
         inheritance = []
         if SAME_AS in values:
-            id_ = self._to_id(values[SAME_AS])
-            object_ = self._id_cache[id_]
-            inheritance.append(object_)
-        row = self._spec.new_row(id, values, inheritance)
+            same_id = self._to_id(values[SAME_AS])
+            same = self._id_cache[same_id]
+            inheritance.append(same)
+        row = self._spec.new_row(row_id, values, inheritance)
         for instruction_ in row.get(INSTRUCTIONS, []):
             instruction = self._instruction(row, instruction_)
             row.instructions.append(instruction)
-        self._id_cache[id] = row
+        self._id_cache[row_id] = row
         return row
 
     def _instruction(self, row, instruction_):
@@ -151,11 +151,16 @@ class Parser(object):
             from_row_id = self._to_id(connection[FROM][ID])
             from_row = self._id_cache[from_row_id]
             from_row_mesh_index = connection[FROM].get(START, DEFAULT_START)
+            from_row_number_of_possible_meshes = \
+                from_row.number_of_produced_meshes - from_row_mesh_index
             to_row_id = self._to_id(connection[TO][ID])
             to_row = self._id_cache[to_row_id]
             to_row_mesh_index = connection[TO].get(START, DEFAULT_START)
-            meshes = min(from_row.number_of_produced_meshes,
-                         to_row.number_of_produced_meshes)
+            to_row_number_of_possible_meshes = \
+                to_row.number_of_consumed_meshes - to_row_mesh_index
+            meshes = min(from_row_number_of_possible_meshes,
+                         to_row_number_of_possible_meshes)
+            # TODO: test all kinds of connections
             number_of_meshes = connection.get(MESHES, meshes)
             from_row._produce_number_of_meshes_for_row(
                     from_row_mesh_index,

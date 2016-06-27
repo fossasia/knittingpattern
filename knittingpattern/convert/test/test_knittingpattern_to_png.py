@@ -1,4 +1,4 @@
-from test_convert import *
+from test_convert import fixture, pytest
 from knittingpattern import load_from_relative_file
 import PIL.Image
 

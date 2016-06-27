@@ -1,7 +1,6 @@
 from test_knittingpattern import fixture, raises
 import knittingpattern
 import json
-import io
 
 EMPTY_PATTERN = {
         "version": "0.1",

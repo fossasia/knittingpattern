@@ -137,6 +137,29 @@ class PathLoader(object):
         """
         return [path for path in paths if self._chooses_path(path)]
 
+    def example(self, relative_path):
+        """Load an example from the knitting pattern examples.
+
+        :param str relative_path: the path to load
+        :return: the result of the processing
+
+        You can use :meth:`knittingpattern.Loader.PathLoader.examples`
+        to find out the paths of all examples.
+        """
+        example_path = os.path.join("examples", relative_path)
+        return self.relative_file(__file__, example_path)
+
+    def examples(self):
+        """Load all examples form the examples folder of this packge.
+
+        :return: a list of processed examples
+        :rtype: list
+
+        Depending on :meth:`chooses_path` some paths may not be loaded.
+        Every loaded path is processed and returned part of the returned list.
+        """
+        return self.relative_folder(__file__, "examples")
+
 
 class ContentLoader(PathLoader):
     """Load contents of files and ressources.

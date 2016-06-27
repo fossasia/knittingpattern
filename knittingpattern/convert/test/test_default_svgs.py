@@ -1,4 +1,4 @@
-from test_convert import *
+from test_convert import fixture, os, pytest, HERE
 from knittingpattern.convert.InstructionToSVG import \
     default_instructions_to_SVG
 from collections import namedtuple

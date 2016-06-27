@@ -1,7 +1,7 @@
-from test_images import *
-from test_convert import *
+from test_images import IMAGES_FOLDER, DEFAULT_FILE,\
+    IMAGES_FOLDER_NAME, is_knit, is_purl
+from test_convert import fixture, parse_string
 from knittingpattern.convert.InstructionToSVG import InstructionToSVG
-import re
 from collections import namedtuple
 
 Instruction = namedtuple("TestInstruction", ["type", "color"])

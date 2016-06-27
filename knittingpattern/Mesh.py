@@ -70,7 +70,7 @@ class Mesh(metaclass=ABCMeta):
         return self._is_consumed()
 
     @property
-    def mesh_index_in_producing_instruction(self):
+    def index_in_producing_instruction(self):
         """
         :return: the index of the mesh in the list of meshes that
           :attr:`producing_instruction` produces
@@ -79,7 +79,7 @@ class Mesh(metaclass=ABCMeta):
         .. code:: python
 
             instruction = mesh.producing_instruction
-            index = mesh.mesh_index_in_producing_instruction
+            index = mesh.index_in_producing_instruction
             assert instruction.produced_meshes[index] == mesh
 
         """
@@ -91,7 +91,7 @@ class Mesh(metaclass=ABCMeta):
         :return: the instruction that produces this mesh
         :rtype: knittingpattern.Instruction.InstructionInRow
 
-        .. seealso:: :attr:`mesh_index_in_producing_instruction`,
+        .. seealso:: :attr:`index_in_producing_instruction`,
           :attr:`producing_row`
         """
         return self._producing_instruction_and_index()[0]
@@ -102,20 +102,20 @@ class Mesh(metaclass=ABCMeta):
         :return: the row of the instruction that produces this mesh
         :rtype: knittingpattern.Row.Row
 
-        .. seealso:: :attr:`mesh_index_in_producing_row`,
+        .. seealso:: :attr:`index_in_producing_row`,
           :attr:`producing_instruction`
         """
         return self._producing_row_and_index()[0]
 
     @property
-    def mesh_index_in_producing_row(self):
+    def index_in_producing_row(self):
         """:return: the index of the mesh in the :attr:`producing_row`
         :rtype: int
 
         .. code:: python
 
             row = mesh.producing_row
-            index = mesh.mesh_index_in_producing_row
+            index = mesh.index_in_producing_row
             assert row[index] == mesh
 
         .. seealso:: :attr:`producing_row`
@@ -123,7 +123,7 @@ class Mesh(metaclass=ABCMeta):
         return self._producing_row_and_index()[1]
 
     @property
-    def mesh_index_in_consuming_row(self):
+    def index_in_consuming_row(self):
         """
         :return: the index of the mesh in the list of meshes that
           :attr:`consuming_row` consumes
@@ -132,7 +132,7 @@ class Mesh(metaclass=ABCMeta):
         .. code:: python
 
             row = mesh.consuming_row
-            index = mesh.mesh_index_in_consuming_row
+            index = mesh.index_in_consuming_row
             assert row.consumed_meshes[index] == mesh
 
         """
@@ -144,7 +144,7 @@ class Mesh(metaclass=ABCMeta):
         :return: the row that consumes this mesh
         :rtype: knittingpattern.Row.Row
 
-        .. seealso:: :attr:`mesh_index_in_consuming_row`,
+        .. seealso:: :attr:`index_in_consuming_row`,
           :attr:`consuming_instruction`
         """
         return self._consuming_row_and_index()[0]
@@ -155,13 +155,13 @@ class Mesh(metaclass=ABCMeta):
         :return: the instruction that consumes this mesh
         :rtype: knittingpattern.Instruction.InstructionInRow
 
-        .. seealso:: :attr:`mesh_index_in_consuming_instruction`,
+        .. seealso:: :attr:`index_in_consuming_instruction`,
           :attr:`consuming_row`
         """
         return self._consuming_instruction_and_index()[0]
 
     @property
-    def mesh_index_in_consuming_instruction(self):
+    def index_in_consuming_instruction(self):
         """
         :return: the index of the mesh in the list of meshes that
           :attr:`consuming_instruction` consumes
@@ -170,7 +170,7 @@ class Mesh(metaclass=ABCMeta):
         .. code:: python
 
             instruction = mesh.consuming_instruction
-            index = mesh.mesh_index_in_consuming_instruction
+            index = mesh.index_in_consuming_instruction
             assert instruction.consumed_meshes[index] == mesh
 
         .. seealso:: :attr:`consuming_instruction`
@@ -221,12 +221,12 @@ class ProducedMesh(Mesh):
     """
 
     def __init__(self, producing_instruction,
-                 mesh_index_in_producing_instruction):
+                 index_in_producing_instruction):
         """
         :param producing_instruction: the
           :class:`instruction <knittingpattern.Instruction.InstructionInRow>`
           that produces the mesh
-        :param int mesh_index_in_producing_instruction: the index of the mesh
+        :param int index_in_producing_instruction: the index of the mesh
           in the list of meshes that :attr:`producing_instruction`
           produces
 
@@ -238,7 +238,7 @@ class ProducedMesh(Mesh):
         """
         self.__producing_instruction_and_index = (
                 producing_instruction,
-                mesh_index_in_producing_instruction
+                index_in_producing_instruction
             )
 
     def _producing_instruction_and_index(self):
@@ -247,9 +247,8 @@ class ProducedMesh(Mesh):
     def _producing_row_and_index(self):
         instruction, index = self.__producing_instruction_and_index
         producing_row = instruction.row
-        return (
-            producing_row, index +
-            instruction._index_of_first_produced_mesh_in_rows_produced_meshes)
+        return (producing_row,
+                index + instruction.index_of_first_produced_mesh_in_row)
 
     def _consuming_instruction_and_index(self):
         row_and_index = self._consuming_row_and_index()
@@ -279,12 +278,12 @@ class ConsumedMesh(Mesh):
     """A mesh that is only consumed by an instruction"""
 
     def __init__(self, consuming_instruction,
-                 mesh_index_in_consuming_instruction):
+                 index_in_consuming_instruction):
         """
         :param consuming_instruction: the
           :class:`instruction <knittingpattern.Instruction.InstructionInRow>`
           that consumes the mesh
-        :param int mesh_index_in_consuming_instruction: the index of the mesh
+        :param int index_in_consuming_instruction: the index of the mesh
           in the list of meshes that :attr:`consuming_instruction`
           consumes
 
@@ -296,7 +295,7 @@ class ConsumedMesh(Mesh):
         """
         self.__consuming_instruction_and_index = (
                 consuming_instruction,
-                mesh_index_in_consuming_instruction
+                index_in_consuming_instruction
             )
 
     def _producing_instruction_and_index(self):
@@ -311,7 +310,7 @@ class ConsumedMesh(Mesh):
         consuming_row = instruction.row
         return (
             consuming_row, index +
-            instruction._index_of_first_consumed_mesh_in_rows_consumed_meshes)
+            instruction.index_of_first_consumed_mesh_in_row)
 
     def _is_produced(self):
         return False

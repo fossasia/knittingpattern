@@ -1,7 +1,12 @@
 """These tests access the instructions in rows."""
-
 from test_knittingpattern import fixture
-from test_example_rows import a1, charlotte
+from test_examples import charlotte as _charlotte
+
+
+@fixture
+def a1():
+    """:return: the pattern ``"A.1"`` in charlotte"""
+    return _charlotte().patterns["A.1"]
 
 
 @fixture
@@ -43,7 +48,7 @@ def test_row0_consumes_empty_meshes(row0):
 def test_consumed_meshes_have_index(row0):
     for i in range(5):
         mesh = row0.consumed_meshes[i]
-        assert mesh.mesh_index_in_consuming_row == i
+        assert mesh.index_in_consuming_row == i
         assert mesh.consuming_row == row0
 
 
@@ -129,14 +134,14 @@ def test_skp_consumed_meshes_from_row1(skp, row1, row2):
     assert m1.consuming_instruction == skp
     assert m1.consuming_row == row2
     assert m1.producing_row == row1
-    assert m1.mesh_index_in_producing_row == 0
+    assert m1.index_in_producing_row == 0
     assert m1.is_produced()
     assert m1.is_consumed()
     assert m2.consuming_instruction == skp
     assert m2.consuming_row == row2
     assert m2.producing_row == row1
-    assert m2.mesh_index_in_producing_row == 1
-    assert m2.mesh_index_in_consuming_row == 1
+    assert m2.index_in_producing_row == 1
+    assert m2.index_in_consuming_row == 1
 
 
 def test_skp_produces_one_mesh(skp):
@@ -148,7 +153,7 @@ def test_skp_produced_meshes(skp, row2):
     assert m.producing_instruction == skp
     assert m.is_produced()
     assert not m.is_consumed()
-    assert m.mesh_index_in_producing_row == 0
+    assert m.index_in_producing_row == 0
     assert m.producing_row == row2
 
 
@@ -161,7 +166,7 @@ def test_yarn_over_produces_a_mesh(yo):
     m = yo.produced_meshes[0]
     assert m.producing_instruction == yo
     assert m.producing_row == yo.row
-    assert m.mesh_index_in_producing_row == 1
+    assert m.index_in_producing_row == 1
 
 
 def test_previous_instruction(row0, instruction0):
