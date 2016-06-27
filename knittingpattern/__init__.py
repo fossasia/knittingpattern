@@ -46,5 +46,19 @@ def load_from_relative_file(module, path_relative_to):
     return _load().relative_file(module, path_relative_to)
 
 
+def convert_from_image(colors=("white", "black")):
+    """Convert and image to a knitting pattern.
+    
+    :return: a loader
+    :rtype: knittingpattern.Loader.PathLoader
+    :param tuple colors: the colors to convert to
+    
+    .. seealso:: :mod:`knittingoattern.convert.image_to_knitting_pattern`
+    """
+    from .convert.image_to_knittingpattern import \
+        convert_image_to_knitting_pattern
+    return convert_image_to_knitting_pattern(colors=colors)
+
 __all__ = ["load_from_object", "load_from_string", "load_from_file",
-           "load_from_path", "load_from_url", "load_from_relative_file"]
+           "load_from_path", "load_from_url", "load_from_relative_file",
+           "convert_from_image"]

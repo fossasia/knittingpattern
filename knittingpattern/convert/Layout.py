@@ -136,8 +136,8 @@ class _RecursiveWalk(object):
             return
         self._place_row(row, position)
         passed = [row] + passed
-        print("{}{} at\t{} {}".format("  " * len(passed), row, position,
-                                      passed))
+        # print("{}{} at\t{} {}".format("  " * len(passed), row, position,
+        #                               passed))
         for i, produced_mesh in enumerate(row.produced_meshes):
             self._expand_produced_mesh(produced_mesh, i, position, passed)
 

@@ -1,6 +1,7 @@
-from test_convert import fixture, HERE, os
+from test_convert import fixture, HERE, os, pytest
 from knittingpattern.convert.image_to_knittingpattern import \
     convert_image_to_knitting_pattern
+from knittingpattern import convert_from_image
 from PIL import Image
 
 
@@ -8,8 +9,8 @@ IMAGE_PATH = os.path.join(HERE, "pictures")
 
 
 @fixture(scope="module")
-def patterns(image_path):
-    loader = convert_image_to_knitting_pattern()
+def patterns(image_path, convert):
+    loader = convert()
     return loader.path(image_path).knitting_pattern()
 
 
@@ -24,11 +25,14 @@ def image(image_path):
 
 
 def pytest_generate_tests(metafunc):
-    if 'image_path' in metafunc.fixturenames:
+    if "image_path" in metafunc.fixturenames:
         metafunc.parametrize("image_path", [
                 os.path.join(IMAGE_PATH, file)
                 for file in os.listdir(IMAGE_PATH)
             ], scope="module")
+    if "convert" in metafunc.fixturenames:
+        metafunc.parametrize("convert", [convert_image_to_knitting_pattern,
+                                         convert_from_image], scope="module")
 
 
 def test_convert_image_to_knittingpattern(patterns, image_path):
