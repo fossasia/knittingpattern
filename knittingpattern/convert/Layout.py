@@ -69,16 +69,17 @@ class InGrid(object):
     @property
     def bounding_box(self):
         """The bounding box of this object.
-        
+
         :return: (min x, min y, max x, max y)
         :rtype: tuple
         """
         return self._bounding_box
-    
+
     @property
     def id(self):
         """The id of this object."""
         return self._id
+
 
 class InstructionInGrid(InGrid):
 
@@ -143,14 +144,15 @@ class RowInGrid(InGrid):
     def _bounding_box(self):
         min_x = self.x
         min_y = self.y
-        max_x = min_x + max(self._row.number_of_consumed_meshes, 
+        max_x = min_x + max(self._row.number_of_consumed_meshes,
                             self._row.number_of_produced_meshes)
         max_y = min_y + self.height
         return min_x, min_y, max_x, max_y
-    
+
     @property
     def _id(self):
         return self._row.id
+
 
 def identity(object_):
     """:return: the argument"""
@@ -338,6 +340,7 @@ class GridLayout(object):
         min_x, min_y, max_x, max_y = zip(*list(self.walk_rows(
             lambda row: row.bounding_box)))
         return min(min_x), min(min_y), max(max_x), max(max_y)
+
 
 __all__ = ["GridLayout", "InstructionInGrid", "Connection", "identity",
            "Point", "INSTRUCTION_HEIGHT", "InGrid", "RowInGrid"]

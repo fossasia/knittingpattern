@@ -157,7 +157,7 @@ class Parser(object):
             to_row = self._id_cache[to_row_id]
             to_row_mesh_index = connection[TO].get(START, DEFAULT_START)
             to_row_number_of_possible_meshes = \
-                to_row.number_of_produced_meshes - to_row_mesh_index
+                to_row.number_of_consumed_meshes - to_row_mesh_index
             meshes = min(from_row_number_of_possible_meshes,
                          to_row_number_of_possible_meshes)
             # TODO: test all kinds of connections
