@@ -1,7 +1,12 @@
 """These tests access the instructions in rows."""
-
 from test_knittingpattern import fixture
-from test_example_rows import a1, charlotte
+from test_examples import charlotte as _charlotte
+
+
+@fixture
+def a1():
+    """:return: the pattern ``"A.1"`` in charlotte"""
+    return _charlotte().patterns["A.1"]
 
 
 @fixture

@@ -1,4 +1,4 @@
-from test_convert import fixture, HERE, os, pytest
+from test_convert import fixture, HERE, os
 from knittingpattern.convert.image_to_knittingpattern import \
     convert_image_to_knitting_pattern
 from knittingpattern import convert_from_image
