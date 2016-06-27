@@ -38,10 +38,7 @@ def no_encode_binary():
 
 def pytest_generate_tests(metafunc):
     if 'save_to' in metafunc.fixturenames:
-        metafunc.parametrize("save_to", [
-                binary(),
-                unicode()
-            ])
+        metafunc.parametrize("save_to", [binary(), unicode()])
 
 
 @fixture
