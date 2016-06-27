@@ -81,8 +81,9 @@ def test_load_example(path_loader, example):
 
 
 def test_load_examples(path_loader):
-    example_paths = []
-    for example in os.listdir(EXAMPLES_DIRECTORY):
-        example_paths.append(example_path(example))
+    example_paths = set()
+    for root, _, examples in os.walk(EXAMPLES_DIRECTORY):
+        for example in examples:
+            example_paths.add(os.path.abspath(os.path.join(root, example)))
     generated_paths = list(map(os.path.abspath, path_loader.examples()))
-    assert generated_paths == example_paths
+    assert set(generated_paths) == example_paths
