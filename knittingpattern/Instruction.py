@@ -18,6 +18,7 @@ PURL_TYPE = "purl"  #: the type of the purl instruction
 #: the type of the instruction without a specified type
 DEFAULT_TYPE = KNIT_TYPE
 COLOR = "color"  #: the color key in the specification
+DESCRIPTION = 'description' #: the description in the specification
 #: the key for the number of meshes that a instruction consumes
 NUMBER_OF_CONSUMED_MESHES = "number of consumed meshes"
 #: the default number of meshes that a instruction consumes
@@ -71,7 +72,15 @@ class Instruction(Prototype):
         :return: the :data:`color <COLOR>` of the instruction or
           :obj:`None` if none is specified.
         """
-        return self.get(COLOR, None)
+        return self.get(COLOR)
+
+    @property
+    def description(self):
+        """
+        :return: the :data:`description <DESCRIPTION>` of the instruction or
+          :obj:`None` if none is specified.
+        """
+        return self.get(DESCRIPTION)
 
     @property
     def number_of_consumed_meshes(self):
