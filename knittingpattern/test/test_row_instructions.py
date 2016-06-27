@@ -74,7 +74,7 @@ def test_instruction0_is_knit(instruction0):
 
 def test_instruction_position_in_row(row0, instruction0):
     assert instruction0.row == row0
-    assert instruction0.index_in_row_instructions == 0
+    assert instruction0.index_in_row == 0
     assert row0.instructions[0] == instruction0
 
 
@@ -88,7 +88,7 @@ def test_instruction1_is_knit(instruction1):
 
 
 def test_instruction1_position_in_row(instruction1):
-    assert instruction1.index_in_row_instructions == 0
+    assert instruction1.index_in_row == 0
 
 
 def test_mesh0_is_produced(mesh0):
@@ -123,8 +123,8 @@ def test_skp(skp):
 def test_position_in_row2(skp, yo, row2):
     assert skp.row == row2
     assert yo.row == row2
-    assert skp.index_in_row_instructions == 0
-    assert yo.index_in_row_instructions == 1
+    assert skp.index_in_row == 0
+    assert yo.index_in_row == 1
 
 
 def test_skp_consumed_meshes_from_row1(skp, row1, row2):
@@ -183,3 +183,16 @@ def test_previous_instruction_is_None_at_border(instruction0):
 
 def test_next_instruction_is_None_at_border(row0):
     assert row0.instructions[-1].next_instruction_in_row is None
+
+
+def test_index_of_instruction_does_not_change(instruction0):
+    index1 = instruction0.index_in_row
+    index2 = instruction0.index_in_row
+    assert index1 == index2
+
+
+def test_repr(instruction0):
+    string = repr(instruction0)
+    assert string.startswith("<" + instruction0.__class__.__name__)
+    assert str(instruction0.index_in_row) in string
+    assert repr(instruction0.row) in string

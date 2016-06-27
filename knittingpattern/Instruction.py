@@ -150,7 +150,7 @@ class InstructionInRow(Instruction):
                 self.ProducedMesh(self, index)
                 for index in range(self.number_of_produced_meshes)
             ]
-        self._cached_index_in_row_instructions = None
+        self._cached_index_in_row = None
 
     @property
     def row(self):
@@ -160,7 +160,7 @@ class InstructionInRow(Instruction):
         return self._row
 
     @property
-    def index_in_row_instructions(self):
+    def index_in_row(self):
         """
         :return: index in the :attr:`row`'s instructions
         :rtype: int
@@ -169,12 +169,12 @@ class InstructionInRow(Instruction):
 
         .. code:: python
 
-            index = instruction.index_in_row_instructions
+            index = instruction.index_in_row
             assert instruction.row.instructions[index] == instruction
 
         .. seealso:: :meth:`row_instructions`
         """
-        expected_index = self._cached_index_in_row_instructions
+        expected_index = self._cached_index_in_row
         instructions = self.row_instructions
         if expected_index is not None and \
                 0 <= expected_index < len(instructions) and \
@@ -182,7 +182,7 @@ class InstructionInRow(Instruction):
             return expected_index
         for index, instruction_in_row in enumerate(instructions):
             if instruction_in_row is self:
-                self._cached_index_in_row_instructions = index
+                self._cached_index_in_row = index
                 return index
         self._raise_not_found_error()
 
@@ -192,7 +192,7 @@ class InstructionInRow(Instruction):
 
         :return: the instructions of the :attr:`row` the instruction is in
 
-        .. seealso:: :meth:`index_in_row_instructions`
+        .. seealso:: :meth:`index_in_row`
         """
         return self.row.instructions
 
@@ -207,9 +207,7 @@ class InstructionInRow(Instruction):
 
         .. seealso:: :meth:`previous_instruction_in_row`
         """
-        index = self.index_in_row_instructions + 1
-        if index < 0:
-            return None
+        index = self.index_in_row + 1
         if index >= len(self.row_instructions):
             return None
         return self.row_instructions[index]
@@ -225,10 +223,8 @@ class InstructionInRow(Instruction):
 
         .. seealso:: :meth:`next_instruction_in_row`
         """
-        index = self.index_in_row_instructions - 1
+        index = self.index_in_row - 1
         if index < 0:
-            return None
-        if index >= len(self.row_instructions):
             return None
         return self.row_instructions[index]
 
@@ -372,12 +368,6 @@ class InstructionInRow(Instruction):
         producing_row, mesh_index_in_producing_row = origin
         return producing_row.produced_meshes[mesh_index_in_producing_row]
 
-    def _produced_meshes_at(self, mesh_index):
-        """
-        Same as :meth:`_consumed_meshes_at` but for consumed meshes
-        """
-        return self.produced_meshes[mesh_index]
-
     def __repr__(self):
         """ ``repr(instruction)`` used for :func:`print`
 
@@ -389,7 +379,7 @@ class InstructionInRow(Instruction):
                 ("{} ".format(self.id) if self.id is not None else ""),
                 self.type,
                 self.row,
-                self.index_in_row_instructions
+                self.index_in_row
             )
 
     @property
