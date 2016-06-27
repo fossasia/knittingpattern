@@ -169,6 +169,38 @@ class InstructionInRow(Instruction):
         :rtype: knittingpattern.Row.Row
         """
         return self._row
+        
+    def is_in_row(self):
+        """Whether the instruction can be found in its row.
+        
+        :return: whether the instruction is in its row
+        :rtype: bool
+        
+        Use this to avoid raising and :class:`InstructionNotFoundInRow`.
+        """
+        return self.get_index_in_row() is not None
+
+    def get_index_in_row(self):
+        """Index of the instruction in the instructions of the row or None.
+
+        :return: index in the :attr:`row`'s instructions or None, if the
+          instruction is not in the row
+        :rtype: int
+
+        .. seealso:: :attr:`row_instructions`, :attr:`index_in_row`,
+          :meth:`is_in_row`
+        """
+        expected_index = self._cached_index_in_row
+        instructions = self._row.instructions
+        if expected_index is not None and \
+                0 <= expected_index < len(instructions) and \
+                instructions[expected_index] is self:
+            return expected_index
+        for index, instruction_in_row in enumerate(instructions):
+            if instruction_in_row is self:
+                self._cached_index_in_row = index
+                return index
+        return None
 
     @property
     def index_in_row(self):
@@ -184,19 +216,13 @@ class InstructionInRow(Instruction):
             index = instruction.index_in_row
             assert instruction.row.instructions[index] == instruction
 
-        .. seealso:: :attr:`row_instructions`
+        .. seealso:: :attr:`row_instructions`, :meth:`get_index_in_row`,
+          :meth:`is_in_row`
         """
-        expected_index = self._cached_index_in_row
-        instructions = self.row_instructions
-        if expected_index is not None and \
-                0 <= expected_index < len(instructions) and \
-                instructions[expected_index] is self:
-            return expected_index
-        for index, instruction_in_row in enumerate(instructions):
-            if instruction_in_row is self:
-                self._cached_index_in_row = index
-                return index
-        self._raise_not_found_error()
+        index = self.get_index_in_row()
+        if index is None:
+            self._raise_not_found_error()
+        return index
 
     @property
     def row_instructions(self):
@@ -399,12 +425,16 @@ class InstructionInRow(Instruction):
         :return: the string representation of this object
         :rtype: str
         """
-        return "<{} {}\"{}\" in {} at {}>".format(
+        index = self.get_index_in_row()
+        if index is None:
+            position = "not in {}".format(self.row)
+        else:
+            position =  "in {} at {}".format(self.row, index)
+        return "<{} {}\"{}\" {}>".format(
                 self.__class__.__name__,
                 ("{} ".format(self.id) if self.id is not None else ""),
                 self.type,
-                self.row,
-                self.index_in_row
+                position
             )
 
     @property
