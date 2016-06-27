@@ -6,6 +6,21 @@ from collections import namedtuple
 
 
 INSTRUCTION_HEIGHT = 1  #: the default height of an instruction in the grid
+
+#: This is the key to the "grid-layout"
+#:
+#: Values for the layout can be specified in each instruction.
+#:
+#: "grid-layout" : {
+#:     "width" : 1
+#: }
+#:
+#: .. seealso:: :data:`width`
+GRID_LAYOUT = "grid-layout"
+
+#: the width of the instruction in the grid layout, if specified.
+#: .. seealso:: :data:`GRID_LAYOUT`
+WIDTH = "width"
 Point = namedtuple("Point", ["x", "y"])
 
 
@@ -50,7 +65,8 @@ class InGrid(object):
         """:return: width of the object on the grid
         :rtype: float
         """
-        return self._number_of_consumed_meshes
+
+        return self._width
 
     @property
     def height(self):
@@ -96,8 +112,13 @@ class InstructionInGrid(InGrid):
         super().__init__(position)
 
     @property
-    def _number_of_consumed_meshes(self):
-        """:return: the number of consumed meshes"""
+    def _width(self):
+        """For ``self.width``."""
+        layout = self._instruction.get(GRID_LAYOUT)
+        if layout is not None:
+            width = layout.get(WIDTH)
+            if width is not None:
+                return width
         return self._instruction.number_of_consumed_meshes
 
     @property
@@ -131,9 +152,9 @@ class RowInGrid(InGrid):
         self._row = row
 
     @property
-    def _number_of_consumed_meshes(self):
+    def _width(self):
         """:return: the number of consumed meshes"""
-        return self._row.number_of_consumed_meshes
+        return sum(map(lambda i: i.width, self.instructions))
 
     @property
     def instructions(self):
@@ -355,6 +376,14 @@ class GridLayout(object):
         min_x, min_y, max_x, max_y = zip(*list(self.walk_rows(
             lambda row: row.bounding_box)))
         return min(min_x), min(min_y), max(max_x), max(max_y)
+
+    def row_in_grid(self, row):
+        """The a RowInGrid for the row with position information.
+
+        :return: a row in the grid
+        :rtype: RowInGrid
+        """
+        return self._walk.row_in_grid(row)
 
 
 __all__ = ["GridLayout", "InstructionInGrid", "Connection", "identity",

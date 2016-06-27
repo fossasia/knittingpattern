@@ -35,13 +35,13 @@ class BaseTest:
     LARGER_CONNECTIONS = []
     BOUNDING_BOX = (0, 0, 4, 4)
 
-    @fixture
+    @fixture(scope="class")
     def pattern(self):
         path = os.path.join("test_patterns", self.FILE)
         pattern_set = load_from_relative_file(__name__, path)
         return pattern_set.patterns[self.PATTERN]
 
-    @fixture
+    @fixture(scope="class")
     def grid(self, pattern):
         return GridLayout(pattern)
 
@@ -311,6 +311,34 @@ class TestSmallCafe(BaseTest):
     ROW_IDS = ["B.first", "A.2.25", "A.2.26", "A.2.27", "A.2.28"]
     LARGER_CONNECTIONS = []
     BOUNDING_BOX = (-2, -1, 15, 4)
+
+
+class TestCastOffAndBindOn(BaseTest):
+    """This test tests the negative expansion"""
+    FILE = "cast_on_and_bind_off.json"
+    SIZES = [(1, 1)] * 12
+    COORDINATES = [(x, y) for y in range(3) for x in range(4)]
+    ROW_IDS = [1, 2, 3]
+    LARGER_CONNECTIONS = []
+    BOUNDING_BOX = (0, 0, 4, 3)
+
+    @fixture
+    def co(self, co_row):
+        return co_row.instructions[0]
+
+    @fixture
+    def co_row(self, pattern):
+        return pattern.rows[1]
+
+    @fixture
+    def co_row_in_grid(self, grid, co_row):
+        return grid.row_in_grid(co_row)
+
+    def test_cast_on_has_layout_specific_width(self, co):
+        assert co["grid-layout"]["width"] == 1
+
+    def test_first_row_has_width_4(self, co_row_in_grid):
+        assert co_row_in_grid.width == 4
 
 
 # TODO
