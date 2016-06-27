@@ -1,3 +1,4 @@
+"""Test the layout of knitting patterns."""
 from test_convert import fixture
 import os
 from knittingpattern.convert.Layout import GridLayout, InstructionInGrid
@@ -6,26 +7,33 @@ from collections import namedtuple
 
 
 def coordinates(layout):
+    """The coordinates of the layout."""
     return list(layout.walk_instructions(lambda point: (point.x, point.y)))
 
 
 def sizes(layout):
+    """The sizes of the instructions of the layout."""
     return list(layout.walk_instructions(lambda p: (p.width, p.height)))
 
 
 def instructions(layout):
+    """The instructions of the layout."""
     return list(layout.walk_instructions(lambda point: point.instruction))
 
 
 def row_ids(layout):
+    """The ids of the rows of the layout."""
     return list(layout.walk_rows(lambda row: row.id))
 
 
 def connections(layout):
+    """The connections between the rows of the leyout."""
     return list(layout.walk_connections(lambda c: (c.start.xy, c.stop.xy)))
 
 
 class BaseTest:
+
+    """Base class for a set of tests on knitting patterns."""
 
     FILE = "block4x4.json"
     PATTERN = "knit"
@@ -35,29 +43,34 @@ class BaseTest:
     LARGER_CONNECTIONS = []
     BOUNDING_BOX = (0, 0, 4, 4)
 
-    @fixture
+    @fixture(scope="class")
     def pattern(self):
+        """Teh pattern to test."""
         path = os.path.join("test_patterns", self.FILE)
         pattern_set = load_from_relative_file(__name__, path)
         return pattern_set.patterns[self.PATTERN]
 
-    @fixture
+    @fixture(scope="class")
     def grid(self, pattern):
+        """The computed grid for the pattern."""
         return GridLayout(pattern)
 
     def test_coordinates(self, grid):
+        """Test the coordinates of the layout."""
         coords = coordinates(grid)
         print("generated:", coords)
         print("expected: ", self.COORDINATES)
         assert coords == self.COORDINATES
 
     def test_size(self, grid):
+        """Test teh sizes of the layout."""
         generated = sizes(grid)
         print("generated:", generated)
         print("expected: ", self.SIZES)
         assert generated == self.SIZES
 
     def test_instructions(self, grid, pattern):
+        """Test that the instructions are returned row-wise."""
         instructions_ = []
         for row_id in self.ROW_IDS:
             for instruction in pattern.rows[row_id].instructions:
@@ -65,23 +78,27 @@ class BaseTest:
         assert instructions(grid) == instructions_
 
     def test_row_ids(self, grid):
+        """Test the order of rows."""
         assert row_ids(grid) == self.ROW_IDS
 
     def test_connections(self, grid):
+        """test the connections betwen rows."""
         generated = connections(grid)
         print("generated:", generated)
         print("expected: ", self.LARGER_CONNECTIONS)
         assert generated == self.LARGER_CONNECTIONS
 
     def test_bounding_box(self, grid):
+        """Test the bounding box of the layout."""
         assert grid.bounding_box == self.BOUNDING_BOX
 
 
 class TestBlock4x4(BaseTest):
-    pass
+    """Execute the BaseTest."""
 
 
 class TestHole(BaseTest):
+    """Test if holes are layouted."""
     FILE = "with hole.json"
     SIZES = BaseTest.SIZES[:]
     SIZES[5] = (2, 1)
@@ -91,6 +108,7 @@ class TestHole(BaseTest):
 
 
 class TestAddAndRemoveMeshes(BaseTest):
+    """take away and add meshes at the right and left."""
     FILE = "add and remove meshes.json"
     SIZES = [(1, 1)] * 17
     COORDINATES = [
@@ -104,24 +122,24 @@ class TestAddAndRemoveMeshes(BaseTest):
     # test how instructions are connected
 
     @fixture
-    def i1(self, pattern):
+    def i_1(self, pattern):
         return pattern.rows[1].instructions
 
     @fixture
-    def i2(self, pattern):
+    def i_2(self, pattern):
         return pattern.rows[2].instructions
 
     @fixture
-    def i3(self, pattern):
+    def i_3(self, pattern):
         return pattern.rows[3].instructions
 
     @fixture
-    def i4(self, pattern):
+    def i_4(self, pattern):
         return pattern.rows[4].instructions
 
     @fixture
-    def instructions(self, i1, i2, i3, i4):
-        return i1 + i2 + i3 + i4
+    def instructions(self, i_1, i_2, i_3, i_4):
+        return i_1 + i_2 + i_3 + i_4
 
     def test_all_consume_one_mesh(self, instructions):
         assert all(i.number_of_consumed_meshes == 1
@@ -131,126 +149,127 @@ class TestAddAndRemoveMeshes(BaseTest):
         assert all(i.number_of_produced_meshes == 1
                    for i in instructions)
 
-    # i1 produced
+    # i_1 produced
 
-    def test_i1_0_is_not_produced(self, i1):
-        assert i1[0].producing_instructions == [None]
+    def test_i_1_0_is_not_produced(self, i_1):
+        assert i_1[0].producing_instructions == [None]
 
-    def test_i1_1_is_not_produced(self, i1):
-        assert i1[1].producing_instructions == [None]
+    def test_i_1_1_is_not_produced(self, i_1):
+        assert i_1[1].producing_instructions == [None]
 
-    def test_i1_2_is_not_produced(self, i1):
-        assert i1[2].producing_instructions == [None]
+    def test_i_1_2_is_not_produced(self, i_1):
+        assert i_1[2].producing_instructions == [None]
 
-    def test_i1_3_is_not_produced(self, i1):
-        assert i1[3].producing_instructions == [None]
+    def test_i_1_3_is_not_produced(self, i_1):
+        assert i_1[3].producing_instructions == [None]
 
-    # i1 consumed
+    # i_1 consumed
 
-    def test_i1_0_consumed(self, i1, i2):
-        assert i1[0].consuming_instructions == [i2[0]]
+    def test_i_1_0_consumed(self, i_1, i_2):
+        assert i_1[0].consuming_instructions == [i_2[0]]
 
-    def test_i1_1_consumed(self, i1, i2):
-        assert i1[1].consuming_instructions == [i2[1]]
+    def test_i_1_1_consumed(self, i_1, i_2):
+        assert i_1[1].consuming_instructions == [i_2[1]]
 
-    def test_i1_2_consumed(self, i1, i2):
-        assert i1[2].consuming_instructions == [i2[2]]
+    def test_i_1_2_consumed(self, i_1, i_2):
+        assert i_1[2].consuming_instructions == [i_2[2]]
 
-    def test_i1_3_consumed(self, i1, i2):
-        assert i1[3].consuming_instructions == [i2[3]]
+    def test_i_1_3_consumed(self, i_1, i_2):
+        assert i_1[3].consuming_instructions == [i_2[3]]
 
-    # i2 produced
+    # i_2 produced
 
-    def test_i2_0_produced(self, i1, i2):
-        assert i2[0].producing_instructions == [i1[0]]
+    def test_i_2_0_produced(self, i_1, i_2):
+        assert i_2[0].producing_instructions == [i_1[0]]
 
-    def test_i2_1_produced(self, i1, i2):
-        assert i2[1].producing_instructions == [i1[1]]
+    def test_i_2_1_produced(self, i_1, i_2):
+        assert i_2[1].producing_instructions == [i_1[1]]
 
-    def test_i2_2_produced(self, i1, i2):
-        assert i2[2].producing_instructions == [i1[2]]
+    def test_i_2_2_produced(self, i_1, i_2):
+        assert i_2[2].producing_instructions == [i_1[2]]
 
-    def test_i2_3_produced(self, i1, i2):
-        assert i2[3].producing_instructions == [i1[3]]
+    def test_i_2_3_produced(self, i_1, i_2):
+        assert i_2[3].producing_instructions == [i_1[3]]
 
-    def test_i2_4_produced(self, i2):
-        assert i2[4].producing_instructions == [None]
+    def test_i_2_4_produced(self, i_2):
+        assert i_2[4].producing_instructions == [None]
 
-    # i2 consumed
+    # i_2 consumed
 
-    def test_i2_0_consumed(self, i2, i3):
-        assert i2[0].consuming_instructions == [i3[0]]
+    def test_i_2_0_consumed(self, i_2, i_3):
+        assert i_2[0].consuming_instructions == [i_3[0]]
 
-    def test_i2_1_consumed(self, i2, i3):
-        assert i2[1].consuming_instructions == [i3[1]]
+    def test_i_2_1_consumed(self, i_2, i_3):
+        assert i_2[1].consuming_instructions == [i_3[1]]
 
-    def test_i2_2_consumed(self, i2, i3):
-        assert i2[2].consuming_instructions == [i3[2]]
+    def test_i_2_2_consumed(self, i_2, i_3):
+        assert i_2[2].consuming_instructions == [i_3[2]]
 
-    def test_i2_3_not_consumed(self, i2):
-        assert i2[3].consuming_instructions == [None]
+    def test_i_2_3_not_consumed(self, i_2):
+        assert i_2[3].consuming_instructions == [None]
 
-    def test_i2_4_not_consumed(self, i2):
-        assert i2[4].consuming_instructions == [None]
+    def test_i_2_4_not_consumed(self, i_2):
+        assert i_2[4].consuming_instructions == [None]
 
-    # i3 produced
+    # i_3 produced
 
-    def test_i3_0_produced(self, i2, i3):
-        assert i3[0].producing_instructions == [i2[0]]
+    def test_i_3_0_produced(self, i_2, i_3):
+        assert i_3[0].producing_instructions == [i_2[0]]
 
-    def test_i3_1_produced(self, i2, i3):
-        assert i3[1].producing_instructions == [i2[1]]
+    def test_i_3_1_produced(self, i_2, i_3):
+        assert i_3[1].producing_instructions == [i_2[1]]
 
-    def test_i3_2_produced(self, i2, i3):
-        assert i3[2].producing_instructions == [i2[2]]
+    def test_i_3_2_produced(self, i_2, i_3):
+        assert i_3[2].producing_instructions == [i_2[2]]
 
-    # i3 consumed
+    # i_3 consumed
 
-    def test_i3_0_consumed(self, i3, i4):
-        assert i3[0].consuming_instructions == [i4[1]]
+    def test_i_3_0_consumed(self, i_3, i_4):
+        assert i_3[0].consuming_instructions == [i_4[1]]
 
-    def test_i3_1_consumed(self, i3, i4):
-        assert i3[1].consuming_instructions == [i4[2]]
+    def test_i_3_1_consumed(self, i_3, i_4):
+        assert i_3[1].consuming_instructions == [i_4[2]]
 
-    def test_i3_2_consumed(self, i3, i4):
-        assert i3[2].consuming_instructions == [i4[3]]
+    def test_i_3_2_consumed(self, i_3, i_4):
+        assert i_3[2].consuming_instructions == [i_4[3]]
 
-    # i4 produced
+    # i_4 produced
 
-    def test_i4_0_not_produced(self, i4):
-        assert i4[0].producing_instructions == [None]
+    def test_i_4_0_not_produced(self, i_4):
+        assert i_4[0].producing_instructions == [None]
 
-    def test_i4_1_produced(self, i3, i4):
-        assert i4[1].producing_instructions == [i3[0]]
+    def test_i_4_1_produced(self, i_3, i_4):
+        assert i_4[1].producing_instructions == [i_3[0]]
 
-    def test_i4_2_produced(self, i3, i4):
-        assert i4[2].producing_instructions == [i3[1]]
+    def test_i_4_2_produced(self, i_3, i_4):
+        assert i_4[2].producing_instructions == [i_3[1]]
 
-    def test_i4_3_produced(self, i3, i4):
-        assert i4[3].producing_instructions == [i3[2]]
+    def test_i_4_3_produced(self, i_3, i_4):
+        assert i_4[3].producing_instructions == [i_3[2]]
 
-    def test_i4_4_not_produced(self, i4):
-        assert i4[4].producing_instructions == [None]
+    def test_i_4_4_not_produced(self, i_4):
+        assert i_4[4].producing_instructions == [None]
 
-    # i4 consumed
+    # i_4 consumed
 
-    def test_i4_0_not_consumed(self, i4):
-        assert i4[0].consuming_instructions == [None]
+    def test_i_4_0_not_consumed(self, i_4):
+        assert i_4[0].consuming_instructions == [None]
 
-    def test_i4_1_not_consumed(self, i4):
-        assert i4[1].consuming_instructions == [None]
+    def test_i_4_1_not_consumed(self, i_4):
+        assert i_4[1].consuming_instructions == [None]
 
-    def test_i4_2_not_consumed(self, i4):
-        assert i4[2].consuming_instructions == [None]
+    def test_i_4_2_not_consumed(self, i_4):
+        assert i_4[2].consuming_instructions == [None]
 
-    def test_i4_3_not_consumed(self, i4):
-        assert i4[3].consuming_instructions == [None]
+    def test_i_4_3_not_consumed(self, i_4):
+        assert i_4[3].consuming_instructions == [None]
 
-    def test_i4_4_not_consumed(self, i4):
-        assert i4[4].consuming_instructions == [None]
+    def test_i_4_4_not_consumed(self, i_4):
+        assert i_4[4].consuming_instructions == [None]
 
 
 class TestParallelRows(BaseTest):
+    """Test unconnected rows of different sizes."""
     FILE = "split_up_and_add_rows.json"
     SIZES = [(1, 1)] * 15
     SIZES[-2] = (2, 1)
@@ -267,32 +286,39 @@ class TestParallelRows(BaseTest):
     BOUNDING_BOX = (0, 0, 5, 4)
 
     @fixture
-    def r4(self, pattern):
+    def row_4(self, pattern):
         return pattern.rows["4.1"]
 
     @fixture
-    def skp(self, r4):
-        return r4.instructions[2]
+    def skp(self, row_4):
+        return row_4.instructions[2]
 
     def test_skp_has_2_consumed_meshes(self, skp):
+        """Test skp consumes two meshes."""
         assert skp.type == "skp"
         assert skp.number_of_consumed_meshes == 2
 
-    def test_row_4_1_consumes_5_meshes(self, r4):
-        assert r4.number_of_consumed_meshes == 5
-        assert len(r4.consumed_meshes) == 5
+    def test_row_4_1_consumes_5_meshes(self, row_4):
+        """Test: the yo in the last row adds to the skp so the width is 5."""
+        assert row_4.number_of_consumed_meshes == 5
+        assert len(row_4.consumed_meshes) == 5
+
+Instruction = namedtuple("Instruction", ["color", "number_of_consumed_meshes"])
 
 
-def test_InstructionInGrid_get_color_from_instruction():
-    Instruction = namedtuple("Instruction", ["color",
-                                             "number_of_consumed_meshes"])
+def test_get_color_from_instruction_in_grid():
+    """Test the color attribute."""
     instruction = Instruction("black", 1)
     instruction_in_grid = InstructionInGrid(instruction, (0, 0))
     assert instruction_in_grid.color == "black"
 
 
 class TestSmallCafe(BaseTest):
-    """This test tests the negative expansion"""
+    """This test tests the negative expansion of rows.
+
+    If you start expanding in the middle, this tests that all rows are
+    included.
+    """
     FILE = "small-cafe.json"
     PATTERN = "A.2"
     SIZES = \
@@ -311,6 +337,36 @@ class TestSmallCafe(BaseTest):
     ROW_IDS = ["B.first", "A.2.25", "A.2.26", "A.2.27", "A.2.28"]
     LARGER_CONNECTIONS = []
     BOUNDING_BOX = (-2, -1, 15, 4)
+
+
+class TestCastOffAndBindOn(BaseTest):
+    """Cast On and Bind off have no size but must be layouted differently."""
+    FILE = "cast_on_and_bind_off.json"
+    SIZES = [(1, 1)] * 12
+    COORDINATES = [(x, y) for y in range(3) for x in range(4)]
+    ROW_IDS = [1, 2, 3]
+    LARGER_CONNECTIONS = []
+    BOUNDING_BOX = (0, 0, 4, 3)
+
+    @fixture
+    def cast_on(self, co_row):
+        return co_row.instructions[0]
+
+    @fixture
+    def co_row(self, pattern):
+        return pattern.rows[1]
+
+    @fixture
+    def co_row_in_grid(self, grid, co_row):
+        return grid.row_in_grid(co_row)
+
+    def test_cast_on_has_layout_specific_width(self, cast_on):
+        """Test that cast On has a custom width."""
+        assert cast_on["grid-layout"]["width"] == 1
+
+    def test_first_row_has_width_4(self, co_row_in_grid):
+        """Test that the Cast On row has a width."""
+        assert co_row_in_grid.width == 4
 
 
 # TODO
