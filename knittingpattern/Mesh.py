@@ -227,8 +227,8 @@ class Mesh(metaclass=ABCMeta):
         This is useful for :func:`print` and class:`str`
         """
         if self._is_consumed():
-            instruction, _ = self._consumed_instruction_and_index
-            row, row_index = self._consumed_row_and_index
+            instruction, _ = self._consuming_instruction_and_index()
+            row, row_index = self._consuming_row_and_index()
             consume_string = " for {} in {}[{}]".format(
                     instruction,
                     row,
@@ -237,8 +237,8 @@ class Mesh(metaclass=ABCMeta):
         else:
             consume_string = ""
         if self._is_produced():
-            instruction, _ = self._produced_instruction_and_index
-            row, row_index = self._produced_row_and_index
+            instruction, _ = self._producing_instruction_and_index()
+            row, row_index = self._producing_row_and_index()
             produce_string = " by {} in {}[{}]".format(
                     instruction,
                     row,

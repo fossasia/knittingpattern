@@ -196,3 +196,8 @@ def test_repr(instruction0):
     assert string.startswith("<" + instruction0.__class__.__name__)
     assert str(instruction0.index_in_row) in string
     assert repr(instruction0.row) in string
+
+
+def test_instruction_consumes_no_mesh_but_has_mesh_index(yo):
+    assert yo.index_of_first_consumed_mesh_in_row == 2
+    assert yo.index_of_last_consumed_mesh_in_row == 1

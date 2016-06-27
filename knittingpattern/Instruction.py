@@ -6,6 +6,8 @@ In this module you can find the functinality of these instructions.
 
 """
 from .Prototype import Prototype
+from .Mesh import ProducedMesh, ConsumedMesh
+
 
 # pattern specification
 
@@ -130,15 +132,12 @@ class Instruction(Prototype):
 
 class InstructionInRow(Instruction):
     """Instructions can be placed in rows.
-    Then they have addisional attributes and properties.
+
+    Then, they have additional attributes and properties.
     """
 
-    #: The meshes consumed and produced by the instruction
-    from .Mesh import ProducedMesh, ConsumedMesh
-
     def __init__(self, row, spec):
-        """
-        Create a new instruction in a :paramref:`row` with a :paramref:`spec`.
+        """Create a new instruction in a row with a specification.
 
         :param knittingpattern.Row.Row row: the row the instruction is placed
           in
@@ -147,21 +146,34 @@ class InstructionInRow(Instruction):
         super().__init__(spec)
         self._row = row
         self._produced_meshes = [
-                self.ProducedMesh(self, index)
+                self._new_produced_mesh(self, index)
                 for index in range(self.number_of_produced_meshes)
             ]
         self._cached_index_in_row = None
 
     @property
+    def _new_produced_mesh(self):
+        """:return: the class of the produced meshes."""
+        return ProducedMesh
+
+    @property
+    def _new_consumed_mesh(self):
+        """:return: the class of the consumed meshes."""
+        return ConsumedMesh
+
+    @property
     def row(self):
-        """:return: the row the instruction is placed in
+        """The row this instruction is in.
+
+        :return: the row the instruction is placed in
         :rtype: knittingpattern.Row.Row
         """
         return self._row
 
     @property
     def index_in_row(self):
-        """
+        """Index of the instruction in the instructions of the row.
+
         :return: index in the :attr:`row`'s instructions
         :rtype: int
         :raises knittingpattern.Instruction.InstructionNotFoundInRow:
@@ -172,7 +184,7 @@ class InstructionInRow(Instruction):
             index = instruction.index_in_row
             assert instruction.row.instructions[index] == instruction
 
-        .. seealso:: :meth:`row_instructions`
+        .. seealso:: :attr:`row_instructions`
         """
         expected_index = self._cached_index_in_row
         instructions = self.row_instructions
@@ -188,24 +200,25 @@ class InstructionInRow(Instruction):
 
     @property
     def row_instructions(self):
-        """shortcut for ``instruction.row.instructions``
+        """Shortcut for ``instruction.row.instructions``.
 
         :return: the instructions of the :attr:`row` the instruction is in
 
-        .. seealso:: :meth:`index_in_row`
+        .. seealso:: :attr:`index_in_row`
         """
         return self.row.instructions
 
     @property
     def next_instruction_in_row(self):
-        """
+        """The instruction after this one or None.
+
         :return: the instruction in :attr:`row_instructions` after this or
           :obj:`None` if this is the last
         :rtype: knittingpattern.Instruction.InstructionInRow
 
         This can be used to traverse the instructions.
 
-        .. seealso:: :meth:`previous_instruction_in_row`
+        .. seealso:: :attr:`previous_instruction_in_row`
         """
         index = self.index_in_row + 1
         if index >= len(self.row_instructions):
@@ -214,14 +227,15 @@ class InstructionInRow(Instruction):
 
     @property
     def previous_instruction_in_row(self):
-        """
+        """The instruction before this one or None.
+
         :return: the instruction in :attr:`row_instructions` before this or
           :obj:`None` if this is the first
         :rtype: knittingpattern.Instruction.InstructionInRow
 
         This can be used to traverse the instructions.
 
-        .. seealso:: :meth:`next_instruction_in_row`
+        .. seealso:: :attr:`next_instruction_in_row`
         """
         index = self.index_in_row - 1
         if index < 0:
@@ -230,7 +244,9 @@ class InstructionInRow(Instruction):
 
     @property
     def _instruction_not_found_message(self):
-        """:return: an error message
+        """The message for the error.
+
+        :return: an error message
         :rtype: str
 
         .. warning: private, do not use
@@ -240,7 +256,8 @@ class InstructionInRow(Instruction):
                )
 
     def _raise_not_found_error(self):
-        """
+        """Raise an error that this instruction is in its row no longer.
+
         :raises knittingpattern.Instruction.InstructionNotFoundInRow:
           the instruction was not found
 
@@ -250,19 +267,21 @@ class InstructionInRow(Instruction):
 
     @property
     def index_of_first_produced_mesh_in_row(self):
-        """
+        """Index of the first produced mesh in the row that consumes it.
+
         :return: an index of the first produced mesh of rows produced meshes
         :rtype: int
 
-        .. note::
-          If you really need to use this, check if the instruction
-          produces meshes before with
-          :meth:`produces_meshes() <Instruction.produces_meshes>`
+        .. note:: If the instruction :meth:`produces meshes
+          <Instruction.produces_meshes>`, this is the index of the first
+          mesh the instruction produces in all the meshes of the row.
+          If the instruction does not produce meshes, the index of the mesh is
+          returned as if the instruction had produced a mesh.
 
         .. code::
 
             if instruction.produces_meshes():
-                index = instruction.index_of_fi...duced_meshes
+                index = instruction.index_of_first_produced_mesh_in_row
 
         """
         index = 0
@@ -276,20 +295,27 @@ class InstructionInRow(Instruction):
 
     @property
     def index_of_last_produced_mesh_in_row(self):
-        """
-        Same as :meth:`index_of_first_produced_mesh_in_row`
-        but for the last mesh procduced.
+        """Index of the last mesh produced by this instruction in its row.
+
+        :return: an index of the last produced mesh of rows produced meshes
+        :rtype: int
+
+        .. note:: If this instruction :meth:`produces meshes
+          <Instruction.produces_meshes>`, this is the index of
+          its last produces mesh in the row. However, if this instruction does
+          not produce meshes, this is the index **before** the first mesh of
+          the instruction if it produced meshes.
+
+        .. seealso:: :attr:`index_of_first_produced_mesh_in_row`
         """
         index = self.index_of_first_produced_mesh_in_row
-        if self.produces_meshes():
-            return index + self.number_of_produced_meshes - 1
-        else:
-            return index
+        return index + self.number_of_produced_meshes - 1
 
     @property
     def index_of_first_consumed_mesh_in_row(self):
-        """
-        Same as :meth:`index_of_first_produced_mesh_in_row`
+        """The index of the first consumed mesh of this instruction in its row.
+
+        Same as :attr:`index_of_first_produced_mesh_in_row`
         but for consumed meshes.
         """
         index = 0
@@ -303,14 +329,13 @@ class InstructionInRow(Instruction):
 
     @property
     def index_of_last_consumed_mesh_in_row(self):
-        """
-        Same as :meth:`index_of_first_consumed_mesh_in_row`
+        """The index of the last consumed mesh of this instruction in its row.
+
+        Same as :attr:`index_of_last_produced_mesh_in_row`
         but for the last consumed mesh.
         """
         index = self.index_of_first_consumed_mesh_in_row
-        if self.consumes_meshes():
-            return index + self.number_of_consumed_meshes - 1
-        return index
+        return index + self.number_of_consumed_meshes - 1
 
     @property
     def produced_meshes(self):
@@ -325,7 +350,7 @@ class InstructionInRow(Instruction):
             assert len(inst.produced_meshes) == inst.number_of_produced_meshes
             assert all(mesh.is_produced() for mesh in inst.produced_meshes)
 
-        .. seealso:: :meth:`consumed_meshes`, :meth:`consuming_instructions`
+        .. seealso:: :attr:`consumed_meshes`, :attr:`consuming_instructions`
         """
         return self._produced_meshes
 
@@ -342,7 +367,7 @@ class InstructionInRow(Instruction):
             assert len(inst.consumed_meshes) == inst.number_of_consumed_meshes
             assert all(mesh.is_consumed() for mesh in inst.consumed_meshes)
 
-        .. seealso:: :meth:`produced_meshes`, :meth:`producing_instructions`
+        .. seealso:: :attr:`produced_meshes`, :attr:`producing_instructions`
         """
         return [
                 self._consumed_meshes_at(index)
@@ -364,12 +389,12 @@ class InstructionInRow(Instruction):
                 index_in_consuming_row
             )
         if origin is None:
-            return self.ConsumedMesh(self, mesh_index)
+            return self._new_consumed_mesh(self, mesh_index)
         producing_row, mesh_index_in_producing_row = origin
         return producing_row.produced_meshes[mesh_index_in_producing_row]
 
     def __repr__(self):
-        """ ``repr(instruction)`` used for :func:`print`
+        """:obj:`repr(instruction) <repr>` used for :func:`print`.
 
         :return: the string representation of this object
         :rtype: str
@@ -384,24 +409,26 @@ class InstructionInRow(Instruction):
 
     @property
     def producing_instructions(self):
-        """Shortcut for all the instructions that produce the meshes that
-        this instruction consumes.
+        """Instructions that produce the meshes that this instruction consumes.
 
         :return: a list of :class:`instructions
           <knittingpattern.Instruction.InstructionInRow>`
         :rtype: list
 
-        .. seealso:: :meth:`consuming_instructions`, :meth:`consumed_meshes`
+        .. seealso:: :attr:`consuming_instructions`, :attr:`consumed_meshes`
         """
         return [(mesh.producing_instruction if mesh.is_produced() else None)
                 for mesh in self.consumed_meshes]
 
     @property
     def consuming_instructions(self):
-        """
-        Same as :attr:`consuming_instructions` but for consuming instructions
+        """Instructions that consume the meshes that this instruction produces.
 
-        .. seealso:: :meth:`producing_instructions`, :meth:`produced_meshes`
+        :return: a list of :class:`instructions
+          <knittingpattern.Instruction.InstructionInRow>`
+        :rtype: list
+
+        .. seealso:: :attr:`producing_instructions`, :attr:`produced_meshes`
         """
         return [(mesh.consuming_instruction if mesh.is_consumed() else None)
                 for mesh in self.produced_meshes]
