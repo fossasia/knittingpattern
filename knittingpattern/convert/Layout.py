@@ -331,8 +331,9 @@ class GridLayout(object):
 
     @property
     def bounding_box(self):
-        """
-        :return: ``(min_x, min_y, max_x + 1, max_y + 1)`` the bounding box
+        """The minimum and maximum bounds of this layout.
+        
+        :return: ``(min_x, min_y, max_x, max_y)`` the bounding box
           of this layout
         :rtype: tuple
         """
