@@ -97,8 +97,8 @@ class KnittingPatternSet(object):
             for x, y, instruction in layout.walk_instructions(
                     lambda i: (i.x*zoom, i.y*zoom, i.instruction)):
                 layer_id = "row-{}".format(instruction.row.id)
-                svg = instruction_to_SVG.instruction_to_svg_dict(instruction)
-                bbox = list(map(float, svg["svg"]["@viewBox"].split()))
+                symbol_id, symbol = instruction_to_SVG.instruction_to_svg_symbol(instruction)
+                bbox = list(map(float, symbol["symbol"]["@viewBox"].split()))
                 scale = zoom / (bbox[3] - bbox[1])
                 group = {
                         "@class": "instruction",
@@ -106,7 +106,7 @@ class KnittingPatternSet(object):
                         "@transform": "translate({},{}),scale({})".format(
                             x, y, scale)
                     }
-                builder.place_svg_dict(x, y, svg, layer_id, group)
+                builder.place_svg_use(x, y, symbol_id, layer_id, group)
             builder.write_to_file(file)
         return ContentDumper(on_dump)
 

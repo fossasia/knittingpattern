@@ -99,6 +99,26 @@ class SVGBuilder(object):
         group_.update(group)
         layer = self._get_layer(layer_id)
         layer["g"].append(group_)
+        
+    def place_svg_use(self, x, y, symbol_id, layer_id, group=None):
+        """Similar to :meth:`place` but with an id as :paramref:`symbol_id`
+
+        :param str symbol_id: an id which identifies an svg object defined in 
+          the defs
+        :param dict group: a dictionary of values to add to the group the
+          the use statement will be added to or :obj:`None` if nothing
+          should be added"""
+        if group is None:
+            group = {}
+        use = {
+                "@x" : x,
+                "@y" : y,
+                "@xlink:href" : "#{}".format(symbol_id)
+            }
+        group_ = {"use" : use}
+        group_.update(group)
+        layer = self._get_layer(layer_id)
+        layer["g"].append(group_)
 
     def _get_layer(self, layer_id):
         """
@@ -118,6 +138,17 @@ class SVGBuilder(object):
             self._layer_id_to_layer[layer_id] = layer
             self._svg["g"].append(layer)
         return self._layer_id_to_layer[layer_id]
+        
+    def insert_defs(self, defs):
+        """Adds the defs to the SVG structure.
+        
+        :param defs: a list of SVG dictionaries, which contain the defs,
+          which should be added to the SVG structure."""
+        self._svg["defs"].extend(defs)
+            
+    def get_svg_dict(self):
+        """Returns the SVG structure generated."""
+        return self._structure
 
     def write_to_file(self, file):
         """Writes the current SVG to the :paramref:`file`
