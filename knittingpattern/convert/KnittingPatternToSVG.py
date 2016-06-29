@@ -1,4 +1,5 @@
 """This module provides functionality to convert knitting patterns to SVG."""
+
 from collections import OrderedDict
 
 #: Inside the svg, the instructions are put into definitions.
@@ -19,7 +20,7 @@ RENDER_Z = "z"
 
 def get_z(instruction):
     """The z-index of the pattern.
-    
+
     :param knittingpattern.Instruction.Instruction instruction:
       the instruction to compute the z-index from
     :return: the z-index of the instruction. Instructions with a higher z-index
@@ -30,7 +31,11 @@ def get_z(instruction):
 
 
 class KnittingPatternToSVG(object):
-    """Converts a KnittingPattern to SVG."""
+    """Converts a KnittingPattern to SVG.
+
+    This is inspired by the method object pattern, since building an SVG
+    requires several steps.
+    """
 
     def __init__(self, knittingpattern, layout, instruction_to_svg, builder,
                  zoom):
@@ -54,7 +59,7 @@ class KnittingPatternToSVG(object):
 
     def build_SVG_dict(self):
         """Go through the layout and build the SVG.
-        
+
         :return: an xml dict that can be exported using a
           :class:`~knittingpattern.Dumper.XMLDumper`
         :rtype: dict
@@ -84,9 +89,9 @@ class KnittingPatternToSVG(object):
 
     def _register_instruction_in_defs(self, instruction):
         """Create a definition for the instruction.
-        
+
         :return: the id of a symbol in the defs for the specified
-        :paramref:`instruction`
+          :paramref:`instruction`
         :rtype: str
 
         If no symbol yet exists in the defs for the :paramref:`instruction` a
@@ -109,7 +114,7 @@ class KnittingPatternToSVG(object):
 
     def _make_definition(self, svg_dict, instruction_id):
         """Create a symbol out of the supplied :paramref:`svg_dict`.
-        
+
         :param dict svg_dict: dictionary containing the SVG for the
           instruction currently processed
         :param str instruction_id: id that will be assigned to the symbol
@@ -132,7 +137,7 @@ class KnittingPatternToSVG(object):
         Compute the scale using the bounding box stored in the
         :paramref:`svg_dict`. The scale is saved in a dictionary using
         :paramref:`instruction_id` as key.
-        
+
         :param str instruction_id: id identifying a symbol in the defs
         :param dict svg_dict: dictionary containing the SVG for the
           instruction currently processed
