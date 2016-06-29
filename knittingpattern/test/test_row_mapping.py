@@ -46,7 +46,7 @@ def r41(a1):
 def assert_rows_map(row1, index1, row2, index2):
     produced_mesh = row1.produced_meshes[index1]
     consumed_mesh = row2.consumed_meshes[index2]
-    assert produced_mesh == consumed_mesh
+    assert produced_mesh.is_connected_to(consumed_mesh)
 
 
 def assert_is_not_connected(row, index):
@@ -68,17 +68,6 @@ class TestRow11:
     def test_number_of_meshes(self, r11):
         assert r11.number_of_produced_meshes == 5
         assert r11.number_of_consumed_meshes == 4
-
-
-class TestMappingErrors:
-
-    def test_lower_indices_create_error(self, r11):
-        with raises(IndexError):
-            r11._get_consuming_row_and_index(-1)
-
-    def test_higher_indices_create_error(self, r11):
-        with raises(IndexError):
-            r11._get_consuming_row_and_index(5)
 
 
 class TestRow21:

@@ -437,9 +437,7 @@ class ProducedMesh(Mesh):
 
     def _is_connected_to(self, other_mesh):
         return other_mesh is not None and other_mesh == self._consumed_part
-        
-    def __eq__(self, other):
-        return other is self or self._is_connected_to(other)
+
         
 class ConsumedMesh(Mesh):
     """A mesh that is only consumed by an instruction"""

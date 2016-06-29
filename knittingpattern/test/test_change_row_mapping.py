@@ -174,14 +174,13 @@ class TestLine(object):
                 mesh.as_produced_mesh()
             
     def test_equality(self, connections):
-        for consumed_mesh, produced_mesh in connections:
+        for produced_mesh, consumed_mesh in connections:
             assert consumed_mesh.as_produced_mesh() == produced_mesh
             assert produced_mesh.as_consumed_mesh() == consumed_mesh
     
     def test_is_connected_to(self, two_way_connections):
         for m1, m2 in two_way_connections:
             assert m1.is_connected_to(m2)
-            assert m1 == m2
     
     def test_disconnected_from(self, connections, meshes):
         """Test all the meshes that are disconnected from eachother."""
@@ -190,8 +189,8 @@ class TestLine(object):
             for m2 in meshes:
                 if m1 is m2:
                     continue
-                assert (m1 != m2) != m1.is_connected_to(m2)
-                assert (not m1 == m2) != m1.is_connected_to(m2)
+                assert m1 != m2
+                assert not m1 == m2
                 if (m1, m2) not in connections and (m2, m1) not in connections:
                     assert not m1.is_connected_to(m2)
                     if m1.is_connected() and m1 != m2:

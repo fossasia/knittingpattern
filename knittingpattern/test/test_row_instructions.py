@@ -86,7 +86,7 @@ def test_instruction_position_in_row(row0, instruction0):
 
 def test_mesh0_is_consumed_by_instruction1(mesh0, instruction1):
     assert mesh0.consuming_instruction == instruction1
-    assert instruction1.consumed_meshes == [mesh0]
+    assert instruction1.consumed_meshes[0].as_produced_mesh() == mesh0
 
 
 def test_instruction1_is_knit(instruction1):
