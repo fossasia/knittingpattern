@@ -206,7 +206,7 @@ class TestLine(object):
         for consumed_mesh in consumed_meshes:
             assert consumed_mesh.as_consumed_mesh() == consumed_mesh
 
-def _test_remove_a_connection(row1, row2, mesh11p, mesh21c, disconnect):
+def test_remove_a_connection(row1, row2, mesh11p, mesh21c, disconnect):
     disconnect_meshes(mesh11p, mesh21c, disconnect)
     assert mesh11p.is_produced()
     assert not mesh11p.is_consumed()
@@ -223,7 +223,7 @@ def _test_remove_a_connection(row1, row2, mesh11p, mesh21c, disconnect):
         mesh21c.as_produced_mesh()
 
 
-def _test_replace_a_connection(disconnect, connect, mesh21p, mesh31c, mesh12p,
+def test_replace_a_connection(disconnect, connect, mesh21p, mesh31c, mesh12p,
                               row1, row3):
     """Remove a connection and create one with a common mesh.
     
@@ -240,32 +240,37 @@ def _test_replace_a_connection(disconnect, connect, mesh21p, mesh31c, mesh12p,
     assert mesh31c.producing_row == row1
     assert mesh12p.consuming_row == row3
     
-    assert mesh31c.as_producing_mesh() == mesh12p
-    assert mesh12p.as_consuming_mesh() == mesh31c
+    assert mesh31c.as_produced_mesh() == mesh12p
+    assert mesh12p.as_consumed_mesh() == mesh31c
     
 
-def _test_connect_to_a_connected_location(mesh12p, mesh31c, connect):
-    with raises(ValueError):
-        connect_meshes(mesh12p, mesh31c, connect)
+def test_connect_to_a_connected_location(mesh12p, mesh31c, mesh21p, connect):
+    connect_meshes(mesh12p, mesh31c, connect)
+    assert mesh12p.is_connected_to(mesh31c)
+    assert not mesh12p.is_connected_to(mesh21p)
+    assert not mesh31c.is_connected_to(mesh21p)
+    assert not mesh21p.is_connected()
 
 
-def _test_connect_to_a_connected_location_with_connected_mesh(mesh11p, mesh31c,
-                                                             connect):
-    with raises(ValueError):
-        connect_meshes(mesh11p, mesh31c, connect)
+def test_connect_to_a_connected_location_with_connected_mesh(
+        mesh11p, mesh31c, mesh21c, mesh21p, connect):
+    connect_meshes(mesh11p, mesh31c, connect)
+    assert mesh11p.is_connected_to(mesh31c)
+    assert not mesh21c.is_connected()
+    assert not mesh21p.is_connected()
 
 
-def _connect_consumed_meshes(mesh11c, mesh31c, connect):
+def connect_consumed_meshes(mesh11c, mesh31c, connect):
     with raises(TypeError):
         connect_meshes(mesh11c, mesh31c, connect)
 
 
-def _connect_produced_meshes(mesh11p, mesh31p, connect):
+def connect_produced_meshes(mesh11p, mesh31p, connect):
     with raises(TypeError):
         connect_meshes(mesh11p, mesh31p, connect)
 
 
-def _test_can_connect(connected_meshes, consumed_meshes, produced_meshes):
+def test_can_connect(connected_meshes, consumed_meshes, produced_meshes):
     for consumed_mesh in consumed_meshes:
         for produced_mesh in produced_meshes:
             can_connect = consumed_mesh not in connected_meshes and \
@@ -273,7 +278,7 @@ def _test_can_connect(connected_meshes, consumed_meshes, produced_meshes):
             assert produced_mesh.can_connect_to(consumed_mesh) == can_connect
 
 
-def _test_create_new_connection(mesh31p, mesh12c, connect, row1, row3):
+def test_create_new_connection(mesh31p, mesh12c, connect, row1, row3):
     connect_meshes(mesh31p, mesh12c, connect)
     
     assert mesh31p.is_connected()
@@ -282,10 +287,10 @@ def _test_create_new_connection(mesh31p, mesh12c, connect, row1, row3):
     assert mesh12c.producing_row == row3
     assert mesh31p.consuming_row == row1
     
-    assert mesh12c.as_producing_mesh() == mesh31p
-    assert mesh31p.as_consuming_mesh() == mesh12c
+    assert mesh12c.as_produced_mesh() == mesh31p
+    assert mesh31p.as_consumed_mesh() == mesh12c
 
 
-def _test_disconnect_disconnected(mesh12c):
-    with raises(AssertionError):
-        mesh12c.disconnect()
+def test_disconnect_disconnected(mesh12c):
+    mesh12c.disconnect()
+    assert not mesh12c.is_connected()

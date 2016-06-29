@@ -297,8 +297,8 @@ class Mesh(metaclass=ABCMeta):
         
         After disconnecting this mesh, it can be connected anew.
         """
-        self._assert_is_produced()
-        self._disconnect()
+        if self.is_connected():
+            self._disconnect()
         
     
     def connect_to(self, other_mesh):
@@ -311,7 +311,8 @@ class Mesh(metaclass=ABCMeta):
         .. seealso:: :meth:`is_consumed`, :meth:`is_produced`,
           :meth:`can_connect_to`
         """
-        assert other_mesh.is_mesh()
+        other_mesh.disconnect()
+        self.disconnect()
         self._connect_to(other_mesh)
 
     def is_connected(self):
@@ -347,7 +348,7 @@ class Mesh(metaclass=ABCMeta):
         return self._as_consumed_mesh()
 
     def is_mesh(self):
-        """Return whether this object is a mesh.
+        """Whether this object is a mesh.
         
         :return: :obj:`True`
         :rtype: bool
@@ -355,8 +356,17 @@ class Mesh(metaclass=ABCMeta):
         return True
     
     def is_connected_to(self, other_mesh):
-        """Returns whether the one mesh is conencted to the other."""
+        """Whether the one mesh is conencted to the other."""
+        assert other_mesh.is_mesh()
         return self._is_connected_to(other_mesh)
+
+    def can_connect_to(self, other):
+        """Whether a connection can be established between those two meshes."""
+        assert other.is_mesh()
+        disconnected = not other.is_connected() and not self.is_connected()
+        types_differ = self._is_consumed_mesh() != other._is_consumed_mesh()
+        return disconnected and types_differ
+        
 
 class ProducedMesh(Mesh):
     """A :class:`~knittingpattern.Mesh.Mesh` that has a producing instruction
