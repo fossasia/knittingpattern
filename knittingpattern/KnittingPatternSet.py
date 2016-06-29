@@ -3,10 +3,11 @@
 """
 
 from .convert.AYABPNGDumper import AYABPNGDumper
-from .Dumper import ContentDumper
+from .Dumper import XMLDumper
 from .convert.InstructionToSVG import default_instructions_to_SVG
 from .convert.Layout import GridLayout
 from .convert.SVGBuilder import SVGBuilder
+from .convert.KnittingPatternToSVG import KnittingPatternToSVG
 
 
 class KnittingPatternSet(object):
@@ -87,28 +88,16 @@ class KnittingPatternSet(object):
             >>> knitting_pattern_set.to_svg().temporary_path()
             "/the/path/to/the/file.svg"
         """
-        def on_dump(file):
+        def on_dump():
             """dumps the knitting pattern to the file"""
             knitting_pattern = self.patterns.at(0)
             layout = GridLayout(knitting_pattern)
             instruction_to_SVG = default_instructions_to_SVG()
             builder = SVGBuilder()
-            builder.bounding_box = map(lambda f: f*zoom, layout.bounding_box)
-            for x, y, instruction in layout.walk_instructions(
-                    lambda i: (i.x*zoom, i.y*zoom, i.instruction)):
-                layer_id = "row-{}".format(instruction.row.id)
-                symbol_id, symbol = instruction_to_SVG.instruction_to_svg_symbol(instruction)
-                bbox = list(map(float, symbol["symbol"]["@viewBox"].split()))
-                scale = zoom / (bbox[3] - bbox[1])
-                group = {
-                        "@class": "instruction",
-                        "@id": "instruction-{}".format(instruction.id),
-                        "@transform": "translate({},{}),scale({})".format(
-                            x, y, scale)
-                    }
-                builder.place_svg_use(x, y, symbol_id, layer_id, group)
-            builder.write_to_file(file)
-        return ContentDumper(on_dump)
+            kp_to_svg = KnittingPatternToSVG(knitting_pattern, layout, 
+                instruction_to_SVG, builder, zoom)
+            return kp_to_svg.build_SVG_dict()
+        return XMLDumper(on_dump)
 
 
 __all__ = ["KnittingPatternSet"]

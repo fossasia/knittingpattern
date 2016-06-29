@@ -96,7 +96,7 @@ def test_instructions_have_id(instruction):
 
 @instructions_test
 def test_instructions_content_is_knit_svg_file(instruction):
-    assert instruction.g.title == "knit"
+    assert instruction.use["xlink:href"].startswith("#knit")
 
 
 @instructions_test

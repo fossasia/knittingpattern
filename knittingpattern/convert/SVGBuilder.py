@@ -14,7 +14,8 @@ SVG_FILE = """
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" >
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" 
+   xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>knittingpattern</title>
     <defs></defs>
 </svg>
@@ -100,7 +101,7 @@ class SVGBuilder(object):
         layer = self._get_layer(layer_id)
         layer["g"].append(group_)
         
-    def place_svg_use(self, x, y, symbol_id, layer_id, group=None):
+    def place_svg_use_coords(self, x, y, symbol_id, layer_id, group=None):
         """Similar to :meth:`place` but with an id as :paramref:`symbol_id`
 
         :param str symbol_id: an id which identifies an svg object defined in 
@@ -119,6 +120,9 @@ class SVGBuilder(object):
         group_.update(group)
         layer = self._get_layer(layer_id)
         layer["g"].append(group_)
+        
+    def place_svg_use(self, symbol_id, layer_id, group=None):
+        self.place_svg_use_coords(0, 0, symbol_id, layer_id, group)
 
     def _get_layer(self, layer_id):
         """
@@ -144,7 +148,17 @@ class SVGBuilder(object):
         
         :param defs: a list of SVG dictionaries, which contain the defs,
           which should be added to the SVG structure."""
-        self._svg["defs"].extend(defs)
+        if self._svg["defs"] is None:
+            print("\n\ntrue\n\n")
+            self._svg["defs"] = {}
+        print(self._svg["defs"])
+        for def_ in defs:
+            for key,value in def_.items():
+                if key not in self._svg["defs"]:
+                    self._svg["defs"][key] = []
+                if not isinstance(value, list):
+                    value = [value]
+                self._svg["defs"][key].extend(value)
             
     def get_svg_dict(self):
         """Returns the SVG structure generated."""
