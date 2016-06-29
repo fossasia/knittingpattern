@@ -1,6 +1,6 @@
 """This module maps instructions to SVG.
 
-Use :func:`default_instructions_to_SVG` to load the svg files provided by
+Use :func:`default_instructions_to_svg` to load the svg files provided by
 this package.
 """
 import os
@@ -170,15 +170,15 @@ class InstructionToSVG(object):
         return colored_svg
 
 
-def default_instructions_to_SVG():
+def default_instructions_to_svg():
     """load the default set of svg files for instructions
 
     :return: the default svg files for the instructions in this package
     :rtype: knittingpattern.InstructionToSVG.InstructionToSVG
 
     """
-    instruction_to_SVG = InstructionToSVG()
-    instruction_to_SVG.load.relative_folder(__name__, "SVG-Instructions")
-    return instruction_to_SVG
+    instruction_to_svg = InstructionToSVG()
+    instruction_to_svg.load.relative_folder(__name__, "SVG-Instructions")
+    return instruction_to_svg
 
-__all__ = ["InstructionToSVG", "default_instructions_to_SVG"]
+__all__ = ["InstructionToSVG", "default_instructions_to_svg"]

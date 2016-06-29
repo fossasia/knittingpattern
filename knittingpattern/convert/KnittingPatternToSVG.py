@@ -1,3 +1,7 @@
+"""Contains a method-object definition for converting a knitting pattern to 
+SVG.
+"""
+
 from collections import OrderedDict
 
 
@@ -28,7 +32,7 @@ class KnittingPatternToSVG(object):
         """
         self._knittingpattern = knittingpattern
         self._layout = layout
-        self._instruction_to_SVG = instruction_to_SVG
+        self._instruction_to_svg = instruction_to_svg
         self._builder = builder
         self._zoom = zoom
         self._instruction_type_color_to_symbol = OrderedDict()
@@ -69,11 +73,11 @@ class KnittingPatternToSVG(object):
         """
         type_ = instruction.type
         color_ = instruction.color
-        to_SVG = self._instruction_to_SVG
+        to_svg = self._instruction_to_svg
         instruction_id = "{}:{}".format(type_, color_)
         defs_id = instruction_id + ":defs"
         if instruction_id not in self._instruction_type_color_to_symbol:
-            svg_dict = to_SVG.instruction_to_svg_dict(instruction)
+            svg_dict = to_svg.instruction_to_svg_dict(instruction)
             self._compute_scale(instruction_id, svg_dict)
             symbol = self._make_symbol(svg_dict, instruction_id)
             self._instruction_type_color_to_symbol[defs_id] = \

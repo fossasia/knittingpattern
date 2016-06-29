@@ -4,7 +4,7 @@
 
 from .convert.AYABPNGDumper import AYABPNGDumper
 from .Dumper import XMLDumper
-from .convert.InstructionToSVG import default_instructions_to_SVG
+from .convert.InstructionToSVG import default_instructions_to_svg
 from .convert.Layout import GridLayout
 from .convert.SVGBuilder import SVGBuilder
 from .convert.KnittingPatternToSVG import KnittingPatternToSVG
@@ -12,11 +12,11 @@ from .convert.KnittingPatternToSVG import KnittingPatternToSVG
 
 class KnittingPatternSet(object):
     """This is the class for a set of :class:`knitting patterns
-    <knittingpattern.KnittingPattern.KnittingPattern>`.
+      <knittingpattern.KnittingPattern.KnittingPattern>`.
     """
 
     def __init__(self, type_, version, patterns, comment=None):
-        """create a new knitting pattern set
+        """create a new knitting pattern set.
 
         :param str type: the type of the knitting pattern set, see the
           :ref:`specification <FileFormatSpecification>`.
@@ -35,19 +35,21 @@ class KnittingPatternSet(object):
 
     @property
     def version(self):
-        """:return: the version of the knitting pattern, see :meth:`__init__`
+        """:return: the version of the knitting pattern, see :meth:`__init__`.
         """
         return self._version
 
     @property
     def type(self):
-        """:return: the type of the knitting pattern, see :meth:`__init__`
+        """
+        :return: the type of the knitting pattern, see :meth:`__init__`.
         """
         return self._type
 
     @property
     def patterns(self):
-        """:return: the patterns of the knitting pattern, see :meth:`__init__`
+        """:return: the patterns of the knitting pattern, see :meth:`__init__`.
+        
         :rtype: knittingpattern.IdCollection.IdCollection
         """
         return self._patterns
@@ -56,13 +58,14 @@ class KnittingPatternSet(object):
     def comment(self):
         """
         :return: the comment for the knitting pattern set or None,
-          see :meth:`__init__`
+          see :meth:`__init__`.
         """
         return self._comment
 
     def to_ayabpng(self):
         """:return: a dumper to save this pattern set as png for the AYAB
-          software
+          software.
+
         :rtype: knittingpattern.convert.AYABPNGDumper.AYABPNGDumper
 
         Example:
@@ -89,13 +92,13 @@ class KnittingPatternSet(object):
             "/the/path/to/the/file.svg"
         """
         def on_dump():
-            """returns the SVG XML structure as dictionary"""
+            """return the SVG XML structure as dictionary."""
             knitting_pattern = self.patterns.at(0)
             layout = GridLayout(knitting_pattern)
-            instruction_to_SVG = default_instructions_to_SVG()
+            instruction_to_svg = default_instructions_to_svg()
             builder = SVGBuilder()
             kp_to_svg = KnittingPatternToSVG(knitting_pattern, layout,
-                                             instruction_to_SVG, builder, zoom)
+                                             instruction_to_svg, builder, zoom)
             return kp_to_svg.build_SVG_dict()
         return XMLDumper(on_dump)
 
