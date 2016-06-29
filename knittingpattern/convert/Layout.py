@@ -1,6 +1,5 @@
-"""Map ``(x, y)`` coordinates to instructions
+"""Map ``(x, y)`` coordinates to instructions."""
 
-"""
 from itertools import chain
 from collections import namedtuple
 
@@ -25,8 +24,7 @@ Point = namedtuple("Point", ["x", "y"])
 
 
 class InGrid(object):
-
-    """Base class for things in a grid"""
+    """Base class for things in a grid."""
 
     def __init__(self, position):
         """Create a new InGrid object."""
@@ -34,35 +32,40 @@ class InGrid(object):
 
     @property
     def x(self):
-        """:return: x coordinate in the grid
+        """
+        :return: x coordinate in the grid
         :rtype: float
         """
         return self._position.x
 
     @property
     def y(self):
-        """:return: y coordinate in the grid
+        """
+        :return: y coordinate in the grid
         :rtype: float
         """
         return self._position.y
 
     @property
     def xy(self):
-        """:return: ``(x, y)`` coordinate in the grid
+        """
+        :return: ``(x, y)`` coordinate in the grid
         :rtype: tuple
         """
         return self._position
 
     @property
     def yx(self):
-        """:return: ``(y, x)`` coordinate in the grid
+        """
+        :return: ``(y, x)`` coordinate in the grid
         :rtype: tuple
         """
         return self._position.y, self._position.x
 
     @property
     def width(self):
-        """:return: width of the object on the grid
+        """
+        :return: width of the object on the grid
         :rtype: float
         """
 
@@ -70,14 +73,16 @@ class InGrid(object):
 
     @property
     def height(self):
-        """:return: height of the object on the grid
+        """
+        :return: height of the object on the grid
         :rtype: float
         """
         return INSTRUCTION_HEIGHT
 
     @property
     def row(self):
-        """:return: row of the object on the grid
+        """
+        :return: row of the object on the grid
         :rtype: knittingpattern.Row.Row
         """
         return self._row
@@ -153,7 +158,7 @@ class RowInGrid(InGrid):
 
     @property
     def _width(self):
-        """:return: the number of consumed meshes"""
+        """:return: the number of consumed meshes."""
         return sum(map(lambda i: i.width, self.instructions))
 
     @property
@@ -188,7 +193,7 @@ class RowInGrid(InGrid):
 
 
 def identity(object_):
-    """:return: the argument"""
+    """:return: the argument."""
     return object_
 
 
@@ -209,7 +214,7 @@ class _RecursiveWalk(object):
         self._todo.append((row, consumed_position, passed))
 
     def _step(self, row, position, passed):
-        """Walk through the knitting pattern by expanding an row."""
+        """Walk through the knitting pattern by expanding a row."""
         if row in passed or not self._row_should_be_placed(row, position):
             return
         self._place_row(row, position)
@@ -222,7 +227,7 @@ class _RecursiveWalk(object):
             self._expand_consumed_mesh(consumed_mesh, i, position, passed)
 
     def _expand_consumed_mesh(self, mesh, mesh_index, row_position, passed):
-        """expand the consumed meshes"""
+        """expand the consumed meshes."""
         if not mesh.is_produced():
             return
         row = mesh.producing_row
@@ -233,7 +238,7 @@ class _RecursiveWalk(object):
         self._expand(row, position, passed)
 
     def _expand_produced_mesh(self, mesh, mesh_index, row_position, passed):
-        """expand the produced meshes"""
+        """expand the produced meshes."""
         if not mesh.is_consumed():
             return
         row = mesh.consuming_row
@@ -244,12 +249,12 @@ class _RecursiveWalk(object):
         self._expand(row, position, passed)
 
     def _row_should_be_placed(self, row, position):
-        """:return: whether to place this instruction"""
+        """:return: whether to place this instruction."""
         placed_row = self._rows_in_grid.get(row)
         return placed_row is None or placed_row.y < position.y
 
     def _place_row(self, row, position):
-        """place the instruction on a grid"""
+        """place the instruction on a grid."""
         self._rows_in_grid[row] = RowInGrid(row, position)
 
     def _walk(self):
@@ -259,19 +264,19 @@ class _RecursiveWalk(object):
             self._step(*args)
 
     def instruction_in_grid(self, instruction):
-        """Returns an `InstructionInGrid` object for the `instruction`"""
+        """Returns an `InstructionInGrid` object for the `instruction`."""
         row_position = self._rows_in_grid[instruction.row].xy
         x = instruction.index_of_first_consumed_mesh_in_row
         position = Point(row_position.x + x, row_position.y)
         return InstructionInGrid(instruction, position)
 
     def row_in_grid(self, row):
-        """Returns an `RowInGrid` object for the `row`"""
+        """Returns an `RowInGrid` object for the `row`."""
         return self._rows_in_grid[row]
 
 
 class Connection(object):
-    """a connection between two :class:`InstructionInGrid` objects"""
+    """a connection between two :class:`InstructionInGrid` objects."""
 
     def __init__(self, start, stop):
         """
@@ -283,20 +288,23 @@ class Connection(object):
 
     @property
     def start(self):
-        """:return: the start of the connection
+        """
+        :return: the start of the connection
         :rtype: InstructionInGrid
         """
         return self._start
 
     @property
     def stop(self):
-        """:return: the end of the connection
+        """
+        :return: the end of the connection
         :rtype: InstructionInGrid
         """
         return self._stop
 
     def is_visible(self):
-        """:return: is this connection is visible
+        """:return: is this connection is visible.
+        
         :rtype: bool
 
         A connection is visible if it is longer that 0."""
