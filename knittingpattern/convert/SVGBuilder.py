@@ -42,7 +42,7 @@ class SVGBuilder(object):
     @property
     def bounding_box(self):
         """the bounding box of this SVG
-        ``(min_x, min_y, max_x, max_y)``
+        ``(min_x, min_y, max_x, max_y)``.
 
         .. code:: python
 
@@ -83,7 +83,7 @@ class SVGBuilder(object):
         self.place_svg_dict(x, y, content, layer_id)
 
     def place_svg_dict(self, x, y, svg_dict, layer_id, group=None):
-        """Same as :meth:`place` but with a dictionary as :paramref:`svg_dict`
+        """Same as :meth:`place` but with a dictionary as :paramref:`svg_dict`.
 
         :param dict svg_dict: a dictionary returned by `xmltodict.parse()
           <https://github.com/martinblech/xmltodict>`__
@@ -102,29 +102,28 @@ class SVGBuilder(object):
         layer["g"].append(group_)
 
     def place_svg_use_coords(self, x, y, symbol_id, layer_id, group=None):
-        """Similar to :meth:`place` but with an id as :paramref:`symbol_id`
+        """Similar to :meth:`place` but with an id as :paramref:`symbol_id`.
 
         :param str symbol_id: an id which identifies an svg object defined in
           the defs
         :param dict group: a dictionary of values to add to the group the
           use statement will be added to or :obj:`None` if nothing
-          should be added"""
+          should be added
+        """
         if group is None:
             group = {}
-        use = {
-                "@x": x,
-                "@y": y,
-                "@xlink:href": "#{}".format(symbol_id)
-            }
+        use = {"@x": x, "@y": y, "@xlink:href": "#{}".format(symbol_id)}
         group_ = {"use": use}
         group_.update(group)
         layer = self._get_layer(layer_id)
         layer["g"].append(group_)
 
     def place_svg_use(self, symbol_id, layer_id, group=None):
-        """Same as :meth:`place_svg_use_coords` but with implicit `x`  and `y`
-        which are set to `0` in this method and then
-        :meth:`place_svg_use_coords` is called."""
+        """Same as :meth:`place_svg_use_coords`.
+        
+        With implicit `x`  and `y` which are set to `0` in this method and then
+        :meth:`place_svg_use_coords` is called.
+        """
         self.place_svg_use_coords(0, 0, symbol_id, layer_id, group)
 
     def _get_layer(self, layer_id):
@@ -150,7 +149,8 @@ class SVGBuilder(object):
         """Adds the defs to the SVG structure.
 
         :param defs: a list of SVG dictionaries, which contain the defs,
-          which should be added to the SVG structure."""
+          which should be added to the SVG structure.
+        """
         if self._svg["defs"] is None:
             print("\n\ntrue\n\n")
             self._svg["defs"] = {}
@@ -164,11 +164,11 @@ class SVGBuilder(object):
                 self._svg["defs"][key].extend(value)
 
     def get_svg_dict(self):
-        """Returns the SVG structure generated."""
+        """Return the SVG structure generated."""
         return self._structure
 
     def write_to_file(self, file):
-        """Writes the current SVG to the :paramref:`file`
+        """Writes the current SVG to the :paramref:`file`.
 
         :param file: a file-like object
         """

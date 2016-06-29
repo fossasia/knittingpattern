@@ -17,11 +17,11 @@ class InstructionToSVG(object):
     @property
     def _loader_class(self):
         """:return: the loader to load svgs from different locations
-        :rtype: knittingpattern.Loader.PathLoader"""
+        :rtype: knittingpattern.Loader.PathLoader ."""
         return PathLoader
 
     def __init__(self):
-        """create a InstructionToSVG object without arguments"""
+        """create a InstructionToSVG object without arguments."""
         self._instruction_type_to_file_content = {}
 
     @property
@@ -42,7 +42,7 @@ class InstructionToSVG(object):
         return self._loader_class(self._process_loaded_object)
 
     def _process_loaded_object(self, path):
-        """process the :paramref:`path`
+        """process the :paramref:`path`.
 
         :param str path: the path to load an svg from
         """
@@ -55,7 +55,7 @@ class InstructionToSVG(object):
     def instruction_to_svg_dict(self, instruction):
         """
         :return: an xml-dictionary with the same content as
-          :meth:`instruction_to_svg`
+          :meth:`instruction_to_svg`.
         """
         instruction_type = instruction.type
         if instruction_type in self._instruction_type_to_file_content:
@@ -64,7 +64,7 @@ class InstructionToSVG(object):
         return self.default_instruction_to_svg_dict(instruction)
 
     def instruction_to_svg(self, instruction):
-        """:return: an SVG representing the instruction
+        """:return: an SVG representing the instruction.
 
         The SVG file is determined by the type attribute of the instruction.
         An instruction of type ``"knit"`` is looked for in a file named

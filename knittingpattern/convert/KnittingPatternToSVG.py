@@ -46,9 +46,9 @@ class KnittingPatternToSVG(object):
 
     def _instruction_to_svg_symbol(self, instruction):
         """:return: the id of a symbol in the defs for the specified
-        :paramref:`instruction`
+        :paramref:`instruction`.
+        
         :rtype: str
-
         If no symbol yet exists in the defs for the :paramref:`instruction` a
         symbol is created and saved using :meth:`_make_symbol`.
         """
@@ -64,7 +64,8 @@ class KnittingPatternToSVG(object):
         return instruction_id
 
     def _make_symbol(self, svg_dict, instruction_id):
-        """Creates a symbol out of the supplied :paramref:`svg_dict`
+        """Create a symbol out of the supplied :paramref:`svg_dict`.
+
         :param dict svg_dict: dictionary containing the SVG for the
           instruction currently processed
         :param str instruction_id: id that will be assigned to the symbol"""
@@ -78,9 +79,11 @@ class KnittingPatternToSVG(object):
         return {"symbol": symbol}
 
     def _compute_scale(self, instruction_id, svg_dict):
-        """computes the scale using the bounding box stored in the
-        :paramref:`svg_dict`. The scale is saved in a dictionary using
-        :paramref:`instruction_id` as key.
+        """compute the scale using the bounding box stored in the
+        :paramref:`svg_dict`. 
+        
+        The scale is saved in a dictionary using :paramref:`instruction_id` as 
+        key.
         :param str instruction_id: id identifying a symbol in the defs
         :param dict svg_dict: dictionary containing the SVG for the
           instruction currently processed"""
