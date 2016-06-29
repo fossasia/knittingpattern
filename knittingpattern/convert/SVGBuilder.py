@@ -107,7 +107,7 @@ class SVGBuilder(object):
         :param str symbol_id: an id which identifies an svg object defined in
           the defs
         :param dict group: a dictionary of values to add to the group the
-          the use statement will be added to or :obj:`None` if nothing
+          use statement will be added to or :obj:`None` if nothing
           should be added"""
         if group is None:
             group = {}
@@ -122,8 +122,8 @@ class SVGBuilder(object):
         layer["g"].append(group_)
 
     def place_svg_use(self, symbol_id, layer_id, group=None):
-        """Same as :meth:`place_svg_use_coords` but with implicit `x` and `y`
-        which are set to `0` in this method and then
+        """Same as :meth:`place_svg_use_coords` but with implicit `x`  and `y`
+         which are set to `0` in this method and then
         :meth:`place_svg_use_coords` is called."""
         self.place_svg_use_coords(0, 0, symbol_id, layer_id, group)
 
