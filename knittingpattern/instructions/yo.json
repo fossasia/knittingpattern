@@ -13,6 +13,10 @@
             "wikipedia" : {
                 "en-en" : "https://en.wikipedia.org/wiki/Yarn_over"
             }
+        },
+        "render" : {
+            "z" : 1,
+            "comment" : "Increase the z value to place the yarn over before other meshes."
         }
     },
     {

@@ -1,3 +1,14 @@
+from collections import OrderedDict
+
+
+DEFINITION_HOLDER = "g"
+DEFAULT_Z = 0
+RENDER = "render"
+RENDER_Z = "z"
+
+
+def get_z(instruction):
+    return instruction.get(RENDER, {}).get(RENDER_Z, DEFAULT_Z)
 
 
 class KnittingPatternToSVG(object):
@@ -20,7 +31,7 @@ class KnittingPatternToSVG(object):
         self._instruction_to_SVG = instruction_to_SVG
         self._builder = builder
         self._zoom = zoom
-        self._instruction_type_color_to_symbol = {}
+        self._instruction_type_color_to_symbol = OrderedDict()
         self._symbol_id_to_scale = {}
 
     def build_SVG_dict(self):
@@ -29,9 +40,13 @@ class KnittingPatternToSVG(object):
         layout = self._layout
         builder = self._builder
         builder.bounding_box = map(lambda f: f*zoom, layout.bounding_box)
-        for x, y, instruction in layout.walk_instructions(
-                lambda i: (i.x*zoom, i.y*zoom, i.instruction)):
-            layer_id = "row-{}".format(instruction.row.id)
+        instructions = layout.walk_instructions(lambda i: (i.x*zoom, i.y*zoom,
+                                                           i.instruction))
+        instructions.sort(lambda x_y_i: get_z(x_y_i[2]))
+        for x, y, instruction in instructions:
+            render_z = get_z(instruction)
+            z_id = ("" if render_z == DEFAULT_Z else "-{}".format(render_z))
+            layer_id = "row-{}{}".format(instruction.row.id, z_id)
             symbol_id = self._instruction_to_svg_symbol(instruction)
             scale = self._symbol_id_to_scale[symbol_id]
             group = {
@@ -56,10 +71,13 @@ class KnittingPatternToSVG(object):
         color_ = instruction.color
         to_SVG = self._instruction_to_SVG
         instruction_id = "{}:{}".format(type_, color_)
+        defs_id = instruction_id + ":defs"
         if instruction_id not in self._instruction_type_color_to_symbol:
             svg_dict = to_SVG.instruction_to_svg_dict(instruction)
             self._compute_scale(instruction_id, svg_dict)
             symbol = self._make_symbol(svg_dict, instruction_id)
+            self._instruction_type_color_to_symbol[defs_id] = \
+                symbol[DEFINITION_HOLDER].pop("defs", {})
             self._instruction_type_color_to_symbol[instruction_id] = symbol
         return instruction_id
 
@@ -69,13 +87,16 @@ class KnittingPatternToSVG(object):
           instruction currently processed
         :param str instruction_id: id that will be assigned to the symbol"""
         instruction_def = svg_dict["svg"]
-        symbol = {
-                "@id": instruction_id,
-                "g": instruction_def["g"],
-                "title": instruction_def["title"],
-                "metadata": instruction_def["metadata"]
-            }
-        return {"symbol": symbol}
+        blacklisted_elements = ["sodipodi:namedview", "metadata"]
+        whitelisted_attributes = ["@sodipodi:docname"]
+        symbol = OrderedDict({"@id": instruction_id})
+        for content, value in instruction_def.items():
+            if content.startswith('@'):
+                if content in whitelisted_attributes:
+                    symbol[content] = value
+            elif content not in blacklisted_elements:
+                symbol[content] = value
+        return {DEFINITION_HOLDER: symbol}
 
     def _compute_scale(self, instruction_id, svg_dict):
         """computes the scale using the bounding box stored in the
