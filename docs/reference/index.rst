@@ -26,3 +26,4 @@ Reference
    knittingpattern/convert/SVGBuilder
    knittingpattern/convert/image_to_knittingpattern
    knittingpattern/convert/load_and_dump
+   knittingpattern/convert/KnittingPatternToSVG

@@ -1,13 +1,15 @@
 """A set of knitting patterns that can be dumped and loaded."""
 
 from .convert.AYABPNGDumper import AYABPNGDumper
-from .Dumper import ContentDumper
-from .convert.InstructionToSVG import default_instructions_to_SVG
+from .Dumper import XMLDumper
+from .convert.InstructionToSVG import default_instructions_to_svg
 from .convert.Layout import GridLayout
 from .convert.SVGBuilder import SVGBuilder
+from .convert.KnittingPatternToSVG import KnittingPatternToSVG
 
 
 class KnittingPatternSet(object):
+
     """This is the class for a set of knitting patterns.
 
     The :class:`knitting patterns
@@ -20,6 +22,9 @@ class KnittingPatternSet(object):
 
     def __init__(self, type_, version, patterns, comment=None):
         """Create a new knitting pattern set.
+        
+        This is the class for a set of :class:`knitting patterns
+        <knittingpattern.KnittingPattern.KnittingPattern>`.
 
         :param str type: the type of the knitting pattern set, see the
           :ref:`specification <FileFormatSpecification>`.
@@ -50,6 +55,7 @@ class KnittingPatternSet(object):
 
     @property
     def type(self):
+
         """The type of the knitting pattern.
 
         :return: the type of the knitting pattern, see :meth:`__init__`
@@ -75,7 +81,7 @@ class KnittingPatternSet(object):
         """The comment about the knitting pattern.
 
         :return: the comment for the knitting pattern set or None,
-          see :meth:`__init__`
+          see :meth:`__init__`.
         """
         return self._comment
 
@@ -101,7 +107,7 @@ class KnittingPatternSet(object):
 
         :param float zoom: the height and width of a knit instruction
         :return: a dumper to save the svg to
-        :rtype: knittingpattern.Dumper.ContentDumper
+        :rtype: knittingpattern.Dumper.XMLDumper
 
         Example:
 
@@ -111,27 +117,18 @@ class KnittingPatternSet(object):
             "/the/path/to/the/file.svg"
         """
         def on_dump(file):
-            """Dump the knitting pattern to the file."""
+            """Dump the knitting pattern to the file.
+            
+            :return: the SVG XML structure as dictionary.
+            """
             knitting_pattern = self.patterns.at(0)
             layout = GridLayout(knitting_pattern)
-            instruction_to_SVG = default_instructions_to_SVG()
+            instruction_to_svg = default_instructions_to_svg()
             builder = SVGBuilder()
-            builder.bounding_box = map(lambda f: f*zoom, layout.bounding_box)
-            for x, y, instruction in layout.walk_instructions(
-                    lambda i: (i.x*zoom, i.y*zoom, i.instruction)):
-                layer_id = "row-{}".format(instruction.row.id)
-                svg = instruction_to_SVG.instruction_to_svg_dict(instruction)
-                bbox = list(map(float, svg["svg"]["@viewBox"].split()))
-                scale = zoom / (bbox[3] - bbox[1])
-                group = {
-                        "@class": "instruction",
-                        "@id": "instruction-{}".format(instruction.id),
-                        "@transform": "translate({},{}),scale({})".format(
-                            x, y, scale)
-                    }
-                builder.place_svg_dict(x, y, svg, layer_id, group)
-            builder.write_to_file(file)
-        return ContentDumper(on_dump)
+            kp_to_svg = KnittingPatternToSVG(knitting_pattern, layout,
+                                             instruction_to_svg, builder, zoom)
+            return kp_to_svg.build_SVG_dict()
+        return XMLDumper(on_dump)
 
 
 __all__ = ["KnittingPatternSet"]
