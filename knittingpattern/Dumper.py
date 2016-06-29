@@ -252,6 +252,7 @@ class JSONDumper(ContentDumper):
 
 class XMLDumper(ContentDumper):
     """Used to dump objects as XML. Useful for dumping SVGs."""
+
     def __init__(self, on_dump):
         """Create a new XMLDumper object with the callable `on_dump`.
 
@@ -269,4 +270,4 @@ class XMLDumper(ContentDumper):
         xmltodict.unparse(self.object(), file, pretty=True)
 
 
-__all__ = ["ContentDumper", "JSONDumper"]
+__all__ = ["ContentDumper", "JSONDumper", "XMLDumper"]
