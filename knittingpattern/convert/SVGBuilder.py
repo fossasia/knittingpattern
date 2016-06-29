@@ -157,6 +157,8 @@ class SVGBuilder(object):
         print(self._svg["defs"])
         for def_ in defs:
             for key, value in def_.items():
+                if key.startswith("@"):
+                    continue
                 if key not in self._svg["defs"]:
                     self._svg["defs"][key] = []
                 if not isinstance(value, list):
