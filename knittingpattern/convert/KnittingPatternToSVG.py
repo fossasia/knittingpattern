@@ -40,9 +40,9 @@ class KnittingPatternToSVG(object):
         layout = self._layout
         builder = self._builder
         builder.bounding_box = map(lambda f: f*zoom, layout.bounding_box)
-        instructions = layout.walk_instructions(lambda i: (i.x*zoom, i.y*zoom,
-                                                           i.instruction))
-        instructions.sort(lambda x_y_i: get_z(x_y_i[2]))
+        instructions = list(layout.walk_instructions(
+            lambda i: (i.x*zoom, i.y*zoom, i.instruction)))
+        instructions.sort(key=lambda x_y_i: get_z(x_y_i[2]))
         for x, y, instruction in instructions:
             render_z = get_z(instruction)
             z_id = ("" if render_z == DEFAULT_Z else "-{}".format(render_z))
