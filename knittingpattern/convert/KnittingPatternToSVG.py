@@ -53,7 +53,12 @@ class KnittingPatternToSVG(object):
         self._symbol_id_to_scale = {}
 
     def build_SVG_dict(self):
-        """Go through the layout and build the SVG."""
+        """Go through the layout and build the SVG.
+        
+        :return: an xml dict that can be exported using a
+          :class:`~knittingpattern.Dumper.XMLDumper`
+        :rtype: dict
+        """
         zoom = self._zoom
         layout = self._layout
         builder = self._builder
@@ -136,4 +141,5 @@ class KnittingPatternToSVG(object):
         scale = self._zoom / (bbox[3] - bbox[1])
         self._symbol_id_to_scale[instruction_id] = scale
 
-__all__ = ["KnittingPatternToSVG"]
+__all__ = ["KnittingPatternToSVG", "get_z", "DEFINITION_HOLDER", "RENDER_Z",
+           "RENDER", "DEFAULT_Z"]
