@@ -236,3 +236,9 @@ def test_instruction_is_not_in_row(removed_instruction):
 
 def test_repr_removed_instruction(removed_instruction):
     assert removed_instruction.__class__.__name__ in repr(removed_instruction)
+
+
+def test_repr_meshes(instruction0, row2):
+    assert "Mesh" in repr(instruction0.produced_meshes[0])
+    assert "Mesh" in repr(instruction0.consumed_meshes[0])
+    assert "Mesh" in repr(row2.produced_meshes[0])

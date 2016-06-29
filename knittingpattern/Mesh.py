@@ -38,6 +38,39 @@ class Mesh(metaclass=ABCMeta):
     @abstractmethod
     def _is_consumed(self):
         """Replace this method."""
+        
+    @abstractmethod
+    def _is_consumed_mesh(self):
+        """Replace this method.
+        
+        :return: whether this mesh is an instance of a ConsumedMesh.
+        """
+        
+    @abstractmethod
+    def _disconnect(self):
+        """Replace this method."""
+        
+    @abstractmethod
+    def _connect_to(self, other_mesh):
+        """Replace this method."""
+        
+    @abstractmethod
+    def _as_produced_mesh(self):
+        """Replace this method."""
+        
+    @abstractmethod
+    def _as_consumed_mesh(self):
+        """Replace this method."""
+        
+    @abstractmethod
+    def _is_connected_to(self, other_mesh):
+        """Replace this method."""
+
+    def _assert_is_produced(self):
+        assert self._is_produced(), "Check with is_produced() before!"
+
+    def _assert_is_consumed(self):
+        assert self._is_consumed(), "Check with is_consumed() before!"
 
     def is_produced(self):
         """Whether the mesh has an instruction that produces it.
@@ -90,6 +123,7 @@ class Mesh(metaclass=ABCMeta):
 
         .. warning:: Check with :meth:`is_produced` before!
         """
+        self._assert_is_produced()
         return self._producing_instruction_and_index()[1]
 
     @property
@@ -104,6 +138,7 @@ class Mesh(metaclass=ABCMeta):
 
         .. warning:: Check with :meth:`is_produced` before!
         """
+        self._assert_is_produced()
         return self._producing_instruction_and_index()[0]
 
     @property
@@ -118,6 +153,7 @@ class Mesh(metaclass=ABCMeta):
 
         .. warning:: Check with :meth:`is_produced` before!
         """
+        self._assert_is_produced()
         return self._producing_row_and_index()[0]
 
     @property
@@ -137,6 +173,7 @@ class Mesh(metaclass=ABCMeta):
 
         .. warning:: Check with :meth:`is_produced` before!
         """
+        self._assert_is_produced()
         return self._producing_row_and_index()[1]
 
     @property
@@ -157,6 +194,7 @@ class Mesh(metaclass=ABCMeta):
 
         .. warning:: Check with :meth:`is_consumed` before!
         """
+        self._assert_is_consumed()
         return self._consuming_row_and_index()[1]
 
     @property
@@ -171,6 +209,7 @@ class Mesh(metaclass=ABCMeta):
 
         .. warning:: Check with :meth:`is_consumed` before!
         """
+        self._assert_is_consumed()
         return self._consuming_row_and_index()[0]
 
     @property
@@ -185,6 +224,7 @@ class Mesh(metaclass=ABCMeta):
 
         .. warning:: Check with :meth:`is_consumed` before!
         """
+        self._assert_is_consumed()
         return self._consuming_instruction_and_index()[0]
 
     @property
@@ -206,6 +246,7 @@ class Mesh(metaclass=ABCMeta):
 
         .. warning:: Check with :meth:`is_consumed` before!
         """
+        self._assert_is_consumed()
         return self._consuming_instruction_and_index()[1]
 
     def is_knit(self):
@@ -216,6 +257,7 @@ class Mesh(metaclass=ABCMeta):
 
         .. seealso:: :attr:`producing_instruction`
         """
+        self._assert_is_produced()
         return self._producing_instruction_and_index()[0].does_knit()
 
     def __repr__(self):
@@ -250,6 +292,71 @@ class Mesh(metaclass=ABCMeta):
                 self.__class__.__name__, produce_string, consume_string
             )
 
+    def disconnect(self):
+        """Remove the connection between two rows through this mesh.
+        
+        After disconnecting this mesh, it can be connected anew.
+        """
+        self._assert_is_produced()
+        self._disconnect()
+        
+    
+    def connect_to(self, other_mesh):
+        """Create a connection to an other mesh.
+        
+        .. warning:: Both meshes need to be disocnnected and one needs to be
+          a consumed and the other a produced mesh. You can check if a
+          connection is possible using :meth:`can_connect_to`.
+          
+        .. seealso:: :meth:`is_consumed`, :meth:`is_produced`,
+          :meth:`can_connect_to`
+        """
+        assert other_mesh.is_mesh()
+        self._connect_to(other_mesh)
+
+    def is_connected(self):
+        """Returns whether this mesh is already connected.
+        
+        :return: whether this mesh is connected to an other.
+        :rtype: bool
+        """
+        return self._is_consumed() and self._is_produced()
+    
+    def as_produced_mesh(self):
+        """The produced part to this mesh.
+        
+        If meshes are split up, it may be important which row the mesh is
+        connected to afterwards. This method returns the mesh that is
+        connected to the :attr:`producing row <producing_row>`.
+        
+        If you got this mesh from :attr:`InstructionInRow.produced_meshes
+        <knittinpattern.Instruction.InstructionInRow.produced_meshes>` or
+        :attr:`Row.produced_meshes <knittinpattern.Row.Row.produced_meshes>`,
+        this returns the same object.
+        
+        .. seealso:: :meth:`as_consumed_mesh`,
+          :attr:`knittinpattern.Instruction.InstructionInRow.produced_meshes`,
+          :attr:`knittinpattern.Row.Row.produced_meshes`
+        """
+        self._assert_is_produced()
+        return self._as_produced_mesh()
+    
+    def as_consumed_mesh(self):
+        """The consumed part to this mesh."""
+        self._assert_is_consumed()
+        return self._as_consumed_mesh()
+
+    def is_mesh(self):
+        """Return whether this object is a mesh.
+        
+        :return: :obj:`True`
+        :rtype: bool
+        """
+        return True
+    
+    def is_connected_to(self, other_mesh):
+        """Returns whether the one mesh is conencted to the other."""
+        return self._is_connected_to(other_mesh)
 
 class ProducedMesh(Mesh):
     """A :class:`~knittingpattern.Mesh.Mesh` that has a producing instruction
@@ -275,6 +382,7 @@ class ProducedMesh(Mesh):
                 producing_instruction,
                 index_in_producing_instruction
             )
+        self._consumed_part = None
 
     def _producing_instruction_and_index(self):
         return self.__producing_instruction_and_index
@@ -286,29 +394,43 @@ class ProducedMesh(Mesh):
                 index + instruction.index_of_first_produced_mesh_in_row)
 
     def _consuming_instruction_and_index(self):
-        row_and_index = self._consuming_row_and_index()
-        assert row_and_index is not None, "Use is_consumed() before."
-        consuming_row, index = row_and_index
-        return consuming_row._get_instruction_and_index_at_consumed_mesh_index(
-                   index
-               )
-
-    def __consuming_row_and_index_or_None(self):
-        producing_row, index = self._producing_row_and_index()
-        return producing_row._get_consuming_row_and_index(index)
+        return self._consumed_part._consuming_instruction_and_index()
 
     def _consuming_row_and_index(self):
-        result = self.__consuming_row_and_index_or_None()
-        assert result is not None, "use is_consumed() before"
-        return result
+        return self._consumed_part._consuming_row_and_index()
 
     def _is_produced(self):
         return True
 
     def _is_consumed(self):
-        return self.__consuming_row_and_index_or_None() is not None
+        return self._consumed_part is not None
+    
+    def _is_consumed_mesh(self):
+        return False
 
+    def _disconnect(self):
+        assert self._consumed_part is not None, "Use is_consumed() before."
+        self._consumed_part._disconnected()
+        self._consumed_part = None
+        
+    def _connect_to(self, other_mesh):
+        assert other_mesh._is_consumed_mesh()
+        self._consumed_part = other_mesh
+        self._consumed_part._connect_to_produced_mesh(self)
+        
+    def _as_produced_mesh(self):
+        return self
+        
+    def _as_consumed_mesh(self):
+        assert self._consumed_part is not None
+        return self._consumed_part
 
+    def _is_connected_to(self, other_mesh):
+        return other_mesh is not None and other_mesh == self._consumed_part
+        
+    def __eq__(self, other):
+        return other is self or self._is_connected_to(other)
+        
 class ConsumedMesh(Mesh):
     """A mesh that is only consumed by an instruction"""
 
@@ -332,10 +454,13 @@ class ConsumedMesh(Mesh):
                 consuming_instruction,
                 index_in_consuming_instruction
             )
+        self._produced_part = None
 
     def _producing_instruction_and_index(self):
-        assert False, "use is_produced()"
-    _producing_row_and_index = _producing_instruction_and_index
+        return self._produced_part._producing_instruction_and_index()
+
+    def _producing_row_and_index(self):
+        return self._produced_part._producing_row_and_index()
 
     def _consuming_instruction_and_index(self):
         return self.__consuming_instruction_and_index
@@ -348,10 +473,40 @@ class ConsumedMesh(Mesh):
             instruction.index_of_first_consumed_mesh_in_row)
 
     def _is_produced(self):
-        return False
+        return self._produced_part is not None
 
     def _is_consumed(self):
         return True
 
+    def _is_consumed_mesh(self):
+        return True
+
+    def _disconnect(self):
+        assert self._produced_part is not None
+        self._produced_part._disconnect()
+     
+    def _disconnected(self):
+        self._produced_part = None
+        
+    def _connect_to(self, other_mesh):
+        assert not other_mesh._is_consumed_mesh()
+        other_mesh._connect_to(self)
+    
+    def _connect_to_produced_mesh(self, produced_mesh):
+        """This is called after a connection has been established by the
+        produced mesh."""
+        self._produced_part = produced_mesh
+        
+    def _as_produced_mesh(self):
+        assert self._produced_part is not None
+        return self._produced_part
+        
+    def _as_consumed_mesh(self):
+        return self
+        
+    def _is_connected_to(self, other_mesh):
+        if other_mesh._is_consumed_mesh():
+            return False
+        return other_mesh is not self and other_mesh._is_connected_to(self)
 
 __all__ = ["Mesh", "ProducedMesh", "ConsumedMesh"]

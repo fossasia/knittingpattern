@@ -93,11 +93,15 @@ class Row(Prototype):
                                           stop_index, row,
                                           row_start_index):
         """Set a connection between to rows."""
-        mesh_index_in_row = row_start_index
-        for mesh_index in range(start_index, stop_index):
-            self._set_consuming_row_and_index(mesh_index, row,
-                                              mesh_index_in_row)
-            mesh_index_in_row += 1
+        assert 0 <= start_index <= stop_index
+        produced_meshes = self.produced_meshes[start_index:stop_index]
+        row_stop_index = row_start_index - start_index + stop_index
+        assert 0 <= row_start_index <= row_stop_index
+        consumed_meshes = row.consumed_meshes[row_start_index:row_stop_index]
+        assert len(produced_meshes) == len(consumed_meshes)
+        mesh_pairs = zip(produced_meshes, consumed_meshes)
+        for produced_mesh, consumed_mesh in mesh_pairs:
+            produced_mesh.connect_to(consumed_mesh)
 
     def _get_consuming_row_and_index_for_produced_mesh_at(self, mesh_index):
         """The mesh at mesh_index is produced in this row.
