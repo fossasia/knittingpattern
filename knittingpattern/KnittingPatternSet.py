@@ -79,7 +79,7 @@ class KnittingPatternSet(object):
         """
         :param float zoom: the height and width of a knit instruction
         :return: a dumper to save the svg to
-        :rtype: knittingpattern.Dumper.ContentDumper
+        :rtype: knittingpattern.Dumper.XMLDumper
 
         Example:
 
@@ -89,13 +89,13 @@ class KnittingPatternSet(object):
             "/the/path/to/the/file.svg"
         """
         def on_dump():
-            """dumps the knitting pattern to the file"""
+            """returns the SVG XML structure as dictionary"""
             knitting_pattern = self.patterns.at(0)
             layout = GridLayout(knitting_pattern)
             instruction_to_SVG = default_instructions_to_SVG()
             builder = SVGBuilder()
-            kp_to_svg = KnittingPatternToSVG(knitting_pattern, layout, 
-                instruction_to_SVG, builder, zoom)
+            kp_to_svg = KnittingPatternToSVG(knitting_pattern, layout,
+                                             instruction_to_SVG, builder, zoom)
             return kp_to_svg.build_SVG_dict()
         return XMLDumper(on_dump)
 

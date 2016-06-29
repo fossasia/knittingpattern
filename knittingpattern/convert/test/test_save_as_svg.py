@@ -54,6 +54,13 @@ def instructions_test(function):
     return test
 
 
+def instructions_svg_test(function):
+    def test(instructions):
+        for instruction in instructions:
+            function(instruction, svg, path, patterns)
+    return test
+
+
 def test_svg_contains_four_rows(svg):
     assert len(svg.g) == 4
 
@@ -99,10 +106,9 @@ def test_instructions_content_is_knit_svg_file(instruction):
     assert instruction.use["xlink:href"].startswith("#knit")
 
 
-@instructions_test
-def test_instructions_have_transform(instruction):
+@instructions_svg_test
+def test_instructions_have_transform(instruction, svg, path, patterns):
     transform = instruction["transform"]
     x, y, zoom = map(float, re.match(TRANSFORM_REGEX, transform).groups())
-    svg = instruction.g
-    bbox = list(map(float, svg["viewBox"].split()))
+    bbox = list(map(float, svg(path(patterns()))["viewBox"].split()))
     assert is_close_to(DEFAULT_ZOOM / (bbox[3] - bbox[1]), zoom), ZOOM_MESSAGE

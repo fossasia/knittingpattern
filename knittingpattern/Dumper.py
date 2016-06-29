@@ -249,6 +249,7 @@ class JSONDumper(ContentDumper):
             loader = new_knitting_pattern_set_loader(specification)
         return loader.object(self.object())
 
+
 class XMLDumper(ContentDumper):
     def __init__(self, on_dump):
         """Create a new XMLDumper object with the callable `on_dump`.

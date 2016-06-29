@@ -4,7 +4,7 @@ class KnittingPatternToSVG(object):
     """Converts a KnittingPattern to SVG."""
 
     def __init__(self, knittingpattern, layout, instruction_to_SVG, builder,
-            zoom):
+                 zoom):
         """
         :param knittingpattern.KnittingPattern.KnittingPattern knittingpattern:
           a knitting pattern
@@ -29,7 +29,7 @@ class KnittingPatternToSVG(object):
         layout = self._layout
         builder = self._builder
         builder.bounding_box = map(lambda f: f*zoom, layout.bounding_box)
-        for x, y, instruction in self._layout.walk_instructions(
+        for x, y, instruction in layout.walk_instructions(
                 lambda i: (i.x*zoom, i.y*zoom, i.instruction)):
             layer_id = "row-{}".format(instruction.row.id)
             symbol_id = self._instruction_to_svg_symbol(instruction)
@@ -45,6 +45,13 @@ class KnittingPatternToSVG(object):
         return builder.get_svg_dict()
 
     def _instruction_to_svg_symbol(self, instruction):
+        """:return: the id of a symbol in the defs for the specified
+        :paramref:`instruction`
+        :rtype: str
+
+        If no symbol yet exists in the defs for the :paramref:`instruction` a
+        symbol is created and saved using :meth:`_make_symbol`.
+        """
         type_ = instruction.type
         color_ = instruction.color
         to_SVG = self._instruction_to_SVG
@@ -57,16 +64,26 @@ class KnittingPatternToSVG(object):
         return instruction_id
 
     def _make_symbol(self, svg_dict, instruction_id):
+        """Creates a symbol out of the supplied :paramref:`svg_dict`
+        :param dict svg_dict: dictionary containing the SVG for the
+          instruction currently processed
+        :param str instruction_id: id that will be assigned to the symbol"""
         instruction_def = svg_dict["svg"]
         symbol = {
-                "@id" : instruction_id,
-                "g" : instruction_def["g"],
-                "title" : instruction_def["title"],
-                "metadata" : instruction_def["metadata"]
+                "@id": instruction_id,
+                "g": instruction_def["g"],
+                "title": instruction_def["title"],
+                "metadata": instruction_def["metadata"]
             }
-        return {"symbol" : symbol}
+        return {"symbol": symbol}
 
     def _compute_scale(self, instruction_id, svg_dict):
+        """computes the scale using the bounding box stored in the
+        :paramref:`svg_dict`. The scale is saved in a dictionary using
+        :paramref:`instruction_id` as key.
+        :param str instruction_id: id identifying a symbol in the defs
+        :param dict svg_dict: dictionary containing the SVG for the
+          instruction currently processed"""
         bbox = list(map(float, svg_dict["svg"]["@viewBox"].split()))
         scale = self._zoom / (bbox[3] - bbox[1])
         self._symbol_id_to_scale[instruction_id] = scale
