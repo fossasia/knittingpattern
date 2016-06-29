@@ -24,6 +24,7 @@ Point = namedtuple("Point", ["x", "y"])
 
 
 class InGrid(object):
+
     """Base class for things in a grid."""
 
     def __init__(self, position):
@@ -149,6 +150,7 @@ class InstructionInGrid(InGrid):
 
 
 class RowInGrid(InGrid):
+
     """Assign x and y coordinates to rows."""
 
     def __init__(self, row, position):
@@ -304,7 +306,7 @@ class Connection(object):
 
     def is_visible(self):
         """:return: is this connection is visible.
-        
+
         :rtype: bool
 
         A connection is visible if it is longer that 0."""
