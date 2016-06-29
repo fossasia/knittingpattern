@@ -149,6 +149,10 @@ class InstructionInRow(Instruction):
                 self._new_produced_mesh(self, index)
                 for index in range(self.number_of_produced_meshes)
             ]
+        self._consumed_meshes = [
+                self._new_consumed_mesh(self, index)
+                for index in range(self.number_of_consumed_meshes)
+            ]
         self._cached_index_in_row = None
 
     @property
@@ -395,29 +399,7 @@ class InstructionInRow(Instruction):
 
         .. seealso:: :attr:`produced_meshes`, :attr:`producing_instructions`
         """
-        return [
-                self._consumed_meshes_at(index)
-                for index in range(self.number_of_consumed_meshes)
-            ]
-
-    def _consumed_meshes_at(self, mesh_index):
-        """
-        :param int mesh_index: the index of the consumed mesh
-        :return: a :class:`mesh <knittingpattern.Mesh.Mesh>` that is consumed
-          at the :paramref:`mesh_index`
-        :rtype: knittingpattern.Mesh.Mesh
-        """
-        consuming_row = self.row
-        index_in_consuming_row = \
-            self.index_of_first_consumed_mesh_in_row + \
-            mesh_index
-        origin = consuming_row._get_producing_row_and_index(
-                index_in_consuming_row
-            )
-        if origin is None:
-            return self._new_consumed_mesh(self, mesh_index)
-        producing_row, mesh_index_in_producing_row = origin
-        return producing_row.produced_meshes[mesh_index_in_producing_row]
+        return self._consumed_meshes
 
     def __repr__(self):
         """:obj:`repr(instruction) <repr>` used for :func:`print`.
