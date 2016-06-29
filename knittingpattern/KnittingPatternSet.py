@@ -99,7 +99,7 @@ class KnittingPatternSet(object):
             builder = SVGBuilder()
             kp_to_svg = KnittingPatternToSVG(knitting_pattern, layout,
                                              instruction_to_svg, builder, zoom)
-            return kp_to_svg.build_SVG_dict()
+            return kp_to_svg.build_svg_dict()
         return XMLDumper(on_dump)
 
 

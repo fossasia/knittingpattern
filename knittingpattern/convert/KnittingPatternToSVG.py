@@ -31,6 +31,7 @@ def get_z(instruction):
 
 
 class KnittingPatternToSVG(object):
+
     """Converts a KnittingPattern to SVG.
 
     This is inspired by the method object pattern, since building an SVG
@@ -39,7 +40,8 @@ class KnittingPatternToSVG(object):
 
     def __init__(self, knittingpattern, layout, instruction_to_svg, builder,
                  zoom):
-        """
+        """Initialize, to convert the given :paramref:`knittingpattern`.
+
         :param knittingpattern.KnittingPattern.KnittingPattern knittingpattern:
           a knitting pattern
         :param knittingpattern.convert.Layout.GridLayout layout:
@@ -57,7 +59,7 @@ class KnittingPatternToSVG(object):
         self._instruction_type_color_to_symbol = OrderedDict()
         self._symbol_id_to_scale = {}
 
-    def build_SVG_dict(self):
+    def build_svg_dict(self):
         """Go through the layout and build the SVG.
 
         :return: an xml dict that can be exported using a
@@ -67,9 +69,9 @@ class KnittingPatternToSVG(object):
         zoom = self._zoom
         layout = self._layout
         builder = self._builder
-        builder.bounding_box = map(lambda f: f*zoom, layout.bounding_box)
+        builder.bounding_box = map(lambda f: f * zoom, layout.bounding_box)
         instructions = list(layout.walk_instructions(
-            lambda i: (i.x*zoom, i.y*zoom, i.instruction)))
+            lambda i: (i.x * zoom, i.y * zoom, i.instruction)))
         instructions.sort(key=lambda x_y_i: get_z(x_y_i[2]))
         for x, y, instruction in instructions:
             render_z = get_z(instruction)
