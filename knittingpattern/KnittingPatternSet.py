@@ -22,7 +22,7 @@ class KnittingPatternSet(object):
 
     def __init__(self, type_, version, patterns, comment=None):
         """Create a new knitting pattern set.
-        
+
         This is the class for a set of :class:`knitting patterns
         <knittingpattern.KnittingPattern.KnittingPattern>`.
 
@@ -116,9 +116,9 @@ class KnittingPatternSet(object):
             >>> knitting_pattern_set.to_svg(25).temporary_path(".svg")
             "/the/path/to/the/file.svg"
         """
-        def on_dump(file):
+        def on_dump():
             """Dump the knitting pattern to the file.
-            
+
             :return: the SVG XML structure as dictionary.
             """
             knitting_pattern = self.patterns.at(0)
