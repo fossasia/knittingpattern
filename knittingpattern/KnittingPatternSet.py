@@ -9,7 +9,7 @@ from .convert.SVGBuilder import SVGBuilder
 
 class KnittingPatternSet(object):
     """This is the class for a set of knitting patterns.
-    
+
     The :class:`knitting patterns
     <knittingpattern.KnittingPattern.KnittingPattern>` all have an id and can
     be accessed from here. It is possible to load this set of knitting patterns
@@ -40,10 +40,10 @@ class KnittingPatternSet(object):
     @property
     def version(self):
         """The version of the knitting pattern specification.
-        
+
         :return: the version of the knitting pattern, see :meth:`__init__`
         :rtype: str
-        
+
         .. seealso:: :ref:`FileFormatSpecification`
         """
         return self._version
@@ -51,10 +51,10 @@ class KnittingPatternSet(object):
     @property
     def type(self):
         """The type of the knitting pattern.
-        
+
         :return: the type of the knitting pattern, see :meth:`__init__`
         :rtype: str
-        
+
         .. seealso:: :ref:`FileFormatSpecification`
         """
         return self._type
@@ -62,10 +62,10 @@ class KnittingPatternSet(object):
     @property
     def patterns(self):
         """The pattern contained in this set.
-        
+
         :return: the patterns of the knitting pattern, see :meth:`__init__`
         :rtype: knittingpattern.IdCollection.IdCollection
-        
+
         The patterns can be accessed by their id.
         """
         return self._patterns
@@ -73,7 +73,7 @@ class KnittingPatternSet(object):
     @property
     def comment(self):
         """The comment about the knitting pattern.
-        
+
         :return: the comment for the knitting pattern set or None,
           see :meth:`__init__`
         """
@@ -81,7 +81,7 @@ class KnittingPatternSet(object):
 
     def to_ayabpng(self):
         """Convert the knitting pattern to a png.
-        
+
         :return: a dumper to save this pattern set as png for the AYAB
           software
         :rtype: knittingpattern.convert.AYABPNGDumper.AYABPNGDumper
@@ -98,7 +98,7 @@ class KnittingPatternSet(object):
 
     def to_svg(self, zoom):
         """Create an SVG from the knitting pattern set.
-        
+
         :param float zoom: the height and width of a knit instruction
         :return: a dumper to save the svg to
         :rtype: knittingpattern.Dumper.ContentDumper
