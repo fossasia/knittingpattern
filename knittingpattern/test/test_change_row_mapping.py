@@ -1,4 +1,5 @@
-from test_knittingpattern import fixture, pytest, raises
+"""Test if the mapping of the rows is changed and how."""
+from test_knittingpattern import fixture, pytest
 from knittingpattern import load_from_relative_file as load_relative_file
 
 

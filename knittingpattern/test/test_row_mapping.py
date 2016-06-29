@@ -1,4 +1,5 @@
-from test_knittingpattern import fixture, raises
+"""Test that the rows of a pattern map the right way."""
+from test_knittingpattern import fixture
 from knittingpattern import load_from_object
 from knittingpattern.Loader import JSONLoader as Loader
 
