@@ -52,6 +52,7 @@ def assert_rows_map(row1, index1, row2, index2):
 def assert_is_not_connected(row, index):
     assert not row.produced_meshes[index].is_connected()
 
+
 class TestRow11:
 
     def test_first_meshes_map_to_second_row(self, r11, r21):

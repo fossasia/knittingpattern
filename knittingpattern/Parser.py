@@ -174,7 +174,7 @@ class Parser(object):
             mesh_pairs = zip(produced_meshes, consumed_meshes)
             for produced_mesh, consumed_mesh in mesh_pairs:
                 produced_mesh.connect_to(consumed_mesh)
-    
+
     def _get_type(self, values):
         """:return: the type of a knitting pattern set."""
         if TYPE not in values:
