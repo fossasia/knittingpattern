@@ -114,10 +114,10 @@ class InstructionToSVG(object):
                         if style:
                             style = style.split(";")
                             processed_style = []
-                            for e in style:
-                                if e.startswith("fill:"):
-                                    e = "fill:" + color
-                                processed_style.append(e)
+                            for style_element in style:
+                                if style_element.startswith("fill:"):
+                                    style_element = "fill:" + color
+                                processed_style.append(style_element)
                             style = ";".join(processed_style)
                             element["@style"] = style
         return structure
@@ -169,6 +169,10 @@ class InstructionToSVG(object):
                                                      instruction.color)
         return colored_svg
 
+#: The name of the folder containing the svg files for the default
+#: instructions.
+DEFAULT_SVG_FOLDER = "instruction-svgs"
+
 
 def default_instructions_to_svg():
     """load the default set of svg files for instructions
@@ -178,7 +182,8 @@ def default_instructions_to_svg():
 
     """
     instruction_to_svg = InstructionToSVG()
-    instruction_to_svg.load.relative_folder(__name__, "SVG-Instructions")
+    instruction_to_svg.load.relative_folder(__name__, DEFAULT_SVG_FOLDER)
     return instruction_to_svg
 
-__all__ = ["InstructionToSVG", "default_instructions_to_svg"]
+__all__ = ["InstructionToSVG", "default_instructions_to_svg",
+           "DEFAULT_SVG_FOLDER"]
