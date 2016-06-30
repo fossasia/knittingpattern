@@ -10,6 +10,8 @@ from .Prototype import Prototype
 from itertools import chain
 
 ID = "id"  #: the id of the row
+COLOR = "color"  #: the color of the row
+
 #: an error message
 CONISTENCY_MESSAGE = "The data structure must be consistent."
 
@@ -111,12 +113,12 @@ class Row(Prototype):
         """
         return "<{} {}>".format(self.__class__.__qualname__, self.id)
 
-    def __lt__(self, other):
-        """``row < other_row``
+    @property
+    def color(self):
+        """The color of the row.
 
-        :return: whether the own id is lowre that the other id
-        :rtype: bool
+        :return: the color of the row as specified
         """
-        return self.id < other.id
+        return self._values.get(COLOR)
 
-__all__ = ["Row"]
+__all__ = ["Row", "ID", "COLOR"]
