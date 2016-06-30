@@ -33,9 +33,8 @@ knittingpattern
    :target: https://landscape.io/github/AllYarnsAreBeautiful/knittingpattern/master
    :alt: Code Health
 
-.. image:: https://badge.waffle.io/AllYarnsAreBeautiful/ayab-desktop.svg?label=stories&title=Ready
+.. image:: https://badge.waffle.io/AllYarnsAreBeautiful/ayab-desktop.svg?label=ready&title=issues%20ready
    :target: https://waffle.io/AllYarnsAreBeautiful/ayab-desktop
-   :alt: 'Issues ready to work on' 
 
 For installation instructions and more, `see the documentation
 <http://knittingpattern.readthedocs.io/>`__.
