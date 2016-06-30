@@ -261,16 +261,6 @@ def test_connect_to_a_connected_location_with_connected_mesh(
     assert not mesh21p.is_connected()
 
 
-def connect_consumed_meshes(mesh11c, mesh31c, connect):
-    with raises(TypeError):
-        connect_meshes(mesh11c, mesh31c, connect)
-
-
-def connect_produced_meshes(mesh11p, mesh31p, connect):
-    with raises(TypeError):
-        connect_meshes(mesh11p, mesh31p, connect)
-
-
 def test_can_connect(connected_meshes, consumed_meshes, produced_meshes):
     for consumed_mesh in consumed_meshes:
         for produced_mesh in produced_meshes:
