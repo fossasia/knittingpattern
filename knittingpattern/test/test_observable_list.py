@@ -66,7 +66,7 @@ def call_attr(obj, attr, args, kw):
 PRECONDITION = "Observable and real object should start as the same."
 OBSERVER_IS_NOTIFIED = "The observer must be notified. "\
     "You probably forgot the call \"notifyObservers(change)\"."
-
+ERROR_SAME = "error is the same"
 
 class StepTester(object):
     
@@ -79,6 +79,7 @@ class StepTester(object):
     
     def assert_same(self):
         assert self.real_original == self.observable_original, PRECONDITION
+        print("real: {} observable: {}".format(self.real, self.observable))
         assert self.real == self.observable
         for i, element in enumerate(self.real):
             assert element == self.observable[i]
@@ -89,10 +90,10 @@ class StepTester(object):
         assert real_is_same == observable_is_same
         value, error = self.value
         observable_value, observable_error = self.observable_value
-        assert value == observable_value
-        assert error.__class__ == observable_error.__class__
+        assert value == observable_value, "return values are the same"
+        assert error.__class__ == observable_error.__class__, ERROR_SAME
         if error is not None:
-            assert error.args == observable_error.args
+            assert error.args == observable_error.args, ERROR_SAME
 
     def assert_no_changes(self):
         assert self.changes_before == self.changes_after
@@ -110,13 +111,13 @@ class StepTester(object):
     def _assert_call(self, call_and_elements, index, elements, adds=True):
         call, call_elements = call_and_elements
         length = len(elements)
-        assert call_elements == elements
         assert call.adds() == adds
         assert call.removes() != adds
         assert call.start == index
         assert call.stop == index + length
         assert call.length == length
         assert call.changed_object is self.observable
+        assert call_elements == elements
     
     def _assert_call_adds(self, obj, index, elements):
         for element in elements:
@@ -192,10 +193,12 @@ class TestAddElements:
         
     def test_insert_element_at_end(self, chain):
         chain.insert(0, 224).assert_add(0, [224])
+        chain.insert(2, 223).assert_add(1, [223])
+        chain.insert(-2, 222).assert_add(0, [222])
 
 class TestRemoveElements:
     
-    def _test_pop(chain):
+    def test_pop(self, chain):
         chain.extend([1, 2, 3, 4])
         chain.pop().assert_remove(3, [4])
 

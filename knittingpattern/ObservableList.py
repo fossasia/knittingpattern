@@ -1,5 +1,6 @@
 """This module contains the ObservableList."""
 from collections import UserList
+from functools import wraps
 
 
 class Change(object):
@@ -12,8 +13,18 @@ class Change(object):
         :param int length: the length of the change
         """
         self._list = list_
-        self._index = index
         self._length = length
+        self._index = self._prepare_index(index)
+    
+    def _prepare_index(self, index):
+        """Adjust the index."""
+        length = len(self._list)
+        max_index = length - 1
+        if index > max_index:
+            return max_index
+        if index < 0:
+            return length + index
+        return index
     
     @property
     def elements(self):
@@ -115,17 +126,36 @@ class ObservableList(list):
         
     def notifyObservers(self, change):
         """Notify the observers about the change."""
+        print(change)
         for observer in self.observers:
             observer(change)
         
     def _notify_add(self, index, length):
         """Notify about an AddChange."""
         change = AddChange(self, index, length)
-        print(change)
+        self.notifyObservers(change)
+    
+    def _notify_remove(self, index, length):
+        """Notify about an AddChange."""
+        change = RemoveChange(self, index, length)
         self.notifyObservers(change)
     
     def append(self, element):
         index = len(self)
         super().append(element)
         self._notify_add(index, 1)
-        
+    
+    def insert(self, index, *args):
+        super().insert(index, *args)
+        if index < 0:
+            index -= 1
+        self._notify_add(index, 1)
+    
+    def extend(self, other):
+        index = len(self)
+        super().extend(other)
+        self._notify_add(index, len(other))
+    
+    def pop(self, index=-1):
+        self._notify_remove(index, 1)
+        return super().pop(index)
