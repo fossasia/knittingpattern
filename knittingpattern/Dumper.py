@@ -205,12 +205,8 @@ class ContentDumper(object):
         :return: the string represenation of this object
         :rtype: str
         """
-        name = getattr(self.__dump_to_file, "__name__", self.__dump_to_file)
-        mode = ("text" if self.__text_is_expected else "bytes")
-        return "<{} for {} in {} mode encoded in {} >".format(
+        return "<{} in with encoding {} >".format(
                 self.__class__.__name__,
-                name,
-                mode,
                 self.__encoding
             )
 
