@@ -1,0 +1,20 @@
+{
+  "type" : "knitting pattern",
+  "version" : "0.1",
+  "patterns" : [
+    {
+      "id" : "A.1",
+      "name" : "A.1",
+      "rows" : [
+        {
+          "id" : "1",
+          "instructions" : [
+            {"id": "1.0"}
+          ]
+        }
+      ],
+      "connections" : [
+      ]
+    }
+  ]
+}

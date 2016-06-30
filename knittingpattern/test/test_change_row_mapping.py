@@ -1,5 +1,5 @@
 """Test if the mapping of the rows is changed and how."""
-from test_knittingpattern import fixture, pytest, raises
+from test_knittingpattern import fixture, raises
 from knittingpattern import load_from_relative_file as load_relative_file
 
 
@@ -259,16 +259,6 @@ def test_connect_to_a_connected_location_with_connected_mesh(
     assert mesh11p.is_connected_to(mesh31c)
     assert not mesh21c.is_connected()
     assert not mesh21p.is_connected()
-
-
-def connect_consumed_meshes(mesh11c, mesh31c, connect):
-    with raises(TypeError):
-        connect_meshes(mesh11c, mesh31c, connect)
-
-
-def connect_produced_meshes(mesh11p, mesh31p, connect):
-    with raises(TypeError):
-        connect_meshes(mesh11p, mesh31p, connect)
 
 
 def test_can_connect(connected_meshes, consumed_meshes, produced_meshes):

@@ -187,3 +187,10 @@ def test_encoding_is_none(no_encode_binary, no_encode_text):
 def test_temporary_path_has_extension(save_to):
     assert save_to.temporary_path(extension=".png").endswith(".png")
     assert save_to.temporary_path(extension=".JPG").endswith(".JPG")
+
+
+def test_string_representation(save_to):
+    string = repr(save_to)
+    assert string.startswith("<ContentDumper")
+    assert string.endswith(">")
+    assert save_to.encoding in string

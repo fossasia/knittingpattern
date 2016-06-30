@@ -41,3 +41,8 @@ def test_dump_to_knitting_pattern(dumper, parser, obj):
     dumper.knitting_pattern(spec)
     parser.assert_called_with(spec)
     parser(spec).knitting_pattern_set.assert_called_with(obj)
+
+
+def test_string_representation(dumper):
+    string = repr(dumper)
+    assert "JSONDumper" in string
