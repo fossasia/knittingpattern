@@ -182,5 +182,11 @@ class ObservableList(list):
             super().pop(index)
     
     def clear(self):
-        
-            
+        length = len(self)
+        if length:
+            self._notify_remove(0, length)
+        super().clear()
+
+
+
+
