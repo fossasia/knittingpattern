@@ -5,7 +5,7 @@ The :class:`knittingpattern.ObservableList.ObservableList` is a
 This way, a row can be notifies abot the change in its instructions.
 """
 
-from test_knittingpattern import fixture, MagicMock
+from test_knittingpattern import fixture, MagicMock, pytest
 from knittingpattern.ObservableList import ObservableList
 from weakref import WeakKeyDictionary
 from functools import wraps
@@ -39,6 +39,19 @@ def ol(onchange):
 class OtherSelf(object):
     
     """Class for other selves."""
+
+    def call(self, attr):
+        def call(*args, **kw):
+            original_list = self.real_list[:]
+            original_observable_list = self.observable_list[:]
+            original_changes = self.changes[:]
+            observable_value = call_attr(self.observable_list, attr, args, kw)
+            real_value = call_attr(self.real_list, attr, args, kw)
+            return StepTester((self.real_list, self.observable_list),
+                              (original_list, original_observable_list),
+                              (real_value, observable_value), 
+                              (original_changes, self.changes))
+        return call
 
 
 other_selves = WeakKeyDictionary()
@@ -160,18 +173,7 @@ class ObservableChain(object):
     def __getattribute__(self, attr):
         if hasattr(self, attr):
             return getattr(self, attr)
-        def call(*args, **kw):
-            original_list = self.real_list[:]
-            original_observable_list = self.observable_list[:]
-            original_changes = self.changes[:]
-            observable_value = call_attr(self.observable_list, attr, args, kw)
-            real_value = call_attr(self.real_list, attr, args, kw)
-            return StepTester((self.real_list, self.observable_list),
-                              (original_list, original_observable_list),
-                              (real_value, observable_value), 
-                              (original_changes, self.changes))
-        return call
-
+        return self.call(attr)
 
 @fixture
 def chain(ol, changes):
@@ -204,12 +206,12 @@ class TestObserver:
 
 # To test:
 # def __init__(self, initlist=None):
-# def __repr__(self):
-# def __lt__(self, other): 
-# def __le__(self, other):
-# def __eq__(self, other):
-# def __gt__(self, other): 
-# def __ge__(self, other): 
+# def __repr__(self):              tested in TestNoChanges
+# def __lt__(self, other):         tested in TestNoChanges
+# def __le__(self, other):         tested in TestNoChanges
+# def __eq__(self, other):         tested in TestNoChanges
+# def __gt__(self, other):         tested in TestNoChanges
+# def __ge__(self, other):         tested in TestNoChanges
 # def __contains__(self, item): 
 # def __len__(self): 
 # def __getitem__(self, i):
@@ -226,7 +228,7 @@ class TestObserver:
 # def pop(self, i=-1):             tested in TestRemoveElements
 # def remove(self, item):          tested in TestRemoveElements
 # def clear(self):                 tested in TestRemoveElements
-# def copy(self): 
+# def copy(self):                  tested in TestNoChanges
 # def count(self, item):           tested StepTester
 # def index(self, item, *args):    tested StepTester
 # def reverse(self):
@@ -269,3 +271,31 @@ class TestRemoveElements:
         chain.extend([1, 2, 3, 4])
         chain.clear().assert_remove(0, [1, 2, 3, 4])
         chain.clear().assert_no_change()
+
+
+COMPARISONS = ["__lt__", "__le__", "__eq__", "__gt__", "__ge__"]
+LISTS = [[1, 2, 3, 4], [2, 3, 4], [0, 1, 2, 3, 4]]
+
+class TestNoChanges:
+    
+    def test_copy(self, chain):
+        chain.copy().assert_no_change()
+        chain.extend([2, 3, 657, 8])
+        chain.copy().assert_no_change()
+    
+    def test_repr(self, chain):
+        chain.call("__repr__")().assert_no_change()
+        chain.extend([1, 2, 3, 4])
+        chain.call("__repr__")().assert_no_change()
+     
+    @pytest.mark.parametrize("method", COMPARISONS)
+    @pytest.mark.parametrize("other", LISTS)
+    @pytest.mark.parametrize("elements", LISTS)
+    def test_comparisons(self, chain, method, elements, other):
+        chain.extend(elements)
+        chain.call(method)(other).assert_no_change()
+
+
+
+
+
