@@ -224,8 +224,8 @@ class TestObserver:
 # def append(self, item):          tested in TestAddElements
 # def insert(self, i, item):       tested in TestAddElements
 # def pop(self, i=-1):             tested in TestRemoveElements
-# def remove(self, item): 
-# def clear(self): 
+# def remove(self, item):          tested in TestRemoveElements
+# def clear(self):                 tested in TestRemoveElements
 # def copy(self): 
 # def count(self, item):           tested StepTester
 # def index(self, item, *args):    tested StepTester
@@ -259,5 +259,13 @@ class TestRemoveElements:
         chain.extend([1, 2, 3, 4])
         chain.pop().assert_remove(3, [4])
     
-    
+    def test_remove(self, chain):
+        chain.extend(range(30))
+        chain.remove(10).assert_remove(10, [10])
+        chain.remove(10).assert_no_change()
 
+    def test_clear(self, chain):
+        chain.clear().assert_no_change()
+        chain.extend([1, 2, 3, 4])
+        chain.clear().assert_remove(0, [1, 2, 3, 4])
+        chain.clear().assert_no_change()

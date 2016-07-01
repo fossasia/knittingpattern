@@ -145,7 +145,7 @@ class ObservableList(list):
         self.notifyObservers(change)
     
     def _notify_remove(self, index, length):
-        """Notify about an AddChange."""
+        """Notify about a RemoveChange."""
         change = RemoveChange(self, index, length)
         self.notifyObservers(change)
     
@@ -171,3 +171,16 @@ class ObservableList(list):
     def pop(self, index=-1):
         self._notify_remove(index, 1)
         return super().pop(index)
+
+    def remove(self, element):
+        try:
+            index = self.index(element)
+        except ValueError:
+            raise ValueError("list.remove(x): x not in list")
+        else:
+            self._notify_remove(index, 1)
+            super().pop(index)
+    
+    def clear(self):
+        
+            
