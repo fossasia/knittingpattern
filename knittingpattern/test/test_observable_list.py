@@ -21,10 +21,10 @@ def changes():
 
 @fixture
 def onchange(changes):
-    """The fucntion to call if a change happens."""
-    def add_call(call):
-        changes.append((call, call.elements[:]))
-    return add_call
+    """The fucntion to change if a change happens."""
+    def add_change(change):
+        changes.append((change, change.elements[:]))
+    return add_change
 
 
 @fixture
@@ -54,9 +54,23 @@ def other_self(func):
 
 
 def call_attr(obj, attr, args, kw):
-    """Calls an object s attribute and returns the result and the exception."""
+    """Calls an object s attribute and returns the result and the exception.
+    
+    :param obj: the object to call the method on
+    :param: attr: the attribute to get the coallable from
+    :param tuple args: a tuple of arguments. If elements of :paramref:`args`
+      are callable, their evaluation result becones the argument. This is
+      useful if you pass a mutable object i.e. a generator.
+    :param dict kw: the keyword arguments
+    """
+    args_ = []
+    for arg in args:
+        if callable(arg):
+            args_.append(arg())
+        else:
+            args_.append(arg)
     try:
-        return getattr(obj, attr)(*args, **kw), None
+        return getattr(obj, attr)(*args_, **kw), None
     except:
         ty, err, tb = sys.exc_info()
         traceback.print_exception(ty, err, tb)
@@ -85,6 +99,8 @@ class StepTester(object):
             assert element == self.observable[i]
         assert all(a == b for a, b in zip(self.real, self.observable))
         assert len(self.real) == len(self.observable)
+        for element in self.real:
+            assert self.real.count(element) == self.observable.count(element)
         real_is_same = self.real_original == self.real
         observable_is_same = self.observable == self.observable_original
         assert real_is_same == observable_is_same
@@ -95,41 +111,41 @@ class StepTester(object):
         if error is not None:
             assert error.args == observable_error.args, ERROR_SAME
 
-    def assert_no_changes(self):
+    def assert_no_change(self):
         assert self.changes_before == self.changes_after
         
-    def assert_one_more_call(self):
+    def assert_one_more_change(self):
         assert len(self.changes_before) == len(self.changes_after) - 1, \
             OBSERVER_IS_NOTIFIED
     
     def assert_add(self, index, elements):
-        self.assert_one_more_call()
-        self._assert_call(self.changes_after[-1], index, elements)
+        self.assert_one_more_change()
+        self._assert_change(self.changes_after[-1], index, elements)
         for obj in (self.real, self.observable):
-            self._assert_call_adds(obj, index, elements)
+            self._assert_change_adds(obj, index, elements)
             
-    def _assert_call(self, call_and_elements, index, elements, adds=True):
-        call, call_elements = call_and_elements
+    def _assert_change(self, change_and_elements, index, elements, adds=True):
+        change, change_elements = change_and_elements
         length = len(elements)
-        assert call.adds() == adds
-        assert call.removes() != adds
-        assert call.start == index
-        assert call.stop == index + length
-        assert call.length == length
-        assert call.changed_object is self.observable
-        assert call_elements == elements
+        assert change.adds() == adds
+        assert change.removes() != adds
+        assert change.start == index
+        assert change.stop == index + length
+        assert change.length == length
+        assert change.changed_object is self.observable
+        assert change_elements == elements
     
-    def _assert_call_adds(self, obj, index, elements):
+    def _assert_change_adds(self, obj, index, elements):
         for element in elements:
             assert element in obj
-        for index, element in enumerate(elements, index):
-            assert obj[index] == element
-            assert obj.index(element) == index
+        for i, element in enumerate(elements, index):
+            assert obj[i] == element
+            assert obj.index(element) == i
         assert obj[index:index + len(elements)] == elements
 
     def assert_remove(self, index, elements):
-        self.assert_one_more_call()
-        self._assert_call(self.changes_after[-1], index, elements, adds=False)
+        self.assert_one_more_change()
+        self._assert_change(self.changes_after[-1], index, elements, adds=False)
     
 
 class ObservableChain(object):
@@ -185,23 +201,63 @@ class TestObserver:
         assert len(changes) == 1
         assert changes[0][0] is change
 
+
+# To test:
+# def __init__(self, initlist=None):
+# def __repr__(self):
+# def __lt__(self, other): 
+# def __le__(self, other):
+# def __eq__(self, other):
+# def __gt__(self, other): 
+# def __ge__(self, other): 
+# def __contains__(self, item): 
+# def __len__(self): 
+# def __getitem__(self, i):
+# def __setitem__(self, i, item):  
+# def __delitem__(self, i): 
+# def __add__(self, other):
+# def __radd__(self, other):
+# def __iadd__(self, other):
+# def __mul__(self, n):
+# __rmul__ = __mul__
+# def __imul__(self, n):
+# def append(self, item):          tested in TestAddElements
+# def insert(self, i, item):       tested in TestAddElements
+# def pop(self, i=-1):             tested in TestRemoveElements
+# def remove(self, item): 
+# def clear(self): 
+# def copy(self): 
+# def count(self, item):           tested StepTester
+# def index(self, item, *args):    tested StepTester
+# def reverse(self):
+# def sort(self, *args, **kwds):
+# def extend(self, other):         tested in TestAddElements
+
+
+
 class TestAddElements:
 
     def test_append_elements(self, chain):
-        test = chain.append(3)
-        test.assert_add(0, [3])
+        chain.append(3).assert_add(0, [3])
+        chain.append(99).assert_add(1, [99])
         
     def test_insert_element_at_end(self, chain):
         chain.insert(0, 224).assert_add(0, [224])
         chain.insert(2, 223).assert_add(1, [223])
         chain.insert(-2, 222).assert_add(0, [222])
+    
+    def test_extend(self, chain):
+        chain.extend([9, 8, 7, 6]).assert_add(0, [9, 8, 7, 6])
+        chain.extend(lambda:(str(i) for i in range(3))).assert_add(4, ["0", "1", "2"])
+        chain.extend([]).assert_no_change()
+
+
 
 class TestRemoveElements:
     
     def test_pop(self, chain):
         chain.extend([1, 2, 3, 4])
         chain.pop().assert_remove(3, [4])
-
-
-
+    
+    
 

@@ -82,6 +82,15 @@ class Change(object):
         :rtype: bool
         """
         return False
+    
+    def __repr__(self):
+        """The change as string."""
+        return "<{} {}[{}:{}]>".format(
+                self.__class__.__name__,
+                self.changed_object,
+                self.start,
+                self.stop
+            )
 
 
 class AddChange(Change):
@@ -153,8 +162,11 @@ class ObservableList(list):
     
     def extend(self, other):
         index = len(self)
-        super().extend(other)
-        self._notify_add(index, len(other))
+        length = 0
+        for length, element in enumerate(other, 1):
+            super().append(element)
+        if length:
+            self._notify_add(index, length)
     
     def pop(self, index=-1):
         self._notify_remove(index, 1)
