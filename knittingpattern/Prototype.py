@@ -39,9 +39,9 @@ class Prototype(object):
           If no value was found, :paramref:`default` is returned.
         :param key: a :ref:`specification key <prototype-key>`
         """
-        for d in self.__specification:
-            if key in d:
-                return d[key]
+        for base in self.__specification:
+            if key in base:
+                return base[key]
         return default
 
     def __getitem__(self, key):
