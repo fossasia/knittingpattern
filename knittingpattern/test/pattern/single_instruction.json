@@ -7,9 +7,15 @@
       "name" : "A.1",
       "rows" : [
         {
-          "id" : "1",
+          "id" : 1,
           "instructions" : [
-            {"id": "1.0"}
+            {}
+          ]
+        },
+        {
+          "id" : 2,
+          "instructions" : [
+            {}
           ]
         }
       ],
