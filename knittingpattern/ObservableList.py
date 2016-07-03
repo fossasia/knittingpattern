@@ -103,15 +103,15 @@ class Change(object):
         """The change as string."""
         step = ":{}".format(self.step) if self.step != 1 else ""
         return "<{} {}[{}:{}{}]>".format(
-                self.__class__.__name__,
-                self.changed_object,
-                self.start,
-                self.stop,
-                step
+            self.__class__.__name__,
+            self.changed_object,
+            self.start,
+            self.stop,
+            step
             )
 
     def items(self):
-        """Pairs of index and value."""
+        """Return an iterable over pairs of index and value."""
         return zip(self.range, self.elements)
 
 
@@ -120,7 +120,7 @@ class AddChange(Change):
     """A change that adds elements."""
 
     def adds(self):
-        """This change adds values.
+        """Whether the change adds values (True).
 
         :rtype: bool
         :return: :obj:`True`
@@ -133,7 +133,7 @@ class RemoveChange(Change):
     """A change that removes elements."""
 
     def removes(self):
-        """This change removes values.
+        """Whether the change removes values (True).
 
         :rtype: bool
         :return: :obj:`True`
@@ -150,10 +150,12 @@ class ObservableList(list):
 
     """
 
-    def __init__(self):
+    def __init__(self, iterable=()):
+        """See :class:`list`."""
         self._observers = []
+        self.extend(iterable)
 
-    def registerObserver(self, observer):
+    def register_observer(self, observer):
         """Register an observer.
 
         :param observer: callable that takes a :class:`Change` as first
@@ -161,7 +163,7 @@ class ObservableList(list):
         """
         self._observers.append(observer)
 
-    def notifyObservers(self, change):
+    def notify_observers(self, change):
         """Notify the observers about the change."""
         for observer in self._observers:
             observer(change)
@@ -169,32 +171,37 @@ class ObservableList(list):
     def _notify_add(self, slice_):
         """Notify about an AddChange."""
         change = AddChange(self, slice_)
-        self.notifyObservers(change)
+        self.notify_observers(change)
 
     def _notify_add_at(self, index, length=1):
+        """Notify about an AddChange at a caertain index and length."""
         slice_ = self._slice_at(index, length)
         self._notify_add(slice_)
 
     def _notify_remove_at(self, index, length=1):
+        """Notify about an RemoveChange at a caertain index and length."""
         slice_ = self._slice_at(index, length)
         self._notify_remove(slice_)
 
     def _notify_remove(self, slice_):
         """Notify about a RemoveChange."""
         change = RemoveChange(self, slice_)
-        self.notifyObservers(change)
+        self.notify_observers(change)
 
     def _slice_at(self, index, length=1):
+        """Create a slice for index and length."""
         length_ = len(self)
         if -length <= index < 0:
             index += length_
         return slice(index, index + length)
 
     def append(self, element):
+        """See list.append."""
         super().append(element)
         self._notify_add_at(len(self) - 1)
 
     def insert(self, index, item):
+        """See list.insert."""
         super().insert(index, item)
         length = len(self)
         if index >= length:
@@ -206,6 +213,7 @@ class ObservableList(list):
         self._notify_add_at(index)
 
     def extend(self, other):
+        """See list.extend."""
         index = len(self)
         length = 0
         for length, element in enumerate(other, 1):
@@ -214,10 +222,12 @@ class ObservableList(list):
             self._notify_add_at(index, length)
 
     def __iadd__(self, other):
+        """See list.__iadd__."""
         self.extend(other)
         return self
 
     def __imul__(self, multiplier):
+        """See list.__imul__."""
         if not isinstance(multiplier, int):
             return super().__imul__(multiplier)
         length = len(self)
@@ -232,6 +242,7 @@ class ObservableList(list):
         return self
 
     def pop(self, index=-1):
+        """See list.pop."""
         if not isinstance(index, int):
             raise TypeError("'str' object cannot be interpreted as an integer")
         length = len(self)
@@ -240,6 +251,7 @@ class ObservableList(list):
         return super().pop(index)
 
     def remove(self, element):
+        """See list.remove."""
         try:
             index = self.index(element)
         except ValueError:
@@ -249,21 +261,28 @@ class ObservableList(list):
             super().pop(index)
 
     def clear(self):
+        """See list.clear."""
         length = len(self)
         if length:
             self._notify_remove_at(0, length)
         super().clear()
 
     def __delitem__(self, index_or_slice):
+        """See list.__delitem__."""
         self._notify_delete(index_or_slice)
         super().__delitem__(index_or_slice)
 
     def __setitem__(self, index_or_slice, value):
+        """See list.__setitem__."""
         notify_add = self._notify_delete(index_or_slice)
         super().__setitem__(index_or_slice, value)
         notify_add()
 
     def _notify_delete(self, index_or_slice):
+        """Notify about a deletion at an index_or_slice.
+
+        :return: a function that notifies about an add at the same place.
+        """
         if isinstance(index_or_slice, int):
             length = len(self)
             if -length <= index_or_slice < length:
@@ -274,7 +293,7 @@ class ObservableList(list):
             self._notify_remove(slice_)
             return lambda: self._notify_add(index_or_slice)
 
-
+#: The methods that are replaced in :class:`ObservableList`.
 REPLACED_METHODS = ["__setitem__", "__delitem__", "clear", "remove", "pop",
                     "__imul__", "insert", "append", "extend", "__iadd__",
                     "__init__"]
@@ -282,7 +301,6 @@ REPLACED_METHODS = ["__setitem__", "__delitem__", "clear", "remove", "pop",
 for method_name in REPLACED_METHODS:
     method = getattr(ObservableList, method_name)
     method.__doc__ = getattr(list, method_name).__doc__
-
 del method, method_name
 
 __all__ = ["ObservableList", "Change", "AddChange", "RemoveChange"]

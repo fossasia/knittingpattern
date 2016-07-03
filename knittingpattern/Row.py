@@ -41,7 +41,7 @@ class Row(Prototype):
         self._id = row_id
         self._values = values
         self._instructions = ObservableList()
-        self._instructions.registerObserver(self._instructions_changed)
+        self._instructions.register_observer(self._instructions_changed)
         self._parser = parser
 
     def _instructions_changed(self, change):
