@@ -106,7 +106,6 @@ class StepTester(object):
 
     def assert_same(self):
         assert self.real_before == self.observable_before, PRECONDITION
-        print("real: {} observable: {}".format(self.real, self.observable))
         assert self.real == self.observable
         for i, element in enumerate(self.real):
             assert element == self.observable[i]

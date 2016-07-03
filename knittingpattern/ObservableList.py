@@ -5,6 +5,8 @@ from functools import wraps
 
 class Change(object):
 
+    """The base class for changes."""
+
     def __init__(self, list_, slice_):
         """Initialize the change.
 
@@ -110,8 +112,14 @@ class Change(object):
                 step
             )
 
+    def items(self):
+        """Pairs of index and value."""
+        return zip(self.range, self.elements)
+
 
 class AddChange(Change):
+
+    """A change that adds elements."""
 
     def adds(self):
         """This change adds values.
@@ -124,6 +132,8 @@ class AddChange(Change):
 
 class RemoveChange(Change):
 
+    """A change that removes elements."""
+
     def removes(self):
         """This change removes values.
 
@@ -135,14 +145,13 @@ class RemoveChange(Change):
 
 class ObservableList(list):
 
-    """The observable list behaves like a list but changees can be observed.
+    """The observable list behaves like a list but changes can be observed.
 
     See the `Observer Pattern
     <https://en.wikipedia.org/wiki/Observer_pattern>`__ for more understanding.
 
     """
 
-    @wraps(list.__init__)
     def __init__(self):
         self._observers = []
 
@@ -156,7 +165,6 @@ class ObservableList(list):
 
     def notifyObservers(self, change):
         """Notify the observers about the change."""
-        print(change)
         for observer in self._observers:
             observer(change)
 
@@ -179,18 +187,15 @@ class ObservableList(list):
         self.notifyObservers(change)
 
     def _slice_at(self, index, length=1):
-        print("slice at {}, {}".format(index, length))
         length_ = len(self)
         if -length <= index < 0:
             index += length_
         return slice(index, index + length)
 
-    @wraps(list.append)
     def append(self, element):
         super().append(element)
         self._notify_add_at(len(self) - 1)
 
-    @wraps(list.insert)
     def insert(self, index, item):
         super().insert(index, item)
         length = len(self)
@@ -202,7 +207,6 @@ class ObservableList(list):
                 index = 0
         self._notify_add_at(index)
 
-    @wraps(list.extend)
     def extend(self, other):
         index = len(self)
         length = 0
@@ -211,12 +215,10 @@ class ObservableList(list):
         if length:
             self._notify_add_at(index, length)
 
-    @wraps(list.__iadd__)
     def __iadd__(self, other):
         self.extend(other)
         return self
 
-    @wraps(list.__imul__)
     def __imul__(self, multiplier):
         if not isinstance(multiplier, int):
             return super().__imul__(multiplier)
@@ -231,7 +233,6 @@ class ObservableList(list):
             self._notify_add(slice(length, new_length))
         return self
 
-    @wraps(list.pop)
     def pop(self, index=-1):
         if not isinstance(index, int):
             raise TypeError("'str' object cannot be interpreted as an integer")
@@ -240,7 +241,6 @@ class ObservableList(list):
             self._notify_remove_at(index)
         return super().pop(index)
 
-    @wraps(list.remove)
     def remove(self, element):
         try:
             index = self.index(element)
@@ -250,19 +250,16 @@ class ObservableList(list):
             self._notify_remove_at(index)
             super().pop(index)
 
-    @wraps(list.clear)
     def clear(self):
         length = len(self)
         if length:
             self._notify_remove_at(0, length)
         super().clear()
 
-    @wraps(list.__delitem__)
     def __delitem__(self, index_or_slice):
         self._notify_delete(index_or_slice)
         super().__delitem__(index_or_slice)
 
-    @wraps(list.__setitem__)
     def __setitem__(self, index_or_slice, value):
         notify_add = self._notify_delete(index_or_slice)
         super().__setitem__(index_or_slice, value)
@@ -278,5 +275,16 @@ class ObservableList(list):
             slice_ = slice(*index_or_slice.indices(len(self)))
             self._notify_remove(slice_)
             return lambda: self._notify_add(index_or_slice)
+
+
+REPLACED_METHODS = ["__setitem__", "__delitem__", "clear", "remove", "pop",
+                    "__imul__", "insert", "append", "extend", "__iadd__",
+                    "__init__"]
+
+for method_name in REPLACED_METHODS:
+    method = getattr(ObservableList, method_name)
+    method.__doc__ = getattr(list, method_name).__doc__
+
+del method, method_name
 
 __all__ = ["ObservableList", "Change", "AddChange", "RemoveChange"]
