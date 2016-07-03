@@ -37,7 +37,7 @@ def empty_row(row):
 
 def test_there_is_only_one_instruction(row):
     """There should be only one instruction, as claimed many times.
-    
+
     If people write that there is only one instruction, we should make that
     sure!"""
     assert len(row.instructions) == 1
@@ -49,7 +49,3 @@ def test_removing_the_instruction_gives_an_error_when_accessing_its_index(
     no index."""
     with raises(InstructionNotFoundInRow):
         instruction.index_in_row
-
-
-
-
