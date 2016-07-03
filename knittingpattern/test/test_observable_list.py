@@ -31,7 +31,7 @@ def onchange(changes):
 def ol(onchange):
     """The observable list."""
     ol_ = ObservableList()
-    ol_.registerObserver(onchange)
+    ol_.register_observer(onchange)
     return ol_
 
 
@@ -91,7 +91,7 @@ def call_attr(obj, attr, args, kw):
 
 PRECONDITION = "Observable and real object should start as the same."
 OBSERVER_IS_NOTIFIED = "The observer must be notified. "\
-    "You probably forgot the call \"notifyObservers(change)\"."
+    "You probably forgot the call \"notify_observers(change)\"."
 ERROR_SAME = "error is the same"
 
 
@@ -224,13 +224,13 @@ class TestObserver:
     def test_notify_observers_mock(self, ol):
         observer = MagicMock()
         change = MagicMock()
-        ol.registerObserver(observer)
-        ol.notifyObservers(change)
+        ol.register_observer(observer)
+        ol.notify_observers(change)
         observer.assert_called_with(change)
 
     def test_notify_observers(self, ol, changes):
         change = MagicMock()
-        ol.notifyObservers(change)
+        ol.notify_observers(change)
         assert len(changes) == 1
         assert changes[0][0] is change
 
@@ -416,3 +416,8 @@ def test_methods_have_the_description_and_help(method):
     real = getattr(list, method)
     observable = getattr(ObservableList, method)
     assert real.__doc__ == observable.__doc__
+
+
+def test_initialize_with_list():
+    items = (1, 2, 3)
+    assert ObservableList(items) == list(items)
