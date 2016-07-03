@@ -19,7 +19,7 @@ def pattern(single_instruction_pattern_set):
 @fixture
 def row(pattern):
     """The row with one instruction."""
-    return pattern.rows["1"]
+    return pattern.rows[1]
 
 
 @fixture
@@ -29,8 +29,9 @@ def instruction(row):
 
 
 @fixture
-def empty_row(row):
+def empty_row(row, instruction):
     """Now, there is no instruction any more."""
+    assert instruction
     row.instructions.pop()
     return row
 
