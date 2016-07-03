@@ -1,0 +1,29 @@
+{
+  "type" : "knitting pattern",
+  "version" : "0.1",
+  "patterns" : [
+    {
+      "id" : "color test",
+      "name" : "colored line",
+      "rows" : [
+        {
+          "id" : "colored",
+          "color": "blue",
+          "instructions" : [
+            {"id": 1.1, "color": "green"},
+            {"id": 1.2}
+          ]
+        },
+        {
+          "id" : "uncolored",
+          "instructions" : [
+            {"id": 2.1},
+            {"id": 2.1, "color": "yellow"}
+          ]
+        }
+      ],
+      "connections" : [
+      ]
+    }
+  ]
+}

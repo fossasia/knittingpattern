@@ -51,12 +51,3 @@ def test_access_with_id(charlotte):
 def test_iterate_on_pattern(charlotte):
     patterns = charlotte.patterns
     assert list(iter(patterns)) == [patterns.at(0), patterns.at(1)]
-
-
-def test_inherit_color(cafe):
-    a_2 = cafe.patterns["A.2"]
-    row_1 = a_2.rows["A.2.1"]
-    assert row_1.color == "light brown"
-    for instruction in row_1.instructions:
-        assert instruction.color == row_1.color
-        assert instruction.has_color()
