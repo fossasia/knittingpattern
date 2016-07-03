@@ -1,3 +1,4 @@
+"""This module contains the meshes of the knit work."""
 from abc import ABCMeta, abstractmethod
 
 

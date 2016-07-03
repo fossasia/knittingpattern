@@ -8,6 +8,7 @@ rows.
 """
 from .Prototype import Prototype
 from itertools import chain
+from. ObservableList import ObservableList
 
 ID = "id"  #: the id of the row
 COLOR = "color"  #: the color of the row
@@ -24,7 +25,7 @@ class Row(Prototype):
     <knittingpattern.KnittingPattern.KnittingPattern>`.
     """
 
-    def __init__(self, row_id, values, inheriting_from=()):
+    def __init__(self, row_id, parser, values, inheriting_from=()):
         """Create a new row.
 
         :param row_id: an identifier for the row
@@ -39,7 +40,19 @@ class Row(Prototype):
         super().__init__(values, inheriting_from)
         self._id = row_id
         self._values = values
-        self._instructions = []
+        self._instructions = ObservableList()
+        self._instructions.register_observer(self._instructions_changed)
+        self._parser = parser
+
+    def _instructions_changed(self, change):
+        """Call when there is a change in the instructions."""
+        if change.adds():
+            for index, instruction in change.items():
+                if isinstance(instruction, dict):
+                    in_row = self._parser.instruction_in_row(self, instruction)
+                    self.instructions[index] = in_row
+                else:
+                    instruction.transfer_to_row(self)
 
     @property
     def id(self):

@@ -29,9 +29,11 @@ def load_and_dump(create_loader, create_dumper, load_and_dump_):
     """
     @wraps(load_and_dump_)
     def load_and_dump__(*args1, **kw):
+        """Return the loader."""
         def load(*args2):
-            """return the dumper"""
+            """Return the dumper."""
             def dump(*args3):
+                """Dump the object."""
                 return load_and_dump_(*(args2 + args3 + args1), **kw)
             return create_dumper(dump)
         return create_loader(load)

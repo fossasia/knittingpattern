@@ -118,16 +118,19 @@ class Parser(object):
             same_id = self._to_id(values[SAME_AS])
             same = self._id_cache[same_id]
             inheritance.append(same)
-        row = self._spec.new_row(row_id, values, inheritance)
-        for instruction_ in row.get(INSTRUCTIONS, []):
-            instruction = self._instruction(row, instruction_)
-            row.instructions.append(instruction)
+        row = self._spec.new_row(row_id, self, values, inheritance)
+        row.instructions.extend(row.get(INSTRUCTIONS, []))
         self._id_cache[row_id] = row
         return row
 
-    def _instruction(self, row, instruction_):
-        """Parse an instruction."""
-        whole_instruction_ = self._as_instruction(instruction_)
+    def instruction_in_row(self, row, specification):
+        """Parse an instruction.
+
+        :param row: the row of the instruction
+        :param specification: the specification of the instruction
+        :return: the instruction in the row
+        """
+        whole_instruction_ = self._as_instruction(specification)
         return self._spec.new_instruction_in_row(row, whole_instruction_)
 
     def _pattern(self, base):
