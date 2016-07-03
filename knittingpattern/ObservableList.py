@@ -1,6 +1,4 @@
 """This module contains the ObservableList."""
-from collections import UserList
-from functools import wraps
 
 
 class Change(object):
