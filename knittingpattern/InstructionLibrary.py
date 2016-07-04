@@ -102,6 +102,15 @@ class InstructionLibrary(object):
         """
         return self.as_instruction({TYPE: instruction_type})
 
+    @property
+    def loaded_types(self):
+        """The types loaded in this library.
+
+        :return: a list of types, preferably as :class:`string <str>`
+        :rtype: list
+        """
+        return list(self._type_to_instruction)
+
 
 class DefaultInstructions(InstructionLibrary):
     """The default specifications for instructions ported with this package

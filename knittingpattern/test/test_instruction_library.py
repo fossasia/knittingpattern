@@ -97,3 +97,14 @@ def test_library_handles_loading_several_instructions_with_same_type(library2):
 
 def test_access_via_type(library):
     assert library["knit"]["type"] == "knit"
+
+UNLOADED = "unloaded type"
+
+
+def test_when_library_load_instruction_it_is_in_its_types(library2):
+    library2.add_instruction({"type": UNLOADED})
+    assert UNLOADED in library2.loaded_types
+
+
+def test_unloaded_instruction_is_not_in_the_types(library2):
+    assert UNLOADED not in library2.loaded_types

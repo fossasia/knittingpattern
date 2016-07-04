@@ -6,29 +6,6 @@ from collections import OrderedDict
 #: The svg tag is renamed to the tag given in :data:`DEFINITION_HOLDER`.
 DEFINITION_HOLDER = "g"
 
-#: The default z-index, see :func:`get_z`.
-DEFAULT_Z = 0
-
-#: Instructions have a default specification. In this specification the key
-#: in :data:`RENDER` points to configuration for rendering.
-RENDER = "render"
-
-#: The key to look for the z-index inside the :data:`render` specification.
-#: .. seealso:: :func:`get_z`, :data:`DEFAULT_Z`
-RENDER_Z = "z"
-
-
-def get_z(instruction):
-    """The z-index of the pattern.
-
-    :param knittingpattern.Instruction.Instruction instruction:
-      the instruction to compute the z-index from
-    :return: the z-index of the instruction. Instructions with a higher z-index
-      are displayed in front of instructions with lower z-index.
-    :rtype: float
-    """
-    return instruction.get(RENDER, {}).get(RENDER_Z, DEFAULT_Z)
-
 
 class KnittingPatternToSVG(object):
     """Converts a KnittingPattern to SVG.
@@ -70,10 +47,10 @@ class KnittingPatternToSVG(object):
         builder.bounding_box = map(lambda f: f*zoom, layout.bounding_box)
         instructions = list(layout.walk_instructions(
             lambda i: (i.x*zoom, i.y*zoom, i.instruction)))
-        instructions.sort(key=lambda x_y_i: get_z(x_y_i[2]))
+        instructions.sort(key=lambda x_y_i: x_y_i[2].render_z)
         for x, y, instruction in instructions:
-            render_z = get_z(instruction)
-            z_id = ("" if render_z == DEFAULT_Z else "-{}".format(render_z))
+            render_z = instruction.render_z
+            z_id = ("" if not render_z else "-{}".format(render_z))
             layer_id = "row-{}{}".format(instruction.row.id, z_id)
             def_id = self._register_instruction_in_defs(instruction)
             scale = self._symbol_id_to_scale[def_id]
@@ -146,5 +123,4 @@ class KnittingPatternToSVG(object):
         scale = self._zoom / (bbox[3] - bbox[1])
         self._symbol_id_to_scale[instruction_id] = scale
 
-__all__ = ["KnittingPatternToSVG", "get_z", "DEFINITION_HOLDER", "RENDER_Z",
-           "RENDER", "DEFAULT_Z"]
+__all__ = ["KnittingPatternToSVG", "DEFINITION_HOLDER"]
