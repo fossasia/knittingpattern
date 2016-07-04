@@ -1,3 +1,6 @@
+"""Test creating png files from knitting patterns.
+
+Each pixel is an instruction."""
 from test_convert import fixture, pytest, MagicMock, call
 from knittingpattern.convert.AYABPNGBuilder import AYABPNGBuilder
 from collections import namedtuple

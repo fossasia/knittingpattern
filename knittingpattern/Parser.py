@@ -118,16 +118,19 @@ class Parser(object):
             same_id = self._to_id(values[SAME_AS])
             same = self._id_cache[same_id]
             inheritance.append(same)
-        row = self._spec.new_row(row_id, values, inheritance)
-        for instruction_ in row.get(INSTRUCTIONS, []):
-            instruction = self._instruction(row, instruction_)
-            row.instructions.append(instruction)
+        row = self._spec.new_row(row_id, self, values, inheritance)
+        row.instructions.extend(row.get(INSTRUCTIONS, []))
         self._id_cache[row_id] = row
         return row
 
-    def _instruction(self, row, instruction_):
-        """Parse an instruction."""
-        whole_instruction_ = self._as_instruction(instruction_)
+    def instruction_in_row(self, row, specification):
+        """Parse an instruction.
+
+        :param row: the row of the instruction
+        :param specification: the specification of the instruction
+        :return: the instruction in the row
+        """
+        whole_instruction_ = self._as_instruction(specification)
         return self._spec.new_instruction_in_row(row, whole_instruction_)
 
     def _pattern(self, base):
@@ -150,24 +153,30 @@ class Parser(object):
         for connection in connections:
             from_row_id = self._to_id(connection[FROM][ID])
             from_row = self._id_cache[from_row_id]
-            from_row_mesh_index = connection[FROM].get(START, DEFAULT_START)
+            from_row_start_index = connection[FROM].get(START, DEFAULT_START)
             from_row_number_of_possible_meshes = \
-                from_row.number_of_produced_meshes - from_row_mesh_index
+                from_row.number_of_produced_meshes - from_row_start_index
             to_row_id = self._to_id(connection[TO][ID])
             to_row = self._id_cache[to_row_id]
-            to_row_mesh_index = connection[TO].get(START, DEFAULT_START)
+            to_row_start_index = connection[TO].get(START, DEFAULT_START)
             to_row_number_of_possible_meshes = \
-                to_row.number_of_consumed_meshes - to_row_mesh_index
+                to_row.number_of_consumed_meshes - to_row_start_index
             meshes = min(from_row_number_of_possible_meshes,
                          to_row_number_of_possible_meshes)
             # TODO: test all kinds of connections
             number_of_meshes = connection.get(MESHES, meshes)
-            from_row._produce_number_of_meshes_for_row(
-                    from_row_mesh_index,
-                    from_row_mesh_index + number_of_meshes,
-                    to_row,
-                    to_row_mesh_index
-                )
+            from_row_stop_index = from_row_start_index + number_of_meshes
+            to_row_stop_index = to_row_start_index + number_of_meshes
+            assert 0 <= from_row_start_index <= from_row_stop_index
+            produced_meshes = from_row.produced_meshes[
+                from_row_start_index:from_row_stop_index]
+            assert 0 <= to_row_start_index <= to_row_stop_index
+            consumed_meshes = to_row.consumed_meshes[
+                to_row_start_index:to_row_stop_index]
+            assert len(produced_meshes) == len(consumed_meshes)
+            mesh_pairs = zip(produced_meshes, consumed_meshes)
+            for produced_mesh, consumed_mesh in mesh_pairs:
+                produced_mesh.connect_to(consumed_mesh)
 
     def _get_type(self, values):
         """:return: the type of a knitting pattern set."""

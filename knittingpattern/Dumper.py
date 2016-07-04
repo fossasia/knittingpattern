@@ -6,6 +6,7 @@ and save them to files.
 from io import StringIO, BytesIO
 from tempfile import NamedTemporaryFile
 import json
+import xmltodict
 from .FileWrapper import BytesWrapper, TextWrapper
 
 
@@ -204,12 +205,8 @@ class ContentDumper(object):
         :return: the string represenation of this object
         :rtype: str
         """
-        name = getattr(self.__dump_to_file, "__name__", self.__dump_to_file)
-        mode = ("text" if self.__text_is_expected else "bytes")
-        return "<{} for {} in {} mode encoded in {} >".format(
+        return "<{} in with encoding {} >".format(
                 self.__class__.__name__,
-                name,
-                mode,
                 self.__encoding
             )
 
@@ -249,4 +246,24 @@ class JSONDumper(ContentDumper):
         return loader.object(self.object())
 
 
-__all__ = ["ContentDumper", "JSONDumper"]
+class XMLDumper(ContentDumper):
+    """Used to dump objects as XML. Useful for dumping SVGs."""
+
+    def __init__(self, on_dump):
+        """Create a new XMLDumper object with the callable `on_dump`.
+
+        `on_dump` takes no aguments and returns the object that should be
+        serialized to XML."""
+        super().__init__(self._dump_to_file)
+        self.__dump_object = on_dump
+
+    def object(self):
+        """Return the object that should be dumped."""
+        return self.__dump_object()
+
+    def _dump_to_file(self, file):
+        """dump to the file"""
+        xmltodict.unparse(self.object(), file, pretty=True)
+
+
+__all__ = ["ContentDumper", "JSONDumper", "XMLDumper"]

@@ -21,8 +21,8 @@ __author__ = 'Nicco Kunzmann'
 
 def read_file_named(file_name):
     file_path = os.path.join(HERE, file_name)
-    with open(file_path) as f:
-        return f.read()
+    with open(file_path) as file:
+        return file.read()
 
 
 def read_requirements_file(file_name):

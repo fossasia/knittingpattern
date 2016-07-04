@@ -1,0 +1,49 @@
+{
+  "type" : "knitting pattern",
+  "version" : "0.1",
+  "patterns" : [
+    {
+      "id" : "line",
+      "name" : "line of three meshes",
+      "rows" : [
+        {
+          "id" : 1,
+          "instructions" : [
+            {"id": 1.1},
+            {"id": 1.2}
+          ]
+        },
+        {
+          "id" : 2,
+          "instructions" : [
+            {"id": 2.1}
+          ]
+        },
+        {
+          "id" : 3,
+          "instructions" : [
+            {"id": 3.1}
+          ]
+        }
+      ],
+      "connections" : [
+        {
+          "from" : {
+            "id" : 1
+          },
+          "to" : {
+            "id" : 2
+          }
+        },
+        {
+          "from" : {
+            "id" : 2
+          },
+          "to" : {
+            "id" : 3
+          }
+        }
+      ]
+    }
+  ]
+}

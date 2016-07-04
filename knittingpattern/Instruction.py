@@ -1,8 +1,8 @@
-""":class:`knitting patterns <KnittingPattern>` consist of
-:class:`instructions <Instruction>`.
+"""Knitting patterns consist of instructions.
 
-These instructions have certain attributes in common.
-In this module you can find the functinality of these instructions.
+The :class:`instructions <Instruction>`. that are used in the
+:class:`knitting patterns <KnittingPattern>` can be foudn in this module.
+They have certain attributes in common.
 
 """
 from .Prototype import Prototype
@@ -35,7 +35,9 @@ INSTRUCTION_NOT_FOUND_MESSAGE = \
 
 
 class Instruction(Prototype):
+
     """Instructions specify what should be done during knitting.
+
     This class represents the basic interface for instructions.
 
     It is based on the
@@ -52,7 +54,8 @@ class Instruction(Prototype):
 
     @property
     def id(self):
-        """
+        """The id of the instruction.
+
         :return: the :data:`id <ID>` of the instruction or
           :obj:`None` if none is specified.
         """
@@ -60,15 +63,24 @@ class Instruction(Prototype):
 
     @property
     def type(self):
-        """
+        """The type of the instruction.
+
         :return: the :data:`type <TYPE>` of the instruction or
           :data:`DEFAULT_TYPE` if none is specified.
+        :rtype: str
+
+        The type should be a string.
+        Depending on the type, the instruction can receive additional
+        attributes.
+
+        .. seealso:: :mod:`knittingpattern.InstructionLibrary`
         """
         return self.get(TYPE, DEFAULT_TYPE)
 
     @property
     def color(self):
-        """
+        """The color of the instruction.
+
         :return: the :data:`color <COLOR>` of the instruction or
           :obj:`None` if none is specified.
         """
@@ -76,7 +88,8 @@ class Instruction(Prototype):
 
     @property
     def description(self):
-        """
+        """The description of the instruction.
+
         :return: the :data:`description <DESCRIPTION>` of the instruction or
           :obj:`None` if none is specified.
         """
@@ -84,7 +97,8 @@ class Instruction(Prototype):
 
     @property
     def number_of_consumed_meshes(self):
-        """
+        """The number of meshes that this inctrucion consumes.
+
         :return: the :data:`number of consumed meshes
           <NUMBER_OF_CONSUMED_MESHES>` of the instruction or
           :data:`DEFAULT_NUMBER_OF_CONSUMED_MESHES` if none is specified.
@@ -94,7 +108,8 @@ class Instruction(Prototype):
 
     @property
     def number_of_produced_meshes(self):
-        """
+        """The number of meshes that this instruction produces.
+
         :return: the :data:`number of produced meshes
           <NUMBER_OF_PRODUCED_MESHES>` of the instruction or
           :data:`DEFAULT_NUMBER_OF_PRODUCED_MESHES` if none is specified.
@@ -103,43 +118,52 @@ class Instruction(Prototype):
                         DEFAULT_NUMBER_OF_PRODUCED_MESHES)
 
     def has_color(self):
-        """determines if a color is specified
+        """Whether this instruction has a color.
 
         :return: whether a :data:`color <COLOR>` is specified
         :rtype: bool
         """
-        return COLOR in self
+        return self.color is not None
 
     def does_knit(self):
-        """
+        """Whether this instruction is a knit instruction.
+
         :return: whether this instruction is a knit instruction
         :rtype: bool
         """
         return self.type == KNIT_TYPE
 
     def does_purl(self):
-        """
+        """Whether this instruction is a purl instruction.
+
         :return: whether this instruction is a purl instruction
         :rtype: bool
         """
         return self.type == PURL_TYPE
 
     def produces_meshes(self):
-        """
+        """Whether this instcution produces meshes.
+
         :return: whether this instruction produces any meshes
         :rtype: bool
+
+        .. seealso:: :attr:`number_of_produced_meshes`
         """
         return self.number_of_produced_meshes != 0
 
     def consumes_meshes(self):
-        """
+        """Whether this instruction consumes meshes.
+
         :return: whether this instruction consumes any meshes
         :rtype: bool
+
+        .. seealso:: :attr:`number_of_consumed_meshes`
         """
         return self.number_of_consumed_meshes != 0
 
 
 class InstructionInRow(Instruction):
+
     """Instructions can be placed in rows.
 
     Then, they have additional attributes and properties.
@@ -158,7 +182,23 @@ class InstructionInRow(Instruction):
                 self._new_produced_mesh(self, index)
                 for index in range(self.number_of_produced_meshes)
             ]
+        self._consumed_meshes = [
+                self._new_consumed_mesh(self, index)
+                for index in range(self.number_of_consumed_meshes)
+            ]
         self._cached_index_in_row = None
+
+    def transfer_to_row(self, new_row):
+        """Transfer this instruction to a new row.
+
+        :param knittingpattern.Row.Row new_row: the new row the instruction is
+          in.
+        """
+        if new_row != self._row:
+            index = self.get_index_in_row()
+            if index is not None:
+                self._row.instructions.pop(index)
+            self._row = new_row
 
     @property
     def _new_produced_mesh(self):
@@ -404,29 +444,7 @@ class InstructionInRow(Instruction):
 
         .. seealso:: :attr:`produced_meshes`, :attr:`producing_instructions`
         """
-        return [
-                self._consumed_meshes_at(index)
-                for index in range(self.number_of_consumed_meshes)
-            ]
-
-    def _consumed_meshes_at(self, mesh_index):
-        """
-        :param int mesh_index: the index of the consumed mesh
-        :return: a :class:`mesh <knittingpattern.Mesh.Mesh>` that is consumed
-          at the :paramref:`mesh_index`
-        :rtype: knittingpattern.Mesh.Mesh
-        """
-        consuming_row = self.row
-        index_in_consuming_row = \
-            self.index_of_first_consumed_mesh_in_row + \
-            mesh_index
-        origin = consuming_row._get_producing_row_and_index(
-                index_in_consuming_row
-            )
-        if origin is None:
-            return self._new_consumed_mesh(self, mesh_index)
-        producing_row, mesh_index_in_producing_row = origin
-        return producing_row.produced_meshes[mesh_index_in_producing_row]
+        return self._consumed_meshes
 
     def __repr__(self):
         """:obj:`repr(instruction) <repr>` used for :func:`print`.
@@ -471,6 +489,18 @@ class InstructionInRow(Instruction):
         """
         return [(mesh.consuming_instruction if mesh.is_consumed() else None)
                 for mesh in self.produced_meshes]
+
+    @property
+    def color(self):
+        """The color of the instruction.
+
+        :return: the :data:`color <COLOR>` of the instruction or
+          :obj:`None` if none is specified.
+
+        If no color is specified in the instruction, it is inherited form the
+        row.
+        """
+        return self.get(COLOR, self.row.color)
 
 
 class InstructionNotFoundInRow(ValueError):

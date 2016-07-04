@@ -18,6 +18,7 @@ Reference
    knittingpattern/Mesh
    knittingpattern/Parser
    knittingpattern/Prototype
+   knittingpattern/ObservableList
    knittingpattern/convert/index
    knittingpattern/convert/AYABPNGBuilder
    knittingpattern/convert/AYABPNGDumper
@@ -26,3 +27,4 @@ Reference
    knittingpattern/convert/SVGBuilder
    knittingpattern/convert/image_to_knittingpattern
    knittingpattern/convert/load_and_dump
+   knittingpattern/convert/KnittingPatternToSVG
