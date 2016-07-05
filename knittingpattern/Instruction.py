@@ -7,6 +7,7 @@ They have certain attributes in common.
 """
 from .Prototype import Prototype
 from .Mesh import ProducedMesh, ConsumedMesh
+from .convert.color import convert_color_to_RRGGBB
 
 
 # pattern specification
@@ -150,6 +151,17 @@ class Instruction(Prototype):
         .. seealso:: :attr:`number_of_consumed_meshes`
         """
         return self.number_of_consumed_meshes != 0
+
+    @property
+    def hex_color(self):
+        """The color in "#RRGGBB" format.
+
+        :return: the :attr:`color` in "#RRGGBB" format or none if no color is
+          given
+        """
+        if self.has_color():
+            return convert_color_to_RRGGBB(self.color)
+        return None
 
 
 class InstructionInRow(Instruction):

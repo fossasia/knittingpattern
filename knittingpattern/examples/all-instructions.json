@@ -1,0 +1,36 @@
+{
+  "version" : "0.1",
+  "type" : "knitting pattern", 
+  "comment" : {
+    "markdown" : "This pattern is taken from [garnstudio](http://www.garnstudio.com/pattern.php?id=7350&cid=19).",
+    "picture" : {
+      "type" : "url",
+      "url" : "http://www.garnstudio.com/drops/mag/167/17/17-lp.jpg"
+    }
+  },
+  "patterns" : [
+    {
+      "name" : "all-instructions", 
+      "id" : "A.2", 
+      "rows" : [
+        {
+          "id" : 1,
+          "color" : "#0000ff",
+          "instructions" : [
+            {"type" : "bo"},
+            {"type" : "cdd"},
+            {"type" : "co"},
+            {"type" : "default-unknown"},
+            {"type" : "k2tog"},
+            {"type" : "knit"},
+            {"type" : "purl"},
+            {"type" : "skp"},
+            {"type" : "yo"}
+          ]
+        }
+      ],
+      "connections" : [
+      ]
+    }
+  ]
+}

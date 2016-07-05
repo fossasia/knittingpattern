@@ -6,6 +6,7 @@ They just contain colors.
 """
 import webcolors
 import PIL.Image
+from .color import convert_color_to_RRGGBB
 
 
 class AYABPNGBuilder(object):
@@ -61,12 +62,7 @@ class AYABPNGBuilder(object):
         color "#RrGgBb"
 
         """
-        if not color.startswith("#"):
-            rgb = webcolors.html5_parse_legacy_color(color)
-            hex_color = webcolors.html5_serialize_simple_color(rgb)
-        else:
-            hex_color = color
-        return webcolors.normalize_hex(hex_color)
+        return convert_color_to_RRGGBB(color)
 
     def _convert_RRGGBB_to_image_color(self, rrggbb):
         """:return: the color that is used by the image"""
