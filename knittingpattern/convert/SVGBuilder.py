@@ -152,9 +152,7 @@ class SVGBuilder(object):
           which should be added to the SVG structure.
         """
         if self._svg["defs"] is None:
-            print("\n\ntrue\n\n")
             self._svg["defs"] = {}
-        print(self._svg["defs"])
         for def_ in defs:
             for key, value in def_.items():
                 if key.startswith("@"):

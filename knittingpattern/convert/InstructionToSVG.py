@@ -60,7 +60,7 @@ class InstructionToSVG(object):
         instruction_type = instruction.type
         if instruction_type in self._instruction_type_to_file_content:
             svg = self._instruction_type_to_file_content[instruction_type]
-            return self._set_fills_in_color_layer(svg, instruction.color)
+            return self._set_fills_in_color_layer(svg, instruction.hex_color)
         return self.default_instruction_to_svg_dict(instruction)
 
     def instruction_to_svg(self, instruction):
@@ -166,7 +166,7 @@ class InstructionToSVG(object):
         default_svg = self._instruction_type_to_file_content[default_type]
         default_svg = default_svg.replace(rep_str, instruction_type)
         colored_svg = self._set_fills_in_color_layer(default_svg,
-                                                     instruction.color)
+                                                     instruction.hex_color)
         return colored_svg
 
 #: The name of the folder containing the svg files for the default
