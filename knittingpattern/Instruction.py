@@ -7,7 +7,7 @@ They have certain attributes in common.
 """
 from .Prototype import Prototype
 from .Mesh import ProducedMesh, ConsumedMesh
-from .convert.color import convert_color_to_RRGGBB
+from .convert.color import convert_color_to_rrggbb
 
 
 # pattern specification
@@ -160,7 +160,7 @@ class Instruction(Prototype):
           given
         """
         if self.has_color():
-            return convert_color_to_RRGGBB(self.color)
+            return convert_color_to_rrggbb(self.color)
         return None
 
 

@@ -2,7 +2,7 @@
 import webcolors
 
 
-def convert_color_to_RRGGBB(color):
+def convert_color_to_rrggbb(color):
     """The color in "#RRGGBB" format.
 
     :return: the :attr:`color` in "#RRGGBB" format
@@ -14,4 +14,4 @@ def convert_color_to_RRGGBB(color):
         hex_color = color
     return webcolors.normalize_hex(hex_color)
 
-__all__ = ["convert_color_to_RRGGBB"]
+__all__ = ["convert_color_to_rrggbb"]

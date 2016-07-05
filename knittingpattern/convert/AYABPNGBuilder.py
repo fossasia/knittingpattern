@@ -6,7 +6,7 @@ They just contain colors.
 """
 import webcolors
 import PIL.Image
-from .color import convert_color_to_RRGGBB
+from .color import convert_color_to_rrggbb
 
 
 class AYABPNGBuilder(object):
@@ -57,38 +57,38 @@ class AYABPNGBuilder(object):
         self._image.save(file, format="PNG")
 
     @staticmethod
-    def _convert_color_to_RRGGBB(color):
+    def _convert_color_to_rrggbb(color):
         """takes a :ref:`color <png-color>` and converts it into a 24 bit
-        color "#RrGgBb"
+        color "#RRGGBB"
 
         """
-        return convert_color_to_RRGGBB(color)
+        return convert_color_to_rrggbb(color)
 
-    def _convert_RRGGBB_to_image_color(self, rrggbb):
+    def _convert_rrggbb_to_image_color(self, rrggbb):
         """:return: the color that is used by the image"""
         return webcolors.hex_to_rgb(rrggbb)
 
     def _convert_to_image_color(self, color):
         """:return: a color that can be used by the image"""
-        rgb = self._convert_color_to_RRGGBB(color)
-        return self._convert_RRGGBB_to_image_color(rgb)
+        rgb = self._convert_color_to_rrggbb(color)
+        return self._convert_rrggbb_to_image_color(rgb)
 
     def _set_pixel_and_convert_color(self, x, y, color):
         """set the pixel but convert the color before."""
         if color is None:
             return
-        color = self._convert_color_to_RRGGBB(color)
+        color = self._convert_color_to_rrggbb(color)
         self._set_pixel(x, y, color)
 
     def _set_pixel(self, x, y, color):
         """set the color of the pixel.
 
-        :param color: must be a valid color in the form of "#rrggbb".
+        :param color: must be a valid color in the form of "#RRGGBB".
           If you need to convert color, use `_set_pixel_and_convert_color()`.
         """
         if not self.is_in_bounds(x, y):
             return
-        rgb = self._convert_RRGGBB_to_image_color(color)
+        rgb = self._convert_rrggbb_to_image_color(color)
         x -= self._min_x
         y -= self._min_y
         self._image.putpixel((x, y), rgb)

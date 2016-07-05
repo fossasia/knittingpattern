@@ -25,7 +25,7 @@ class TestColorConversion(object):
 
     @fixture
     def convert(self):
-        return AYABPNGBuilder._convert_color_to_RRGGBB
+        return AYABPNGBuilder._convert_color_to_rrggbb
 
     def test_convert_24_bit(self, convert):
         assert convert("#123456") == "#123456"
