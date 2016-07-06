@@ -28,6 +28,7 @@ INSTRUCTION_INHERITANCE = [
                          INSTRUCTION_INHERITANCE)
 def test_instruction_has_color(coloring_pattern, row_id,
                                instuction_index, color):
+    """Test that the instructions correclty inherit from their row."""
     row = coloring_pattern.rows[row_id]
     instruction = row.instructions[instuction_index]
     assert instruction.color == color
@@ -43,5 +44,6 @@ ROW_INHERITANCE = [
 
 @pytest.mark.parametrize("row_id,color", ROW_INHERITANCE)
 def test_rows_have_color(coloring_pattern, row_id, color):
+    """Test that the rows correcly inherit or define their color."""
     row = coloring_pattern.rows[row_id]
     assert row.color == color

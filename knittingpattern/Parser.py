@@ -145,7 +145,6 @@ class Parser(object):
     def _row(self, values):
         """Parse a row."""
         row_id = self._to_id(values[ID])
-        inheritance = []
         row = self._spec.new_row(row_id, self, values)
         if SAME_AS in values:
             self._delay_inheritance(row, self._to_id(values[SAME_AS]))
