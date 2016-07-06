@@ -98,7 +98,7 @@ class Parser(object):
 
     def _delay_inheritance(self, prototype, parent_id):
         """Add a deleyed inheritance that is ti be resolved later.
-        
+
         When calling :meth:`_finish_inheritance` this inheritance chain shall
         be resolved.
         """
@@ -113,7 +113,7 @@ class Parser(object):
 
     def _delay_instructions(self, row):
         """Add a deleyed inheritance that is ti be resolved later.
-        
+
         When calling :meth:`_finish_instructions` this inheritance chain shall
         be resolved.
         """

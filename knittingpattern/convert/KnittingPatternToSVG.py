@@ -72,7 +72,7 @@ class KnittingPatternToSVG(object):
         flip_x = bbox[2] + bbox[0] * 2
         flip_y = bbox[3] + bbox[1] * 2
         instructions = list(layout.walk_instructions(
-            lambda i: (flip_x - (i.x + i.width) * zoom, 
+            lambda i: (flip_x - (i.x + i.width) * zoom,
                        flip_y - (i.y + i.height) * zoom,
                        i.instruction)))
         instructions.sort(key=lambda x_y_i: get_z(x_y_i[2]))

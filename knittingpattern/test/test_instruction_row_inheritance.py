@@ -24,9 +24,9 @@ INSTRUCTION_INHERITANCE = [
     ("inherited colored +instructions", 1, "red")]
 
 
-@pytest.mark.parametrize("row_id,instuction_index,color", 
+@pytest.mark.parametrize("row_id,instuction_index,color",
                          INSTRUCTION_INHERITANCE)
-def test_instruction_has_color(coloring_pattern, row_id, 
+def test_instruction_has_color(coloring_pattern, row_id,
                                instuction_index, color):
     row = coloring_pattern.rows[row_id]
     instruction = row.instructions[instuction_index]
@@ -39,7 +39,7 @@ ROW_INHERITANCE = [
     ("inherited uncolored", None),
     ("inherited colored +instructions", "blue"),
     ("inherited uncolored +instructions", None)]
-    
+
 
 @pytest.mark.parametrize("row_id,color", ROW_INHERITANCE)
 def test_rows_have_color(coloring_pattern, row_id, color):
