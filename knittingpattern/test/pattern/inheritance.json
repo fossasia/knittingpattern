@@ -10,16 +10,40 @@
           "id" : "colored",
           "color": "blue",
           "instructions" : [
-            {"id": 1.1, "color": "green"},
-            {"id": 1.2}
+            {"color": "green"},
+            {}
+          ]
+        },
+        {
+          "id" : "inherited uncolored +instructions",
+          "same as" : "inherited uncolored",
+          "instructions" : [
+            {},
+            {"color": "brown"}
+          ]
+        },
+        {
+          "id" : "inherited colored +instructions",
+          "same as" : "inherited colored",
+          "instructions" : [
+            {},
+            {"color": "red"}
           ]
         },
         {
           "id" : "uncolored",
           "instructions" : [
-            {"id": 2.1},
-            {"id": 2.1, "color": "yellow"}
+            {},
+            {"color": "yellow"}
           ]
+        },
+        {
+          "id" : "inherited uncolored",
+          "same as" : "uncolored"
+        },
+        {
+          "id" : "inherited colored",
+          "same as" : "colored"
         }
       ],
       "connections" : [

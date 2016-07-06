@@ -25,7 +25,7 @@ class Row(Prototype):
     <knittingpattern.KnittingPattern.KnittingPattern>`.
     """
 
-    def __init__(self, row_id, parser, values, inheriting_from=()):
+    def __init__(self, row_id, parser, values):
         """Create a new row.
 
         :param row_id: an identifier for the row
@@ -37,9 +37,8 @@ class Row(Prototype):
           load it with the :mod:`knittingpattern` or the
           :class:`knittingpattern.Parser.Parser`.
         """
-        super().__init__(values, inheriting_from)
+        super().__init__(values)
         self._id = row_id
-        self._values = values
         self._instructions = ObservableList()
         self._instructions.register_observer(self._instructions_changed)
         self._parser = parser
@@ -132,6 +131,6 @@ class Row(Prototype):
 
         :return: the color of the row as specified
         """
-        return self._values.get(COLOR)
+        return self.get(COLOR)
 
 __all__ = ["Row", "ID", "COLOR"]
