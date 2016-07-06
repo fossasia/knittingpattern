@@ -4,7 +4,7 @@ from test_convert import fixture, parse_string
 from knittingpattern.convert.InstructionToSVG import InstructionToSVG
 from collections import namedtuple
 
-Instruction = namedtuple("TestInstruction", ["type", "color"])
+Instruction = namedtuple("TestInstruction", ["type", "hex_color"])
 XML_START = '<?xml version="1.0" encoding="utf-8"?>\n<svg></svg>'
 
 
@@ -98,7 +98,7 @@ def assert_fill_has_color_of(svg, instruction):
                if "rect" in dir(colored_layer)
                else colored_layer.circle)
     style = element["style"]
-    assert "fill:" + instruction.color in style
+    assert "fill:" + instruction.hex_color in style
 
 
 class TestInstructionToSVG(object):

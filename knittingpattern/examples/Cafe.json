@@ -15,7 +15,7 @@
       "rows" : [
         {
           "id" : "A.2.1",
-          "color" : "light brown",
+          "color" : "mocha latte",
           "instructions" : [
             {},
             {
@@ -39,7 +39,7 @@
         }, 
         {
           "id" : "A.2.2", 
-          "color" : "light brown", 
+          "color" : "mocha latte", 
           "instructions" : [
             {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
           ]
@@ -268,7 +268,7 @@
         },       
         {
           "id" : "A.2.25", 
-          "color" : "light brown",
+          "color" : "mocha latte",
           "instructions" : [
             {
               "type" : "yo"
@@ -279,7 +279,7 @@
         },
         {
           "id" : "A.2.26", 
-          "color" : "light brown",
+          "color" : "mocha latte",
           "instructions" : [
             {
               "type" : "purl"
@@ -327,7 +327,7 @@
         }, 
         {
           "id" : "A.2.27", 
-          "color" : "light brown",
+          "color" : "mocha latte",
           "instructions" : [
             {}, {}, {}, {
               "type" : "yo"
@@ -338,7 +338,7 @@
         },
         {
           "id" : "A.2.28", 
-          "color" : "light brown",
+          "color" : "mocha latte",
           "instructions" : [
             {
               "type" : "purl"
