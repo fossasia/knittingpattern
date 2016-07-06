@@ -5,6 +5,14 @@
         "number of consumed meshes" : 3,
         "title" : {
             "en-en" : "Center Double Decrease"
+        },
+        "description" : {
+            "text" : {
+                "en-en" : "Knit tree meshes together in the middle."
+            },
+            "youtube" : {
+                "en-en" : "https://www.youtube.com/watch?v=Wi5JpkOoLCI"
+            }
         }
     }
 ]

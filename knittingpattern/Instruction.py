@@ -13,20 +13,42 @@ from .convert.color import convert_color_to_rrggbb
 # pattern specification
 
 ID = "id"  #: the id key in the specification
+
 TYPE = "type"  #: the type key in the specification
+
 KNIT_TYPE = "knit"  #: the type of the knit instruction
+
 PURL_TYPE = "purl"  #: the type of the purl instruction
+
 #: the type of the instruction without a specified type
 DEFAULT_TYPE = KNIT_TYPE
+
 COLOR = "color"  #: the color key in the specification
+
+DESCRIPTION = "description"  #: the description in the specification
+
 #: the key for the number of meshes that a instruction consumes
 NUMBER_OF_CONSUMED_MESHES = "number of consumed meshes"
+
 #: the default number of meshes that a instruction consumes
 DEFAULT_NUMBER_OF_CONSUMED_MESHES = 1
+
 #: the key for the number of meshes that a instruction produces
 NUMBER_OF_PRODUCED_MESHES = "number of produced meshes"
+
 #: the default number of meshes that a instruction produces
 DEFAULT_NUMBER_OF_PRODUCED_MESHES = 1
+
+#: The default z-index, see :func:`get_z`.
+DEFAULT_Z = 0
+
+#: Instructions have a default specification. In this specification the key
+#: in :data:`RENDER` points to configuration for rendering.
+RENDER = "render"
+
+#: The key to look for the z-index inside the :data:`render` specification.
+#: .. seealso:: :func:`get_z`, :data:`DEFAULT_Z`
+RENDER_Z = "z"
 
 # error messages
 
@@ -85,6 +107,15 @@ class Instruction(Prototype):
           :obj:`None` if none is specified.
         """
         return self.get(COLOR)
+
+    @property
+    def description(self):
+        """The description of the instruction.
+
+        :return: the :data:`description <DESCRIPTION>` of the instruction or
+          :obj:`None` if none is specified.
+        """
+        return self.get(DESCRIPTION)
 
     @property
     def number_of_consumed_meshes(self):
@@ -151,6 +182,16 @@ class Instruction(Prototype):
         .. seealso:: :attr:`number_of_consumed_meshes`
         """
         return self.number_of_consumed_meshes != 0
+
+    @property
+    def render_z(self):
+        """The z-index of the instruction when rendered.
+
+        :return: the z-index of the instruction. Instructions with a higher
+          z-index are displayed in front of instructions with lower z-index.
+        :rtype: float
+        """
+        return self.get(RENDER, {}).get(RENDER_Z, DEFAULT_Z)
 
     @property
     def hex_color(self):
@@ -513,4 +554,5 @@ class InstructionNotFoundInRow(ValueError):
 __all__ = ["Instruction", "InstructionInRow", "InstructionNotFoundInRow",
            "ID", "TYPE", "KNIT_TYPE", "PURL_TYPE", "DEFAULT_TYPE", "COLOR",
            "NUMBER_OF_CONSUMED_MESHES", "DEFAULT_NUMBER_OF_CONSUMED_MESHES",
-           "NUMBER_OF_PRODUCED_MESHES", "DEFAULT_NUMBER_OF_PRODUCED_MESHES"]
+           "NUMBER_OF_PRODUCED_MESHES", "DEFAULT_NUMBER_OF_PRODUCED_MESHES",
+           "RENDER_Z", "RENDER", "DEFAULT_Z"]
