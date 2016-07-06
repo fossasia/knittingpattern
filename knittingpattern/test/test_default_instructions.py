@@ -8,6 +8,7 @@ DEFAULT_INSTRUCTIONS = {
             "purl": (1, 1),
             "skp": (2, 1),
             "yo": (0, 1),
+            "yo twisted": (0, 1),
             "k2tog": (2, 1),
             "bo": (1, 0),
             "cdd": (3, 1),
