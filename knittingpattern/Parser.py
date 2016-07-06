@@ -54,6 +54,8 @@ class Parser(object):
         self._as_instruction = self._instruction_library.as_instruction
         self._id_cache = {}
         self._pattern_set = None
+        self._inheritance_todos = []
+        self._instruction_todos = []
 
     @staticmethod
     def _to_id(id_):
@@ -87,6 +89,36 @@ class Parser(object):
         self._create_pattern_set(pattern_collection, values)
         return self._pattern_set
 
+    def _finish_inheritance(self):
+        """Finish those who still need to inherit."""
+        while self._inheritance_todos:
+            prototype, parent_id = self._inheritance_todos.pop()
+            parent = self._id_cache[parent_id]
+            prototype.inherit_from(parent)
+
+    def _delay_inheritance(self, prototype, parent_id):
+        """Add a deleyed inheritance that is ti be resolved later.
+        
+        When calling :meth:`_finish_inheritance` this inheritance chain shall
+        be resolved.
+        """
+        self._inheritance_todos.append((prototype, parent_id))
+
+    def _finish_instructions(self):
+        """Finish those who still need to inherit."""
+        while self._instruction_todos:
+            row = self._instruction_todos.pop()
+            instructions = row.get(INSTRUCTIONS, [])
+            row.instructions.extend(instructions)
+
+    def _delay_instructions(self, row):
+        """Add a deleyed inheritance that is ti be resolved later.
+        
+        When calling :meth:`_finish_instructions` this inheritance chain shall
+        be resolved.
+        """
+        self._instruction_todos.append(row)
+
     def _new_pattern_collection(self):
         """Create a new pattern collection.
 
@@ -114,12 +146,10 @@ class Parser(object):
         """Parse a row."""
         row_id = self._to_id(values[ID])
         inheritance = []
+        row = self._spec.new_row(row_id, self, values)
         if SAME_AS in values:
-            same_id = self._to_id(values[SAME_AS])
-            same = self._id_cache[same_id]
-            inheritance.append(same)
-        row = self._spec.new_row(row_id, self, values, inheritance)
-        row.instructions.extend(row.get(INSTRUCTIONS, []))
+            self._delay_inheritance(row, self._to_id(values[SAME_AS]))
+        self._delay_instructions(row)
         self._id_cache[row_id] = row
         return row
 
@@ -136,6 +166,8 @@ class Parser(object):
     def _pattern(self, base):
         """Parse a pattern."""
         rows = self._rows(base.get(ROWS, []))
+        self._finish_inheritance()
+        self._finish_instructions()
         self._connect_rows(base.get(CONNECTIONS, []))
         id_ = self._to_id(base[ID])
         name = base[NAME]
