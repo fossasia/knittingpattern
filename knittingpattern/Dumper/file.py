@@ -20,7 +20,7 @@ class ContentDumper(object):
     This class should provide for all those needs while providing a uniform
     interface for the dumping.
     """
-    
+
     def __init__(self, on_dump, text_is_expected=True, encoding="UTF-8"):
         """Create a new dumper object with a function :paramref:`on_dump`
 

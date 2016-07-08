@@ -15,7 +15,7 @@ Contents:
    FileFormatSpecification
    DevelopmentSetup
    reference/index
-   
+
 
 Indices and tables
 ==================

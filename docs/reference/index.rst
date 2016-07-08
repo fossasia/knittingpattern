@@ -27,7 +27,7 @@ Reference
    knittingpattern/convert/AYABPNGBuilder
    knittingpattern/convert/AYABPNGDumper
    knittingpattern/convert/InstructionToSVG
-   knittingpattern/convert/InstructionToSVGCache
+   knittingpattern/convert/InstructionSVGCache
    knittingpattern/convert/Layout
    knittingpattern/convert/SVGBuilder
    knittingpattern/convert/image_to_knittingpattern
