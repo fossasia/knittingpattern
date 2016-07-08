@@ -1,10 +1,10 @@
 
-.. py:currentmodule:: knittingpattern.FileWrapper
+.. py:currentmodule:: knittingpattern.Dumper.FileWrapper
 
 :py:mod:`FileWrapper` Module
 ============================
 
-.. automodule:: knittingpattern.FileWrapper
+.. automodule:: knittingpattern.Dumper.FileWrapper
    :show-inheritance:
    :members:
    :special-members:

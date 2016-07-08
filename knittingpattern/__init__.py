@@ -4,7 +4,7 @@ Load and convert knitting patterns using the convinience functions lited below.
 """
 # there should be no imports
 
-__version__ = '0.1.3'
+__version__ = '0.1.4'
 
 
 def load_from():

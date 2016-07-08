@@ -2,7 +2,7 @@
 
 from .convert.AYABPNGDumper import AYABPNGDumper
 from .Dumper import XMLDumper
-from .convert.InstructionToSVG import default_instructions_to_svg
+from .convert.InstructionSVGCache import default_instruction_svg_cache
 from .convert.Layout import GridLayout
 from .convert.SVGBuilder import SVGBuilder
 from .convert.KnittingPatternToSVG import KnittingPatternToSVG
@@ -123,7 +123,7 @@ class KnittingPatternSet(object):
             """
             knitting_pattern = self.patterns.at(0)
             layout = GridLayout(knitting_pattern)
-            instruction_to_svg = default_instructions_to_svg()
+            instruction_to_svg = default_instruction_svg_cache()
             builder = SVGBuilder()
             kp_to_svg = KnittingPatternToSVG(knitting_pattern, layout,
                                              instruction_to_svg, builder, zoom)

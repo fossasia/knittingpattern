@@ -1,16 +1,11 @@
-"""Writing objects to files
-
-This module offers a unified interface to serialize objects to strings
-and save them to files.
-"""
+"""Save strings to files."""
 from io import StringIO, BytesIO
 from tempfile import NamedTemporaryFile
-import json
-import xmltodict
 from .FileWrapper import BytesWrapper, TextWrapper
 
 
 class ContentDumper(object):
+
     """This class is a unified interface for saving objects.
 
     The idea is to decouple the place to save to from the process used
@@ -24,8 +19,8 @@ class ContentDumper(object):
     posted to some url or in a zip file.
     This class should provide for all those needs while providing a uniform
     interface for the dumping.
-
     """
+
     def __init__(self, on_dump, text_is_expected=True, encoding="UTF-8"):
         """Create a new dumper object with a function :paramref:`on_dump`
 
@@ -211,59 +206,4 @@ class ContentDumper(object):
             )
 
 
-class JSONDumper(ContentDumper):
-    """This class can be used to dump object s as JSON."""
-
-    def __init__(self, on_dump):
-        """Create a new JSONDumper object with the callable `on_dump`.
-
-        `on_dump` takes no aguments and returns the object that should be
-        serialized to JSON."""
-        super().__init__(self._dump_to_file)
-        self.__dump_object = on_dump
-
-    def object(self):
-        """Return the object that should be dumped."""
-        return self.__dump_object()
-
-    def _dump_to_file(self, file):
-        """dump to the file"""
-        json.dump(self.object(), file)
-
-    def knitting_pattern(self, specification=None):
-        """loads a :class:`knitting pattern
-        <knittingpattern.KnittingPattern.KnittingPattern>` from the dumped
-        content
-
-        :param specification: a
-          :class:`~knittingpattern.ParsingSpecification.ParsingSpecification`
-          or :obj:`None` to use the default specification"""
-        from .ParsingSpecification import new_knitting_pattern_set_loader
-        if specification is None:
-            loader = new_knitting_pattern_set_loader()
-        else:
-            loader = new_knitting_pattern_set_loader(specification)
-        return loader.object(self.object())
-
-
-class XMLDumper(ContentDumper):
-    """Used to dump objects as XML. Useful for dumping SVGs."""
-
-    def __init__(self, on_dump):
-        """Create a new XMLDumper object with the callable `on_dump`.
-
-        `on_dump` takes no aguments and returns the object that should be
-        serialized to XML."""
-        super().__init__(self._dump_to_file)
-        self.__dump_object = on_dump
-
-    def object(self):
-        """Return the object that should be dumped."""
-        return self.__dump_object()
-
-    def _dump_to_file(self, file):
-        """dump to the file"""
-        xmltodict.unparse(self.object(), file, pretty=True)
-
-
-__all__ = ["ContentDumper", "JSONDumper", "XMLDumper"]
+__all__ = ["ContentDumper"]
