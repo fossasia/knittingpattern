@@ -11,7 +11,7 @@ class SVGDumper(XMLDumper):
         """An SVG object.
 
         :return: an SVG object
-        :rtype: kivy.graphics.svg.SVG
+        :rtype: kivy.graphics.svg.Svg
         :raises ImportError: if the module was not found
         """
         from kivy.graphics.svg import Svg
