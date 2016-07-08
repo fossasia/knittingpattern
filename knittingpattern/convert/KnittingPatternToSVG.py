@@ -20,9 +20,11 @@ class KnittingPatternToSVG(object):
         :param knittingpattern.KnittingPattern.KnittingPattern knittingpattern:
           a knitting pattern
         :param knittingpattern.convert.Layout.GridLayout layout:
-        :param instruction_to_svg: an Instance of
+        :param instruction_to_svg: an
           :class:`~knittingpattern.convert.InstructionToSVG.InstructionToSVG`
-          with Instructions already loaded.
+          :class:`
+          ~knittingpattern.convert.InstructionToSVGCache.InstructionSVGCache`,
+          both with instructions already loaded.
         :param knittingpattern.convert.SVGBuilder.SVGBuilder builder:
         :param float zoom: the height and width of a knit instruction
         """
