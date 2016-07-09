@@ -11,7 +11,7 @@ from .walk import walk
 
 class KnittingPattern(object):
     """Knitting patterns contain a set of instructions that form a pattern.
-    
+
     Usually you do not create instances of this but rather load a
     :class:`knitting pattern set
     <knittingpattern.KnittingPatternSet.KnittingPatternSet>`.
@@ -65,10 +65,10 @@ class KnittingPattern(object):
 
     def rows_in_knit_order(self):
         """Return the rows in the order that they should be knit.
-        
+
         :rtype: list
         :return: the :attr:`rows` in the order that they should be knit
-        
+
         .. seealso:: :mod:`knittingpattern.walk`
         """
         return walk(self)
