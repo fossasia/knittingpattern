@@ -15,17 +15,20 @@ class KnittingPattern(object):
     <knittingpattern.KnittingPatternSet.KnittingPatternSet>`.
     """
 
-    def __init__(self, id_, name, rows):
+    def __init__(self, id_, name, rows, parser):
         """Create a new instance
 
         :param id_: the id of this pattern
         :param name: the human readable name of this pattern
         :param rows: a collection of rows of instructions
+        :param knittingpattern.Parser.Parser parser: the parser to use to new
+          content
 
         """
         self._id = id_
         self._name = name
         self._rows = rows
+        self._parser = parser
 
     @property
     def id(self):
@@ -47,6 +50,15 @@ class KnittingPattern(object):
         :class:`knittingpattern.IdCollection.IdCollection` of
         :class:`knittingpattern.Row.Row`."""
         return self._rows
+
+    def add_row(self, id_):
+        """Add a new row to the pattern.
+        
+        :param id_: the id of the row
+        """
+        row = self._parser.new_row(id_)
+        self._rows.append(row)
+        return row
 
 
 __all__ = ["KnittingPattern"]

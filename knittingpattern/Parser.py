@@ -145,12 +145,21 @@ class Parser(object):
     def _row(self, values):
         """Parse a row."""
         row_id = self._to_id(values[ID])
-        row = self._spec.new_row(row_id, self, values)
+        row = self._spec.new_row(row_id, values, self)
         if SAME_AS in values:
             self._delay_inheritance(row, self._to_id(values[SAME_AS]))
         self._delay_instructions(row)
         self._id_cache[row_id] = row
         return row
+    
+    def new_row(self, id_):
+        """Create a new row with an id.
+        
+        :param id_: the id of the row
+        :return: a row
+        :rtype: knittingpattern.Row.Row
+        """
+        return self._spec.new_row(id_, {}, self)
 
     def instruction_in_row(self, row, specification):
         """Parse an instruction.
@@ -170,7 +179,17 @@ class Parser(object):
         self._connect_rows(base.get(CONNECTIONS, []))
         id_ = self._to_id(base[ID])
         name = base[NAME]
-        return self._spec.new_pattern(id_, name, rows)
+        return self.new_pattern(id_, name, rows)
+    
+    def new_pattern(self, id_, name, rows=None):
+        """Create a new knitting pattern.
+        
+        If rows is :obj:`None` it is replaced with the
+        :attr:`new_row_collection`.
+        """
+        if rows is None:
+            rows = self._new_row_collection()
+        return self._spec.new_pattern(id_, name, rows, self)
 
     def _rows(self, spec):
         """Parse a collection of rows."""
@@ -231,7 +250,7 @@ class Parser(object):
         version = self._get_version(values)
         comment = values.get(COMMENT)
         self._pattern_set = self._spec.new_pattern_set(
-                type_, version, pattern, comment
+                type_, version, pattern, self, comment
             )
 
 __all__ = ["Parser", "ID", "NAME", "TYPE", "VERSION", "INSTRUCTIONS",
