@@ -9,7 +9,7 @@ __version__ = '0.1.4'
 
 #: an empty knitting pattern set as specification
 EMPTY_KNITTING_PATTERN_SET = {"version": "0.1", "type": "knitting pattern",
-                              "patterns" : []}
+                              "patterns": []}
 
 
 def load_from():
@@ -100,13 +100,13 @@ def convert_from_image(colors=("white", "black")):
 
 def new_knitting_pattern(id_, name=None):
     """Create a new knitting pattern.
-    
+
     :return: a new empty knitting pattern.
     :param id_: the id of the knitting pattern
     :param name: the name of the knitting pattern or :obj:`None` if the
       :paramref:`id_` should be used
     :rtype: knittingpattern.KnittingPattern.KnittingPattern
-    
+
     .. seealso:: :meth:`KnittingPatternSet.add_new_pattern()
       <knittingpattern.KnittingPatternSet.KnittingPatternSet.add_new_pattern>`
     """
@@ -116,7 +116,7 @@ def new_knitting_pattern(id_, name=None):
 
 def new_knitting_pattern_set():
     """Create a new, empty knitting pattern set.
-    
+
     :rtype: knittingpattern.KnittingPatternSet.KnittingPatternSet
     :return: a new, empty knitting pattern set
     """

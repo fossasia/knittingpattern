@@ -561,15 +561,14 @@ class InstructionInRow(Instruction):
         """
         return self.get(COLOR, self.row.color)
 
-
     @property
     def last_produced_mesh(self):
         """The last produced mesh.
-        
+
         :return: the last produced mesh
         :rtype: knittingpattern.Mesh.Mesh
         :raises IndexError: if no mesh is produced
-        
+
         .. seealso:: :attr:`Instruction.number_of_produced_meshes`
         """
         return self._produced_meshes[-1]
@@ -577,11 +576,11 @@ class InstructionInRow(Instruction):
     @property
     def last_consumed_mesh(self):
         """The last consumed mesh.
-        
+
         :return: the last consumed mesh
         :rtype: knittingpattern.Mesh.Mesh
         :raises IndexError: if no mesh is consumed
-        
+
         .. seealso:: :attr:`Instruction.number_of_consumed_meshes`
         """
         return self._consumed_meshes[-1]
@@ -589,11 +588,11 @@ class InstructionInRow(Instruction):
     @property
     def first_produced_mesh(self):
         """The first produced mesh.
-        
+
         :return: the first produced mesh
         :rtype: knittingpattern.Mesh.Mesh
         :raises IndexError: if no mesh is produced
-        
+
         .. seealso:: :attr:`Instruction.number_of_produced_meshes`
         """
         return self._produced_meshes[0]
@@ -601,11 +600,11 @@ class InstructionInRow(Instruction):
     @property
     def first_consumed_mesh(self):
         """The first consumed mesh.
-        
+
         :return: the first consumed mesh
         :rtype: knittingpattern.Mesh.Mesh
         :raises IndexError: if no mesh is consumed
-        
+
         .. seealso:: :attr:`Instruction.number_of_consumed_meshes`
         """
         return self._consumed_meshes[0]

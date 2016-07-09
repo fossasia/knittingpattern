@@ -4,8 +4,6 @@ The ``knittingpattern`` Module Reference
 .. toctree::
    :maxdepth: 2
 
-   convert/index
-   Dumper/index
    init
    IdCollection
    Instruction

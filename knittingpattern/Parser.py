@@ -130,7 +130,7 @@ class Parser(object):
     def new_row_collection(self):
         """Create a new row collection.
 
-        :return: a new specified row collection for the 
+        :return: a new specified row collection for the
           :meth:`knitting pattern <new_pattern>`
         """
         return self._spec.new_row_collection()
@@ -151,10 +151,10 @@ class Parser(object):
         self._delay_instructions(row)
         self._id_cache[row_id] = row
         return row
-    
+
     def new_row(self, id_):
         """Create a new row with an id.
-        
+
         :param id_: the id of the row
         :return: a row
         :rtype: knittingpattern.Row.Row
@@ -180,10 +180,10 @@ class Parser(object):
         id_ = self._to_id(base[ID])
         name = base[NAME]
         return self.new_pattern(id_, name, rows)
-    
+
     def new_pattern(self, id_, name, rows=None):
         """Create a new knitting pattern.
-        
+
         If rows is :obj:`None` it is replaced with the
         :meth:`new_row_collection`.
         """

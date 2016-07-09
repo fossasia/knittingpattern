@@ -136,11 +136,11 @@ class Row(Prototype):
     @property
     def last_produced_mesh(self):
         """The last produced mesh.
-        
+
         :return: the last produced mesh
         :rtype: knittingpattern.Mesh.Mesh
         :raises IndexError: if no mesh is produced
-        
+
         .. seealso:: :attr:`number_of_produced_meshes`
         """
         for instruction in reversed(self.instructions):
@@ -151,11 +151,11 @@ class Row(Prototype):
     @property
     def last_consumed_mesh(self):
         """The last consumed mesh.
-        
+
         :return: the last consumed mesh
         :rtype: knittingpattern.Mesh.Mesh
         :raises IndexError: if no mesh is consumed
-        
+
         .. seealso:: :attr:`number_of_consumed_meshes`
         """
         for instruction in reversed(self.instructions):
@@ -166,11 +166,11 @@ class Row(Prototype):
     @property
     def first_produced_mesh(self):
         """The first produced mesh.
-        
+
         :return: the first produced mesh
         :rtype: knittingpattern.Mesh.Mesh
         :raises IndexError: if no mesh is produced
-        
+
         .. seealso:: :attr:`number_of_produced_meshes`
         """
         for instruction in self.instructions:
@@ -181,11 +181,11 @@ class Row(Prototype):
     @property
     def first_consumed_mesh(self):
         """The first consumed mesh.
-        
+
         :return: the first consumed mesh
         :rtype: knittingpattern.Mesh.Mesh
         :raises IndexError: if no mesh is consumed
-        
+
         .. seealso:: :attr:`number_of_consumed_meshes`
         """
         for instruction in self.instructions:
@@ -196,7 +196,7 @@ class Row(Prototype):
     @property
     def rows_before(self):
         """The rows that produce meshes for this row.
-        
+
         :rtype: list
         :return: a list of rows that produce meshes for this row. Each row
           occurs only once. They are sorted by the first occurence in the
@@ -213,7 +213,7 @@ class Row(Prototype):
     @property
     def rows_after(self):
         """The rows that consume meshes from this row.
-        
+
         :rtype: list
         :return: a list of rows that consume meshes from this row. Each row
           occurs only once. They are sorted by the first occurence in the

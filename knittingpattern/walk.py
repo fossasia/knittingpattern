@@ -3,8 +3,11 @@
 
 def walk(knitting_pattern):
     """Walk the knitting pattern in a right-to-left fashion.
-    
-    :return: an iterable to walk the rows.
+
+    :return: an iterable to walk the rows
+    :rtype: list
+    :param knittingpattern.KnittingPattern.KnittingPattern knitting_pattern: a
+      knitting pattern to take the rows from
     """
     rows_before = {}  # key consumes from values
     free_rows = []
@@ -32,4 +35,4 @@ def walk(knitting_pattern):
     return walk
 
 
-__all = ["walk"]
+__all__ = ["walk"]

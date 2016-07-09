@@ -50,7 +50,7 @@ def test_knit_row(row):
 def test_1_or_0(row):
     row.instructions.extend([NO_CONSUMED_MESH, {}, NO_PRODUCED_MESH])
     assert_row(row, (1,), (2,), (0,), (1,))
-    
+
 
 def test_2(row):
     row.instructions.extend([DOUBLE_CONSUMED_MESH, {}, DOUBLE_PRODUCED_MESH])
