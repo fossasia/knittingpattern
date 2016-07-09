@@ -570,7 +570,7 @@ class InstructionInRow(Instruction):
         :rtype: knittingpattern.Mesh.Mesh
         :raises IndexError: if no mesh is produced
         
-        .. seealso:: :attr:`number_of_produced_meshes`
+        .. seealso:: :attr:`Instruction.number_of_produced_meshes`
         """
         return self._produced_meshes[-1]
 
@@ -582,7 +582,7 @@ class InstructionInRow(Instruction):
         :rtype: knittingpattern.Mesh.Mesh
         :raises IndexError: if no mesh is consumed
         
-        .. seealso:: :attr:`number_of_consumed_meshes`
+        .. seealso:: :attr:`Instruction.number_of_consumed_meshes`
         """
         return self._consumed_meshes[-1]
 
@@ -594,7 +594,7 @@ class InstructionInRow(Instruction):
         :rtype: knittingpattern.Mesh.Mesh
         :raises IndexError: if no mesh is produced
         
-        .. seealso:: :attr:`number_of_produced_meshes`
+        .. seealso:: :attr:`Instruction.number_of_produced_meshes`
         """
         return self._produced_meshes[0]
 
@@ -606,7 +606,7 @@ class InstructionInRow(Instruction):
         :rtype: knittingpattern.Mesh.Mesh
         :raises IndexError: if no mesh is consumed
         
-        .. seealso:: :attr:`number_of_consumed_meshes`
+        .. seealso:: :attr:`Instruction.number_of_consumed_meshes`
         """
         return self._consumed_meshes[0]
 

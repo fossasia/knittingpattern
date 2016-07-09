@@ -127,11 +127,11 @@ class Parser(object):
         """
         return self._spec.new_pattern_collection()
 
-    def _new_row_collection(self):
+    def new_row_collection(self):
         """Create a new row collection.
 
-        :return: a new specified row collection for
-          :meth:`pattern`
+        :return: a new specified row collection for the 
+          :meth:`knitting pattern <new_pattern>`
         """
         return self._spec.new_row_collection()
 
@@ -185,15 +185,15 @@ class Parser(object):
         """Create a new knitting pattern.
         
         If rows is :obj:`None` it is replaced with the
-        :attr:`new_row_collection`.
+        :meth:`new_row_collection`.
         """
         if rows is None:
-            rows = self._new_row_collection()
+            rows = self.new_row_collection()
         return self._spec.new_pattern(id_, name, rows, self)
 
     def _rows(self, spec):
         """Parse a collection of rows."""
-        rows = self._new_row_collection()
+        rows = self.new_row_collection()
         for row in spec:
             rows.append(self._row(row))
         return rows

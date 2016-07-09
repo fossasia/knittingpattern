@@ -1,11 +1,22 @@
+The ``knittingpattern`` Module Reference
+========================================
 
-.. py:currentmodule:: knittingpattern
+.. toctree::
+   :maxdepth: 2
 
-:py:mod:`knittingpattern` Module
-================================
-
-.. automodule:: knittingpattern
-   :show-inheritance:
-   :members:
-   :special-members:
-
+   convert/index
+   Dumper/index
+   init
+   IdCollection
+   Instruction
+   InstructionLibrary
+   KnittingPattern
+   KnittingPatternSet
+   Loader
+   Mesh
+   ObservableList
+   Parser
+   ParsingSpecification
+   Prototype
+   Row
+   walk

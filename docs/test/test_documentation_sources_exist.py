@@ -30,12 +30,10 @@ def module_name_and_doc(relative_path):
         file, name = os.path.split(file)
         names.insert(0, name)
     assert names
-    if names[-1] == "__init__":
-        names.pop(-1)
-        doc = names + ["index.rst"]
-    else:
-        doc = names[:-1] + [names[-1] + ".rst"]
+    doc = names[:-1] + [names[-1].replace("__", "") + ".rst"]
     doc_file = os.path.join(PACKAGE_DOCUMENTATION, *doc)
+    if names[-1] == "__init__":
+        del names[-1]
     return ".".join(names), doc_file
 
 
