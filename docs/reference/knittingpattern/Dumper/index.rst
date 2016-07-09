@@ -1,11 +1,12 @@
+The ``knittingpattern.Dumper`` Module Reference
+===============================================
 
-.. py:currentmodule:: knittingpattern.Dumper
-
-:py:mod:`Dumper` Module
-=======================
-
-.. automodule:: knittingpattern.Dumper
-   :show-inheritance:
-   :members:
-   :special-members:
-
+.. toctree::
+   :maxdepth: 2
+   
+   init
+   file
+   FileWrapper
+   json
+   svg
+   xml

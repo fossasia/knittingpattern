@@ -10,7 +10,6 @@ from .Prototype import Prototype
 from itertools import chain
 from. ObservableList import ObservableList
 
-ID = "id"  #: the id of the row
 COLOR = "color"  #: the color of the row
 
 #: an error message
@@ -25,7 +24,7 @@ class Row(Prototype):
     <knittingpattern.KnittingPattern.KnittingPattern>`.
     """
 
-    def __init__(self, row_id, parser, values):
+    def __init__(self, row_id, values, parser):
         """Create a new row.
 
         :param row_id: an identifier for the row
@@ -122,6 +121,7 @@ class Row(Prototype):
         """The string representation of this row.
 
         :return: a string representation of this row
+        :rtype: str
         """
         return "<{} {}>".format(self.__class__.__qualname__, self.id)
 
@@ -129,8 +129,102 @@ class Row(Prototype):
     def color(self):
         """The color of the row.
 
-        :return: the color of the row as specified
+        :return: the color of the row as specified or :obj:`None`
         """
         return self.get(COLOR)
 
-__all__ = ["Row", "ID", "COLOR"]
+    @property
+    def last_produced_mesh(self):
+        """The last produced mesh.
+
+        :return: the last produced mesh
+        :rtype: knittingpattern.Mesh.Mesh
+        :raises IndexError: if no mesh is produced
+
+        .. seealso:: :attr:`number_of_produced_meshes`
+        """
+        for instruction in reversed(self.instructions):
+            if instruction.produces_meshes():
+                return instruction.last_produced_mesh
+        raise IndexError("{} produces no meshes".format(self))
+
+    @property
+    def last_consumed_mesh(self):
+        """The last consumed mesh.
+
+        :return: the last consumed mesh
+        :rtype: knittingpattern.Mesh.Mesh
+        :raises IndexError: if no mesh is consumed
+
+        .. seealso:: :attr:`number_of_consumed_meshes`
+        """
+        for instruction in reversed(self.instructions):
+            if instruction.consumes_meshes():
+                return instruction.last_consumed_mesh
+        raise IndexError("{} consumes no meshes".format(self))
+
+    @property
+    def first_produced_mesh(self):
+        """The first produced mesh.
+
+        :return: the first produced mesh
+        :rtype: knittingpattern.Mesh.Mesh
+        :raises IndexError: if no mesh is produced
+
+        .. seealso:: :attr:`number_of_produced_meshes`
+        """
+        for instruction in self.instructions:
+            if instruction.produces_meshes():
+                return instruction.first_produced_mesh
+        raise IndexError("{} produces no meshes".format(self))
+
+    @property
+    def first_consumed_mesh(self):
+        """The first consumed mesh.
+
+        :return: the first consumed mesh
+        :rtype: knittingpattern.Mesh.Mesh
+        :raises IndexError: if no mesh is consumed
+
+        .. seealso:: :attr:`number_of_consumed_meshes`
+        """
+        for instruction in self.instructions:
+            if instruction.consumes_meshes():
+                return instruction.first_consumed_mesh
+        raise IndexError("{} consumes no meshes".format(self))
+
+    @property
+    def rows_before(self):
+        """The rows that produce meshes for this row.
+
+        :rtype: list
+        :return: a list of rows that produce meshes for this row. Each row
+          occurs only once. They are sorted by the first occurence in the
+          instructions.
+        """
+        rows_before = []
+        for mesh in self.consumed_meshes:
+            if mesh.is_produced():
+                row = mesh.producing_row
+                if rows_before not in rows_before:
+                    rows_before.append(row)
+        return rows_before
+
+    @property
+    def rows_after(self):
+        """The rows that consume meshes from this row.
+
+        :rtype: list
+        :return: a list of rows that consume meshes from this row. Each row
+          occurs only once. They are sorted by the first occurence in the
+          instructions.
+        """
+        rows_after = []
+        for mesh in self.produced_meshes:
+            if mesh.is_consumed():
+                row = mesh.consuming_row
+                if rows_after not in rows_after:
+                    rows_after.append(row)
+        return rows_after
+
+__all__ = ["Row", "COLOR"]

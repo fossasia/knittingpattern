@@ -4,7 +4,12 @@ Load and convert knitting patterns using the convinience functions lited below.
 """
 # there should be no imports
 
-__version__ = '0.1.4'
+#: the version of the knitting pattern library
+__version__ = '0.1.5'
+
+#: an empty knitting pattern set as specification
+EMPTY_KNITTING_PATTERN_SET = {"version": "0.1", "type": "knitting pattern",
+                              "patterns": []}
 
 
 def load_from():
@@ -92,6 +97,32 @@ def convert_from_image(colors=("white", "black")):
         convert_image_to_knitting_pattern
     return convert_image_to_knitting_pattern(colors=colors)
 
+
+def new_knitting_pattern(id_, name=None):
+    """Create a new knitting pattern.
+
+    :return: a new empty knitting pattern.
+    :param id_: the id of the knitting pattern
+    :param name: the name of the knitting pattern or :obj:`None` if the
+      :paramref:`id_` should be used
+    :rtype: knittingpattern.KnittingPattern.KnittingPattern
+
+    .. seealso:: :meth:`KnittingPatternSet.add_new_pattern()
+      <knittingpattern.KnittingPatternSet.KnittingPatternSet.add_new_pattern>`
+    """
+    knitting_pattern_set = new_knitting_pattern_set()
+    return knitting_pattern_set.add_new_pattern(id_, name)
+
+
+def new_knitting_pattern_set():
+    """Create a new, empty knitting pattern set.
+
+    :rtype: knittingpattern.KnittingPatternSet.KnittingPatternSet
+    :return: a new, empty knitting pattern set
+    """
+    return load_from_object(EMPTY_KNITTING_PATTERN_SET)
+
 __all__ = ["load_from_object", "load_from_string", "load_from_file",
            "load_from_path", "load_from_url", "load_from_relative_file",
-           "convert_from_image", "load_from"]
+           "convert_from_image", "load_from", "new_knitting_pattern",
+           "new_knitting_pattern_set"]

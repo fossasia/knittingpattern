@@ -20,7 +20,7 @@ class KnittingPatternSet(object):
     the pattern by loading it from a file.
     """
 
-    def __init__(self, type_, version, patterns, comment=None):
+    def __init__(self, type_, version, patterns, parser, comment=None):
         """Create a new knitting pattern set.
 
         This is the class for a set of :class:`knitting patterns
@@ -41,6 +41,7 @@ class KnittingPatternSet(object):
         self._type = type_
         self._patterns = patterns
         self._comment = comment
+        self._parser = parser
 
     @property
     def version(self):
@@ -129,6 +130,21 @@ class KnittingPatternSet(object):
                                              instruction_to_svg, builder, zoom)
             return kp_to_svg.build_SVG_dict()
         return XMLDumper(on_dump)
+
+    def add_new_pattern(self, id_, name=None):
+        """Add a new, empty knitting pattern to the set.
+
+        :param id_: the id of the pattern
+        :param name: the name of the pattern to add or if :obj:`None`, the
+          :paramref:`id_` is used
+        :return: a new, empty knitting pattern
+        :rtype: knittingpattern.KnittingPattern.KnittingPattern
+        """
+        if name is None:
+            name = id_
+        pattern = self._parser.new_pattern(id_, name)
+        self._patterns.append(pattern)
+        return pattern
 
 
 __all__ = ["KnittingPatternSet"]

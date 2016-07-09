@@ -1,11 +1,17 @@
+The ``knittingpattern.convert`` Module Reference
+================================================
 
-.. py:currentmodule:: knittingpattern.convert
+.. toctree::
+   :maxdepth: 2
 
-:py:mod:`convert` Module
-========================
-
-.. automodule:: knittingpattern.convert
-   :show-inheritance:
-   :members:
-   :special-members:
-
+   init
+   color
+   AYABPNGBuilder
+   AYABPNGDumper
+   image_to_knittingpattern
+   InstructionToSVG
+   InstructionSVGCache
+   KnittingPatternToSVG
+   Layout
+   load_and_dump
+   SVGBuilder
