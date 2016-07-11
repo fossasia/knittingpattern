@@ -1,0 +1,111 @@
+{
+  "type" : "knitting pattern",
+  "version" : "0.1",
+  "comment" : {
+    "content" : "rendering with negative layout indices",
+    "type" : "markdown"
+    },
+  "patterns" : [
+    {
+      "id" : "knit",
+      "name" : "knit 4x4",
+      "rows" : [
+        {
+          "id" : 0,
+          "instructions" : [
+            {"type":"yo"},{},{},{},{"type":"yo"}
+          ]
+        },
+        {
+          "id" : 1,
+          "instructions" : [
+            {"type":"yo"},{},{},{},{},{},{"type":"yo"}
+          ]
+        },
+        {
+          "id" : 2,
+          "instructions" : [
+            {"type":"yo"},{},{},{},{},{},{},{},{"type":"yo"}
+          ]
+        },
+        {
+          "id" : 3,
+          "instructions" : [
+            {"type":"yo"},{},{},{},{},{},{},{},{},{},{"type":"yo"}
+          ]
+        },
+        {
+          "id" : -1,
+          "instructions" : [
+            {"type":"yo"},{},{},{},{},{},{"type":"yo"}
+          ]
+        },
+        {
+          "id" : -2,
+          "instructions" : [
+            {"type":"yo"},{},{},{},{},{},{},{},{"type":"yo"}
+          ]
+        },
+        {
+          "id" : -3,
+          "instructions" : [
+            {"type":"yo"},{},{},{},{},{},{},{},{},{},{"type":"yo"}
+          ]
+        }
+      ],
+      "connections" : [
+        {
+          "from" : {
+            "id" : 0
+          },
+          "to" : {
+            "id" : 1,
+            "start" : 1
+          }
+        },
+        {
+          "from" : {
+            "id" : 1
+          },
+          "to" : {
+            "id" : 2,
+            "start" : 1
+          }
+        },
+        {
+          "from" : {
+            "id" : 2
+          },
+          "to" : {
+            "id" : 3,
+            "start" : 1
+          }
+        },
+        {
+          "from" : {
+            "id" : -1
+          },
+          "to" : {
+            "id" : 0
+          }
+        },
+        {
+          "from" : {
+            "id" : -2
+          },
+          "to" : {
+            "id" : -1
+          }
+        },
+        {
+          "from" : {
+            "id" : -3
+          },
+          "to" : {
+            "id" : -2
+          }
+        }
+      ]
+    }
+  ]
+}
