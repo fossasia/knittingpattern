@@ -49,6 +49,7 @@ on_success:
 #  You can use this step to upload your artifacts to a public website.
 #  See Appveyor's documentation for more details. Or you can simply
 #  access your wheels from the Appveyor "artifacts" tab for your build.
+  - set HOME=.
   - echo "[distutils]" > %HOME%\\.pypirc
   - echo "index-servers =" >> %HOME%\\.pypirc
   - echo "    pypi" >> %HOME%\\.pypirc
