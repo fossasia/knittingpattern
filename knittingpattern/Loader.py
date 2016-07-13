@@ -87,9 +87,13 @@ class PathLoader(object):
         elif os.path.isdir(module_location):
             path = module_location
         else:
-            __import__(module_location)
-            module = sys.modules[module_location]
-            path = os.path.dirname(module.__file__)
+            module_folder = os.path.dirname(module_location)
+            if module_folder:
+                path = module_folder
+            else:
+                __import__(module_location)
+                module = sys.modules[module_location]
+                path = os.path.dirname(module.__file__)
         absolute_path = os.path.join(path, folder)
         return absolute_path
 
