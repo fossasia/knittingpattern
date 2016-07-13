@@ -50,15 +50,11 @@ on_success:
 #  See Appveyor's documentation for more details. Or you can simply
 #  access your wheels from the Appveyor "artifacts" tab for your build.
   - set HOME=.
-  - echo "[distutils]" > %HOME%\\.pypirc
-  - echo "index-servers =" >> %HOME%\\.pypirc
-  - echo "    pypi" >> %HOME%\\.pypirc
-  - echo "" >> %HOME%\\.pypirc
-  - echo "[pypi]" >> %HOME%\\.pypirc
   # in https://ci.appveyor.com/project/niccokunzmann/knittingpattern/settings/environment
   # set the variables for the python package index http://pypi.python.org/
-  - echo "username:%PYPI_USER%" >> %HOME%\\.pypirc
-  - echo "password:%PYPI_PASSWORD%" >> %HOME%\\.pypirc
+  #   PYPI_USERNAME
+  #   PYPI_PASSWORD
+  - "%PYTHON%\\python.exe -c \"import os;print('[distutils]\r\nindex-servers =\r\n    pypi\r\n\r\n[pypi]\r\nusername:{PYPI_USERNAME}\r\npassword:{PYPI_PASSWORD}\r\n'.format(**os.environ))\" > %HOME%\\.pypirc"
   # upload to pypi
   # check for the tags
   # see http://www.appveyor.com/docs/branches#build-on-tags-github-and-gitlab-only
