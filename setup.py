@@ -61,7 +61,7 @@ class TestCommand(TestCommandBase):
 
     def finalize_options(self):
         TestCommandBase.finalize_options(self)
-        self.test_suite = True
+        self.test_suite = False
 
     def run_tests(self):
         import pytest
@@ -91,7 +91,7 @@ class LintCommand(TestCommandBase):
 
     def finalize_options(self):
         TestCommandBase.finalize_options(self)
-        self.test_suite = True
+        self.test_suite = False
 
     def run_tests(self):
         from pylint.lint import Run
