@@ -62,5 +62,5 @@ on_success:
   # upload to pypi
   # check for the tags
   # see http://www.appveyor.com/docs/branches#build-on-tags-github-and-gitlab-only
-  - IF %APPVEYOR_REPO_TAG% == True ( FOR /F %A IN ('%PYTHON%\\python.exe setup.py --version') DO ( IF "v%A" == "%APPVEYOR_REPO_TAG_NAME%" ( %PYTHON%\\python.exe setup.py sdist bdist_wininst upload ) ELSE ( echo "Invalid tag %APPVEYOR_REPO_TAG_NAME% should be v%A.") ) )
+  - IF %APPVEYOR_REPO_TAG% == True ( FOR /F %A IN ('%PYTHON%\\python.exe setup.py --version') DO ( IF "v%A" == "%APPVEYOR_REPO_TAG_NAME%" ( %PYTHON%\\python.exe setup.py sdist bdist_wininst upload ) ELSE ( echo "Invalid tag %APPVEYOR_REPO_TAG_NAME% should be v%A.") ) ) ELSE ( echo "Normal build without PyPi deployment." )
 
