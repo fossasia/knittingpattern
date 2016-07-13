@@ -62,11 +62,10 @@ class TestCommand(TestCommandBase):
     def finalize_options(self):
         TestCommandBase.finalize_options(self)
         self.test_suite = True
-        self.test_args = self.TEST_ARGS
 
     def run_tests(self):
         import pytest
-        errcode = pytest.main(self.test_args)
+        errcode = pytest.main(self.TEST_ARGS)
         sys.exit(errcode)
 
 
@@ -88,14 +87,15 @@ class CoveragePEP8TestCommand(TestCommand):
 
 class LintCommand(TestCommandBase):
 
+    TEST_ARGS = [PACKAGE_NAME]
+
     def finalize_options(self):
         TestCommandBase.finalize_options(self)
         self.test_suite = True
-        self.test_args = [PACKAGE_NAME]
 
     def run_tests(self):
         from pylint.lint import Run
-        Run(self.test_args)
+        Run(self.TEST_ARGS)
 
 
 # command for linking
