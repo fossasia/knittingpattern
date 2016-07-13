@@ -5,8 +5,8 @@ knittingpattern
    :target: https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern
    :alt: Build Status
    
-.. image:: https://img.shields.io/appveyor/ci/python-pillow/Pillow/master.svg?label=Windows%20build
-   :target: https://ci.appveyor.com/project/python-pillow/Pillow
+.. image:: https://img.shields.io/appveyor/ci/AllYarnsAreBeautiful/knittingpattern/master.svg?label=Windows%20build
+   :target: https://ci.appveyor.com/project/AllYarnsAreBeautiful/knittingpattern
    :alt: AppVeyor CI build status (Windows)
    
 .. image:: https://codeclimate.com/github/AllYarnsAreBeautiful/knittingpattern/badges/gpa.svg
