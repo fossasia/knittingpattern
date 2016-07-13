@@ -5,7 +5,7 @@ knittingpattern
    :target: https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern
    :alt: Build Status
    
-.. image:: https://img.shields.io/appveyor/ci/AllYarnsAreBeautiful/knittingpattern/master.svg?label=Windows%20build
+.. image:: https://ci.appveyor.com/api/projects/status/c1983ovsc8thlhvi?svg=true
    :target: https://ci.appveyor.com/project/AllYarnsAreBeautiful/knittingpattern
    :alt: AppVeyor CI build status (Windows)
    
