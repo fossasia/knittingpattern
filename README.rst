@@ -4,7 +4,11 @@ knittingpattern
 .. image:: https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern.svg
    :target: https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern
    :alt: Build Status
-
+   
+.. image:: https://img.shields.io/appveyor/ci/python-pillow/Pillow/master.svg?label=Windows%20build
+   :target: https://ci.appveyor.com/project/python-pillow/Pillow
+   :alt: AppVeyor CI build status (Windows)
+   
 .. image:: https://codeclimate.com/github/AllYarnsAreBeautiful/knittingpattern/badges/gpa.svg
    :target: https://codeclimate.com/github/AllYarnsAreBeautiful/knittingpattern
    :alt: Code Climate
