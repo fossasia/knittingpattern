@@ -54,7 +54,7 @@ on_success:
   # set the variables for the python package index http://pypi.python.org/
   #   PYPI_USERNAME
   #   PYPI_PASSWORD
-  - "%PYTHON%\\python.exe -c \"import os;print('[distutils]\r\nindex-servers =\r\n    pypi\r\n\r\n[pypi]\r\nusername:{PYPI_USERNAME}\r\npassword:{PYPI_PASSWORD}\r\n'.format(**os.environ))\" > %HOME%\\.pypirc"
+  - "%PYTHON%\\python.exe -c \"import os;print('[distutils]\\r\\nindex-servers =\\r\\n    pypi\\r\\n\\r\\n[pypi]\\r\\nusername:{PYPI_USERNAME}\\r\\npassword:{PYPI_PASSWORD}\\r\\n'.format(**os.environ))\" > %HOME%\\.pypirc"
   # upload to pypi
   # check for the tags
   # see http://www.appveyor.com/docs/branches#build-on-tags-github-and-gitlab-only
