@@ -11,11 +11,12 @@ environment:
     - PYTHON: "C:\\Python33"
     - PYTHON: "C:\\Python34"
     - PYTHON: "C:\\Python35"
-    - PYTHON: "C:\\Python33-x64"
-      DISTUTILS_USE_SDK: "1"
-    - PYTHON: "C:\\Python34-x64"
-      DISTUTILS_USE_SDK: "1"
-    - PYTHON: "C:\\Python35-x64"
+# 64 bit does not make a difference
+#    - PYTHON: "C:\\Python33-x64"
+#      DISTUTILS_USE_SDK: "1"
+#    - PYTHON: "C:\\Python34-x64"
+#      DISTUTILS_USE_SDK: "1"
+#    - PYTHON: "C:\\Python35-x64"
 
 install:
   # We need wheel installed to build wheels
@@ -48,4 +49,17 @@ on_success:
 #  You can use this step to upload your artifacts to a public website.
 #  See Appveyor's documentation for more details. Or you can simply
 #  access your wheels from the Appveyor "artifacts" tab for your build.
-  - echo "success"
+  - echo "[distutils]" > %HOME%\\.pypirc
+  - echo "index-servers =" >> %HOME%\\.pypirc
+  - echo "    pypi" >> %HOME%\\.pypirc
+  - echo "" >> %HOME%\\.pypirc
+  - echo "[pypi]" >> %HOME%\\.pypirc
+  # in https://ci.appveyor.com/project/niccokunzmann/knittingpattern/settings/environment
+  # set the variables for the python package index http://pypi.python.org/
+  - echo "username:%PYPI_USER%" >> %HOME%\\.pypirc
+  - echo "password:%PYPI_PASSWORD%" >> %HOME%\\.pypirc
+  # upload to pypi
+  # check for the tags
+  # see http://www.appveyor.com/docs/branches#build-on-tags-github-and-gitlab-only
+  - IF %APPVEYOR_REPO_TAG% == True ( FOR /F %A IN ('%PYTHON%\\python.exe setup.py --version') DO ( IF "v%A" == "%APPVEYOR_REPO_TAG_NAME%" ( %PYTHON%\\python.exe setup.py sdist bdist_wininst upload register ) ELSE ( echo "Invalid version tag %APPVEYOR_REPO_TAG_NAME% should be v%A.") ) )
+
