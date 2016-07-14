@@ -14,8 +14,11 @@ environment:
     # isn't covered by this document) at the time of writing.
 
     - PYTHON: "C:\\Python33"
+      UPLOAD_TO_PYPI: true
     - PYTHON: "C:\\Python34"
+      UPLOAD_TO_PYPI: false
     - PYTHON: "C:\\Python35"
+      UPLOAD_TO_PYPI: false
 # 64 bit does not make a difference
 #    - PYTHON: "C:\\Python33-x64"
 #      DISTUTILS_USE_SDK: "1"
@@ -65,5 +68,6 @@ on_success:
   # see http://www.appveyor.com/docs/branches#build-on-tags-github-and-gitlab-only
   - echo %APPVEYOR_REPO_TAG%
   - echo %APPVEYOR_REPO_TAG_NAME%
-  - "IF %APPVEYOR_REPO_TAG% == true ( FOR /F %%V IN ('%PYTHON%\\python.exe setup.py --version') DO ( IF \"v%%V\" == \"%APPVEYOR_REPO_TAG_NAME%\" ( %PYTHON%\\python.exe setup.py sdist bdist_wininst upload || echo \"Error because the build is already uploaded.\" ) ELSE ( echo \"Invalid tag %APPVEYOR_REPO_TAG_NAME% should be v%%V.\" ) ) ) ELSE ( echo \"Normal build without PyPi deployment.\" )"
+  - echo %UPLOAD_TO_PYPI%
+  - "IF %APPVEYOR_REPO_TAG% == true ( if \"%UPLOAD_TO_PYPI%\" == \"true\" ( FOR /F %%V IN ('%PYTHON%\\python.exe setup.py --version') DO ( IF \"v%%V\" == \"%APPVEYOR_REPO_TAG_NAME%\" ( %PYTHON%\\python.exe setup.py bdist_wininst upload || echo \"Error because the build is already uploaded.\" ) ELSE ( echo \"Invalid tag %APPVEYOR_REPO_TAG_NAME% should be v%%V.\" ) ) ) ELSE ( echo \"Upload skipped.\" ) ) ELSE ( echo \"Normal build without PyPi deployment.\" )"
 
