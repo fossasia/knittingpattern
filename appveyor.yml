@@ -1,5 +1,10 @@
 # see https://packaging.python.org/appveyor/#adding-appveyor-support-to-your-project
+clone_depth: 1
 environment:
+
+  PYPI_PASSWORD:
+    secure: Gxrd9WI60wyczr9mHtiQHvJ45Oq0UyQZNrvUtKs2D5w=
+  PYPI_USERNAME: niccokunzmann3
 
   matrix:
 
