@@ -5,7 +5,7 @@ Load and convert knitting patterns using the convinience functions lited below.
 # there should be no imports
 
 #: the version of the knitting pattern library
-__version__ = '0.1.11'
+__version__ = '0.1.12'
 
 #: an empty knitting pattern set as specification
 EMPTY_KNITTING_PATTERN_SET = {"version": "0.1", "type": "knitting pattern",
