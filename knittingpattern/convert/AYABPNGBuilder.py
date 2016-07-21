@@ -45,9 +45,8 @@ class AYABPNGBuilder(object):
         self._max_y = max_y
         self._default_color = default_color
         self._image = PIL.Image.new(
-                "RGB", (max_x - min_x, max_y - min_y),
-                self._convert_to_image_color(default_color)
-            )
+            "RGB", (max_x - min_x, max_y - min_y),
+            self._convert_to_image_color(default_color))
 
     def write_to_file(self, file):
         """write the png to the file
@@ -126,8 +125,7 @@ class AYABPNGBuilder(object):
         .. seealso:: :meth:`set_pixel`, :meth:`set_colors_in_grid`
         """
         self._set_pixel_and_convert_color(
-                color_in_grid.x, color_in_grid.y, color_in_grid.color
-            )
+            color_in_grid.x, color_in_grid.y, color_in_grid.color)
 
     def set_colors_in_grid(self, some_colors_in_grid):
         """Same as :meth:`set_color_in_grid` but with a collection of
@@ -138,8 +136,7 @@ class AYABPNGBuilder(object):
         """
         for color_in_grid in some_colors_in_grid:
             self._set_pixel_and_convert_color(
-                    color_in_grid.x, color_in_grid.y, color_in_grid.color
-                )
+                color_in_grid.x, color_in_grid.y, color_in_grid.color)
 
     @property
     def default_color(self):
