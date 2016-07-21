@@ -57,6 +57,9 @@ on_success:
 #  You can use this step to upload your artifacts to a public website.
 #  See Appveyor's documentation for more details. Or you can simply
 #  access your wheels from the Appveyor "artifacts" tab for your build.
+  - echo "%APPVEYOR_REPO_TAG%"
+  - echo "%APPVEYOR_REPO_TAG_NAME%"
+  - echo "%UPLOAD_TO_PYPI%"
   - set HOME=.
   # in https://ci.appveyor.com/project/niccokunzmann/knittingpattern/settings/environment
   # set the variables for the python package index http://pypi.python.org/
@@ -66,8 +69,5 @@ on_success:
   # upload to pypi
   # check for the tags
   # see http://www.appveyor.com/docs/branches#build-on-tags-github-and-gitlab-only
-  - echo "%APPVEYOR_REPO_TAG%"
-  - echo "%APPVEYOR_REPO_TAG_NAME%"
-  - echo "%UPLOAD_TO_PYPI%"
   - "IF %APPVEYOR_REPO_TAG% == true ( if \"%UPLOAD_TO_PYPI%\" == \"true\" ( FOR /F %%V IN ('%PYTHON%\\python.exe setup.py --version') DO ( IF \"v%%V\" == \"%APPVEYOR_REPO_TAG_NAME%\" ( %PYTHON%\\python.exe setup.py bdist_wininst upload || echo \"Error because the build is already uploaded.\" ) ELSE ( echo \"Invalid tag %APPVEYOR_REPO_TAG_NAME% should be v%%V.\" ) ) ) ELSE ( echo \"Upload skipped.\" ) ) ELSE ( echo \"Normal build without PyPi deployment.\" )"
 
