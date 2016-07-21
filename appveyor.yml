@@ -62,12 +62,12 @@ on_success:
   # set the variables for the python package index http://pypi.python.org/
   #   PYPI_USERNAME
   #   PYPI_PASSWORD
-  - "%PYTHON%\\python.exe -c \"import os;print('[distutils]\\r\\nindex-servers =\\r\\n    pypi\\r\\n\\r\\n[pypi]\\r\\nusername:{PYPI_USERNAME}\\r\\npassword:{PYPI_PASSWORD}\\r\\n'.format(**os.environ))\" > %HOME%\\.pypirc"
+  - "IF %APPVEYOR_REPO_TAG% == true ( %PYTHON%\\python.exe -c \"import os;print('[distutils]\\r\\nindex-servers =\\r\\n    pypi\\r\\n\\r\\n[pypi]\\r\\nusername:{PYPI_USERNAME}\\r\\npassword:{PYPI_PASSWORD}\\r\\n'.format(**os.environ))\" > %HOME%\\.pypirc )"
   # upload to pypi
   # check for the tags
   # see http://www.appveyor.com/docs/branches#build-on-tags-github-and-gitlab-only
-  - echo %APPVEYOR_REPO_TAG%
-  - echo %APPVEYOR_REPO_TAG_NAME%
-  - echo %UPLOAD_TO_PYPI%
+  - echo "%APPVEYOR_REPO_TAG%"
+  - echo "%APPVEYOR_REPO_TAG_NAME%"
+  - echo "%UPLOAD_TO_PYPI%"
   - "IF %APPVEYOR_REPO_TAG% == true ( if \"%UPLOAD_TO_PYPI%\" == \"true\" ( FOR /F %%V IN ('%PYTHON%\\python.exe setup.py --version') DO ( IF \"v%%V\" == \"%APPVEYOR_REPO_TAG_NAME%\" ( %PYTHON%\\python.exe setup.py bdist_wininst upload || echo \"Error because the build is already uploaded.\" ) ELSE ( echo \"Invalid tag %APPVEYOR_REPO_TAG_NAME% should be v%%V.\" ) ) ) ELSE ( echo \"Upload skipped.\" ) ) ELSE ( echo \"Normal build without PyPi deployment.\" )"
 
