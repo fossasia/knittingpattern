@@ -8,7 +8,7 @@ rows.
 """
 from .Prototype import Prototype
 from itertools import chain
-from. ObservableList import ObservableList
+from ObservableList import ObservableList
 
 COLOR = "color"  #: the color of the row
 

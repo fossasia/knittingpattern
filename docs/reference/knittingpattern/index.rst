@@ -12,7 +12,6 @@ The ``knittingpattern`` Module Reference
    KnittingPatternSet
    Loader
    Mesh
-   ObservableList
    Parser
    ParsingSpecification
    Prototype

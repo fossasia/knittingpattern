@@ -8,6 +8,7 @@
 Pillow==3.2.0
 webcolors==1.5
 xmltodict==0.10.2
+ObservableList==0.0.2
 
 # The following packages are commented out because they are
 # considered to be unsafe in a requirements file:
