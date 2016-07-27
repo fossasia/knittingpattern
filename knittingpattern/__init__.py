@@ -5,7 +5,7 @@ Load and convert knitting patterns using the convinience functions lited below.
 # there should be no imports
 
 #: the version of the knitting pattern library
-__version__ = '0.1.13'
+__version__ = '0.1.14'
 
 #: an empty knitting pattern set as specification
 EMPTY_KNITTING_PATTERN_SET = {"version": "0.1", "type": "knitting pattern",
@@ -90,6 +90,11 @@ def convert_from_image(colors=("white", "black")):
     :return: a loader
     :rtype: knittingpattern.Loader.PathLoader
     :param tuple colors: the colors to convert to
+
+    .. code:: python
+
+        convert_from_image().path("pattern.png").path("pattern.json")
+        convert_from_image().path("pattern.png").knitting_pattern()
 
     .. seealso:: :mod:`knittingoattern.convert.image_to_knitting_pattern`
     """

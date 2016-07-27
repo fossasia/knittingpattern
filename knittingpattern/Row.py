@@ -227,4 +227,22 @@ class Row(Prototype):
                     rows_after.append(row)
         return rows_after
 
+    @property
+    def first_instruction(self):
+        """The first instruction of the rows instructions.
+
+        :rtype: knittingpattern.Instruction.InstructionInRow
+        :return: the first instruction in this row's :attr:`instructions`
+        """
+        return self.instructions[0]
+
+    @property
+    def last_instruction(self):
+        """The last instruction of the rows instructions.
+
+        :rtype: knittingpattern.Instruction.InstructionInRow
+        :return: the last instruction in this row's :attr:`instructions`
+        """
+        return self.instructions[-1]
+
 __all__ = ["Row", "COLOR"]
