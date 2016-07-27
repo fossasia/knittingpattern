@@ -247,7 +247,7 @@ def test_repr_meshes(instruction0, row2):
 class TestShortAccess(object):
 
     """Test convinience methods and properties."""
-    
+
     def test_first_instruction(self, a1):
         for row in a1.rows:
             assert row.first_instruction == row.instructions[0]
@@ -255,5 +255,3 @@ class TestShortAccess(object):
     def test_last_instruction(self, a1):
         for row in a1.rows:
             assert row.last_instruction == row.instructions[-1]
-
-

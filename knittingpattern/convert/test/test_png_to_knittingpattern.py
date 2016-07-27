@@ -64,4 +64,3 @@ def test_order_of_conversion():
     row1, row2, row3 = pattern.rows
     assert row1.first_instruction.color == row2.first_instruction.color
     assert row2.first_instruction.color != row3.first_instruction.color
-    
