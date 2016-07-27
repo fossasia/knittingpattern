@@ -47,7 +47,7 @@ def convert_image_to_knitting_pattern(path, colors=("white", "black")):
     white = image.getpixel((0, 0))
     min_x, min_y, max_x, max_y = bbox
     last_row_y = None
-    for y in range(min_y, max_y):
+    for y in reversed(range(min_y, max_y)):
         instructions = []
         row = {"id": y, "instructions": instructions}
         rows.append(row)

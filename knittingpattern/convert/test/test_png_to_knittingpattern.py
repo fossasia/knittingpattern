@@ -27,9 +27,9 @@ def image(image_path):
 def pytest_generate_tests(metafunc):
     if "image_path" in metafunc.fixturenames:
         metafunc.parametrize("image_path", [
-                os.path.join(IMAGE_PATH, file)
-                for file in os.listdir(IMAGE_PATH)
-            ], scope="module")
+            os.path.join(IMAGE_PATH, file)
+            for file in os.listdir(IMAGE_PATH)
+            if file.startswith("conversion")], scope="module")
     if "convert" in metafunc.fixturenames:
         metafunc.parametrize("convert", [convert_image_to_knitting_pattern,
                                          convert_from_image], scope="module")
@@ -54,3 +54,14 @@ def test_other_color_is_white(pattern):
 
 def test_black_exists(pattern):
     assert pattern.rows[20].instructions[64].color == "black"
+
+
+def test_order_of_conversion():
+    loader = convert_from_image()
+    dumper = loader.relative_file(HERE, "pictures/color-order.png")
+    patterns = dumper.knitting_pattern()
+    pattern = patterns.patterns.at(0)
+    row1, row2, row3 = pattern.rows
+    assert row1.first_instruction.color == row2.first_instruction.color
+    assert row2.first_instruction.color != row3.first_instruction.color
+    
