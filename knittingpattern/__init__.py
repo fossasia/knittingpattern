@@ -90,6 +90,11 @@ def convert_from_image(colors=("white", "black")):
     :return: a loader
     :rtype: knittingpattern.Loader.PathLoader
     :param tuple colors: the colors to convert to
+    
+    .. code:: python
+    
+        convert_from_image().path("pattern.png").path("pattern.json")
+        convert_from_image().path("pattern.png").knitting_pattern()
 
     .. seealso:: :mod:`knittingoattern.convert.image_to_knitting_pattern`
     """
