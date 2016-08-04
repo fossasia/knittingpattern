@@ -20,13 +20,13 @@ def walk(knitting_pattern):
             free_rows.append(row)
     assert free_rows
     while free_rows:
-        print("free rows:", free_rows)
+        # print("free rows:", free_rows)
         row = free_rows.pop(0)
         walk.append(row)
         assert row not in rows_before
         for freed_row in reversed(row.rows_after):
             todo = rows_before[freed_row]
-            print("  freed:", freed_row, todo)
+            # print("  freed:", freed_row, todo)
             todo.remove(row)
             if not todo:
                 del rows_before[freed_row]
