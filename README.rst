@@ -6,7 +6,7 @@ knittingpattern
    :alt: Build Status
    
 .. image:: https://ci.appveyor.com/api/projects/status/c1983ovsc8thlhvi?svg=true
-   :target: https://ci.appveyor.com/project/fossasia/knittingpattern
+   :target: https://ci.appveyor.com/project/AllYarnsAreBeautiful/knittingpattern
    :alt: AppVeyor CI build status (Windows)
    
 .. image:: https://codeclimate.com/github/fossasia/knittingpattern/badges/gpa.svg
