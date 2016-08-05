@@ -30,7 +30,7 @@ Further reading:
 - `domains <http://www.sphinx-doc.org/en/stable/domains.html>`__
 
 With Notepad++ under Windows, you can run the `make_html.bat
-<https://github.com/AllYarnsAreBeautiful/knittingpattern/blob/master/docs/make_html.bat>`__ file in the
+<https://github.com/fossasia/knittingpattern/blob/master/docs/make_html.bat>`__ file in the
 ``docs`` directory to create the documentation and show undocumented code.
 
 Code Climate
@@ -99,7 +99,7 @@ To upload new versions, tag them with git and push them.
   setup.py tag_and_deploy
 
 The tag shows up as a `travis build
-<https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern/builds>`__.
+<https://travis-ci.org/fossasia/knittingpattern/builds>`__.
 If the build succeeds, it is automatically deployed to `Pypi
 <https://pypi.python.org/pypi/knittingpattern>`__.
 
@@ -138,7 +138,7 @@ Throughout this chapter, ``<new_version>`` refers to a a string of the form ``[0
 
 4. Create a pull-request.
 
-5. Wait for `travis-ci <https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern>`__ to pass the tests.
+5. Wait for `travis-ci <https://travis-ci.org/fossasia/knittingpattern>`__ to pass the tests.
 
 6. Merge the pull-request.
 7. Checkout the master branch and pull the changes from the commit_.

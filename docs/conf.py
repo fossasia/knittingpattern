@@ -63,8 +63,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'knittingpattern'
-copyright = '2016, AllYarnsAreBeautiful'
-author = 'AllYarnsAreBeautiful'
+copyright = '2016, AllYarnsAreBeautiful & FOSSASIA'
+author = 'AllYarnsAreBeautiful & FOSSASIA'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -288,7 +288,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'knittingpattern.tex', 'knittingpattern Documentation',
-     'AllYarnsAreBeautiful', 'manual'),
+     'AllYarnsAreBeautiful & FOSSASIA', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

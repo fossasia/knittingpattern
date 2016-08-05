@@ -1,24 +1,24 @@
 knittingpattern
 ===============
 
-.. image:: https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern.svg
-   :target: https://travis-ci.org/AllYarnsAreBeautiful/knittingpattern
+.. image:: https://travis-ci.org/fossasia/knittingpattern.svg
+   :target: https://travis-ci.org/fossasia/knittingpattern
    :alt: Build Status
    
 .. image:: https://ci.appveyor.com/api/projects/status/c1983ovsc8thlhvi?svg=true
-   :target: https://ci.appveyor.com/project/AllYarnsAreBeautiful/knittingpattern
+   :target: https://ci.appveyor.com/project/fossasia/knittingpattern
    :alt: AppVeyor CI build status (Windows)
    
-.. image:: https://codeclimate.com/github/AllYarnsAreBeautiful/knittingpattern/badges/gpa.svg
-   :target: https://codeclimate.com/github/AllYarnsAreBeautiful/knittingpattern
+.. image:: https://codeclimate.com/github/fossasia/knittingpattern/badges/gpa.svg
+   :target: https://codeclimate.com/github/fossasia/knittingpattern
    :alt: Code Climate
 
-.. image:: https://codeclimate.com/github/AllYarnsAreBeautiful/knittingpattern/badges/coverage.svg
-   :target: https://codeclimate.com/github/AllYarnsAreBeautiful/knittingpattern/coverage
+.. image:: https://codeclimate.com/github/fossasia/knittingpattern/badges/coverage.svg
+   :target: https://codeclimate.com/github/fossasia/knittingpattern/coverage
    :alt: Test Coverage
 
-.. image:: https://codeclimate.com/github/AllYarnsAreBeautiful/knittingpattern/badges/issue_count.svg
-   :target: https://codeclimate.com/github/AllYarnsAreBeautiful/knittingpattern
+.. image:: https://codeclimate.com/github/fossasia/knittingpattern/badges/issue_count.svg
+   :target: https://codeclimate.com/github/fossasia/knittingpattern
    :alt: Issue Count
 
 .. image:: https://badge.fury.io/py/knittingpattern.svg
@@ -37,8 +37,8 @@ knittingpattern
    :target: https://landscape.io/github/AllYarnsAreBeautiful/knittingpattern/master
    :alt: Code Health
 
-.. image:: https://badge.waffle.io/AllYarnsAreBeautiful/ayab-desktop.svg?label=ready&title=issues%20ready
-   :target: https://waffle.io/AllYarnsAreBeautiful/ayab-desktop
+.. image:: https://badge.waffle.io/fossasia/knittingpattern.svg?label=ready&title=issues%20ready
+   :target: https://waffle.io/fossasia/knittingpattern
    :alt: Issues ready to work on
 
 For installation instructions and more, `see the documentation

@@ -56,7 +56,7 @@ If you wish to get latest source version running, you can check out the reposito
 
 .. code:: bash
 
-  git clone https://github.com/AllYarnsAreBeautiful/knittingpattern.git
+  git clone https://github.com/fossasia/knittingpattern.git
   cd knittingpattern
   sudo python3 -m pip install --upgrade pip
   sudo python3 -m pip install -r requirements.txt
