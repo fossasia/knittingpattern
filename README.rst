@@ -33,8 +33,8 @@ knittingpattern
    :target: https://knittingpattern.readthedocs.org
    :alt: Read the Documentation
 
-.. image:: https://landscape.io/github/AllYarnsAreBeautiful/knittingpattern/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/AllYarnsAreBeautiful/knittingpattern/master
+.. image:: https://landscape.io/github/fossasia/knittingpattern/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/fossasia/knittingpattern/master
    :alt: Code Health
 
 .. image:: https://badge.waffle.io/fossasia/knittingpattern.svg?label=ready&title=issues%20ready
