@@ -446,5 +446,7 @@ epub_exclude_files = ['search.html']
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/3/': None,
-                       'https://kivy.org/docs/': None}
+intersphinx_mapping = {
+    "https://docs.python.org/3/": None,
+    "http://observablelist.readthedocs.io/en/latest/" : None,
+    "https://kivy.org/docs/": None}

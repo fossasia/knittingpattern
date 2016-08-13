@@ -66,7 +66,7 @@ class Row(Prototype):
 
         :return: a collection of :class:`instructions inside the row
           <knittingpattern.Instruction.InstructionInRow>`
-          e.g. a :class:`knittingpattern.IdCollection.IdCollection`
+        :rtype: ObservableList.ObservableList
         """
         return self._instructions
 
