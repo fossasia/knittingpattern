@@ -7,6 +7,7 @@ consists of several :class:`KnittingPatterns
 Their functionlality can be found in this module.
 """
 from .walk import walk
+from .utils import unique
 
 
 class KnittingPattern(object):
@@ -72,5 +73,16 @@ class KnittingPattern(object):
         .. seealso:: :mod:`knittingpattern.walk`
         """
         return walk(self)
+
+    @property
+    def instruction_colors(self):
+        """The colors of the instructions.
+
+        :return: the colors of the instructions listed in first appeareance in
+          knit order
+        :rtype: list
+        """
+        return unique([row.instruction_colors
+                       for row in self.rows_in_knit_order()])
 
 __all__ = ["KnittingPattern"]

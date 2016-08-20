@@ -1,4 +1,5 @@
-from test_knittingpattern import fixture, MagicMock
+from pytest import fixture
+from unittest.mock import MagicMock
 from knittingpattern.Dumper import JSONDumper
 import json
 from knittingpattern.ParsingSpecification import ParsingSpecification

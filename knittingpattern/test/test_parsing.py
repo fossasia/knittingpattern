@@ -1,4 +1,4 @@
-from test_knittingpattern import fixture, raises
+from pytest import fixture, raises
 import knittingpattern
 import json
 

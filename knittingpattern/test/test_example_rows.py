@@ -1,5 +1,5 @@
 """Test properties of rows."""
-from test_knittingpattern import fixture, raises
+from pytest import fixture, raises
 from test_examples import charlotte as _charlotte
 
 

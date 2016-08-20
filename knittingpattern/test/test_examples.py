@@ -1,4 +1,5 @@
-from test_knittingpattern import fixture, os, raises
+from pytest import fixture, raises
+import os
 import knittingpattern
 
 EXAMPLES_PATH = os.path.join(os.path.dirname(__file__), "../examples")

@@ -1,4 +1,4 @@
-from test_knittingpattern import fixture, raises
+from pytest import fixture, raises
 from knittingpattern import new_knitting_pattern
 
 NO_CONSUMED_MESH = {"number of consumed meshes": 0}

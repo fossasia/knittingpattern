@@ -1,5 +1,5 @@
 """These tests access the instructions in rows."""
-from test_knittingpattern import fixture, raises
+from pytest import fixture, raises
 from test_examples import charlotte as _charlotte
 from knittingpattern.Instruction import InstructionNotFoundInRow
 import pytest
