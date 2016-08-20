@@ -253,6 +253,20 @@ class Parser(object):
             type_, version, pattern, self, comment
         )
 
+
+def default_parser():
+    """The parser with a default specification.
+
+    :return: a parser using a
+      :class:`knittingpattern.ParsingSpecification.DefaultSpecification`
+    :rtype: knittingpattern.Parser.Parser
+    """
+    from .ParsingSpecification import DefaultSpecification
+    specification = DefaultSpecification()
+    return Parser(specification)
+
+
 __all__ = ["Parser", "ID", "NAME", "TYPE", "VERSION", "INSTRUCTIONS",
            "SAME_AS", "PATTERNS", "ROWS", "CONNECTIONS", "FROM", "TO", "START",
-           "DEFAULT_START", "MESHES", "COMMENT", "ParsingError"]
+           "DEFAULT_START", "MESHES", "COMMENT", "ParsingError",
+           "default_parser"]

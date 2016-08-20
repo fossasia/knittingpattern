@@ -1,5 +1,5 @@
 """Test the maniipulation of the rows by adding instructions."""
-from test_knittingpattern import fixture, HERE, raises
+from pytest import fixture, raises
 from knittingpattern import load_from_relative_file
 from knittingpattern.Instruction import InstructionNotFoundInRow
 

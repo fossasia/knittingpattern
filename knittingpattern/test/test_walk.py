@@ -1,5 +1,5 @@
 """The the ability to sort rows in an order so they can  be knit."""
-from test_knittingpattern import pytest, HERE
+import pytest
 from knittingpattern import load_from_relative_file, new_knitting_pattern
 from knittingpattern.walk import walk
 

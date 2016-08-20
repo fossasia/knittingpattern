@@ -145,5 +145,13 @@ class KnittingPatternSet(object):
         self._patterns.append(pattern)
         return pattern
 
+    @property
+    def first(self):
+        """The first element in this set.
+
+        :rtype: knittingpattern.KnittingPattern.KnittingPattern
+        """
+        return self._patterns.first
+
 
 __all__ = ["KnittingPatternSet"]

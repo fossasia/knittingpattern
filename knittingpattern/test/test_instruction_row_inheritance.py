@@ -1,5 +1,6 @@
 """Test that the color attribute is inherited properly."""
-from test_knittingpattern import fixture, pytest
+from pytest import fixture
+import pytest
 from knittingpattern import load_from_relative_file
 
 

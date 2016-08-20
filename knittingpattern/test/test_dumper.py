@@ -1,4 +1,4 @@
-from test_knittingpattern import fixture
+from pytest import fixture
 from knittingpattern.Dumper import ContentDumper
 from io import StringIO, BytesIO
 import os

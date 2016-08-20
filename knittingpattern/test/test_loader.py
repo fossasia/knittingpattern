@@ -1,4 +1,6 @@
-from test_knittingpattern import fixture, os, HERE, pytest
+from pytest import fixture
+import os
+import pytest
 from knittingpattern.Loader import ContentLoader, JSONLoader, PathLoader
 
 EXAMPLES_DIRECTORY = os.path.join(HERE, "..", "examples")

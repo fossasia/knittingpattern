@@ -64,3 +64,12 @@ class IdCollection(object):
     def __len__(self):
         """:return: the number of objects in this collection"""
         return len(self._items)
+
+    @property
+    def first(self):
+        """The first element in this collection.
+
+        :return: the first element in this collection
+        :raises IndexError: if this collection is empty
+        """
+        return self.at(0)
