@@ -201,9 +201,9 @@ class ContentDumper(object):
         :rtype: str
         """
         return "<{} in with encoding {} >".format(
-                self.__class__.__name__,
-                self.__encoding
-            )
+            self.__class__.__name__,
+            self.__encoding
+        )
 
 
 __all__ = ["ContentDumper"]

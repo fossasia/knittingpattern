@@ -250,8 +250,8 @@ class Parser(object):
         version = self._get_version(values)
         comment = values.get(COMMENT)
         self._pattern_set = self._spec.new_pattern_set(
-                type_, version, pattern, self, comment
-            )
+            type_, version, pattern, self, comment
+        )
 
 __all__ = ["Parser", "ID", "NAME", "TYPE", "VERSION", "INSTRUCTIONS",
            "SAME_AS", "PATTERNS", "ROWS", "CONNECTIONS", "FROM", "TO", "START",

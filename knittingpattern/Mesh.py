@@ -273,25 +273,25 @@ class Mesh(metaclass=ABCMeta):
             instruction, _ = self._consuming_instruction_and_index()
             row, row_index = self._consuming_row_and_index()
             consume_string = " for {} in {}[{}]".format(
-                    instruction,
-                    row,
-                    row_index
-                )
+                instruction,
+                row,
+                row_index
+            )
         else:
             consume_string = ""
         if self._is_produced():
             instruction, _ = self._producing_instruction_and_index()
             row, row_index = self._producing_row_and_index()
             produce_string = " by {} in {}[{}]".format(
-                    instruction,
-                    row,
-                    row_index
-                )
+                instruction,
+                row,
+                row_index
+            )
         else:
             produce_string = ""
         return "<{}{}{}>".format(
-                self.__class__.__name__, produce_string, consume_string
-            )
+            self.__class__.__name__, produce_string, consume_string
+        )
 
     def disconnect(self):
         """Remove the connection between two rows through this mesh.
@@ -389,9 +389,9 @@ class ProducedMesh(Mesh):
 
         """
         self.__producing_instruction_and_index = (
-                producing_instruction,
-                index_in_producing_instruction
-            )
+            producing_instruction,
+            index_in_producing_instruction
+        )
         self._consumed_part = None
 
     def _producing_instruction_and_index(self):
@@ -459,9 +459,9 @@ class ConsumedMesh(Mesh):
 
         """
         self.__consuming_instruction_and_index = (
-                consuming_instruction,
-                index_in_consuming_instruction
-            )
+            consuming_instruction,
+            index_in_consuming_instruction
+        )
         self._produced_part = None
 
     def _producing_instruction_and_index(self):

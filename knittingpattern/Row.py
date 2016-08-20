@@ -109,13 +109,13 @@ class Row(Prototype):
 
         """
         return list(chain(*(instruction.produced_meshes
-                          for instruction in self.instructions)))
+                            for instruction in self.instructions)))
 
     @property
     def consumed_meshes(self):
         """Same as :attr:`produced_meshes` but for consumed meshes."""
         return list(chain(*(instruction.consumed_meshes
-                          for instruction in self.instructions)))
+                            for instruction in self.instructions)))
 
     def __repr__(self):
         """The string representation of this row.
