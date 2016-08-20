@@ -1,5 +1,6 @@
 from test_knittingpattern import fixture
 from knittingpattern.Instruction import Instruction
+import pytest
 
 
 @fixture
@@ -96,3 +97,14 @@ def test_bindoff_consumes_meshes(bindoff):
 def test_bindoff_produces_no_meshes(bindoff):
     assert bindoff.number_of_produced_meshes == 0
     assert not bindoff.produces_meshes()
+
+
+class TestInstructionColors(object):
+
+    """Test the Instruction.colors attribute."""
+
+    @pytest.mark.parametrize("spec,colors", [
+        ({}, [None]), ({"color": "blue"}, ["blue"]), ({"color": 123}, [123])])
+    def test_get_colors_from_color_specification(self, spec, colors):
+        instruction = Instruction(spec)
+        assert instruction.colors == colors

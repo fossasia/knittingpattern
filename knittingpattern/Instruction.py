@@ -109,6 +109,16 @@ class Instruction(Prototype):
         return self.get(COLOR)
 
     @property
+    def colors(self):
+        """All the colors that an instruction has.
+
+        :return: a list of colors of the instruction. If the instruction has
+          no color, this is ``[None]``.
+        :rtype: list
+        """
+        return [self.color]
+
+    @property
     def description(self):
         """The description of the instruction.
 
@@ -238,13 +248,13 @@ class InstructionInRow(Instruction):
         super().__init__(spec)
         self._row = row
         self._produced_meshes = [
-                self._new_produced_mesh(self, index)
-                for index in range(self.number_of_produced_meshes)
-            ]
+            self._new_produced_mesh(self, index)
+            for index in range(self.number_of_produced_meshes)
+        ]
         self._consumed_meshes = [
-                self._new_consumed_mesh(self, index)
-                for index in range(self.number_of_consumed_meshes)
-            ]
+            self._new_consumed_mesh(self, index)
+            for index in range(self.number_of_consumed_meshes)
+        ]
         self._cached_index_in_row = None
 
     def transfer_to_row(self, new_row):
@@ -386,8 +396,8 @@ class InstructionInRow(Instruction):
         .. warning: private, do not use
         """
         return INSTRUCTION_NOT_FOUND_MESSAGE.format(
-                   instruction=self, row=self.row
-               )
+            instruction=self, row=self.row
+        )
 
     def _raise_not_found_error(self):
         """Raise an error that this instruction is in its row no longer.
@@ -517,11 +527,11 @@ class InstructionInRow(Instruction):
         else:
             position = "in {} at {}".format(self.row, index)
         return "<{} {}\"{}\" {}>".format(
-                self.__class__.__name__,
-                ("{} ".format(self.id) if self.id is not None else ""),
-                self.type,
-                position
-            )
+            self.__class__.__name__,
+            ("{} ".format(self.id) if self.id is not None else ""),
+            self.type,
+            position
+        )
 
     @property
     def producing_instructions(self):
