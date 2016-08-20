@@ -43,12 +43,12 @@ def read(path):
 
 
 file_to_test = {
-        KNIT_FILE: is_knit,
-        PURL_FILE: is_purl,
-        YO_FILE: is_yo,
-        K2TOG_FILE: is_k2tog,
-        DEFAULT_FILE: is_default
-    }
+    KNIT_FILE: is_knit,
+    PURL_FILE: is_purl,
+    YO_FILE: is_yo,
+    K2TOG_FILE: is_k2tog,
+    DEFAULT_FILE: is_default
+}
 
 
 @pytest.mark.parametrize('path, test', list(file_to_test.items()))
@@ -57,11 +57,11 @@ def test_tests_work_on_corresponding_file(path, test):
 
 
 @pytest.mark.parametrize('path, test', [
-        (path, _test)
-        for path in file_to_test
-        for test_path, _test in file_to_test.items()
-        if path != test_path
-    ])
+    (path, _test)
+    for path in file_to_test
+    for test_path, _test in file_to_test.items()
+    if path != test_path
+])
 def test_tests_do_not_work_on_other_files(path, test):
     assert not test(read(path))
 
@@ -71,7 +71,7 @@ def test_default_content_has_identifier_in_place():
 
 
 __all__ = [
-        "KNIT_FILE", "PURL_FILE", "YO_FILE", "K2TOG_FILE", "IMAGES_FOLDER",
-        "IMAGES_FOLDER_NAME", "DEFAULT_FILE", "read", "title",
-        "is_knit", "is_purl", "is_yo", "is_k2tog", "is_default",
-    ]
+    "KNIT_FILE", "PURL_FILE", "YO_FILE", "K2TOG_FILE", "IMAGES_FOLDER",
+    "IMAGES_FOLDER_NAME", "DEFAULT_FILE", "read", "title",
+    "is_knit", "is_purl", "is_yo", "is_k2tog", "is_default",
+]

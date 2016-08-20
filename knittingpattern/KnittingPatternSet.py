@@ -56,7 +56,6 @@ class KnittingPatternSet(object):
 
     @property
     def type(self):
-
         """The type of the knitting pattern.
 
         :return: the type of the knitting pattern, see :meth:`__init__`

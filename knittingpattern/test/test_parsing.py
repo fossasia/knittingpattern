@@ -3,9 +3,9 @@ import knittingpattern
 import json
 
 EMPTY_PATTERN = {
-        "version": "0.1",
-        "type": "knitting pattern"
-    }
+    "version": "0.1",
+    "type": "knitting pattern"
+}
 
 
 @fixture

@@ -227,9 +227,9 @@ class _RecursiveWalk(object):
             return
         row = mesh.producing_row
         position = Point(
-                row_position.x + mesh.index_in_producing_row - mesh_index,
-                row_position.y - INSTRUCTION_HEIGHT
-            )
+            row_position.x + mesh.index_in_producing_row - mesh_index,
+            row_position.y - INSTRUCTION_HEIGHT
+        )
         self._expand(row, position, passed)
 
     def _expand_produced_mesh(self, mesh, mesh_index, row_position, passed):
@@ -238,9 +238,9 @@ class _RecursiveWalk(object):
             return
         row = mesh.consuming_row
         position = Point(
-                row_position.x - mesh.index_in_consuming_row + mesh_index,
-                row_position.y + INSTRUCTION_HEIGHT
-            )
+            row_position.x - mesh.index_in_consuming_row + mesh_index,
+            row_position.y + INSTRUCTION_HEIGHT
+        )
         self._expand(row, position, passed)
 
     def _row_should_be_placed(self, row, position):

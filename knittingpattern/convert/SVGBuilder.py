@@ -94,9 +94,9 @@ class SVGBuilder(object):
         if group is None:
             group = {}
         group_ = {
-                "@transform": "translate({},{})".format(x, y),
-                "g": list(svg_dict.values())
-            }
+            "@transform": "translate({},{})".format(x, y),
+            "g": list(svg_dict.values())
+        }
         group_.update(group)
         layer = self._get_layer(layer_id)
         layer["g"].append(group_)
@@ -135,12 +135,12 @@ class SVGBuilder(object):
         if layer_id not in self._layer_id_to_layer:
             self._svg.setdefault("g", [])
             layer = {
-                    "g": [],
-                    "@inkscape:label": layer_id,
-                    "@id": layer_id,
-                    "@inkscape:groupmode": "layer",
-                    "@class": "row"
-                }
+                "g": [],
+                "@inkscape:label": layer_id,
+                "@id": layer_id,
+                "@inkscape:groupmode": "layer",
+                "@class": "row"
+            }
             self._layer_id_to_layer[layer_id] = layer
             self._svg["g"].append(layer)
         return self._layer_id_to_layer[layer_id]

@@ -5,20 +5,20 @@ DESCRIPTION = "here you can see how to knit: URL"
 DESCRIPTION_2 = "well, this is kinda a different description"
 
 library_instructions = [
-        {
-            "type": "knit",
-            "description": DESCRIPTION
-        },
-        {
-            "type": "purl",
-            "inverse": "knit"
-        },
-        {
-            "type": "extravagant knit",
-            "color": "green",
-            "specialattribute": True
-        }
-    ]
+    {
+        "type": "knit",
+        "description": DESCRIPTION
+    },
+    {
+        "type": "purl",
+        "inverse": "knit"
+    },
+    {
+        "type": "extravagant knit",
+        "color": "green",
+        "specialattribute": True
+    }
+]
 
 # TODO: What happens if an instruction type is defined multiple times? Error?
 
@@ -31,9 +31,9 @@ def library():
 @fixture
 def library2(library):
     spec = [
-            {"type": "added", "a": 1},
-            {"type": "knit", "description": DESCRIPTION_2}
-        ]
+        {"type": "added", "a": 1},
+        {"type": "knit", "description": DESCRIPTION_2}
+    ]
     library.load.object(spec)
     return library
 

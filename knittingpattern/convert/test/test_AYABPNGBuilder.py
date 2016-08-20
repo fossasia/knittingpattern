@@ -75,10 +75,10 @@ class TestSetPixel(object):
 
     def test_call_many_instructions(self, patched, set):
         patched.set_colors_in_grid([
-                ColorInGrid(0, 0, "#000000"),
-                ColorInGrid(0, 1, "#111111"),
-                ColorInGrid(2, 0, "#222222")
-            ])
+            ColorInGrid(0, 0, "#000000"),
+            ColorInGrid(0, 1, "#111111"),
+            ColorInGrid(2, 0, "#222222")
+        ])
         set.assert_has_calls([call(0, 0, "#000000"),
                               call(0, 1, "#111111"),
                               call(2, 0, "#222222")])
@@ -87,10 +87,10 @@ class TestSetPixel(object):
         patched.set_pixel(2, 2, None)
         patched.set_color_in_grid(ColorInGrid(0, 0, None))
         patched.set_colors_in_grid([
-                ColorInGrid(0, 0, None),
-                ColorInGrid(0, 1, None),
-                ColorInGrid(2, 0, None)
-            ])
+            ColorInGrid(0, 0, None),
+            ColorInGrid(0, 1, None),
+            ColorInGrid(2, 0, None)
+        ])
         assert not set.called
 
 

@@ -1,19 +1,19 @@
 from test_knittingpattern import fixture, pytest
 from knittingpattern.InstructionLibrary import DefaultInstructions, \
-                                               default_instructions
+    default_instructions
 
 
 DEFAULT_INSTRUCTIONS = {
-            "knit": (1, 1),
-            "purl": (1, 1),
-            "skp": (2, 1),
-            "yo": (0, 1),
-            "yo twisted": (0, 1),
-            "k2tog": (2, 1),
-            "bo": (1, 0),
-            "cdd": (3, 1),
-            "co": (0, 1)
-        }
+    "knit": (1, 1),
+    "purl": (1, 1),
+    "skp": (2, 1),
+    "yo": (0, 1),
+    "yo twisted": (0, 1),
+    "k2tog": (2, 1),
+    "bo": (1, 0),
+    "cdd": (3, 1),
+    "co": (0, 1)
+}
 
 
 @fixture
