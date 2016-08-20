@@ -16,4 +16,5 @@ The ``knittingpattern`` Module Reference
    ParsingSpecification
    Prototype
    Row
+   utils
    walk
