@@ -2,6 +2,10 @@
 from test_knittingpattern import fixture, raises
 from test_examples import charlotte as _charlotte
 from knittingpattern.Instruction import InstructionNotFoundInRow
+import pytest
+from knittingpattern.Row import Row
+from unittest.mock import Mock
+from knittingpattern.Parser import default_parser
 
 
 @fixture
@@ -255,3 +259,23 @@ class TestShortAccess(object):
     def test_last_instruction(self, a1):
         for row in a1.rows:
             assert row.last_instruction == row.instructions[-1]
+
+
+class TestInstructionColors(object):
+
+    """Test Row.instruction_colors."""
+
+    @pytest.mark.parametrize("specs,result", [
+        ([{}, {}], [None]), ([{"color": 1}], [1]),
+        ([{"color": 3}, {}, {"color": 123}, {"color": 123}], [3, None, 123])])
+    @pytest.mark.parametrize("row_spec,default_color", [
+        ({"color": "green"}, "green"), ({}, None)])
+    def test_row_instructions(self, specs, result, row_spec, default_color):
+        result = result[:]
+        for i, color in enumerate(result):
+            if color is None:
+                result[i] = default_color
+        row = Row("id", row_spec, default_parser())
+        for instruction in specs:
+            row.instructions.append(instruction)
+        assert row.instruction_colors == result

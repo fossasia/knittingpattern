@@ -9,6 +9,7 @@ rows.
 from .Prototype import Prototype
 from itertools import chain
 from ObservableList import ObservableList
+from .utils import unique
 
 COLOR = "color"  #: the color of the row
 
@@ -132,6 +133,16 @@ class Row(Prototype):
         :return: the color of the row as specified or :obj:`None`
         """
         return self.get(COLOR)
+
+    @property
+    def instruction_colors(self):
+        """The colors of the instructions in the row in the order tehy appear.
+
+        :return: a list of colors of the knitting pattern in the order that
+          they appear in
+        :rtype: list
+        """
+        return unique(instruction.colors for instruction in self.instructions)
 
     @property
     def last_produced_mesh(self):
