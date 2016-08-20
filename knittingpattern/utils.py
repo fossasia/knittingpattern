@@ -12,11 +12,11 @@ def unique(iterables):
       appeard only once in the result. They are oredered by the first
       occurrence in the iterables.
     """
-    included_elements = set()
+    included_elements = []
 
     def included(element):
         result = element in included_elements
-        included_elements.add(element)
+        included_elements.append(element)
         return result
     return [element for elements in iterables for element in elements
             if not included(element)]
