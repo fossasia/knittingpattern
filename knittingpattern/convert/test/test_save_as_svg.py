@@ -16,13 +16,13 @@ def is_close_to(v1, v2, relative_epsilon=0.01):
 
 
 @fixture(scope="module")
-def patterns():
+def patterns_svg():
     return load_from_relative_file(__name__, "test_patterns/block4x4.json")
 
 
 @fixture(scope="module")
-def path(patterns):
-    return patterns.to_svg(zoom=DEFAULT_ZOOM).temporary_path(".svg")
+def path(patterns_svg):
+    return patterns_svg.to_svg(zoom=DEFAULT_ZOOM).temporary_path(".svg")
 
 
 @fixture(scope="module")
@@ -57,7 +57,7 @@ def instructions_test(function):
 def instructions_svg_test(function):
     def test(instructions):
         for instruction in instructions:
-            function(instruction, svg, path, patterns)
+            function(instruction, svg, path, patterns_svg)
     return test
 
 
@@ -107,8 +107,8 @@ def test_instructions_content_is_knit_svg_file(instruction):
 
 
 @instructions_svg_test
-def test_instructions_have_transform(instruction, svg, path, patterns):
+def test_instructions_have_transform(instruction, svg, path, patterns_svg):
     transform = instruction["transform"]
     x, y, zoom = map(float, re.match(TRANSFORM_REGEX, transform).groups())
-    bbox = list(map(float, svg(path(patterns()))["viewBox"].split()))
+    bbox = list(map(float, svg(path(patterns_svg()))["viewBox"].split()))
     assert is_close_to(DEFAULT_ZOOM / (bbox[3] - bbox[1]), zoom), ZOOM_MESSAGE
