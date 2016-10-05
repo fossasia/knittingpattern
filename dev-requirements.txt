@@ -10,3 +10,4 @@ first==2.0.1              # via pip-tools
 pip-tools==1.6.5
 six==1.10.0               # via pip-tools
 Sphinx-PyPI-upload3==0.2.2
+autopep8==1.2.4
