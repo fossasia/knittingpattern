@@ -1,5 +1,7 @@
-knittingpattern
+Knitting Pattern Library
 ===============
+
+The knitting pattern library enables tailors, artisans and home knitters to use a common pattern for knitting machines and hand made knits.
 
 .. image:: https://travis-ci.org/fossasia/knittingpattern.svg
    :target: https://travis-ci.org/fossasia/knittingpattern
@@ -41,5 +43,8 @@ knittingpattern
    :target: https://waffle.io/fossasia/knittingpattern
    :alt: Issues ready to work on
 
+
+Installation and Documentation
+===============
 For installation instructions and more, `see the documentation
 <http://knittingpattern.readthedocs.io/>`__.
