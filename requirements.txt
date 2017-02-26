@@ -4,12 +4,14 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-
-Pillow==3.2.0
+appdirs==1.4.2            # via setuptools
+packaging==16.8           # via setuptools
+pillow==3.2.0
+pyparsing==2.1.10         # via packaging
+six==1.10.0               # via packaging, setuptools
 webcolors==1.5
 xmltodict==0.10.2
-ObservableList==0.0.2
+ObservableList==0.0.3
 
-# The following packages are commented out because they are
-# considered to be unsafe in a requirements file:
+# The following packages are considered to be unsafe in a requirements file:
 # setuptools
