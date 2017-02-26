@@ -1,6 +1,7 @@
 """The knitting pattern module.
 
-Load and convert knitting patterns using the convenience functions listed below.
+Load and convert knitting patterns using the convenience functions listed
+below.
 """
 # there should be no imports
 
