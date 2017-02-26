@@ -10,7 +10,7 @@ class JSONDumper(ContentDumper):
     def __init__(self, on_dump):
         """Create a new JSONDumper object with the callable `on_dump`.
 
-        `on_dump` takes no aguments and returns the object that should be
+        `on_dump` takes no arguments and returns the object that should be
         serialized to JSON."""
         super().__init__(self._dump_to_file)
         self.__dump_object = on_dump

@@ -1,6 +1,6 @@
 """One can load objects from different locations.
 This module provides functionality to load objects from different locations
-while preserving a simple interface to the cosumer.
+while preserving a simple interface to the consumer.
 
 """
 import json

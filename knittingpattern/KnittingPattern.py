@@ -4,7 +4,7 @@ A :class:`knitting pattern set
 <knittingpattern.KnittingPatternSet.KnittingPatternSet>`
 consists of several :class:`KnittingPatterns
 <knittingpattern.KnittingPattern.KnittingPattern>`.
-Their functionlality can be found in this module.
+Their functionality can be found in this module.
 """
 from .walk import walk
 from .utils import unique
@@ -78,7 +78,7 @@ class KnittingPattern(object):
     def instruction_colors(self):
         """The colors of the instructions.
 
-        :return: the colors of the instructions listed in first appeareance in
+        :return: the colors of the instructions listed in first appearance in
           knit order
         :rtype: list
         """

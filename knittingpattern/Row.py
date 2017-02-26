@@ -210,7 +210,7 @@ class Row(Prototype):
 
         :rtype: list
         :return: a list of rows that produce meshes for this row. Each row
-          occurs only once. They are sorted by the first occurence in the
+          occurs only once. They are sorted by the first occurrence in the
           instructions.
         """
         rows_before = []
@@ -227,7 +227,7 @@ class Row(Prototype):
 
         :rtype: list
         :return: a list of rows that consume meshes from this row. Each row
-          occurs only once. They are sorted by the first occurence in the
+          occurs only once. They are sorted by the first occurrence in the
           instructions.
         """
         rows_after = []

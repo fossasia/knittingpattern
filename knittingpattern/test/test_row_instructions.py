@@ -250,7 +250,7 @@ def test_repr_meshes(instruction0, row2):
 
 class TestShortAccess(object):
 
-    """Test convinience methods and properties."""
+    """Test convenience methods and properties."""
 
     def test_first_instruction(self, a1):
         for row in a1.rows:

@@ -11,9 +11,9 @@ class ContentDumper(object):
     The idea is to decouple the place to save to from the process used
     to dump the content.
     We are saving several objects such as patterns and SVGs.
-    They should all have the same convinient interface.
+    They should all have the same convenient interface.
 
-    The process of saving something usally requires writing to some file.
+    The process of saving something usually requires writing to some file.
     However, users may want to have the result as a string, an open file,
     a file on the hard drive on a fixed or temporary location,
     posted to some url or in a zip file.
@@ -197,7 +197,7 @@ class ContentDumper(object):
     def __repr__(self):
         """the string representation for people to read
 
-        :return: the string represenation of this object
+        :return: the string representation of this object
         :rtype: str
         """
         return "<{} in with encoding {} >".format(

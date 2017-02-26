@@ -2,7 +2,7 @@
 in each :class:`knitting pattern set
 <knittingpattern.KnittingpatternSet.KnittingpatternSet>`.
 
-This module provides the fucntionality to load default values for instructions
+This module provides the functionality to load default values for instructions
 from various locations.
 """
 from .Instruction import TYPE
