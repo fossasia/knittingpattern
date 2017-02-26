@@ -4,10 +4,10 @@
 #
 #    pip-compile --output-file dev-requirements.txt dev-requirements.in
 #
-
+autopep8==1.2.4
 click==6.6                # via pip-tools
 first==2.0.1              # via pip-tools
+pep8==1.7.0               # via autopep8
 pip-tools==1.6.5
 six==1.10.0               # via pip-tools
-Sphinx-PyPI-upload3==0.2.2
-autopep8==1.2.4
+sphinx-pypi-upload3==0.2.2
