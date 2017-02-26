@@ -129,7 +129,7 @@ class Instruction(Prototype):
 
     @property
     def number_of_consumed_meshes(self):
-        """The number of meshes that this inctrucion consumes.
+        """The number of meshes that this instruction consumes.
 
         :return: the :data:`number of consumed meshes
           <NUMBER_OF_CONSUMED_MESHES>` of the instruction or
@@ -174,7 +174,7 @@ class Instruction(Prototype):
         return self.type == PURL_TYPE
 
     def produces_meshes(self):
-        """Whether this instcution produces meshes.
+        """Whether this institution produces meshes.
 
         :return: whether this instruction produces any meshes
         :rtype: bool
@@ -621,7 +621,7 @@ class InstructionInRow(Instruction):
 
 
 class InstructionNotFoundInRow(ValueError):
-    """This exception is raised if an instructin was not found in its row."""
+    """This exception is raised if an instruction was not found in its row."""
     pass
 
 

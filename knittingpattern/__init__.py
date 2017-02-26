@@ -1,6 +1,6 @@
 """The knitting pattern module.
 
-Load and convert knitting patterns using the convinience functions lited below.
+Load and convert knitting patterns using the convenience functions listed below.
 """
 # there should be no imports
 
@@ -76,7 +76,7 @@ def load_from_relative_file(module, path_relative_to):
 
     :param str module: can be a module's file, a module's name or
       a module's path.
-    :param str path_relative_to: is the path relavive to the modules location.
+    :param str path_relative_to: is the path relative to the modules location.
       The result is loaded from this.
 
     :rtype: knittingpattern.KnittingPatternSet.KnittingPatternSet

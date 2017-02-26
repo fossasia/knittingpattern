@@ -58,7 +58,7 @@ class InstructionSVGCache(object):
         """Return the SVG for an instruction.
 
         :param instruction_or_id: either an
-          :class:`~knittingpattern.Instruction.Instrucution` or an id
+          :class:`~knittingpattern.Instruction.Instruction` or an id
           returned by :meth:`get_instruction_id`
         :param bool i_promise_not_to_change_the_result:
 

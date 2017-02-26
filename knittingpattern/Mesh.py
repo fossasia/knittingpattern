@@ -304,7 +304,7 @@ class Mesh(metaclass=ABCMeta):
     def connect_to(self, other_mesh):
         """Create a connection to an other mesh.
 
-        .. warning:: Both meshes need to be disocnnected and one needs to be
+        .. warning:: Both meshes need to be disconnected and one needs to be
           a consumed and the other a produced mesh. You can check if a
           connection is possible using :meth:`can_connect_to`.
 

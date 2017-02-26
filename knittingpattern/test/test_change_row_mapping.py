@@ -184,7 +184,7 @@ class TestLine(object):
             assert m1.is_connected_to(m2)
 
     def test_disconnected_from(self, connections, meshes):
-        """Test all the meshes that are disconnected from eachother."""
+        """Test all the meshes that are disconnected from each other."""
         for m1 in meshes:
             assert m1 == m1
             for m2 in meshes:

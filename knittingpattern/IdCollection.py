@@ -7,7 +7,7 @@ class IdCollection(object):
     """This is a collections of object that have an ``id`` attribute."""
 
     def __init__(self):
-        """Creat a new :class:`IdCollection` with no arguments.
+        """Create a new :class:`IdCollection` with no arguments.
 
         You can add objects later using the method :meth:`append`.
         """
